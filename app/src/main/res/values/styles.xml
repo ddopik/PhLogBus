@@ -1,0 +1,66 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="windowActionBar">false</item>
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/black</item>
+
+        <!-- Your Toolbar Color-->
+        <item name="colorPrimary">@color/default_tool_bar_color</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated,
+         which is used to tint widgets -->
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- You can also set colorControlNormal, colorControlActivated
+         colorControlHighlight, and colorSwitchThumbNormal. -->
+        <item name="textInputStyle">@style/Widget.Design.TextInputLayout</item>
+        <!--The color of the screen background.-->
+        <item name="android:windowBackground">@color/black</item>
+
+        <!--//this is requred by in api 21-->
+        <!--<item name="android:navigationBarColor">@color/theme_color</item>-->
+    </style>
+
+    <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/text_input_color</item>
+    </style>
+
+    <style name="PhlogRatingBarThem" parent="Base.Widget.AppCompat.RatingBar.Small">
+        <item name="colorControlNormal">#f57c00</item>
+        <item name="colorControlActivated">#c51162</item>
+    </style>
+
+    <style name="TextLabel" parent="Widget.Design.TextInputLayout">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">@color/colorWhite</item>
+        <item name="android:textSize">20sp</item>
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorAccent">@color/text_input_color</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/text_input_color</item>
+        <!--<item name="colorControlHighlight">@color/text_input_color</item>-->
+    </style>
+
+    <style name="switch_btn_style" parent="AppTheme">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/text_input_color</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#f1f1f1
+        </item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/white</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="MyRadioButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/colorGray</item>
+        <item name="colorControlActivated">@color/text_input_color</item>
+    </style>
+</resources>

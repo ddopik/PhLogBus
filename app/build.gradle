@@ -1,0 +1,136 @@
+apply plugin: 'com.android.application'
+
+
+ext {
+
+    // App dependencies
+    constrain_layuout_version='1.1.3'
+    supportLibraryVersion = '28.0.0-rc02'
+    location_Services = '15.0.1'
+    glide_version='4.6.1'
+    facebook_stetho_version='1.5.0'
+    stetho_realm_version='2.1.0'
+    fast_android_network_version='1.0.1'
+    glide_version='4.6.1'
+
+}
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.example.ddopik.phlogbusiness"
+        minSdkVersion 17
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+//    buildToolsVersion '28.0.2'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
+
+    android.defaultConfig.manifestPlaceholders = [
+            facebookAppId        : "1092925927548641",
+            googleWebClientId    : "657238470680-8vd9d7u01fj70ujgfl3ljem6if1tn3vl.apps.googleusercontent.com",
+            twitterConsumerKey   : "your twitter consumer key",
+            twitterConsumerSecret: "your twitter consumer secret",
+            instagramClientId    : "your instagram client id",
+            instagramClientSecret: "your instagram client secret",
+            instagramRedirectUrl : "your instagram redirect url"
+    ]
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    //     //multyDex
+
+    //    compile 'com.android.support:multidex:1.0.1'
+
+    //this warning caused of facebook sdk
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation "com.android.support:support-v4:$supportLibraryVersion"
+    implementation "com.android.support:design:$supportLibraryVersion"
+    implementation "com.android.support.constraint:constraint-layout:$constrain_layuout_version"
+    implementation 'com.google.android:flexbox:0.3.0'
+
+
+    // Glide image library
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+
+    //stetho
+    implementation "com.facebook.stetho:stetho:$facebook_stetho_version"
+    implementation "com.uphyca:stetho_realm:$stetho_realm_version"
+
+    ////google-Maps
+    implementation "com.google.android.gms:play-services-maps:$location_Services"
+    implementation "com.google.android.gms:play-services-location:$location_Services"
+    implementation "com.google.android.gms:play-services-places:$location_Services"
+    ///google-Auth
+    implementation"com.google.android.gms:play-services-auth:16.0.0"
+    //circleindicatorpager
+    implementation 'com.bikomobile:circleindicatorpager:1.0.0'
+    //ImagePicker
+    implementation 'com.github.esafirm.android-image-picker:imagepicker:1.13.1'
+    // for experimental rx picker
+    implementation 'com.github.esafirm.android-image-picker:rximagepicker:1.13.1'
+
+
+    //Easy permissions
+    implementation 'pub.devrel:easypermissions:1.3.0'
+
+    ////--->SimpleAuth
+
+    implementation 'com.jaychang:simpleauth:2.1.3'
+
+    // if you want to use facebook auth
+
+    implementation 'com.jaychang:simpleauth-facebook:2.1.3'
+
+    // if you want to use google auth
+
+    implementation 'com.jaychang:simpleauth-google:2.1.3'
+
+    //    // if you want to use instagram auth
+
+    //    implementation 'com.jaychang:simpleauth-instagram:2.1.3'
+
+    //    // if you want to use twitter auth
+
+    //    implementation 'com.jaychang:simpleauth-twitter:2.1.3'
+
+    // Fast Android Network
+    implementation "com.amitshekhar.android:rx2-android-networking:$fast_android_network_version"
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    //Image Filter
+    implementation 'info.androidhive:imagefilters:1.0.7'
+    //Permastion Lib
+    implementation 'com.karumi:dexter:4.1.0'
+//    RxBinding View
+    implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha1'
+//    Google 'material' library bindings:
+//    implementation 'com.jakewharton.rxbinding3:rxbinding-material:3.0.0-alpha1'
+}
+repositories {
+    mavenCentral()
+}
+apply plugin: 'realm-android'
+
+

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dp2">2dp</dimen>
+    <dimen name="dp4">4dp</dimen>
+    <dimen name="dp6">6dp</dimen>
+    <dimen name="dp8">8dp</dimen>
+    <dimen name="dp10">10dp</dimen>
+    <dimen name="dp12">12dp</dimen>
+    <dimen name="dp14">14dp</dimen>
+    <dimen name="dp16">16dp</dimen>
+    <dimen name="dp18">18dp</dimen>
+    <dimen name="dp20">20dp</dimen>
+    <dimen name="dp22">22dp</dimen>
+    <dimen name="dp24">24dp</dimen>
+    <dimen name="dp26">26dp</dimen>
+    <dimen name="dp28">28dp</dimen>
+    <dimen name="dp30">30dp</dimen>
+    <dimen name="dp32">32dp</dimen>
+    <dimen name="dp45">45dp</dimen>
+    <dimen name="dp65">65dp</dimen>
+    <dimen name="dp80">80dp</dimen>
+
+    <dimen name="item_opacity">.4</dimen>
+    <dimen name="map_location_marker_icon_width">500dp</dimen>
+    <dimen name="map_location_marker_icon_height">500dp</dimen>
+    <dimen name="logo_width">60dp</dimen>
+    <dimen name="logo_height">60dp</dimen>
+    <dimen name="activity_search_tab_h">35dp</dimen>
+    <dimen name="activity_search_tab_h_large">45dp</dimen>
+    <dimen name="circle_indicator_pager_height">8dp</dimen>
+    <dimen name="circle_indicator_pager_width">8dp</dimen>
+    <dimen name="social_login_btn_height">40dp</dimen>
+    <dimen name="sign_up_text_input_margin_top">12dp</dimen>
+    <dimen name="welcome_screen_text_height">150dp</dimen>
+    <dimen name="item_card_corner_radius">4dp</dimen>
+    <dimen name="item_card_elevation">2dp</dimen>
+    <dimen name="splash_logo_size">85dp</dimen>
+    <dimen name="widgets_cap">8dp</dimen>
+    <dimen name="widgets_padding">8dp</dimen>
+    <dimen name="widgets_padding_s">4dp</dimen>
+    <dimen name="activity_padding">16dp</dimen>
+    <dimen name="inner_header_preview_height">320dp</dimen>
+    <dimen name="header_img_size">85dp</dimen>
+
+
+
+    <!--//ViewHolders-->
+    <dimen name="view_holder_item_list_height">150dp</dimen>
+    <dimen name="view_holder_item_list_height_med">250dp</dimen>
+    <dimen name="icon_view_holder_size_s">35dp</dimen>
+    <dimen name="icon_view_holder_size_m">45dp</dimen>
+
+    <!--//Notification_ViewHolders-->
+    <dimen name="notification_card_height">75dp</dimen>
+    <dimen name="notification_card_height_m">95dp</dimen>
+
+
+    <!--///SignUpActivity-->
+    <dimen name="sign_up_btn_size">36dp</dimen>
+    <dimen name="sign_up_container_padding">36dp</dimen>
+
+
+    <!--LoginActivity-->
+    <dimen name="login_sign_in_btn_width">120dp</dimen>
+    <dimen name="login_sign_in_btn_height">40dp</dimen>
+    <dimen name="sign_in_container_padding">36dp</dimen>
+
+    <!--///MainActivity-->
+
+    <dimen name="main_fragment_bottom_space">60dp</dimen>
+    <!--/// Profile_PhotoGrapher Fragment-->
+
+    <dimen name="fragment_photographer_padding_bottom">65dp</dimen>
+
+    <!--/////////  ActivityPhotoGrapherProfile-->
+    <dimen name="photographer_profile_main_preview_height">300dp</dimen>
+
+    <!--/////////  ActivityUserProfile-->
+    <dimen name="filters_list_item_h">150dp</dimen>
+
+    <!--/////////  ActivityUserProfile-->
+
+
+    <dimen name="user_profile_rating_bar_width">65dp</dimen>
+    <dimen name="user_profile_rating_bar_height">20dp</dimen>
+
+
+    <dimen name="campaign_button_size">30dp</dimen>
+    <!--////////-->
+
+    <!--////CampignInner-->
+    <dimen name="item_offset">2</dimen>
+    <dimen name="campaign_mission_padding">25dp</dimen>
+
+    <!--////AllCampaignActivity-->
+    <dimen name="campaign_item_height">200dp</dimen>
+    <dimen name="campaign_drawable_padding">4dp</dimen>
+    <dimen name="campaign_home_button_width">175dp</dimen>
+
+
+    <!--////UserProfileHeader-->
+    <dimen name="user_profile_follow_btn_w">95dp</dimen>
+    <dimen name="user_profile_follow_btn_h">32dp</dimen>
+    <dimen name="following_card_height">100dp</dimen>
+
+    <dimen name="user_profile_main_preview_height">350dp</dimen>
+    <!--//Activity_upload_profile_pic//-->
+    <dimen name="profile_pic_fab_margin">16dp</dimen>
+    <dimen name="profile_pic_thumbnail_size">80dp</dimen>
+    <dimen name="profile_pic_recycler_size">100dp</dimen>
+    <dimen name="profile_pic_thumbnail_horizontal_padding">8dp</dimen>
+    <dimen name="profile_pic_thumbnail_vertical_padding">10dp</dimen>
+    <dimen name="profile_pic_padding_10">10dp</dimen>
+    <dimen name="profile_pic_margin_horizontal">16dp</dimen>
+    <dimen name="profile_pic_lbl_edit_image_control">100dp</dimen>
+    <dimen name="gallery_image_size">175dp</dimen>
+    <dimen name="upload_image_head_height">155dp</dimen>
+    <dimen name="filter_preview_img_w">250dp</dimen>
+
+
+    <!--/////////////AddTagActivity///////////////////////////-->
+    <dimen name="add_tag_search_widget_h">35dp</dimen>
+    <dimen name="add_tag_img_size">80dp</dimen>
+
+
+
+    <!--//////////////ViewHolderFlexAlbum//////////////////-->
+    <dimen name="item_flex_height_l">250dp</dimen>
+    <dimen name="item_flex_height_s">175dp</dimen>
+    <dimen name="ic_size">24dp</dimen>
+    <dimen name="dp1">1dp</dimen>
+    <dimen name="dp120">120dp</dimen>
+
+
+    <!--//////////////////////BrandInner/////////////////////////////////-->
+    <dimen name="brand_type_view_height">28dp</dimen>
+
+    <!--///////////////////////SocialFragment/////////////////-->
+    <dimen name="social_img_size">75dp</dimen>
+
+
+    <!--///ViewHolderSocialProfileItem////-->
+    <dimen name="profile_search_icon_w">175dp</dimen>
+    <dimen name="profile_search_icon_h">150dp</dimen>
+
+
+
+    <!--///EarningInnerFragment////-->
+    <dimen name="earning_widget_height">22dp</dimen>
+    <dimen name="earning_widget_start">22dp</dimen>
+
+
+
+
+    <dimen name="social_img_slider_w">175dp</dimen>
+    <dimen name="social_img_slider_h">280dp</dimen>
+    <dimen name="social_profile_img_w">300dp</dimen>
+    <dimen name="social_album_icon_w">200dp</dimen>
+    <dimen name="social_album_icon_h">75dp</dimen>
+    <dimen name="social_album_icon_h_xl">154dp</dimen>
+    <dimen name="bottom_bar_item_padding">2dp</dimen>
+
+</resources>
