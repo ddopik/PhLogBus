@@ -9,5 +9,4 @@ public interface WelcomeView {
 
     void showWelcomeImageSlider(List<InitSlider> images);
 
-    void ViewBasicDefaultWelcomeImg();
 }

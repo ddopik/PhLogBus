@@ -31,6 +31,7 @@
     <color name="cyan40BAEC">#40BAEC</color>
     <color name="cyan1DA1F2">#1DA1F2</color>
     <color name="cyan3D8DF5">#3D8DF5</color>
+    <color name="cyan93E2">#0093E2</color>
     <color name="cyan3DBFF5">#3DBFF5</color>
     <color name="blue3E549C">#3E549C</color>
     <color name="gray242B31">#242B31</color>
@@ -44,7 +45,7 @@
     <color name="grayF6F8FA">#F6F8FA</color>
     <color name="black677078">#677078</color>
     <color name="black242B31">#242B31</color>
-    <color name="text_input_color">#f5c424</color>
+    <color name="text_input_color">#0093E2</color>
     <color name="tab_background">#2f343a</color>
     <color name="bgBottomNavigation">#fe485a</color>
     <color name="user_profile_text_header_color">#96A0AA</color>

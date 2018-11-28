@@ -47,4 +47,7 @@
     <string name="upload_your_profile_image">Upload your profile picture</string>
     <string name="upload">Upload</string>
     <string name="loading">Loading</string>
+    <string name="account_details">Account details</string>
+    <string name="last_name">Last Name</string>
+    <string name="industry">Industry</string>
 </resources>

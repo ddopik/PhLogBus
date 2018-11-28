@@ -1,8 +1,8 @@
 package com.example.ddopik.phlogbusiness.ui.welcome.presenter;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
-
+import android.content.Context;
+import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.welcome.view.WelcomeView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -13,9 +13,11 @@ public class WelcomeScreenImpl implements WelcomePresenter {
 
     private String TAG = WelcomeScreenImpl.class.getSimpleName();
     private WelcomeView welcomeView;
+    private Context context;
 
-    public WelcomeScreenImpl(WelcomeView welcomeView) {
+    public WelcomeScreenImpl(WelcomeView welcomeView, Context context) {
         this.welcomeView = welcomeView;
+        this.context = context;
 
     }
 
@@ -27,15 +29,13 @@ public class WelcomeScreenImpl implements WelcomePresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(welcomeScreenResponse -> {
-//                    List<String> imagesList = new ArrayList<String>();
-
-//                    for (int i = 0; i < welcomeScreenResponse.initSlider.size(); i++) {
-//                        imagesList.add(welcomeScreenResponse.initSlider.get(i).image);
-//                    }
-                    welcomeView.showWelcomeImageSlider(welcomeScreenResponse.initSlider);
+                    if (welcomeScreenResponse.state.equals(BaseNetworkApi.STATUS_OK)) {
+                        welcomeView.showWelcomeImageSlider(welcomeScreenResponse.initSlider);
+                    } else {
+                        ErrorUtils.setError(context, TAG, welcomeScreenResponse.toString(), welcomeScreenResponse.state);
+                    }
                 }, throwable -> {
-                    welcomeView.ViewBasicDefaultWelcomeImg();
-                    Log.e(TAG, "getWelcomeSlidesImages() -----> Error :" + throwable.getMessage());
+                    ErrorUtils.setError(context, TAG, throwable.toString());
                 });
 
     }

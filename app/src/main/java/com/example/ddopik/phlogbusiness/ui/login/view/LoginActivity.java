@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class LoginActivity extends BaseActivity implements LoginView {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private Button facebookSigning, googleSigningBtn, signUpBtn;
+    private Button  signUpBtn;
     private TextView mail, passWord, signUpTxt;
     private TextInputLayout mailInput, passwordInput;
     private LoginPresenter loginPresenter;
@@ -40,8 +40,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void initView() {
-        googleSigningBtn = findViewById(R.id.google_signing_btn);
-        facebookSigning = findViewById(R.id.facebook_signing_btn);
+
         signUpTxt = findViewById(R.id.sign_up_txt);
         signUpBtn = findViewById(R.id.sign_up_btn);
         mail = findViewById(R.id.mail);
@@ -60,8 +59,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     private void initListener() {
 
-        facebookSigning.setOnClickListener((view -> loginPresenter.signInWithFaceBook()));
-        googleSigningBtn.setOnClickListener((view -> loginPresenter.signInWithGoogle()));
+
         signUpTxt.setOnClickListener((view) -> navigateToSignUp());
         signUpBtn.setOnClickListener(view -> {
             if (isLoginDataValid()) {

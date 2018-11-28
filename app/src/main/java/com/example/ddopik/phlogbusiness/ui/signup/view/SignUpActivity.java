@@ -25,8 +25,8 @@ import java.util.List;
 public class SignUpActivity extends BaseActivity implements SignUpView {
 
     private String TAG = SignUpActivity.class.getSimpleName();
-    private EditText full_name, mail, registerPassword, confirmRegister_password, mobile, country;
-    private TextInputLayout nameInput, userNameInput, mailInput, registerPasswordInput, confirmRegister_passwordInput, mobileInput, countryInput;
+    private EditText full_name, mail, registerPassword, mobile;
+    private TextInputLayout nameInput, userNameInput, mailInput, registerPasswordInput, mobileInput, countryInput;
     private Button registerCancel, register_signUp;
     private AutoCompleteTextView autoCompleteTextView;
     private ArrayAdapter<String> arrayAdapter;
@@ -38,7 +38,6 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        getSupportActionBar().hide();
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
@@ -51,25 +50,25 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
 
     @Override
     public void initView() {
-        full_name = findViewById(R.id.full_name);
+        full_name = findViewById(R.id.first_name);
 //        userName = findViewById(R.id.user_name);
         mail = findViewById(R.id.mail);
         registerPassword = findViewById(R.id.register_password);
-        confirmRegister_password = findViewById(R.id.confirm_register_password);
+
         mobile = findViewById(R.id.mobile);
         registerCancel = findViewById(R.id.register_cancel);
         register_signUp = findViewById(R.id.register_sign_up);
 
 
-        nameInput = findViewById(R.id.full_name_input);
+        nameInput = findViewById(R.id.first_name_input);
 //        userNameInput = findViewById(R.id.user_name_input);
         mailInput = findViewById(R.id.mail_input);
         registerPasswordInput = findViewById(R.id.register_password_input);
-        confirmRegister_passwordInput = findViewById(R.id.confirm_register_password_input);
+
         mobileInput = findViewById(R.id.mobile_input);
-        countryInput = findViewById(R.id.country_input);
+        countryInput = findViewById(R.id.industry_input);
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, countryList);
-        autoCompleteTextView = findViewById(R.id.country);
+        autoCompleteTextView = findViewById(R.id.industry);
         autoCompleteTextView.setAdapter(arrayAdapter);
 
 
@@ -120,7 +119,7 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
     }
 
     private boolean isDataIsValid() {
-        List<Boolean> failedStates = new ArrayList<Boolean>(6);
+        List<Boolean> failedStates = new ArrayList<Boolean>(5);
 
         if (full_name.getText() == null || full_name.getText().toString().equals("")) {
             nameInput.setError(getResources().getText(R.string.invailde_name));
@@ -153,13 +152,7 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
             registerPasswordInput.setErrorEnabled(false);
             failedStates.add(1, true);
         }
-        if (!registerPassword.getText().toString().equals(confirmRegister_password.getText().toString())) {
-            confirmRegister_passwordInput.setError(getResources().getString(R.string.password_not_matched));
-            failedStates.add(2, false);
-        } else {
-            confirmRegister_passwordInput.setErrorEnabled(false);
-            failedStates.add(2, true);
-        }
+
 //        if (mobile.getText().toString().equals("") || !android.util.Patterns.PHONE.matcher(mobile.getText()).matches()) {
 //            mobileInput.setError(getString(R.string.invalid_phone_number));
 //            failedStates.add(5, false);

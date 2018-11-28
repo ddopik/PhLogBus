@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center_horizontal|bottom"
         android:orientation="vertical">
 
@@ -55,7 +55,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:baselineAligned="false"
         android:gravity="center"
         android:orientation="vertical"
@@ -63,45 +63,7 @@
         android:paddingEnd="@dimen/sign_in_container_padding">
 
 
-        <Button
-            android:id="@+id/google_signing_btn"
-            android:layout_width="250dp"
-            android:layout_height="@dimen/social_login_btn_height"
-            android:background="@drawable/rounded_google_btn"
-            android:drawableStart="@drawable/google_plus_symbol"
-            android:drawablePadding="@dimen/dp8"
-            android:paddingStart="@dimen/dp8"
-            android:paddingEnd="@dimen/dp10"
-            android:text="@string/login_google"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/facebook_signing_btn"
-            android:layout_width="250dp"
-            android:layout_height="@dimen/social_login_btn_height"
-            android:layout_marginTop="@dimen/dp12"
-            android:background="@drawable/rounded_facebook_btn"
-            android:drawableStart="@drawable/com_facebook_button_icon"
-            android:drawablePadding="@dimen/dp12"
-            android:paddingStart="@dimen/dp10"
-            android:paddingEnd="@dimen/dp10"
-            android:text="@string/com_facebook_loginview_log_in_button_long"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp12"
-            android:background="@drawable/circle_white"
-            android:gravity="center"
-            android:text="@string/or"
-            android:textColor="@color/gray900"
-            android:visibility="visible" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/mail_login_input"
