@@ -1,16 +1,17 @@
 package com.example.ddopik.phlogbusiness.network;
 
 import com.androidnetworking.common.Priority;
+import com.example.ddopik.phlogbusiness.ui.campaigns.model.CampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.LoginResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
+import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllCountersRepose;
 import com.example.ddopik.phlogbusiness.ui.signup.model.SignUpResponse;
+import com.example.ddopik.phlogbusiness.ui.social.model.SocialResponse;
 import com.example.ddopik.phlogbusiness.ui.welcome.model.WelcomeScreenResponse;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 
 import java.util.HashMap;
-
-
 /**
  * Created by abdalla-maged on 3/29/18.
  */
@@ -81,6 +82,50 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(WelcomeScreenResponse.class);
+    }
+
+
+    public static io.reactivex.Observable<FollowBrandResponse> followBrand(String token,String brandId){
+        return Rx2AndroidNetworking.post(BRAND_FOLLOW_URL)
+                .addBodyParameter(TOKEN_BODY_PARAMETER,token)
+                .addBodyParameter("brand_id",brandId)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(FollowBrandResponse.class);
+    }
+
+    public static io.reactivex.Observable<SocialResponse> getSocialData(String token){
+        return Rx2AndroidNetworking.post(SOCIAL_DATA_URL)
+                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(SocialResponse.class);
+    }
+
+    public static io.reactivex.Observable<NotificationResponse> getNotification(String token, String page){
+        return Rx2AndroidNetworking.post(GET_ALL_NOTIFICATION)
+                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
+                .addQueryParameter(PAGER_PATH_PARAMETER,page)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(NotificationResponse.class);
+    }
+
+    public static io.reactivex.Observable<FollowUserResponse> followUser(String token,String userID){
+        return Rx2AndroidNetworking.post(PHOTOGRAPHER_FOLLOW_USER_URL)
+                .addBodyParameter(TOKEN_BODY_PARAMETER,token)
+                .addBodyParameter("user_names_id_to",userID)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(FollowUserResponse.class);
+    }
+    public static io.reactivex.Observable<CampaignResponse> getAllCampaign(String token, int page) {
+        return Rx2AndroidNetworking.post(ALL_CAMPAIGN_URL)
+                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
+                .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(CampaignResponse.class);
     }
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){
 //        return Rx2AndroidNetworking.get()

@@ -50,4 +50,16 @@
     <string name="account_details">Account details</string>
     <string name="last_name">Last Name</string>
     <string name="industry">Industry</string>
+    <string name="select_img">Select Image</string>
+    <string name="me">profile</string>
+    <string name="Notification">Notification</string>
+    <string name="home">home</string>
+    <string name="stories">Stories</string>
+    <string name="filters">Filters</string>
+    <string name="remind_me">REMIND ME</string>
+    <string name="join">JOIN</string>
+    <string name="tab_mission">Mission</string>
+    <string name="tab_photos">Photos</string>
+    <string name="days_left">Days Left</string>
+    <string name="hosted_by">Hosted By</string>
 </resources>
