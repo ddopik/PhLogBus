@@ -45,7 +45,6 @@
     <dimen name="header_img_size">85dp</dimen>
 
 
-
     <!--//ViewHolders-->
     <dimen name="view_holder_item_list_height">150dp</dimen>
     <dimen name="view_holder_item_list_height_med">250dp</dimen>
@@ -125,7 +124,6 @@
     <dimen name="add_tag_img_size">80dp</dimen>
 
 
-
     <!--//////////////ViewHolderFlexAlbum//////////////////-->
     <dimen name="item_flex_height_l">250dp</dimen>
     <dimen name="item_flex_height_s">175dp</dimen>
@@ -146,12 +144,9 @@
     <dimen name="profile_search_icon_h">150dp</dimen>
 
 
-
     <!--///EarningInnerFragment////-->
     <dimen name="earning_widget_height">22dp</dimen>
     <dimen name="earning_widget_start">22dp</dimen>
-
-
 
 
     <dimen name="social_img_slider_w">175dp</dimen>
@@ -161,5 +156,6 @@
     <dimen name="social_album_icon_h">75dp</dimen>
     <dimen name="social_album_icon_h_xl">154dp</dimen>
     <dimen name="bottom_bar_item_padding">2dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 </resources>

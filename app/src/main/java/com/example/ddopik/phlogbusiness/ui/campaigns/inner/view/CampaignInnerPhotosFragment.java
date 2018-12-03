@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.campaigns.inner.ui;
+package com.example.ddopik.phlogbusiness.ui.campaigns.inner.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,15 +9,13 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ProgressBar;
-import com.example.softmills.phlog.R;
-import com.example.softmills.phlog.base.BaseFragment;
-import com.example.softmills.phlog.base.widgets.CustomRecyclerView;
-import com.example.softmills.phlog.base.widgets.PagingController;
-import com.example.softmills.phlog.ui.campaigns.inner.model.CampaignInnerPhoto;
-import com.example.softmills.phlog.ui.campaigns.inner.presenter.CampaignInnerPhotosFragmentPresenter;
-import com.example.softmills.phlog.ui.campaigns.inner.presenter.CampaignInnerPhotosFragmentPresenterImpl;
-import com.example.softmills.phlog.ui.photographerprofile.view.ph_photos.model.PhotoGrapherPhoto;
-import com.example.softmills.phlog.ui.photographerprofile.view.ph_photos.view.PhotoGrapherPhotosAdapter;
+import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.model.ImageObj;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
+import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPhotosFragmentPresenter;
+import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPhotosFragmentPresenterImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +29,8 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
     private View mainView;
     private CustomRecyclerView campaignInnerRv;
     private ProgressBar campaignInnerProgressBar;
-    private List<PhotoGrapherPhoto> photoGrapherPhotoList = new ArrayList<PhotoGrapherPhoto>();
-    private PhotoGrapherPhotosAdapter photoGrapherPhotosAdapter;
+    private List<ImageObj> photoGrapherPhotoList = new ArrayList<ImageObj>();
+    private CampaignInnerPhotosAdapter campaignInnerPhotosAdapter;
     private PagingController pagingController;
     private CampaignInnerPhotosFragmentPresenter campaignInnerPhotosFragmentPresenter;
 
@@ -64,8 +62,8 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
         campaignInnerRv = mainView.findViewById(R.id.campaign_inner_rv);
         campaignInnerProgressBar = mainView.findViewById(R.id.campaign_inner_progress_bar);
 
-        photoGrapherPhotosAdapter = new PhotoGrapherPhotosAdapter(getContext(), photoGrapherPhotoList);
-        campaignInnerRv.setAdapter(photoGrapherPhotosAdapter);
+        campaignInnerPhotosAdapter = new CampaignInnerPhotosAdapter(getContext(), photoGrapherPhotoList);
+        campaignInnerRv.setAdapter(campaignInnerPhotosAdapter);
         campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, 0);
     }
 
@@ -103,9 +101,9 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
     }
 
     @Override
-    public void getInnerCampaignPhotos(List<CampaignInnerPhoto> campaignInnerPhotoList) {
+    public void getInnerCampaignPhotos(List<ImageObj> campaignInnerPhotoList) {
         photoGrapherPhotoList.addAll(campaignInnerPhotoList);
-        photoGrapherPhotosAdapter.notifyDataSetChanged();
+        campaignInnerPhotosAdapter.notifyDataSetChanged();
 
     }
 

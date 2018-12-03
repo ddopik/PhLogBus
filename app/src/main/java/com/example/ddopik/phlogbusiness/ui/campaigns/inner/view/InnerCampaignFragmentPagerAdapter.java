@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.campaigns.inner.ui;
+package com.example.ddopik.phlogbusiness.ui.campaigns.inner.view;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

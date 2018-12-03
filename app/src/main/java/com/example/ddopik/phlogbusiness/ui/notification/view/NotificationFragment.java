@@ -7,17 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import com.example.softmills.phlog.R;
-import com.example.softmills.phlog.base.BaseFragment;
-import com.example.softmills.phlog.base.widgets.CustomRecyclerView;
-import com.example.softmills.phlog.base.widgets.PagingController;
-import com.example.softmills.phlog.ui.notification.model.NotificationData;
-import com.example.softmills.phlog.ui.notification.model.NotificationItem;
-import com.example.softmills.phlog.ui.notification.presenter.NotificationPresenter;
-import com.example.softmills.phlog.ui.notification.presenter.NotificationPresenterImp;
+import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
+import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationData;
+import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationItem;
+import com.example.ddopik.phlogbusiness.ui.notification.presenter.NotificationPresenter;
+import com.example.ddopik.phlogbusiness.ui.notification.presenter.NotificationPresenterImp;
+
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.security.AccessController.getContext;
 
 /**
  * Created by abdalla_maged On Nov,2018

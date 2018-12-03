@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.campaigns.inner.ui;
+package com.example.ddopik.phlogbusiness.ui.campaigns.inner.view;
 
 /**
  * Created by abdalla_maged on 10/8/2018.

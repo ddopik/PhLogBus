@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header_background_img"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@drawable/default_user_profile">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.4"
+        android:background="@drawable/graduant_layer" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp120">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/brand_img_icon"
+                    android:layout_width="@dimen/header_img_size"
+                    android:layout_height="@dimen/header_img_size"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/phlog_logo" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/brand_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginBottom="@dimen/dp8"
+                android:fontFamily="@font/arial_rounded_font"
+                android:text="brand name"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_medium_s" />
+
+            <TextView
+                android:id="@+id/brand_num_followers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/dp12"
+                android:fontFamily="@font/arial_rounded_font"
+                android:text="512 k follows"
+                android:textColor="@color/user_profile_text_header_color" />
+
+            <Button
+                android:id="@+id/brand_type"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/brand_type_view_height"
+                android:layout_gravity="center"
+                android:background="@color/white"
+                android:paddingStart="@dimen/dp12"
+                android:paddingEnd="@dimen/dp12"
+                android:text="brand type"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_small" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</FrameLayout>

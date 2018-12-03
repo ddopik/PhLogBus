@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+
+    <FrameLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/phlog_app_bar" />
+
+        <ImageButton
+            android:id="@+id/open_camera_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginEnd="@dimen/dp12"
+            android:layout_gravity="end|center"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/btn_pick_photo" />
+
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/image_preview_section"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/upload_image_head_height"
+        android:padding="@dimen/dp4"
+        android:layout_below="@+id/header"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/logo_width"
+            android:layout_height="@dimen/logo_width"
+            android:layout_gravity="center"
+            android:src="@drawable/phlog_logo" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_from_your_photos"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_small" />
+
+    </LinearLayout>
+    <View
+        android:id="@+id/horizontal_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/image_preview_section"
+        android:layout_marginStart="@dimen/dp4"
+        android:layout_marginEnd="@dimen/dp4"
+        android:background="@color/colorGray"/>
+
+    <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
+        android:id="@+id/gallery_img_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/horizontal_line"
+        android:layout_margin="@dimen/dp4"
+        android:stretchMode="columnWidth"
+        app:orientation="grid"
+        app:span_size="3" />
+
+
+</RelativeLayout>

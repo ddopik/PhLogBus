@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.bottomappbar.BottomAppBar;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -13,19 +12,18 @@ import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.Utiltes.Constants;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.ui.campaigns.CampaignsFragment;
+import com.example.ddopik.phlogbusiness.ui.notification.view.NotificationFragment;
+import com.example.ddopik.phlogbusiness.ui.profile.ProfileFragment;
+import com.example.ddopik.phlogbusiness.ui.social.view.SocialFragment;
+import com.example.ddopik.phlogbusiness.ui.uploadimage.view.GalleryImageFragment;
 
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.NavigationHelper.EARNING_INNER;
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.NavigationHelper.EDIT_PROFILE;
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.NavigationHelper.CAMPAIGN;
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.NavigationHelper.EARNING_LIST;
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.NavigationHelper.HOME;
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.NavigationHelper.NOTIFICATION;
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.NavigationHelper.PROFILE;
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.NavigationHelper.UPLOAD_PHOTO;
+import static com.example.ddopik.phlogbusiness.Utiltes.Constants.NavigationHelper.*;
+
 /**
  * Created by abdalla_maged On Nov,2018
  */
-public   class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView toolBarTitle;
     private BottomAppBar bottomNavigation;
@@ -198,7 +196,8 @@ public   class MainActivity extends BaseActivity implements View.OnClickListener
                     break;
                 }
                 case PROFILE: {
-                    addFragment(R.id.view_container, new PhotoGraphedProfileFragment(), PhotoGraphedProfileFragment.class.getSimpleName(), false);
+                    addFragment(R.id.view_container, new ProfileFragment(), ProfileFragment.class.getSimpleName(), false);
+
                     myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
                     myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
                     myProfileBtn.setCompoundDrawablePadding(8);
@@ -208,41 +207,41 @@ public   class MainActivity extends BaseActivity implements View.OnClickListener
                     break;
                 }
                 case EARNING_LIST: {
-                    addFragment(R.id.view_container, new EarningListFragment(), EarningListFragment.class.getSimpleName(), true);
-                    myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
-                    myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
-                    myProfileBtn.setCompoundDrawablePadding(8);
-                    toolbar.setVisibility(View.GONE);
-                    toolBarTitle.setText(getResources().getString(R.string.profile));
-                    currentTab = EARNING_LIST;
+//                    addFragment(R.id.view_container, new EarningListFragment(), EarningListFragment.class.getSimpleName(), true);
+//                    myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
+//                    myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
+//                    myProfileBtn.setCompoundDrawablePadding(8);
+//                    toolbar.setVisibility(View.GONE);
+//                    toolBarTitle.setText(getResources().getString(R.string.profile));
+//                    currentTab = EARNING_LIST;
                     break;
                 }
                 case EARNING_INNER: {
                     if (extraData != null) {
-                        EarningInnerFragment earningInnerFragment = EarningInnerFragment.getInstance();
-                        earningInnerFragment.setInnerID(extraData);
-                        addFragment(R.id.view_container, new EarningInnerFragment(), EarningInnerFragment.class.getSimpleName(), true);
-                        myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
-                        myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
-                        myProfileBtn.setCompoundDrawablePadding(8);
-                        toolbar.setVisibility(View.GONE);
-                        toolBarTitle.setText(getResources().getString(R.string.profile));
-                        extraData = null;
-                        currentTab = EARNING_INNER;
+//                        EarningInnerFragment earningInnerFragment = EarningInnerFragment.getInstance();
+//                        earningInnerFragment.setInnerID(extraData);
+//                        addFragment(R.id.view_container, new EarningInnerFragment(), EarningInnerFragment.class.getSimpleName(), true);
+//                        myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
+//                        myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
+//                        myProfileBtn.setCompoundDrawablePadding(8);
+//                        toolbar.setVisibility(View.GONE);
+//                        toolBarTitle.setText(getResources().getString(R.string.profile));
+//                        extraData = null;
+//                        currentTab = EARNING_INNER;
                     }
 
                     break;
                 }
                 case EDIT_PROFILE: {
 
-
-                    addFragment(R.id.view_container, EditPhotoGrapherProfileFragment.getInstance(), EditPhotoGrapherProfileFragment.class.getSimpleName(), true);
-                    myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
-                    myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
-                    myProfileBtn.setCompoundDrawablePadding(8);
-                    toolbar.setVisibility(View.GONE);
-                    toolBarTitle.setText(getResources().getString(R.string.profile));
-                    currentTab = EDIT_PROFILE;
+//
+//                    addFragment(R.id.view_container, EditPhotoGrapherProfileFragment.getInstance(), EditPhotoGrapherProfileFragment.class.getSimpleName(), true);
+//                    myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
+//                    myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
+//                    myProfileBtn.setCompoundDrawablePadding(8);
+//                    toolbar.setVisibility(View.GONE);
+//                    toolBarTitle.setText(getResources().getString(R.string.profile));
+//                    currentTab = EDIT_PROFILE;
 
                     break;
                 }

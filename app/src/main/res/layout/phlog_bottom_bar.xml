@@ -1,99 +1,110 @@
-<android.support.design.bottomappbar.BottomAppBar xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bottom_navigation"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:layout_gravity="bottom"
-    android:background="@color/gray400"
-    app:fabCradleVerticalOffset="12dp"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    tools:ignore="BottomAppBar">
-
-
-    <RelativeLayout
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/view_v"
+        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:padding="@dimen/bottom_bar_item_padding"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
+    <android.support.design.bottomappbar.BottomAppBar
 
-        <LinearLayout
-            android:id="@+id/navigation_home_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:gravity="center">
 
-            <Button
-                android:id="@+id/navigation_home"
-                android:layout_width="wrap_content"
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            android:background="@color/gray400"
+            app:fabCradleVerticalOffset="12dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            tools:ignore="BottomAppBar">
+
+
+        <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:drawableTop="@drawable/ic_tab_home_on"
-                android:gravity="center"
-                android:text="@string/home"
-                android:textAlignment="center"
-                 android:textColor="@color/gray677078" />
-        </LinearLayout>
+                android:baselineAligned="false"
+                android:padding="@dimen/bottom_bar_item_padding"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/navigation_missions_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/navigation_home_container"
-            android:gravity="center">
+            <LinearLayout
+                    android:id="@+id/navigation_home_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginEnd="@dimen/dp18"
+                    android:gravity="center">
 
-            <Button
-                android:id="@+id/navigation_missions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:drawableTop="@drawable/ic_tab_missions_off"
-                android:text="@string/campaigns"
-                android:textAlignment="center"
-                 android:textColor="@color/gray677078" />
-        </LinearLayout>
+                <Button
+                        android:id="@+id/navigation_home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:drawableTop="@drawable/ic_tab_home_on"
+                        android:gravity="center"
+                        android:text="@string/home"
+                        android:textAlignment="center"
+                        android:textColor="@color/gray677078"/>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/navigation_notification_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/navigation_profile_container"
-            android:gravity="center">
+            <LinearLayout
+                    android:id="@+id/navigation_missions_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/navigation_home_container"
+                    android:layout_marginEnd="@dimen/dp18"
+                    android:gravity="center">
 
-            <Button
-                android:id="@+id/navigation_notification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:drawableTop="@drawable/ic_tab_notificatin_off"
-                android:gravity="center"
-                android:text="@string/Notification"
-                android:textAlignment="center"
-                 android:textColor="@color/gray677078" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/navigation_profile_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/navigation_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:drawableTop="@drawable/ic_tab_profile_off"
-                android:gravity="center"
-                android:text="@string/me"
-                android:textAlignment="center"
-                 android:textColor="@color/gray677078" />
-        </LinearLayout>
+                <Button
+                        android:id="@+id/navigation_missions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:drawableTop="@drawable/ic_tab_missions_off"
+                        android:text="@string/campaigns"
+                        android:textAlignment="center"
+                        android:textColor="@color/gray677078"/>
+            </LinearLayout>
 
 
-    </RelativeLayout>
-</android.support.design.bottomappbar.BottomAppBar>
+            <LinearLayout
+                    android:id="@+id/navigation_profile_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/navigation_missions_container"
+                    android:gravity="center">
+
+                <Button
+                        android:id="@+id/navigation_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:drawableTop="@drawable/ic_tab_profile_off"
+                        android:gravity="center"
+                        android:text="@string/me"
+                        android:textAlignment="center"
+                        android:textColor="@color/gray677078"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/navigation_notification_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/navigation_profile_container"
+                    android:gravity="center"
+                    android:visibility="invisible">
+
+                <Button
+                        android:id="@+id/navigation_notification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:drawableTop="@drawable/ic_tab_notificatin_off"
+                        android:gravity="center"
+                        android:text="@string/Notification"
+                        android:textAlignment="center"
+                        android:textColor="@color/gray677078"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.design.bottomappbar.BottomAppBar>
+</FrameLayout>

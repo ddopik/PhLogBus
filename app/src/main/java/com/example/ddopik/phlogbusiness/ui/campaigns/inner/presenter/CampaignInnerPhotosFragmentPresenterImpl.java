@@ -3,9 +3,9 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
-import com.example.softmills.phlog.Utiltes.PrefUtils;
-import com.example.softmills.phlog.network.BaseNetworkApi;
-import com.example.softmills.phlog.ui.campaigns.inner.ui.CampaignInnerPhotosFragmentView;
+import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
+import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerPhotosFragmentView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -29,8 +29,7 @@ public class CampaignInnerPhotosFragmentPresenterImpl implements CampaignInnerPh
     @Override
     public void getCampaignInnerPhotos(String campaignID,int page) {
         campaignInnerPhotosFragmentView.viewCampaignInnerPhotosProgress(true);
-        BaseNetworkApi
-                .getCampaignInnerPhotos(PrefUtils.getUserToken(context),campaignID,page)
+        BaseNetworkApi.getCampaignInnerPhotos(PrefUtils.getUserToken(context),campaignID,page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(campaignInnerPhotosResponse -> {

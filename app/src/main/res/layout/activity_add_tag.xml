@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <include layout="@layout/phlog_app_bar" />
+
+    <!--Header-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_padding">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arial_rounded_font"
+                android:text="@string/tags"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_large" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp12"
+                android:text="@string/powered_by"
+                android:textColor="@color/white" />
+
+            <AutoCompleteTextView
+                android:id="@+id/tag_auto_complete"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/dp45"
+                android:background="@drawable/rounded_search_view"
+                android:hint="@string/add_new_tag"
+                android:imeActionLabel="Done"
+                android:imeOptions="actionDone"
+                android:padding="@dimen/widgets_padding"
+                android:singleLine="true" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/tag_img_preview"
+            android:layout_width="@dimen/add_tag_img_size"
+            android:layout_height="@dimen/add_tag_img_size"
+            android:layout_gravity="end|top"
+            android:scaleType="centerCrop"
+            android:src="@drawable/splash_screen_background"
+            tools:src="@drawable/splash_screen_background" />
+
+    </FrameLayout>
+    <!--///////////MiddleSection-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:orientation="vertical"
+      >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/selected_tags"
+            android:fontFamily="@font/arial_rounded_font"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+
+            android:paddingStart="@dimen/dp16"
+            android:paddingEnd="@dimen/dp16"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@color/white" />
+
+
+
+        <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
+            android:id="@+id/tags_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_padding"/>
+
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/white"
+        android:layout_gravity="top"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:padding="@dimen/activity_padding"
+        android:orientation="vertical">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center|top"
+            android:background="@drawable/rounded_orange_btn"
+            android:fontFamily="@font/arial_rounded_font"
+            android:text="@string/upload_photo"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

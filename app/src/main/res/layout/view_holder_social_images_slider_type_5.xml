@@ -42,7 +42,7 @@
 
         </LinearLayout>
 
-        <com.example.softmills.phlog.base.widgets.CustomRecyclerView
+        <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
             android:id="@+id/social_img_slider_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

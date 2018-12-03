@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:toosl="http://schemas.android.com/tools">
+
+    <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
+        android:id="@+id/campaign_inner_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:orientation="grid"
+        app:span_size="2"
+        android:stretchMode="none"/>
+
+    <ProgressBar
+        android:id="@+id/campaign_inner_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        toosl:visibility="visible"/>
+
+
+</FrameLayout>

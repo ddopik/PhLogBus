@@ -12,7 +12,7 @@ import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
-import com.example.ddopik.phlogbusiness.ui.campaigns.inner.ui.CampaignInnerActivity;
+import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.HomeCampaign;
 import com.example.ddopik.phlogbusiness.ui.campaigns.presenter.CampaignPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.presenter.CampaignPresenterImpl;

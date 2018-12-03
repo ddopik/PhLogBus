@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.inner.model;
 
+import com.example.ddopik.phlogbusiness.base.model.ImageObj;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -14,7 +15,7 @@ public class CampaignInnerPhotosData {
     public Integer currentPage;
     @SerializedName("data")
     @Expose
-    public List<CampaignInnerPhoto> data = null;
+    public List<ImageObj> data = null;
     @SerializedName("first_page_url")
     @Expose
     public String firstPageUrl;

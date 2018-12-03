@@ -1,12 +1,13 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.inner.model;
 
+ import com.example.ddopik.phlogbusiness.base.model.ImageObj;
  import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by abdalla_maged on 10/8/2018.
  */
-public class CampaignInnerPhoto extends PhotoGrapherPhoto {
+public class CampaignInnerPhoto extends ImageObj {
 
     @SerializedName("join_campaign_id")
     @Expose

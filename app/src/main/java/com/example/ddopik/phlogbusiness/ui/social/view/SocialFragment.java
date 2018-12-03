@@ -13,15 +13,24 @@ import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.ui.campaigns.inner.ui.CampaignInnerActivity;
+import com.example.ddopik.phlogbusiness.ui.album.model.AlbumImg;
+import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
+import com.example.ddopik.phlogbusiness.ui.brand.view.BrandInnerActivity;
+import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerActivity;
 import com.example.ddopik.phlogbusiness.ui.social.model.Entite;
 import com.example.ddopik.phlogbusiness.ui.social.model.SocialData;
 import com.example.ddopik.phlogbusiness.ui.social.presenter.SocialFragmentPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.social.presenter.SocialFragmentPresenter;
 import com.example.ddopik.phlogbusiness.ui.social.view.adapter.SocialAdapter;
+import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.ALBUM_ID;
+import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.ALL_ALBUM_IMAGES;
+import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.SELECTED_IMG_ID;
+import static com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity.USER_ID;
 
 
 public class SocialFragment extends BaseFragment implements SocialFragmentView {

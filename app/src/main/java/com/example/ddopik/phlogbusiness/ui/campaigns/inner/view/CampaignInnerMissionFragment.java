@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.campaigns.inner.ui;
+package com.example.ddopik.phlogbusiness.ui.campaigns.inner.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,8 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.example.softmills.phlog.R;
-import com.example.softmills.phlog.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.BaseFragment;
+
 
 /**
  * Created by abdalla_maged on 10/8/2018.

@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.campaigns.inner.ui;
+package com.example.ddopik.phlogbusiness.ui.campaigns.inner.view;
 
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
@@ -12,11 +12,12 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.example.softmills.phlog.R;
-import com.example.softmills.phlog.Utiltes.GlideApp;
-import com.example.softmills.phlog.base.BaseActivity;
-import com.example.softmills.phlog.ui.campaigns.inner.presenter.CampaignInnerPresenter;
-import com.example.softmills.phlog.ui.campaigns.inner.presenter.CampaignInnerPresenterImpl;
+import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPresenter;
+import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPresenterImpl;
+
 
 import java.util.ArrayList;
 import java.util.List;

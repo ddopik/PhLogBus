@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/activity_image_filter_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <ImageButton
+            android:id="@+id/btn_close_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp12"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/ic_close" />
+
+        <ImageButton
+            android:id="@+id/btn_apply_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/dp12"
+            android:layout_marginTop="@dimen/dp12"
+            android:layout_marginEnd="@dimen/dp12"
+            android:background="@color/transparent"
+            android:onClick="onClick"
+            app:srcCompat="@drawable/ic_done" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/filtered_image_preview"
+        android:layout_width="@dimen/filter_preview_img_w"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="7"
+        android:scaleType="centerCrop" />
+
+
+    <com.example.softmills.phlog.base.widgets.NonSwipeableViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/filters_list_item_h"
+
+        />
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="@color/text_input_color"
+        app:tabTextColor="@color/white"
+        app:tabGravity="fill"
+        app:tabMode="fixed" />
+
+</LinearLayout>
+
