@@ -4,25 +4,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.login.presenter.LoginPresenter;
 import com.example.ddopik.phlogbusiness.ui.login.presenter.LoginPresenterImp;
 import com.example.ddopik.phlogbusiness.ui.signup.view.SignUpActivity;
-
 
 import java.util.HashMap;
 
 public class LoginActivity extends BaseActivity implements LoginView {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private Button  signUpBtn;
+    private Button signUpBtn;
     private TextView mail, passWord, signUpTxt;
     private TextInputLayout mailInput, passwordInput;
     private LoginPresenter loginPresenter;
+    private ProgressBar loginProgress;
 
 
     @Override
@@ -47,13 +51,14 @@ public class LoginActivity extends BaseActivity implements LoginView {
         passWord = findViewById(R.id.password);
         mailInput = findViewById(R.id.mail_login_input);
         passwordInput = findViewById(R.id.login_password_input);
+        loginProgress = findViewById(R.id.login_progress);
 
     }
 
     @Override
     public void initPresenter() {
 
-        loginPresenter=new LoginPresenterImp(getBaseContext(),this);
+        loginPresenter = new LoginPresenterImp(getBaseContext(), this);
 
     }
 
@@ -70,11 +75,6 @@ public class LoginActivity extends BaseActivity implements LoginView {
             }
         });
     }
-
-
-
-
-
 
 
     private boolean isLoginDataValid() {
@@ -110,8 +110,17 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void navigateToHome() {
-//        Intent intent = new Intent(this, SocialFragment.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showLoginProgress(boolean state) {
+        if (state) {
+            loginProgress.setVisibility(View.VISIBLE);
+        } else {
+            loginProgress.setVisibility(View.GONE);
+        }
     }
 }
 

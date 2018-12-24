@@ -41,11 +41,13 @@ public class BaseNetworkApi {
     public static final String ERROR_STATE_1 = "1";
 
     //
-    private static final String BASE_URL = "http://178.128.162.10/public/api/photographer";
+    private static final String BASE_URL = "http://178.128.162.10/public/api/business";
+    private static final String BASE_URL_COMMON = "http://178.128.162.10/public/api/common";
+
     private static final String WELCOME_SLIDES_IMAGES = BASE_URL + "/photographer/init_slider";
-    private static final String ALL_COUNTRES = BASE_URL + "/countires";
-    private static final String SIGNUP_USER = BASE_URL + "/business/signup";
-    private static final String NORMAL_LOGIN = BASE_URL + "/login";
+    private static final String ALL_INDUSTRY = BASE_URL_COMMON + "/api/common/industries/list";
+    private static final String SIGNUP_USER = BASE_URL + "/auth/signup";
+    private static final String NORMAL_LOGIN = BASE_URL + "/auth/login";
     private static final String FACEBOOK_LOGIN_URL = BASE_URL + "/signup_facebook";
     private static final String INNER_BRAND_URL = BASE_URL + "/search_in_one_brands";
     private static final String BRAND_FOLLOW_URL = BASE_URL + "/join_photographer_brand";
@@ -99,7 +101,7 @@ public class BaseNetworkApi {
     }
 
     public static io.reactivex.Observable<AllIndustriesResponse> getAllIndustries() {
-        return Rx2AndroidNetworking.get(ALL_COUNTRES)
+        return Rx2AndroidNetworking.get(ALL_INDUSTRY)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(AllIndustriesResponse.class);

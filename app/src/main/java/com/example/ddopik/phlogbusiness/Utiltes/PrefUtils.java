@@ -45,21 +45,78 @@ public abstract class PrefUtils {
         return context.getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE);
     }
 
-    public static void setBrandID(Context context, String userID) {
-        getSharedPref(context).edit().putString(BRAND_ID, userID).apply();
+    public static void setBrandID(Context context, int userID) {
+        getSharedPref(context).edit().putInt(BRAND_ID, userID).apply();
     }
 
     public static void setBrandToken(Context context, String userToken) {
         getSharedPref(context).edit().putString(BRAND_TOKEN, userToken).apply();
     }
 
+    public static void setIsFirstLaunch(Context context, boolean isFirstLaunch) {
+        getSharedPref(context).edit().putBoolean(IS_FIRST_LAUNCH, isFirstLaunch).apply();
+    }
+
+    public static void setIsBrand(Context context,boolean state) {
+        getSharedPref(context).edit().putBoolean(IS_BRAND, state).apply();
+    }
+
+    public static void setAppLang(Context context, String appLang) {
+        getSharedPref(context).edit().putString(APP_LANG, appLang).apply();
+    }
+    public static void setIsLanguageSelected(Context context, boolean isSelected) {
+        getSharedPref(context).edit().putBoolean(IS_LANGUAGE_SELECTED, isSelected).apply();
+    }
     public static void setNotificationToken(Context context, String notificationToken) {
         getSharedPref(context).edit().putString(NOTIFICATION_TOKEN, notificationToken).apply();
     }
 
-    public static void setIsFirstLaunch(Context context, boolean isFirstLaunch) {
-        getSharedPref(context).edit().putBoolean(IS_FIRST_LAUNCH, isFirstLaunch).apply();
+    public static void setLoginState(Context context, boolean state) {
+        getSharedPref(context).edit().putBoolean(LOGIN_PROVIDER, state).apply();
+
     }
+    public static void setBrandSetUp(Context context, int state) {
+        getSharedPref(context).edit().putInt(IS_SETUP_BRAND, state).apply();
+    }
+
+
+
+    public static void setBrandStatus(Context context, int state) {
+        getSharedPref(context).edit().putInt(BRAND_STATUS, state).apply();
+    }
+
+
+    public static void setIsMailVerified(Context context, boolean state) {
+        getSharedPref(context).edit().putBoolean(IS_MAIL_VERIFIED, state).apply();
+    }
+
+    public static void setIsPhoneVerified(Context context, boolean state) {
+        getSharedPref(context).edit().putBoolean(IS_PHONE_VERIFIED, state).apply();
+    }
+
+
+    public static void setBrandText(Context context,String brandTxt) {
+        getSharedPref(context).edit().putString(IS_BRAND_TEXT, brandTxt).apply();
+    }
+
+    public static void setBrandHash(Context context, String hash) {
+        getSharedPref(context).edit().putString(BRAND_HASH, hash).apply();
+    }
+
+
+
+
+
+
+
+
+    public static void firstTimeAskingPermission(Context context, String permission, boolean isFirstTime) {
+        SharedPreferences sharedPreference = context.getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE);
+        sharedPreference.edit().putBoolean(permission, isFirstTime).apply();
+    }
+
+
+
 
 
     public static String getBrandID(Context mContext) {
@@ -83,97 +140,60 @@ public abstract class PrefUtils {
         return getSharedPref(context).getString(APP_LANG, ARABIC_LANG);
     }
 
-    public static void setAppLang(Context context, String appLang) {
-        getSharedPref(context).edit().putString(APP_LANG, appLang).apply();
-    }
+
 
     public static boolean isLanguageSelected(Context context) {
         return getSharedPref(context).getBoolean(IS_LANGUAGE_SELECTED, false);
     }
 
-    public static void setIsLanguageSelected(Context context, boolean isSelected) {
-        getSharedPref(context).edit().putBoolean(IS_LANGUAGE_SELECTED, isSelected).apply();
-    }
+
 
     public static boolean isTokenSaved(Context context) {
         return getSharedPref(context).getBoolean(IS_TOKEN_SAVED, false);
     }
 
-    public static void setLoginState(Context context, boolean state) {
-        getSharedPref(context).edit().putBoolean(LOGIN_PROVIDER, state).apply();
 
+
+    public static int getBrandSetUp(Context context) {
+        return getSharedPref(context).getInt(IS_SETUP_BRAND, 0);
     }
 
 
-    public static void setBrandSetUup(Context context, boolean state) {
-        getSharedPref(context).edit().putBoolean(IS_SETUP_BRAND, state).apply();
-    }
 
-    public static String getBrandSetUp(Context context) {
-        return getSharedPref(context).getString(IS_SETUP_BRAND, ARABIC_LANG);
+    public static boolean getIsPhoneVerified(Context context) {
+        return getSharedPref(context).getBoolean(IS_PHONE_VERIFIED, false);
     }
 
 
-    public static void setIsPhoneVerified(Context context, boolean state) {
-        getSharedPref(context).edit().putBoolean(IS_PHONE_VERIFIED, state).apply();
+
+    public static boolean getIsMailVerified(Context context) {
+        return getSharedPref(context).getBoolean(IS_MAIL_VERIFIED, false);
     }
 
-    public static String getIsPhoneVerified(Context context) {
-        return getSharedPref(context).getString(IS_PHONE_VERIFIED, ARABIC_LANG);
-    }
 
-    public static void setIsMailVerified(Context context, boolean state) {
-        getSharedPref(context).edit().putBoolean(IS_MAIL_VERIFIED, state).apply();
-    }
-
-    public static String getIsMailVerified(Context context) {
-        return getSharedPref(context).getString(IS_MAIL_VERIFIED, ARABIC_LANG);
-    }
-
-    public static void setBrandStatus(Context context, int state) {
-        getSharedPref(context).edit().putInt(BRAND_STATUS, state).apply();
-    }
 
     public static int getBrandStatus(Context context) {
         return getSharedPref(context).getInt(BRAND_STATUS, 0);
     }
 
-    public static void setBrandHash(Context context, String hash) {
-        getSharedPref(context).edit().putString(BRAND_HASH, hash).apply();
-    }
+
 
     public static String getBrandHash(Context context) {
         return getSharedPref(context).getString(BRAND_HASH, "");
     }
 
 
-    public static boolean setIsBrand(Context context) {
-        return getSharedPref(context).getBoolean(IS_BRAND, false);
-    }
-
     public static boolean getIsBrand(Context context) {
         return getSharedPref(context).getBoolean(IS_BRAND, false);
     }
 
 
-    public static String setIsBrand(Context context) {
-        return getSharedPref(context).getBoolean(IS_BRAND_TEXT, false);
-    }
+
+
 
     public static String getBrandText(Context context) {
         return getSharedPref(context).getString(IS_BRAND_TEXT, "");
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -182,10 +202,7 @@ public abstract class PrefUtils {
     }
 
 
-    public static void firstTimeAskingPermission(Context context, String permission, boolean isFirstTime) {
-        SharedPreferences sharedPreference = context.getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE);
-        sharedPreference.edit().putBoolean(permission, isFirstTime).apply();
-    }
+
 
     public static boolean isFirstTimeAskingPermission(Context context, String permission) {
         return context.getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE).getBoolean(permission, true);
