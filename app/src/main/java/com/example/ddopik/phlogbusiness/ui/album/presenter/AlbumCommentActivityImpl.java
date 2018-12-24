@@ -2,10 +2,13 @@ package com.example.ddopik.phlogbusiness.ui.album.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtils;
+
+
+import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
 import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.album.view.AlbumCommentActivityView;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -31,14 +34,11 @@ public class AlbumCommentActivityImpl implements AlbumCommentActivityPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(albumImgCommentResponse -> {
-                    if (albumImgCommentResponse.state.equals(BaseNetworkApi.STATUS_OK)) {
-                        albumCommentActivityView.viewPhotoComment(albumImgCommentResponse.data);
-                    } else {
-                        ErrorUtils.setError(context, TAG, albumImgCommentResponse.msg, albumImgCommentResponse.state);
-                    }
+                    albumCommentActivityView.viewPhotoComment(albumImgCommentResponse.data);
                     albumCommentActivityView.viewAddCommentProgress(false);
                 }, throwable -> {
-                    ErrorUtils.setError(context, TAG, throwable.toString());
+
+                    ErrorUtil.Companion.setError(context, TAG, throwable);
                     albumCommentActivityView.viewAddCommentProgress(false);
                 });
     }
@@ -47,18 +47,14 @@ public class AlbumCommentActivityImpl implements AlbumCommentActivityPresenter {
     @Override
     public void submitComment(String imageId, String comment) {
         albumCommentActivityView.viewAddCommentProgress(true);
-        BaseNetworkApi.submitImageComment(PrefUtils.getUserToken(context), imageId,comment)
+        BaseNetworkApi.submitImageComment(PrefUtils.getUserToken(context), imageId, comment)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(albumImgCommentResponse -> {
-                    if (albumImgCommentResponse.state.equals(BaseNetworkApi.STATUS_OK)) {
-                        albumCommentActivityView.viewPhotoComment(albumImgCommentResponse.data);
-                    } else {
-                        ErrorUtils.setError(context, TAG, albumImgCommentResponse.msg, albumImgCommentResponse.state);
-                    }
+                    albumCommentActivityView.viewPhotoComment(albumImgCommentResponse.data);
                     albumCommentActivityView.viewAddCommentProgress(false);
                 }, throwable -> {
-                    ErrorUtils.setError(context, TAG, throwable.toString());
+                    ErrorUtil.Companion.setError(context, TAG, throwable.toString());
                     albumCommentActivityView.viewAddCommentProgress(false);
                 });
 

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
-import com.example.ddopik.phlogbusiness.base.model.ImageObj;
+import com.example.ddopik.phlogbusiness.base.commonmodel.ImageObj;
 
 import io.reactivex.annotations.NonNull;
 

@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 ext {
 
@@ -7,7 +9,7 @@ ext {
     constrain_layuout_version = '1.1.3'
     supportLibraryVersion = '28.0.0-rc02'
     location_Services = '15.0.1'
-    glide_version = '4.6.1'
+    glide_version='4.8.0'
     facebook_stetho_version = '1.5.0'
     stetho_realm_version = '2.1.0'
     fast_android_network_version = '1.0.1'
@@ -69,10 +71,12 @@ dependencies {
     implementation "com.android.support:design:$supportLibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:$constrain_layuout_version"
     implementation 'com.google.android:flexbox:0.3.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     // Glide image library
     implementation "com.github.bumptech.glide:glide:$glide_version"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     //stetho
     implementation "com.facebook.stetho:stetho:$facebook_stetho_version"

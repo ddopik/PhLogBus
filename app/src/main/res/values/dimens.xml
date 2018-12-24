@@ -149,6 +149,9 @@
     <dimen name="earning_widget_start">22dp</dimen>
 
 
+    <!--///ConfirmMailDialog////-->
+    <dimen name="confirm_mail_dialog_height">160dp</dimen>
+
     <dimen name="social_img_slider_w">175dp</dimen>
     <dimen name="social_img_slider_h">280dp</dimen>
     <dimen name="social_profile_img_w">300dp</dimen>

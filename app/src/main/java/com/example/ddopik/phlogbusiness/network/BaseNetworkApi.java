@@ -12,7 +12,7 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowCampaignRespons
 import com.example.ddopik.phlogbusiness.ui.login.model.LoginResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
-import com.example.ddopik.phlogbusiness.ui.signup.model.AllCountersRepose;
+import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.SignUpResponse;
 import com.example.ddopik.phlogbusiness.ui.social.model.SocialResponse;
 import com.example.ddopik.phlogbusiness.ui.userprofile.model.FollowUserResponse;
@@ -29,15 +29,22 @@ import java.util.HashMap;
 public class BaseNetworkApi {
 
 
+
     //Network Status
     public static String STATUS_OK = "200";
-    public static String STATUS_IN_VALID_RESPONSE = "401";
-    public static String NEW_FACEBOOK_USER_STATUS = "0";
+    public static String DEFAULT_USER_TYPE = "0";
+    public static final int STATUS_BAD_REQUEST = 400;
+    public static final int STATUS_401 = 401;
+    public static final int STATUS_404 = 404;
+    public static final int STATUS_500 = 500;
+    public static String STATUS_ERROR = "405";
+    public static final String ERROR_STATE_1 = "1";
+
     //
     private static final String BASE_URL = "http://178.128.162.10/public/api/photographer";
     private static final String WELCOME_SLIDES_IMAGES = BASE_URL + "/photographer/init_slider";
     private static final String ALL_COUNTRES = BASE_URL + "/countires";
-    private static final String SIGNUP_USER = BASE_URL + "/signup";
+    private static final String SIGNUP_USER = BASE_URL + "/business/signup";
     private static final String NORMAL_LOGIN = BASE_URL + "/login";
     private static final String FACEBOOK_LOGIN_URL = BASE_URL + "/signup_facebook";
     private static final String INNER_BRAND_URL = BASE_URL + "/search_in_one_brands";
@@ -63,15 +70,7 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<SignUpResponse> signUpUser(HashMap<String, String> signUpData) {
         return Rx2AndroidNetworking.post(SIGNUP_USER)
-                .addBodyParameter("full_name", signUpData.get("full_name"))
-                .addBodyParameter("password", signUpData.get("password"))
-                .addBodyParameter("email", signUpData.get("email"))
-
-                .addBodyParameter("mobile", signUpData.get("mobile"))
-                .addBodyParameter("country_id", signUpData.get("country_id"))
-
-                .addBodyParameter("mobile_os", signUpData.get("mobile_os"))
-                .addBodyParameter("mobile_model", signUpData.get("mobile_model"))
+                .addBodyParameter(signUpData)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(SignUpResponse.class);
@@ -99,11 +98,11 @@ public class BaseNetworkApi {
                 .getObjectObservable(SocialLoginResponse.class);
     }
 
-    public static io.reactivex.Observable<AllCountersRepose> getAllCounters() {
+    public static io.reactivex.Observable<AllIndustriesResponse> getAllIndustries() {
         return Rx2AndroidNetworking.get(ALL_COUNTRES)
                 .setPriority(Priority.HIGH)
                 .build()
-                .getObjectObservable(AllCountersRepose.class);
+                .getObjectObservable(AllIndustriesResponse.class);
     }
 
 

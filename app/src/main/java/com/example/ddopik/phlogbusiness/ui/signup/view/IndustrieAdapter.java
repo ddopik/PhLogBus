@@ -11,28 +11,28 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.ui.signup.model.Country;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 
 
 import java.util.ArrayList;
 
-public class CountersAdapter extends ArrayAdapter<Country> {
+public class IndustrieAdapter extends ArrayAdapter<Industry> {
     private Context context;
     private int resourceId;
-    private ArrayList<Country> countryList;
-    private ArrayList<Country> countresAll;
-    private ArrayList<Country> suggestions;
+    private ArrayList<Industry> industryList;
+    private ArrayList<Industry> industryAll;
+    private ArrayList<Industry> suggestions;
     private int viewResourceId;
-    private CountersListener countresListner;
+    private IndustryListener industrieListner;
 
 
-    public CountersAdapter(@NonNull Context context, int resourceId, ArrayList<Country> countryList) {
-        super(context, resourceId, countryList);
-        this.countryList = countryList;
+    public IndustrieAdapter(@NonNull Context context, int resourceId, ArrayList<Industry> industryList) {
+        super(context, resourceId, industryList);
+        this.industryList = industryList;
         this.context = context;
         this.resourceId = resourceId;
-        this.countresAll = (ArrayList<Country>) countryList.clone();
-        this.suggestions = new ArrayList<Country>();
+        this.industryAll = (ArrayList<Industry>) industryList.clone();
+        this.suggestions = new ArrayList<Industry>();
 
     }
 
@@ -51,11 +51,11 @@ public class CountersAdapter extends ArrayAdapter<Country> {
                 view = inflater.inflate(resourceId, parent, false);
             }
 
-            if (countryList.size() > 0) {
-                Country country = getItem(position);
-                TextView countryName = view.findViewById(R.id.country_id);
-                countryName.setText(country.nameEn);
-                countryName.setOnClickListener(v -> countresListner.OnCountryClick(country));
+            if (industryList.size() > 0) {
+                Industry industry = getItem(position);
+                TextView industryName = view.findViewById(R.id.industrie_id);
+                industryName.setText(industry.nameEn);
+                industryName.setOnClickListener(v -> industrieListner.OnCountryClick(industry));
             }
 
         } catch (Exception e) {
@@ -66,13 +66,13 @@ public class CountersAdapter extends ArrayAdapter<Country> {
 
     @Nullable
     @Override
-    public Country getItem(int position) {
-        return countryList.get(position);
+    public Industry getItem(int position) {
+        return industryList.get(position);
     }
 
     @Override
     public int getCount() {
-        return countryList.size();
+        return industryList.size();
     }
 
     @Override
@@ -83,7 +83,7 @@ public class CountersAdapter extends ArrayAdapter<Country> {
     Filter nameFilter = new Filter() {
         @Override
         public String convertResultToString(Object resultValue) {
-            String str = ((Country) (resultValue)).nameEn;
+            String str = ((Industry) (resultValue)).nameEn;
             return str;
         }
 
@@ -91,9 +91,9 @@ public class CountersAdapter extends ArrayAdapter<Country> {
         protected FilterResults performFiltering(CharSequence constraint) {
             if (constraint != null) {
                 suggestions.clear();
-                for (Country country : countresAll) {
-                    if (country.nameEn.toLowerCase().startsWith(constraint.toString().toLowerCase())) {
-                        suggestions.add(country);
+                for (Industry industry : industryAll) {
+                    if (industry.nameEn.toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                        suggestions.add(industry);
                     }
                 }
                 FilterResults filterResults = new FilterResults();
@@ -107,10 +107,10 @@ public class CountersAdapter extends ArrayAdapter<Country> {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            ArrayList<Country> filteredList = (ArrayList<Country>) results.values;
+            ArrayList<Industry> filteredList = (ArrayList<Industry>) results.values;
             if (results != null && results.count > 0) {
                 clear();
-                for (Country c : filteredList) {
+                for (Industry c : filteredList) {
                     add(c);
                 }
                 notifyDataSetChanged();
@@ -119,12 +119,12 @@ public class CountersAdapter extends ArrayAdapter<Country> {
     };
 
 
-    public void setCountersListener(CountersListener countersListener) {
-        this.countresListner = countersListener;
+    public void setIndustrieListener(IndustryListener industryListener) {
+        this.industrieListner = industryListener;
     }
 
-    public interface CountersListener {
+    public interface IndustryListener {
 
-        void OnCountryClick(Country country);
+        void OnCountryClick(Industry country);
     }
 }

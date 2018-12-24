@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.base.model;
+package com.example.ddopik.phlogbusiness.base.commonmodel;
 
 /**
  * Created by abdalla_maged On Nov,2018

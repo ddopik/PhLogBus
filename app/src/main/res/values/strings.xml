@@ -32,7 +32,7 @@
     <string name="send_feed_back">Send Feed Back</string>
     <string name="skip">Skip</string>
     <string name="invailde_name">Invalid name</string>
-    <string name="invalid_user_name">Invalid user name</string>
+    <string name="invalid_last_name">Invalid user name</string>
     <string name="invalid_mail">Invalid mail</string>
     <string name="invalid_password">Invalid Password</string>
     <string name="password_limit">Password can not be less than 6 Char</string>
@@ -121,6 +121,8 @@
     <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="title_activity_main2">Main2Activity</string>
-
+    <string name="select_industry_not_exist">Industry not exist</string>
+    <string name="ok">ok</string>
+    <string name="verify_account">Please check your mail to verify your account</string>
 
 </resources>

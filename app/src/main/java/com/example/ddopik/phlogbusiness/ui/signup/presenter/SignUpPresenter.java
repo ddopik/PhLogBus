@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public interface SignUpPresenter {
 
-    void getAllCounters();
+    void getAllIndustries();
 
     void signUpUser(HashMap<String, String> signUpData);
 }

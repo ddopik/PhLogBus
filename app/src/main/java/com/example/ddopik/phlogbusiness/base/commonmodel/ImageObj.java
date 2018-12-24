@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.base.model;
+package com.example.ddopik.phlogbusiness.base.commonmodel;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
