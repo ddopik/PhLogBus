@@ -26,7 +26,7 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
     @SuppressLint("CheckResult")
     @Override
     public void getUserProfileData(String userID) {
-        BaseNetworkApi.getUserProfile(PrefUtils.getUserToken(context), userID)
+        BaseNetworkApi.getUserProfile(PrefUtils.getBrandToken(context), userID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userProfileResponse -> {
@@ -52,7 +52,7 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
     @Override
     public void getUserPhotos(String userID, int page) {
         userProfileActivityView.viewUserPhotosProgress(true);
-        BaseNetworkApi.getUserProfilePhotos(PrefUtils.getUserToken(context), userID, page)
+        BaseNetworkApi.getUserProfilePhotos(PrefUtils.getBrandToken(context), userID, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userPhotosResponse -> {
@@ -71,7 +71,7 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
     @SuppressLint("CheckResult")
     @Override
     public void followUser(String userId) {
-        BaseNetworkApi.followUser(PrefUtils.getUserToken(context), userId)
+        BaseNetworkApi.followUser(PrefUtils.getBrandToken(context), userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(followUserResponse -> {

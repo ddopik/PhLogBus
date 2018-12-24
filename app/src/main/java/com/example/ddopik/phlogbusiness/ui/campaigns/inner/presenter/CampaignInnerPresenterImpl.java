@@ -29,7 +29,7 @@ public class CampaignInnerPresenterImpl implements CampaignInnerPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void getCampaignDetails(String campaignID) {
-        BaseNetworkApi.getCampaignDetails(PrefUtils.getUserToken(context), campaignID)
+        BaseNetworkApi.getCampaignDetails(PrefUtils.getBrandToken(context), campaignID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(campaignInnerResponse -> {

@@ -30,7 +30,7 @@ public class SocialFragmentPresenterImpl implements SocialFragmentPresenter {
     @Override
     public void getSocialData() {
         socialFragmentView.viewSocialDataProgress(true);
-        BaseNetworkApi.getSocialData(PrefUtils.getUserToken(context))
+        BaseNetworkApi.getSocialData(PrefUtils.getBrandToken(context))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(socialResponse -> {
@@ -48,7 +48,7 @@ public class SocialFragmentPresenterImpl implements SocialFragmentPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void followUser(String userId) {
-        BaseNetworkApi.followUser(PrefUtils.getUserToken(context), userId)
+        BaseNetworkApi.followUser(PrefUtils.getBrandToken(context), userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(followUserResponse -> {
@@ -61,7 +61,7 @@ public class SocialFragmentPresenterImpl implements SocialFragmentPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void followSocialCampaign(String id) {
-        BaseNetworkApi.followCampaign(PrefUtils.getUserToken(context), id)
+        BaseNetworkApi.followCampaign(PrefUtils.getBrandToken(context), id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(followCampaignResponse -> {
@@ -74,7 +74,7 @@ public class SocialFragmentPresenterImpl implements SocialFragmentPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void followSocialBrand(String id) {
-        BaseNetworkApi.followBrand(PrefUtils.getUserToken(context), id)
+        BaseNetworkApi.followBrand(PrefUtils.getBrandToken(context), id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(followBrandResponse -> {

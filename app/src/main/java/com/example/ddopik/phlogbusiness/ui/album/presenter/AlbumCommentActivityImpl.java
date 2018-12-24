@@ -30,7 +30,7 @@ public class AlbumCommentActivityImpl implements AlbumCommentActivityPresenter {
     @Override
     public void getImageComments(String imageId, String page) {
         albumCommentActivityView.viewAddCommentProgress(true);
-        BaseNetworkApi.getImageComments(PrefUtils.getUserToken(context), imageId, page)
+        BaseNetworkApi.getImageComments(PrefUtils.getBrandToken(context), imageId, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(albumImgCommentResponse -> {
@@ -47,7 +47,7 @@ public class AlbumCommentActivityImpl implements AlbumCommentActivityPresenter {
     @Override
     public void submitComment(String imageId, String comment) {
         albumCommentActivityView.viewAddCommentProgress(true);
-        BaseNetworkApi.submitImageComment(PrefUtils.getUserToken(context), imageId, comment)
+        BaseNetworkApi.submitImageComment(PrefUtils.getBrandToken(context), imageId, comment)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(albumImgCommentResponse -> {

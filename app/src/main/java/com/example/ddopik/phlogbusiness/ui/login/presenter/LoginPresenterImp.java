@@ -36,7 +36,7 @@ public class LoginPresenterImp implements LoginPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(loginResponse -> {
-                    loginView.showMessage(loginResponse.loginData.fullName);
+                    loginView.showMessage(loginResponse.getData().fullName);
                 }, throwable -> {
                     loginView.showMessage(throwable.getMessage());
                 });
@@ -117,7 +117,7 @@ public class LoginPresenterImp implements LoginPresenter {
                 .subscribe(socialLoginResponse -> {
                     if (socialLoginResponse.state.equals(BaseNetworkApi.STATUS_OK)) {
                         PrefUtils.setLoginState(context, true);
-                        PrefUtils.setUserToken(context, socialLoginResponse.token.get(0));
+                        PrefUtils.setBrandToken(context, socialLoginResponse.token.get(0));
                         loginView.navigateToHome();
                     } else {
                         loginView.showMessage(context.getResources().getString(R.string.error_login));

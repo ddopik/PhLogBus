@@ -29,7 +29,7 @@ public class BrandInnerDataPresenterImpl implements BrandInnerPresenter {
     @Override
     public void getBrandInnerData(String brandId) {
         brandInnerActivityView.viewInnerBrandProgressBar(true);
-        BaseNetworkApi.getBrandInnerData(PrefUtils.getUserToken(context), brandId)
+        BaseNetworkApi.getBrandInnerData(PrefUtils.getBrandToken(context), brandId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(brandInnerResponse -> {

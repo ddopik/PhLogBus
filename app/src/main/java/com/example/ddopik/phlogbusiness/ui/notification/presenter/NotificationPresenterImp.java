@@ -27,7 +27,7 @@ public class NotificationPresenterImp implements NotificationPresenter {
     @Override
     public void getNotification(String page) {
         notificationFragmentView.viewNotificationProgress(true);
-        BaseNetworkApi.getNotification(PrefUtils.getUserToken(context), page)
+        BaseNetworkApi.getNotification(PrefUtils.getBrandToken(context), page)
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(notificationResponse -> {

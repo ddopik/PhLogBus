@@ -28,7 +28,7 @@ public class CampaignPresenterImpl implements CampaignPresenter {
     @Override
     public void getAllCampaign(int page) {
         campaignFragmentView.showAllCampaginProgress(true);
-        BaseNetworkApi.getAllCampaign(PrefUtils.getUserToken(context),page)
+        BaseNetworkApi.getAllCampaign(PrefUtils.getBrandToken(context),page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(campaignResponse -> {
