@@ -3,10 +3,11 @@ package com.example.ddopik.phlogbusiness.ui.notification.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtils;
+import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
 import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.notification.view.NotificationFragmentView;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
@@ -26,22 +27,18 @@ public class NotificationPresenterImp implements NotificationPresenter {
     @Override
     public void getNotification(String page) {
         notificationFragmentView.viewNotificationProgress(true);
-        BaseNetworkApi.getNotification(PrefUtils.getUserToken(context),page)
+        BaseNetworkApi.getNotification(PrefUtils.getBrandToken(context), page)
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(notificationResponse -> {
-                    if (notificationResponse.state.equals(BaseNetworkApi.STATUS_OK)) {
-                        notificationFragmentView.viewNotificationList(notificationResponse.data);
-                    } else {
-                        ErrorUtils.setError(context, TAG, notificationResponse.msg, notificationResponse.state);
-                    }
+                    notificationFragmentView.viewNotificationList(notificationResponse.data);
                     notificationFragmentView.viewNotificationProgress(false);
 
                 }, throwable -> {
-                    ErrorUtils.setError(context, TAG, throwable.toString());
+                    ErrorUtil.Companion.setError(context, TAG, throwable.toString());
                     notificationFragmentView.viewNotificationProgress(false);
                 });
     }
-    // ErrorUtils.setError(context, TAG, albumPreviewResponse.msg, albumPreviewResponse.state);
-// ErrorUtils.setError(context, TAG, throwable.toString());
+    // ErrorUtil.setError(context, TAG, albumPreviewResponse.msg, albumPreviewResponse.state);
+// ErrorUtil.setError(context, TAG, throwable.toString());
 }

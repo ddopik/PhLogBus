@@ -5,14 +5,14 @@
     android:id="@+id/campaign_header_img"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/default_campaign_header_view">
+    android:background="@drawable/default_place_holder">
 
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha=".4"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@drawable/graduant_layer" />
 
     <LinearLayout

@@ -1,6 +1,5 @@
 package com.example.ddopik.phlogbusiness.ui.album.view;
 
-import com.example.ddopik.phlogbusiness.base.model.ImageObj;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumImg;
 
 import java.util.List;

@@ -4,17 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.util.Patterns;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.Utiltes.Utilities;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.ui.login.view.LoginActivity;
-import com.example.ddopik.phlogbusiness.ui.signup.PickProfilePhotoActivity;
-import com.example.ddopik.phlogbusiness.ui.signup.model.Country;
 import com.example.ddopik.phlogbusiness.ui.signup.presenter.SignUpPresenter;
 import com.example.ddopik.phlogbusiness.ui.signup.presenter.SignUpPresenterImp;
 
@@ -25,13 +26,13 @@ import java.util.List;
 public class SignUpActivity extends BaseActivity implements SignUpView {
 
     private String TAG = SignUpActivity.class.getSimpleName();
-    private EditText full_name, mail, registerPassword, mobile;
-    private TextInputLayout nameInput, userNameInput, mailInput, registerPasswordInput, mobileInput, countryInput;
+    private EditText firstName, lastName, mail, registerPassword, mobile;
+    private TextInputLayout firstNameInput, lastNameInput, mailInput, registerPasswordInput, mobileInput, industryInput;
     private Button registerCancel, register_signUp;
     private AutoCompleteTextView autoCompleteTextView;
-    private ArrayAdapter<String> arrayAdapter;
-    private ArrayList<Country> countryListObj = new ArrayList<>();
-    private ArrayList<String> countryList = new ArrayList<>();
+    private ArrayAdapter<String> industryAdapter;
+    private ArrayList<Industry> industryListObj = new ArrayList<>();
+    private ArrayList<String> industryList = new ArrayList<>();
     private SignUpPresenter signUpPresenter;
 
     @Override
@@ -44,14 +45,14 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
         initPresenter();
         initView();
         initListener();
-        signUpPresenter.getAllCounters();
+        signUpPresenter.getAllIndustries();
     }
 
 
     @Override
     public void initView() {
-        full_name = findViewById(R.id.first_name);
-//        userName = findViewById(R.id.user_name);
+        firstName = findViewById(R.id.first_name);
+        lastName = findViewById(R.id.last_name);
         mail = findViewById(R.id.mail);
         registerPassword = findViewById(R.id.register_password);
 
@@ -60,54 +61,43 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
         register_signUp = findViewById(R.id.register_sign_up);
 
 
-        nameInput = findViewById(R.id.first_name_input);
-//        userNameInput = findViewById(R.id.user_name_input);
+        firstNameInput = findViewById(R.id.first_name_input);
+        lastNameInput = findViewById(R.id.last_name_input);
         mailInput = findViewById(R.id.mail_input);
         registerPasswordInput = findViewById(R.id.register_password_input);
 
         mobileInput = findViewById(R.id.mobile_input);
-        countryInput = findViewById(R.id.industry_input);
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, countryList);
+        industryInput = findViewById(R.id.industry_input);
+        industryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, industryList);
         autoCompleteTextView = findViewById(R.id.industry);
-        autoCompleteTextView.setAdapter(arrayAdapter);
+        autoCompleteTextView.setAdapter(industryAdapter);
 
 
     }
 
     @Override
     public void initPresenter() {
-        signUpPresenter = new SignUpPresenterImp(this);
+        signUpPresenter = new SignUpPresenterImp(getBaseContext(), this);
     }
 
     public void initListener() {
+
+
         register_signUp.setOnClickListener(view -> {
             if (isDataIsValid()) {
 
+
                 HashMap<String, String> signUpData = new HashMap<>();
-                signUpData.put("full_name", full_name.getText().toString());
+
+                signUpData.put("first_name", firstName.getText().toString());
+                signUpData.put("last_name", lastName.getText().toString());
                 signUpData.put("password", registerPassword.getText().toString());
+                signUpData.put("email", mail.getText().toString());
+                signUpData.put("phone", mobile.getText().toString());
 
-                if (!mail.getText().toString().isEmpty()) {
-                    signUpData.put("email", mail.getText().toString());
-                } else {
-                    signUpData.put("email", "");
+                signUpData.put("industry_id", String.valueOf(getCountryID()));
 
-                }
-                if (!mobile.getText().toString().isEmpty()) {
-                    signUpData.put("mobile", mobile.getText().toString());
-                } else {
-                    signUpData.put("mobile", "");
 
-                }
-
-                if (!String.valueOf(getCountryID()).isEmpty()) {
-                    signUpData.put("country_id", String.valueOf(getCountryID()));
-                }
-                {
-                    signUpData.put("country_id", "");
-                }
-
-//                signUpData.put("User_name", userName.getText().toString());
                 signUpData.put("mobile_os", "Android");
                 signUpData.put("mobile_model", Utilities.getDeviceName());
 
@@ -115,72 +105,68 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
 
             }
         });
+
+        autoCompleteTextView.setOnFocusChangeListener((v, hasFocus) -> {
+            autoCompleteTextView.showDropDown();
+        });
         registerCancel.setOnClickListener(view -> navigateToLogin());
     }
 
     private boolean isDataIsValid() {
         List<Boolean> failedStates = new ArrayList<Boolean>(5);
 
-        if (full_name.getText() == null || full_name.getText().toString().equals("")) {
-            nameInput.setError(getResources().getText(R.string.invailde_name));
+        if (firstName.getText() == null || firstName.getText().toString().equals("")) {
+            firstNameInput.setError(getResources().getText(R.string.invailde_name));
             failedStates.add(0, false);
         } else {
-            nameInput.setErrorEnabled(false);
+            firstNameInput.setErrorEnabled(false);
             failedStates.add(0, true);
         }
-//        if (userName.getText().toString().isEmpty()) {
-//            userNameInput.setError(getString(R.string.invalid_user_name));
-//            failedStates.add(1, false);
-//        } else {
-//            userNameInput.setErrorEnabled(false);
-//            failedStates.add(1, true);
-//        }
-//        if (mail.getText().toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(mail.getText().toString()).matches()) {
-//            mailInput.setError(getString(R.string.invalid_mail));
-//            failedStates.add(2, false);
-//        } else {
-//            mailInput.setErrorEnabled(false);
-//            failedStates.add(2, true);
-//        }
-        if (registerPassword.getText().toString().isEmpty()) {
-            registerPasswordInput.setError(getString(R.string.invalid_password));
-            failedStates.add(1, false);
-        } else if (registerPassword.getText().length() < 6) {
-            registerPasswordInput.setError(getString(R.string.password_limit));
+        if (lastName.getText().toString().isEmpty()) {
+            lastNameInput.setError(getString(R.string.invalid_last_name));
             failedStates.add(1, false);
         } else {
-            registerPasswordInput.setErrorEnabled(false);
+            lastNameInput.setErrorEnabled(false);
             failedStates.add(1, true);
         }
-
-//        if (mobile.getText().toString().equals("") || !android.util.Patterns.PHONE.matcher(mobile.getText()).matches()) {
-//            mobileInput.setError(getString(R.string.invalid_phone_number));
-//            failedStates.add(5, false);
-//        } else {
-//            mobileInput.setErrorEnabled(false);
-//            failedStates.add(5, true);
-//        }
-
-
-        if (autoCompleteTextView.getText().toString().isEmpty()) {
-//            countryInput.setError(getString(R.string.please_select_country));
-//            countryInput.setError(getString(R.string.please_select_country));
-//            failedStates.add(6, false);
+        if (mail.getText().toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(mail.getText().toString()).matches()) {
+            mailInput.setError(getString(R.string.invalid_mail));
+            failedStates.add(2, false);
         } else {
+            mailInput.setErrorEnabled(false);
+            failedStates.add(2, true);
+        }
+        if (registerPassword.getText().toString().isEmpty()) {
+            registerPasswordInput.setError(getString(R.string.invalid_password));
+            failedStates.add(3, false);
+        } else if (registerPassword.getText().length() < 6) {
+            registerPasswordInput.setError(getString(R.string.password_limit));
+            failedStates.add(3, false);
+        } else {
+            registerPasswordInput.setErrorEnabled(false);
+            failedStates.add(3, true);
+        }
+
+        if (mobile.getText().toString().equals("") || !android.util.Patterns.PHONE.matcher(mobile.getText()).matches()) {
+            mobileInput.setError(getString(R.string.invalid_phone_number));
+            failedStates.add(4, false);
+        } else {
+            mobileInput.setErrorEnabled(false);
+            failedStates.add(4, true);
+        }
 
 
-            if (getCountryID() == 0) {
-                countryInput.setError(getString(R.string.select_country_not_exist));
-                failedStates.add(3, false);
-            } else {
-                countryInput.setErrorEnabled(false);
-                failedStates.add(3, true);
-            }
+        if (getCountryID() == 0) {
+            industryInput.setError(getString(R.string.select_industry_not_exist));
+            failedStates.add(5, false);
+        } else {
+            industryInput.setErrorEnabled(false);
+            failedStates.add(5, true);
 
 
         }
 
-
+        /// if one case exists with false state stop view error
         for (int i = 0; i < failedStates.size(); i++) {
             if (!failedStates.get(i)) {
                 return false;
@@ -190,36 +176,40 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
         return true;
     }
 
+    @Override
+    public void showIndustries(List<Industry> industries) {
+        this.industryList.clear();
+        this.industryListObj.clear();
+        this.industryListObj.addAll(industries);
+        for (int i = 0; i < industries.size(); i++) {
+            this.industryList.add(industries.get(i).nameEn);
+        }
+        industryAdapter.notifyDataSetChanged();
+    }
 
     @Override
-    public void showCounters(List<Country> countries) {
-        this.countryList.clear();
-        this.countryListObj.clear();
-        this.countryListObj.addAll(countries);
-        for (int i = 0; i < countries.size(); i++) {
-            countryList.add(countries.get(i).nameEn);
-        }
-        arrayAdapter.notifyDataSetChanged();
+    public void signUpSuccess() {
+        ConfirmEmailDialog confirmEmailDialog = new ConfirmEmailDialog(this);
+        confirmEmailDialog.show();
+
     }
+
     private void navigateToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 
     private int getCountryID() {
-        for (int i = 0; i < countryListObj.size(); i++) {
-            if (countryListObj.get(i).nameEn.equals(autoCompleteTextView.getText().toString())) {
-                return countryListObj.get(i).id;
+        //select industry id by value inserted  from callBack Array
+        for (int i = 0; i < industryListObj.size(); i++) {
+            if (industryListObj.get(i).nameEn.equals(autoCompleteTextView.getText().toString())) {
+                return industryListObj.get(i).id;
             }
         }
         return 0;
     }
 
-    @Override
-    public void pickProfilePhoto() {
-        Intent intent = new Intent(this, PickProfilePhotoActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public void showMessage(String msg) {

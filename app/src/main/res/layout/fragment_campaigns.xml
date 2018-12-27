@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:paddingBottom="@dimen/main_fragment_bottom_space"
-    android:background="@color/black">
-
-    <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
-        android:id="@+id/all_campaigns_rv"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include
+        android:id="@+id/campaign_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:orientation="vertical" />
+        layout="@layout/app_bar_campaign"/>
 
-
-    <ProgressBar
-        android:id="@+id/all_home_campaign_progress_bar"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/campaigns_tab"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+        android:layout_below="@+id/campaign_app_bar"
+        app:tabGravity="fill"
+        android:background="@color/white"
+        app:tabTextColor="@color/black" />
 
-</FrameLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/campaigns_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/campaigns_tab"/>
+
+</RelativeLayout>

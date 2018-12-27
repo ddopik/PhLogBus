@@ -75,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_time_white"
                     android:drawablePadding="@dimen/campaign_drawable_padding"
+                    android:layout_marginStart="@dimen/widgets_padding"
                     android:textColor="@color/white"
                     tools:text="5 day left" />
 
@@ -83,17 +84,20 @@
                     android:layout_height="0dp"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
-                    android:gravity="bottom|center"
+                    android:gravity="bottom|start"
                     android:orientation="horizontal">
 
+          <TextView
+              android:id="@+id/campaign_joined"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/widgets_padding"
+              android:textColor="@color/white"
+              android:drawableStart="@drawable/ic_followe_count"
+              android:drawablePadding="@dimen/widgets_padding"
+              tools:text="10 people joined"
+              android:gravity="center"/>
 
-                    <Button
-                        android:id="@+id/join_campaign_btn"
-                        android:layout_width="@dimen/campaign_home_button_width"
-                        android:layout_height="@dimen/campaign_button_size"
-                        android:background="@drawable/rounded_campaign_button"
-                        android:text="@string/join"
-                        android:textColor="@color/white" />
                 </LinearLayout>
 
             </LinearLayout>

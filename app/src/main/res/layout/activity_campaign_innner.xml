@@ -23,7 +23,15 @@
                 android:layout_height="@dimen/inner_header_preview_height"
                 app:layout_collapseMode="parallax"
                 app:layout_scrollFlags="scroll|enterAlways">
-                <include layout="@layout/campaign_header_view" />
+
+
+
+
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    layout="@layout/campaign_header_view" />
             </RelativeLayout>
 
 

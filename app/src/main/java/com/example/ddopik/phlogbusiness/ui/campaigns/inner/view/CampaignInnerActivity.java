@@ -116,9 +116,8 @@ public class CampaignInnerActivity extends BaseActivity implements CampaignInner
 
     private List<Fragment> getFragmentPagerFragment() {
         List<Fragment> fragmentList = new ArrayList<Fragment>();
-        CampaignInnerMissionFragment campaignInnerMissionFragment = CampaignInnerMissionFragment.getInstance();
-        onMissionCampaignDataRecived = campaignInnerMissionFragment; // pass mission description to campaignInnerMissionFragment
-        fragmentList.add(campaignInnerMissionFragment);
+        CampaignInnerSettingFragment campaignInnerSettingFragment = CampaignInnerSettingFragment.getInstance();
+         fragmentList.add(campaignInnerSettingFragment);
         fragmentList.add(CampaignInnerPhotosFragment.getInstance("1"));
         return fragmentList;
     }

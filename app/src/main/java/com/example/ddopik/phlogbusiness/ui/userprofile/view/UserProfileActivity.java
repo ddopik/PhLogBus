@@ -10,7 +10,7 @@ import android.widget.*;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
-import com.example.ddopik.phlogbusiness.base.model.ImageObj;
+import com.example.ddopik.phlogbusiness.base.commonmodel.ImageObj;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.userprofile.presenter.UserProfilePresenter;

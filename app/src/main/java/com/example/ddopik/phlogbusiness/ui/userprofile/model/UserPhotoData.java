@@ -1,6 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.userprofile.model;
 
-import com.example.ddopik.phlogbusiness.base.model.ImageObj;
+import com.example.ddopik.phlogbusiness.base.commonmodel.ImageObj;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

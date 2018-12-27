@@ -29,7 +29,7 @@ public class CampaignInnerPhotosFragmentPresenterImpl implements CampaignInnerPh
     @Override
     public void getCampaignInnerPhotos(String campaignID,int page) {
         campaignInnerPhotosFragmentView.viewCampaignInnerPhotosProgress(true);
-        BaseNetworkApi.getCampaignInnerPhotos(PrefUtils.getUserToken(context),campaignID,page)
+        BaseNetworkApi.getCampaignInnerPhotos(PrefUtils.getBrandToken(context),campaignID,page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(campaignInnerPhotosResponse -> {

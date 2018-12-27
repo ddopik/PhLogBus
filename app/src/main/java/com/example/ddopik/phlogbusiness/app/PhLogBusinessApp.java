@@ -1,20 +1,24 @@
-package com.example.ddopik.phlogbusiness.app;
 
+package com.example.ddopik.phlogbusiness.app;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import com.androidnetworking.AndroidNetworking;
 
+
+import com.androidnetworking.AndroidNetworking;
 import com.example.ddopik.phlogbusiness.network.BasicAuthInterceptor;
 import com.example.ddopik.phlogbusiness.realm.RealmConfigFile;
 import com.example.ddopik.phlogbusiness.realm.RealmDbMigration;
+
 import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import okhttp3.OkHttpClient;
 
 import java.io.File;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
+import okhttp3.OkHttpClient;
 
 
 /**
@@ -139,23 +143,26 @@ public class PhLogBusinessApp extends Application {
 //    }
 
 
-    private void initFastAndroidNetworking() {
+    public static void initFastAndroidNetworking(String userToken,String userType,String lang,Context context) {
 
 /**
  * initializing block to add authentication to your Header Request
  * **/
-        BasicAuthInterceptor basicAuthInterceptor = new BasicAuthInterceptor(getApplicationContext());
-        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
-                .addNetworkInterceptor(basicAuthInterceptor)
-                .build();
-        AndroidNetworking.initialize(this, okHttpClient);
-///////////////////////
-        /**
-         * default initialization
-         * */
-//        AndroidNetworking.initialize(this);
-//
+        if (userToken != null) {
+            BasicAuthInterceptor basicAuthInterceptor = new BasicAuthInterceptor(context);
+            basicAuthInterceptor.setUserToken(userToken);
+            basicAuthInterceptor.setUserType(userType);
+            basicAuthInterceptor.setLang(lang);
+            OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                    .addNetworkInterceptor(basicAuthInterceptor)
+                    .build();
+            AndroidNetworking.initialize(context, okHttpClient);
+        } else {
+            /**
+             * default initialization
+             * */
+            AndroidNetworking.initialize(context);
+        }
     }
-
 
 }

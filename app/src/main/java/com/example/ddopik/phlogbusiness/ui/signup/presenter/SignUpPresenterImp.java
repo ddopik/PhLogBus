@@ -1,9 +1,12 @@
 package com.example.ddopik.phlogbusiness.ui.signup.presenter;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
+import android.content.Context;
+
+import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.signup.view.SignUpView;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -13,15 +16,13 @@ public class SignUpPresenterImp implements SignUpPresenter {
 
     private SignUpView signUpView;
     private String TAG = SignUpPresenterImp.class.getSimpleName();
+    private Context context;
 
-    public SignUpPresenterImp(SignUpView signUpView) {
+    public SignUpPresenterImp(Context context, SignUpView signUpView) {
         this.signUpView = signUpView;
+        this.context=context;
     }
 
-    @Override
-    public void getAllCounters() {
-        requestAllCounters();
-    }
 
     @SuppressLint("CheckResult")
     @Override
@@ -30,27 +31,21 @@ public class SignUpPresenterImp implements SignUpPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(signUpResponse -> {
-                    Log.e(TAG,"signUpUser() --->"+signUpResponse.toString());
-                    if (signUpResponse.state.equals(BaseNetworkApi.STATUS_OK)) {
-                        signUpView.showMessage(signUpResponse.token);
-                        signUpView.showMessage("What should we do now");
-                    } else if (signUpResponse.state.equals(BaseNetworkApi.STATUS_IN_VALID_RESPONSE)){
-                        signUpView.showMessage(signUpResponse.message);
-                    }
+                    signUpView.signUpSuccess();
                 }, throwable -> {
-                    signUpView.showMessage(throwable.getMessage());
+                    ErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 
     @SuppressLint("CheckResult")
-    private void requestAllCounters() {
-        BaseNetworkApi.getAllCounters()
+    public void getAllIndustries() {
+        BaseNetworkApi.getAllIndustries()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(allCountersRepose -> {
-                    signUpView.showCounters(allCountersRepose.countries);
+                .subscribe(allIndustriesResponse -> {
+                    signUpView.showIndustries(allIndustriesResponse.industryList);
                 }, throwable -> {
-                    Log.e(TAG, "requestAllCounters() ---->Errot --->" + throwable.getMessage());
+                    ErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 

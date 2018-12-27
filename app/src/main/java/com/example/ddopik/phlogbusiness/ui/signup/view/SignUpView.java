@@ -1,12 +1,13 @@
 package com.example.ddopik.phlogbusiness.ui.signup.view;
 
  
-import com.example.ddopik.phlogbusiness.ui.signup.model.Country;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 
 import java.util.List;
 
 public interface SignUpView {
-    void showCounters(List<Country> countries);
+    void showIndustries(List<Industry> industries);
     void showMessage(String msg);
-    void pickProfilePhoto();
+    void signUpSuccess();
+
 }

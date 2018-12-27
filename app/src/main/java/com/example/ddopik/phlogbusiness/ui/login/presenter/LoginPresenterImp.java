@@ -3,13 +3,17 @@ package com.example.ddopik.phlogbusiness.ui.login.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
+
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
 import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.Utiltes.Utilities;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
+import com.example.ddopik.phlogbusiness.ui.login.model.LoginData;
 import com.example.ddopik.phlogbusiness.ui.login.view.LoginView;
 import com.jaychang.sa.AuthCallback;
 import com.jaychang.sa.SocialUser;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -22,9 +26,9 @@ public class LoginPresenterImp implements LoginPresenter {
     private LoginView loginView;
     private Context context;
 
-    public LoginPresenterImp(Context context,LoginView loginView) {
+    public LoginPresenterImp(Context context, LoginView loginView) {
         this.loginView = loginView;
-        this.context=context;
+        this.context = context;
     }
 
     private static final String TAG = LoginPresenterImp.class.getSimpleName();
@@ -32,13 +36,22 @@ public class LoginPresenterImp implements LoginPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void signInNormal(HashMap<String, String> loginData) {
+        loginView.showLoginProgress(true);
         BaseNetworkApi.LoginUserNormal(loginData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(loginResponse -> {
-                    loginView.showMessage(loginResponse.loginData.fullName);
+                    loginView.showLoginProgress(false);
+
+                    if(PrefUtils.isFirstLaunch(context)){
+                        loginView.navigateToPickProfilePhoto();
+                    }else {
+                        loginView.navigateToHome();
+                    }
+                    saveBrand(loginResponse.getData());
+
                 }, throwable -> {
-                    loginView.showMessage(throwable.getMessage());
+                    ErrorUtil.Companion.setError(context, TAG, throwable);;
                 });
     }
 
@@ -83,7 +96,7 @@ public class LoginPresenterImp implements LoginPresenter {
                 parameter.put("userId", socialUser.userId);
 
                 parameter.put("accessToken", socialUser.accessToken);
-                 parameter.put("username", socialUser.username);
+                parameter.put("username", socialUser.username);
                 parameter.put("pageLink", socialUser.pageLink);
 
                 parameter.put("fullName", socialUser.fullName);
@@ -98,7 +111,7 @@ public class LoginPresenterImp implements LoginPresenter {
 
             @Override
             public void onError(Throwable error) {
-                Log.e(TAG, "signInWithFaceBook() --->" + error.getMessage());
+                ErrorUtil.Companion.setError(context, TAG, error);
             }
 
             @Override
@@ -117,14 +130,31 @@ public class LoginPresenterImp implements LoginPresenter {
                 .subscribe(socialLoginResponse -> {
                     if (socialLoginResponse.state.equals(BaseNetworkApi.STATUS_OK)) {
                         PrefUtils.setLoginState(context, true);
-                        PrefUtils.setUserToken(context, socialLoginResponse.token.get(0));
+                        PrefUtils.setBrandToken(context, socialLoginResponse.token.get(0));
                         loginView.navigateToHome();
                     } else {
                         loginView.showMessage(context.getResources().getString(R.string.error_login));
 //                        Log.e(TAG, "processFaceBookUser() Error--->" + socialLoginResponse.state +"  "+ socialLoginResponse.msg) ;
                     }
                 }, throwable -> {
-                    Log.e(TAG, "processFaceBookUser() Error--->" + throwable.getMessage());
+                    ErrorUtil.Companion.setError(context, TAG, throwable);
                 });
+    }
+
+
+    private void saveBrand(LoginData loginData) {
+        PrefUtils.setLoginState(context, true);
+        PrefUtils.setIsFirstLaunch(context, false);
+        PrefUtils.setBrandID(context, loginData.id);
+        PrefUtils.setBrandToken(context, loginData.token);
+        PrefUtils.setBrandHash(context, loginData.hash);
+        PrefUtils.setIsBrand(context, loginData.isBrand);
+        PrefUtils.setIsPhoneVerified(context, loginData.isPhoneVerified);
+        PrefUtils.setBrandStatus(context, loginData.brandStatus);
+        PrefUtils.setBrandSetUp(context, loginData.isSetupBrand);
+        PrefUtils.setIsMailVerified(context, loginData.isEmailVerified);
+        PrefUtils.setBrandText(context, loginData.isBrandText);
+
+
     }
 }

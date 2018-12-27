@@ -2,7 +2,8 @@ package com.example.ddopik.phlogbusiness.ui.album.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtils;
+
+import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
 import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.album.view.AlbumPreviewActivityView;
@@ -29,18 +30,15 @@ public class AlbumPreviewActivityPresenterImpl implements AlbumPreviewActivityPr
     @Override
     public void getSelectedSearchAlbum(String albumID,String pageNum) {
         albumPreviewActivityView.viewAlbumPreviewProgress(true);
-        BaseNetworkApi.getSearchSelectedAlbum(PrefUtils.getUserToken(context),albumID, pageNum)
+        BaseNetworkApi.getSearchSelectedAlbum(PrefUtils.getBrandToken(context),albumID, pageNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(albumPreviewResponse -> {
-                    if (albumPreviewResponse.state.equals(BaseNetworkApi.STATUS_OK)) {
-                        albumPreviewActivityView.viewAlumPreview(albumPreviewResponse.data);
-                    } else {
-                        ErrorUtils.setError(context, TAG, albumPreviewResponse.msg, albumPreviewResponse.state);
-                    }
+                         albumPreviewActivityView.viewAlumPreview(albumPreviewResponse.data);
+
                     albumPreviewActivityView.viewAlbumPreviewProgress(false);
                 }, throwable -> {
-                    ErrorUtils.setError(context, TAG, throwable.toString());
+                    ErrorUtil.Companion.setError(context, TAG, throwable.toString());
                     albumPreviewActivityView.viewAlbumPreviewProgress(false);
                 });
 
