@@ -119,7 +119,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onResume();
     }
 
-    public class NavigationManger {
+    public class  NavigationManger {
         private Constants.NavigationHelper currentTab;
 
         private void clearSelected() {
@@ -207,16 +207,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     toolbar.setVisibility(View.GONE);
                     toolBarTitle.setText(getResources().getString(R.string.profile));
                     currentTab = PROFILE;
-                    break;
-                }
-                case EARNING_LIST: {
-//                    addFragment(R.id.view_container, new EarningListFragment(), EarningListFragment.class.getSimpleName(), true);
-//                    myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
-//                    myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
-//                    myProfileBtn.setCompoundDrawablePadding(8);
-//                    toolbar.setVisibility(View.GONE);
-//                    toolBarTitle.setText(getResources().getString(R.string.profile));
-//                    currentTab = EARNING_LIST;
                     break;
                 }
 

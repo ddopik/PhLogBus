@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
-        android:paddingTop="42dp">
+    >
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,9 +23,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingStart="@dimen/sign_up_container_padding"
-                android:paddingTop="@dimen/sign_up_container_padding"
-                android:paddingEnd="@dimen/sign_up_container_padding">
+                android:paddingStart="@dimen/form_container_padding"
+                android:paddingTop="@dimen/form_container_padding"
+                android:paddingEnd="@dimen/form_container_padding">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
                 android:orientation="vertical"
-                android:padding="@dimen/sign_up_container_padding">
+                android:padding="@dimen/form_container_padding">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -243,7 +243,7 @@
                     <Button
                         android:id="@+id/register_cancel"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/sign_up_btn_size"
+                        android:layout_height="@dimen/sign_up_btn_size_h"
                         android:layout_margin="@dimen/dp8"
                         android:layout_weight="1"
                         android:background="@drawable/rounded_cancel_btn"
@@ -254,7 +254,7 @@
                     <Button
                         android:id="@+id/register_sign_up"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/sign_up_btn_size"
+                        android:layout_height="@dimen/sign_up_btn_size_h"
                         android:layout_margin="@dimen/dp8"
                         android:layout_weight="1"
                         android:background="@drawable/rounded_sign_up_btn"

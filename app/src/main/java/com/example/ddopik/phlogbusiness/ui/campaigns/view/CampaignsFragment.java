@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageButton;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.completed.view.CompleteCampaignsFragment;
 import com.example.ddopik.phlogbusiness.ui.campaigns.draft.view.DraftCampaignsFragment;
 import com.example.ddopik.phlogbusiness.ui.campaigns.running.view.RunningCampaignsFragment;
@@ -28,6 +31,7 @@ public class CampaignsFragment extends BaseFragment {
     private TabLayout campaignsTabLayout;
     private ViewPager campaignsViewPager;
     private CampaignsPagerAdapter campaignsPagerAdapter;
+    private ImageButton addCampaignBtn;
 
 
     public static CampaignsFragment getInstance() {
@@ -47,6 +51,7 @@ public class CampaignsFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews();
+        initListeners();
     }
 
 
@@ -55,6 +60,7 @@ public class CampaignsFragment extends BaseFragment {
     protected void initViews() {
         campaignsTabLayout = mainView.findViewById(R.id.campaigns_tab);
         campaignsViewPager = mainView.findViewById(R.id.campaigns_view_pager);
+        addCampaignBtn=mainView.findViewById(R.id.add_campaign_btn);
         campaignsPagerAdapter = new CampaignsPagerAdapter(getChildFragmentManager(), getCampaignsFragment(), getFragmentTitles());
         campaignsViewPager.setAdapter(campaignsPagerAdapter);
         campaignsTabLayout.setupWithViewPager(campaignsViewPager);
@@ -63,6 +69,14 @@ public class CampaignsFragment extends BaseFragment {
     @Override
     protected void initPresenter() {
 
+    }
+
+    private void initListeners(){
+        addCampaignBtn.setOnClickListener(v -> {
+            Intent intent =new Intent(getContext(),AddCampaignActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
     }
 
 

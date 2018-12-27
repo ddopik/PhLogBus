@@ -44,7 +44,7 @@
     <dimen name="activity_padding">16dp</dimen>
     <dimen name="inner_header_preview_height">320dp</dimen>
     <dimen name="header_img_size">85dp</dimen>
-
+    <dimen name="form_container_padding">36dp</dimen>
 
     <!--//ViewHolders-->
     <dimen name="view_holder_item_list_height">150dp</dimen>
@@ -58,8 +58,9 @@
 
 
     <!--///SignUpActivity-->
-    <dimen name="sign_up_btn_size">36dp</dimen>
-    <dimen name="sign_up_container_padding">36dp</dimen>
+    <dimen name="sign_up_btn_size_w">300dp</dimen>
+    <dimen name="sign_up_btn_size_h">45dp</dimen>
+
 
 
     <!--LoginActivity-->
@@ -94,6 +95,10 @@
     <dimen name="item_offset">2</dimen>
     <dimen name="campaign_setting_padding">25dp</dimen>
     <dimen name="campaign_inner_setting_icon_size">45dp</dimen>
+
+
+    <!--//AddCampaignInner-->
+    <dimen name="add_campaign_upload_cover_img_size">250dp</dimen>
 
     <!--////AllCampaignActivity-->
     <dimen name="campaign_item_height">200dp</dimen>
