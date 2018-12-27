@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
 import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.Utiltes.Utilities;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
@@ -41,11 +42,16 @@ public class LoginPresenterImp implements LoginPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(loginResponse -> {
                     loginView.showLoginProgress(false);
+
+                    if(PrefUtils.isFirstLaunch(context)){
+                        loginView.navigateToPickProfilePhoto();
+                    }else {
+                        loginView.navigateToHome();
+                    }
                     saveBrand(loginResponse.getData());
-                    loginView.navigateToHome();
+
                 }, throwable -> {
-                    loginView.showMessage(throwable.getMessage());
-                    loginView.showLoginProgress(false);
+                    ErrorUtil.Companion.setError(context, TAG, throwable);;
                 });
     }
 
@@ -105,7 +111,7 @@ public class LoginPresenterImp implements LoginPresenter {
 
             @Override
             public void onError(Throwable error) {
-                Log.e(TAG, "signInWithFaceBook() --->" + error.getMessage());
+                ErrorUtil.Companion.setError(context, TAG, error);
             }
 
             @Override
@@ -131,7 +137,7 @@ public class LoginPresenterImp implements LoginPresenter {
 //                        Log.e(TAG, "processFaceBookUser() Error--->" + socialLoginResponse.state +"  "+ socialLoginResponse.msg) ;
                     }
                 }, throwable -> {
-                    Log.e(TAG, "processFaceBookUser() Error--->" + throwable.getMessage());
+                    ErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 

@@ -1,115 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        android:background="@color/white">
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:src="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <include layout="@layout/phlog_app_bar" />
+
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/sign_up_container_padding"
+        android:paddingTop="@dimen/dp24"
+        android:paddingEnd="@dimen/sign_up_container_padding">
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/sign_up_container_padding"
-                android:paddingStart="@dimen/sign_up_container_padding"
-                android:paddingEnd="@dimen/sign_up_container_padding"
-                android:layout_marginBottom="@dimen/dp65">
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/sign_up_text_size"
-                        android:fontFamily="@font/arial_rounded_font"
-                        android:textColor="@color/text_input_color"
-                        android:textStyle="bold"
-                        android:text="@string/sign_up"/>
-                <ProgressBar
-                        android:id="@+id/signup_progress"
-                        android:layout_width="match_parent"
-                        android:layout_height="12dp"
-                        android:layout_marginStart="@dimen/dp45"
-                        android:layout_gravity="center"
-                        android:max="100"
-                        android:progress="75"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:progressDrawable="@drawable/progress_horizontal_custom"
-                />
-
-            </LinearLayout>
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/dp8"
-                    android:fontFamily="@font/arial_rounded_font"
-                    android:gravity="bottom|start"
-                    android:textColor="@color/gray400"
-                    android:text="@string/upload_your_profile_image"
-                    android:textSize="@dimen/sign_up_text_size_meduim"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arial_rounded_font"
+                android:text="@string/sign_up"
+                android:textColor="@color/text_input_color"
+                android:textSize="@dimen/sign_up_text_size"
+                android:textStyle="bold" />
 
+            <ProgressBar
+                android:id="@+id/signup_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dp45"
+                android:max="100"
+                android:progress="95"
+                android:progressDrawable="@drawable/progress_horizontal_custom" />
 
         </LinearLayout>
 
-        <FrameLayout
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:background="@drawable/select_image_background">
-            <LinearLayout android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:orientation="vertical"
-                          android:layout_gravity="center">
-                <ImageView
-                        android:id="@+id/pick_image"
-                        android:layout_width="@dimen/dp80"
-                        android:layout_height="@dimen/dp65"
-                        app:srcCompat="@drawable/ic_upload"
-                        android:layout_gravity="center"
-                />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp24"
+            android:text="@string/upload_your_profile_image"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/sign_up_text_size_small"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="@string/select_img"
-                          android:textSize="@dimen/text_medium"
-                          android:fontFamily="@font/arial_rounded_font"
-                          android:textColor="@color/white"/>
-
-            </LinearLayout>
-
-        </FrameLayout>
-
+    <FrameLayout
+        android:id="@+id/pick_image"
+        android:layout_width="@dimen/dp150"
+        android:layout_height="@dimen/dp150"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp45"
+        android:background="@drawable/select_image_background"
+        >
 
         <LinearLayout
+            android:id="@+id/pick_image_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/dp80"
+                android:layout_height="@dimen/dp65"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_upload" />
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="@dimen/dp65"
-                android:gravity="top|center"
-                android:orientation="vertical">
-
-            <Button
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp12"
-                    android:text="@string/upload"
-                    android:background="@color/text_input_color"
-                    android:textColor="@color/white"/>
-
-            <Button
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/skip"
-                    android:textColor="@color/white"/>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/select_img"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_small" />
 
         </LinearLayout>
+
+
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp45"
+        android:layout_weight="1"
+        android:gravity="top|center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/upload_img_profile_btn"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp12"
+            android:background="@color/text_input_color"
+            android:text="@string/upload"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/skip_img_upload_btn"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:text="@string/skip"
+            android:textColor="@color/text_input_color" />
+
     </LinearLayout>
+
+    <!--<android.support.v7.widget.RecyclerView-->
+    <!--android:id="@+id/filters_list_rv"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:clipChildren="false"-->
+    <!--android:padding="4dp"-->
+    <!--android:scrollbars="none" />-->
+
+</LinearLayout>
+    <ProgressBar
+        android:id="@+id/upload_profile_img_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 </FrameLayout>

@@ -16,7 +16,6 @@ import com.example.ddopik.phlogbusiness.Utiltes.Utilities;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.ui.login.view.LoginActivity;
-import com.example.ddopik.phlogbusiness.ui.signup.PickProfilePhotoActivity;
 import com.example.ddopik.phlogbusiness.ui.signup.presenter.SignUpPresenter;
 import com.example.ddopik.phlogbusiness.ui.signup.presenter.SignUpPresenterImp;
 
@@ -31,7 +30,7 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
     private TextInputLayout firstNameInput, lastNameInput, mailInput, registerPasswordInput, mobileInput, industryInput;
     private Button registerCancel, register_signUp;
     private AutoCompleteTextView autoCompleteTextView;
-    private ArrayAdapter<String> arrayAdapter;
+    private ArrayAdapter<String> industryAdapter;
     private ArrayList<Industry> industryListObj = new ArrayList<>();
     private ArrayList<String> industryList = new ArrayList<>();
     private SignUpPresenter signUpPresenter;
@@ -69,9 +68,9 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
 
         mobileInput = findViewById(R.id.mobile_input);
         industryInput = findViewById(R.id.industry_input);
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, industryList);
+        industryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, industryList);
         autoCompleteTextView = findViewById(R.id.industry);
-        autoCompleteTextView.setAdapter(arrayAdapter);
+        autoCompleteTextView.setAdapter(industryAdapter);
 
 
     }
@@ -87,29 +86,29 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
         register_signUp.setOnClickListener(view -> {
             if (isDataIsValid()) {
 
-                signUpSuccess();
-//                HashMap<String, String> signUpData = new HashMap<>();
-//
-//                signUpData.put("first_name", firstName.getText().toString());
-//                signUpData.put("last_name", lastName.getText().toString());
-//                signUpData.put("password", registerPassword.getText().toString());
-//                signUpData.put("email", mail.getText().toString());
-//                signUpData.put("mobile", mobile.getText().toString());
-//
-//                if (!String.valueOf(getCountryID()).isEmpty()) {
-//                    signUpData.put("industry_id", String.valueOf(getCountryID()));
-//                } else {
-//                    signUpData.put("industry_id", "");
-//                }
-//                signUpData.put("mobile_os", "Android");
-//                signUpData.put("mobile_model", Utilities.getDeviceName());
-//
-//                signUpPresenter.signUpUser(signUpData);
+
+                HashMap<String, String> signUpData = new HashMap<>();
+
+                signUpData.put("first_name", firstName.getText().toString());
+                signUpData.put("last_name", lastName.getText().toString());
+                signUpData.put("password", registerPassword.getText().toString());
+                signUpData.put("email", mail.getText().toString());
+                signUpData.put("phone", mobile.getText().toString());
+
+                signUpData.put("industry_id", String.valueOf(getCountryID()));
+
+
+                signUpData.put("mobile_os", "Android");
+                signUpData.put("mobile_model", Utilities.getDeviceName());
+
+                signUpPresenter.signUpUser(signUpData);
 
             }
         });
 
-
+        autoCompleteTextView.setOnFocusChangeListener((v, hasFocus) -> {
+            autoCompleteTextView.showDropDown();
+        });
         registerCancel.setOnClickListener(view -> navigateToLogin());
     }
 
@@ -156,17 +155,17 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
             failedStates.add(4, true);
         }
 
-/////////////// todo active this block after industry Api get ready
-//        if (getCountryID() == 0) {
-//            industryInput.setError(getString(R.string.select_industry_not_exist));
-//            failedStates.add(5, false);
-//        } else {
-//            industryInput.setErrorEnabled(false);
-//            failedStates.add(5, true);
-//
-//
-//        }
-/////////////
+
+        if (getCountryID() == 0) {
+            industryInput.setError(getString(R.string.select_industry_not_exist));
+            failedStates.add(5, false);
+        } else {
+            industryInput.setErrorEnabled(false);
+            failedStates.add(5, true);
+
+
+        }
+
         /// if one case exists with false state stop view error
         for (int i = 0; i < failedStates.size(); i++) {
             if (!failedStates.get(i)) {
@@ -182,10 +181,10 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
         this.industryList.clear();
         this.industryListObj.clear();
         this.industryListObj.addAll(industries);
-        for (int i = 0; i < industryList.size(); i++) {
+        for (int i = 0; i < industries.size(); i++) {
             this.industryList.add(industries.get(i).nameEn);
         }
-        arrayAdapter.notifyDataSetChanged();
+        industryAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -211,11 +210,6 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
         return 0;
     }
 
-    @Override
-    public void pickProfilePhoto() {
-        Intent intent = new Intent(this, PickProfilePhotoActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public void showMessage(String msg) {

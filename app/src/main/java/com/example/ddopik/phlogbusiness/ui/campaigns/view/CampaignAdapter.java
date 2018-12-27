@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.campaigns;
+package com.example.ddopik.phlogbusiness.ui.campaigns.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -10,55 +10,53 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
-import com.example.ddopik.phlogbusiness.ui.campaigns.model.HomeCampaign;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 
 import java.util.List;
 
 /**
- * Created by abdalla_maged on 10/1/2018.
+ * Created by abdalla_maged on 12/25/2018.
  */
-public class AllCampaignsAdapter extends RecyclerView.Adapter<AllCampaignsAdapter.CampaignViewHolder> {
+public class CampaignAdapter  extends RecyclerView.Adapter<CampaignAdapter.CampaignViewHolder> {
 
-    private List<HomeCampaign> homeCampaignList;
+    private List<Campaign> campaignList;
     private Context context;
-    public CampaignLister campaignLister;
+    public CampaignAdapter.CampaignLister campaignLister;
 
-    public AllCampaignsAdapter(Context context, List<HomeCampaign> homeCampaignList) {
+    public CampaignAdapter(Context context, List<Campaign> campaignList) {
         this.context = context;
-        this.homeCampaignList = homeCampaignList;
+        this.campaignList = campaignList;
 
     }
 
 
     @NonNull
     @Override
-    public CampaignViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public CampaignAdapter.CampaignViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        return new CampaignViewHolder(layoutInflater.inflate(R.layout.view_holder_home_campaigns, viewGroup, false));
+        return new CampaignAdapter.CampaignViewHolder(layoutInflater.inflate(R.layout.view_holder_home_campaigns, viewGroup, false));
 
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CampaignViewHolder campaignViewHolder, int i) {
+    public void onBindViewHolder(@NonNull CampaignAdapter.CampaignViewHolder campaignViewHolder, int i) {
 
-        HomeCampaign homeCampaign = homeCampaignList.get(i);
-        campaignViewHolder.campaignImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (campaignLister != null) {
-                    campaignLister.onCampaignClicked(homeCampaign.id.toString());
-                }
+        Campaign campaign = campaignList.get(i);
+        campaignViewHolder.campaignImage.setOnClickListener(v -> {
+            if (campaignLister != null) {
+                campaignLister.onCampaignClicked(campaign.id.toString());
             }
         });
 
-        GlideApp.with(context).load(homeCampaign.imageCover)
+        GlideApp.with(context).load(campaign.imageCover)
                 .error(R.drawable.splash_screen_background)
                 .into(new SimpleTarget<Drawable>() {
                     @Override
@@ -66,23 +64,25 @@ public class AllCampaignsAdapter extends RecyclerView.Adapter<AllCampaignsAdapte
                         campaignViewHolder.campaignImage.setBackground(resource);
                     }
                 });
-        campaignViewHolder.campaignBusinessName.setText(homeCampaign.business.userName);
-        campaignViewHolder.campaignTitle.setText(homeCampaign.titleEn);
-        campaignViewHolder.campaignDayLeft.setText(homeCampaign.leftDays);
+        campaignViewHolder.campaignBusinessName.setText(campaign.business.fullName);
+        campaignViewHolder.campaignTitle.setText(campaign.titleEn);
+        campaignViewHolder.campaignDayLeft.setText(campaign.daysLeft);
         campaignViewHolder.campaignDayLeft.append(" "+context.getResources().getString(R.string.days_left));
-        GlideApp.with(context).load(homeCampaign.business.thumbnail).apply(RequestOptions.circleCropTransform()).into(campaignViewHolder.campaignBusinessIcon);
+
+
+        GlideApp.with(context).load(campaign.business.thumbnail).apply(RequestOptions.circleCropTransform()).into(campaignViewHolder.campaignBusinessIcon);
     }
 
     @Override
     public int getItemCount() {
-        return homeCampaignList.size();
+        return campaignList.size();
     }
 
     public class CampaignViewHolder extends RecyclerView.ViewHolder {
-        private  ImageView campaignImage;
+        private ImageView campaignImage;
         private  ImageView campaignBusinessIcon;
-        private  TextView campaignBusinessName, campaignTitle, campaignDayLeft;
-        private   Button joinCampaignBtn;
+        private TextView campaignBusinessName, campaignTitle, campaignDayLeft;
+        private Button joinCampaignBtn;
 
         public CampaignViewHolder(View view) {
             super(view);
@@ -92,8 +92,9 @@ public class AllCampaignsAdapter extends RecyclerView.Adapter<AllCampaignsAdapte
             campaignBusinessName = view.findViewById(R.id.campaign_name);
             campaignTitle = view.findViewById(R.id.campaign_title);
             campaignDayLeft = view.findViewById(R.id.campaign_day_left);
+
 //            readMeBtn = view.findViewById(R.id.remind_me_btn);
-            joinCampaignBtn = view.findViewById(R.id.join_campaign_btn);
+
 
         }
     }

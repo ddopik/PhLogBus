@@ -16,6 +16,7 @@ import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.login.presenter.LoginPresenter;
 import com.example.ddopik.phlogbusiness.ui.login.presenter.LoginPresenterImp;
 import com.example.ddopik.phlogbusiness.ui.signup.view.SignUpActivity;
+import com.example.ddopik.phlogbusiness.ui.signup.view.UploadSignUpPhotoActivity;
 
 import java.util.HashMap;
 
@@ -111,6 +112,14 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     public void navigateToHome() {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
+
+    @Override
+    public void navigateToPickProfilePhoto() {
+        Intent intent = new Intent(this, UploadSignUpPhotoActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 

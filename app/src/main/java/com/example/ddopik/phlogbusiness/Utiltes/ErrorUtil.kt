@@ -24,7 +24,7 @@ class ErrorUtil {
         }
 
         //Universal Error State From Server
-     public   fun setError(context: Context, contextTAG: String, throwable: Throwable) {
+         fun setError(context: Context, contextTAG: String, throwable: Throwable) {
             try {
 
                 takeIf { throwable is ANError }.apply {

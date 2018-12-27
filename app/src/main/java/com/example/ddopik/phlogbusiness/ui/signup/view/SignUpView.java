@@ -9,5 +9,5 @@ public interface SignUpView {
     void showIndustries(List<Industry> industries);
     void showMessage(String msg);
     void signUpSuccess();
-    void pickProfilePhoto();
+
 }

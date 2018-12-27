@@ -14,6 +14,7 @@ import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.SignUpResponse;
+import com.example.ddopik.phlogbusiness.ui.signup.model.UploadProfileImgResponse;
 import com.example.ddopik.phlogbusiness.ui.social.model.SocialResponse;
 import com.example.ddopik.phlogbusiness.ui.userprofile.model.FollowUserResponse;
 import com.example.ddopik.phlogbusiness.ui.userprofile.model.UserPhotosResponse;
@@ -21,6 +22,7 @@ import com.example.ddopik.phlogbusiness.ui.userprofile.model.UserProfileResponse
 import com.example.ddopik.phlogbusiness.ui.welcome.model.WelcomeScreenResponse;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 
+import java.io.File;
 import java.util.HashMap;
 /**
  * Created by abdalla-maged on 3/29/18.
@@ -32,7 +34,7 @@ public class BaseNetworkApi {
 
     //Network Status
     public static String STATUS_OK = "200";
-    public static String DEFAULT_USER_TYPE = "0";
+    public static String DEFAULT_USER_TYPE = "1";
     public static final int STATUS_BAD_REQUEST = 400;
     public static final int STATUS_401 = 401;
     public static final int STATUS_404 = 404;
@@ -45,15 +47,17 @@ public class BaseNetworkApi {
     private static final String BASE_URL_COMMON = "http://178.128.162.10/public/api/common";
 
     private static final String WELCOME_SLIDES_IMAGES = BASE_URL + "/photographer/init_slider";
-    private static final String ALL_INDUSTRY = BASE_URL_COMMON + "/api/common/industries/list";
-    private static final String SIGNUP_USER = BASE_URL + "/auth/signup";
+    private static final String ALL_INDUSTRY = BASE_URL_COMMON + "/industries/list";
+    private static final String SIGN_UP_USER = BASE_URL + "/auth/signup";
     private static final String NORMAL_LOGIN = BASE_URL + "/auth/login";
     private static final String FACEBOOK_LOGIN_URL = BASE_URL + "/signup_facebook";
     private static final String INNER_BRAND_URL = BASE_URL + "/search_in_one_brands";
     private static final String BRAND_FOLLOW_URL = BASE_URL + "/join_photographer_brand";
     private static final String SOCIAL_DATA_URL = BASE_URL + "/social";
     private static final String GET_ALL_NOTIFICATION = BASE_URL + "/notification";
-    private static final String ALL_CAMPAIGN_URL = BASE_URL + "/get_all_campaigns_running";
+    private static final String ALL_COMPLETED_CAMPAIGN_URL = BASE_URL + "/campaign/old";
+    private static final String ALL_RUING_CAMPAIGN_URL = BASE_URL + "/campaign/draft";
+    private static final String ALL_DRAFT_CAMPAIGN_URL = BASE_URL + "/campaign/draft";
     private static final String CAMPAIGN_PHOTOS_URL = BASE_URL + "/get_photos_campaign";
     private static final String CAMPAIGN_DETAILS_URL = BASE_URL + "/detail_one_campaign";
     private static final String USER_PROFILE_URL = BASE_URL + "/get_info_photographer";
@@ -63,6 +67,7 @@ public class BaseNetworkApi {
     private static final String GET_IMAGE_COMMENT = BASE_URL + "/image/comments";
     private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/image/comment/submit";
     private static final String FOLLOW_CAMPAIGN_URL = BASE_URL + "/join_photographer_campaign";
+    private static final String UPLOAD_PROFILE_IMG = BASE_URL + "/profile/upload";
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
 
@@ -71,7 +76,7 @@ public class BaseNetworkApi {
     private static final String TOKEN_BODY_PARAMETER = "token";
 
     public static io.reactivex.Observable<SignUpResponse> signUpUser(HashMap<String, String> signUpData) {
-        return Rx2AndroidNetworking.post(SIGNUP_USER)
+        return Rx2AndroidNetworking.post(SIGN_UP_USER)
                 .addBodyParameter(signUpData)
                 .setPriority(Priority.HIGH)
                 .build()
@@ -143,9 +148,22 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<CampaignResponse> getAllCampaign(String token, int page) {
-        return Rx2AndroidNetworking.post(ALL_CAMPAIGN_URL)
-                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
+    public static io.reactivex.Observable<CampaignResponse> getAllCompleteCampaign(  int page) {
+        return Rx2AndroidNetworking.post(ALL_COMPLETED_CAMPAIGN_URL)
+                .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(CampaignResponse.class);
+    }
+    public static io.reactivex.Observable<CampaignResponse> getAllDraftCampaign( int page) {
+        return Rx2AndroidNetworking.post(ALL_DRAFT_CAMPAIGN_URL)
+                .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(CampaignResponse.class);
+    }
+    public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(  int page) {
+        return Rx2AndroidNetworking.post(ALL_RUING_CAMPAIGN_URL)
                 .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
                 .setPriority(Priority.HIGH)
                 .build()
@@ -191,6 +209,8 @@ public class BaseNetworkApi {
                 .getObjectObservable(UserPhotosResponse.class);
     }
 
+
+
     public static io.reactivex.Observable<FollowUserResponse> followUser(String token, String userID){
         return Rx2AndroidNetworking.post(PHOTOGRAPHER_FOLLOW_USER_URL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER,token)
@@ -235,15 +255,25 @@ public class BaseNetworkApi {
                 .build()
                 .getObjectObservable(BrandInnerResponse.class);
     }
-    public static io.reactivex.Observable<FollowCampaignResponse> followCampaign(String token, String campaignID) {
+    public static io.reactivex.Observable<FollowCampaignResponse> followCampaign(String campaignID) {
         return Rx2AndroidNetworking.post(FOLLOW_CAMPAIGN_URL)
-                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
+
                 .addBodyParameter("campaign_id", campaignID)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(FollowCampaignResponse.class);
     }
 
+    public static io.reactivex.Observable<UploadProfileImgResponse> uploadUserProfilePhoto(String token,File image) {
+        return Rx2AndroidNetworking.upload(UPLOAD_PROFILE_IMG)
+                .addHeaders("x-auth-token", token)
+                .addHeaders("x-user-type", DEFAULT_USER_TYPE)
+                .addHeaders("x-lang-code", "en-us")
+                .addMultipartFile("thumbnail", image)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(UploadProfileImgResponse.class);
+    }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){
 //        return Rx2AndroidNetworking.get()

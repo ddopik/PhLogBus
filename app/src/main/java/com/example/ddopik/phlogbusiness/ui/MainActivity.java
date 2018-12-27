@@ -11,8 +11,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.Utiltes.Constants;
+import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.app.PhLogBusinessApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
-import com.example.ddopik.phlogbusiness.ui.campaigns.CampaignsFragment;
+import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
+import com.example.ddopik.phlogbusiness.ui.campaigns.view.CampaignsFragment;
 import com.example.ddopik.phlogbusiness.ui.notification.view.NotificationFragment;
 import com.example.ddopik.phlogbusiness.ui.profile.ProfileFragment;
 import com.example.ddopik.phlogbusiness.ui.social.view.SocialFragment;
@@ -63,6 +66,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void initPresenter() {
+        PhLogBusinessApp.initFastAndroidNetworking(PrefUtils.getBrandToken(getBaseContext()), BaseNetworkApi.DEFAULT_USER_TYPE, " en-us'", getBaseContext());
+
         bottomNavigation.setOnClickListener(this);
         homeBrn.setOnClickListener(this);
         campaignBtn.setOnClickListener(this);
@@ -112,11 +117,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        navigationManger.navigate(HOME);
     }
 
     public class NavigationManger {
-        private String extraData;
         private Constants.NavigationHelper currentTab;
 
         private void clearSelected() {
@@ -148,7 +151,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         }
 
-        public void navigate(Constants.NavigationHelper navigationHelper) {
+         void navigate(Constants.NavigationHelper navigationHelper) {
             clearSelected();
             int homeBrnImg = R.drawable.ic_tab_home_on;
             int campaignBtnImg = R.drawable.ic_tab_missions_on;
@@ -167,11 +170,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
 
                 case CAMPAIGN: {
-                    addFragment(R.id.view_container, new CampaignsFragment(), CampaignsFragment.class.getSimpleName(), false);
+                    addFragment(R.id.view_container,  CampaignsFragment.getInstance(), CampaignsFragment.class.getSimpleName(), false);
                     campaignBtn.setTextColor(getResources().getColor(R.color.text_input_color));
                     campaignBtn.setCompoundDrawablesWithIntrinsicBounds(0, campaignBtnImg, 0, 0);
                     campaignBtn.setCompoundDrawablePadding(8);
-                    toolbar.setVisibility(View.VISIBLE);
+                    toolbar.setVisibility(View.GONE);
                     toolBarTitle.setText(getResources().getString(R.string.campaigns));
                     currentTab = CAMPAIGN;
                     break;
@@ -216,22 +219,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                    currentTab = EARNING_LIST;
                     break;
                 }
-                case EARNING_INNER: {
-                    if (extraData != null) {
-//                        EarningInnerFragment earningInnerFragment = EarningInnerFragment.getInstance();
-//                        earningInnerFragment.setInnerID(extraData);
-//                        addFragment(R.id.view_container, new EarningInnerFragment(), EarningInnerFragment.class.getSimpleName(), true);
-//                        myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
-//                        myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
-//                        myProfileBtn.setCompoundDrawablePadding(8);
-//                        toolbar.setVisibility(View.GONE);
-//                        toolBarTitle.setText(getResources().getString(R.string.profile));
-//                        extraData = null;
-//                        currentTab = EARNING_INNER;
-                    }
 
-                    break;
-                }
                 case EDIT_PROFILE: {
 
 //
@@ -249,11 +237,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         }
 
-        public void setExtraData(String extraData) {
-            this.extraData = extraData;
-        }
 
-        public Constants.NavigationHelper getCurrentTab() {
+         Constants.NavigationHelper getCurrentTab() {
             return currentTab;
         }
     }

@@ -124,8 +124,8 @@ public abstract class PrefUtils {
     }
 
     public static String getBrandToken(Context mContext) {
-        return getSharedPref(mContext).getString(BRAND_TOKEN, "");
-//        return "ac99b777bf0d1e58e8e7cd8653da52f5";
+//        return getSharedPref(mContext).getString(BRAND_TOKEN, "");
+        return "416a5f5a1e248564d2f800772ca19659";
     }
 
     public static String getNotificationToken(Context mContext) {

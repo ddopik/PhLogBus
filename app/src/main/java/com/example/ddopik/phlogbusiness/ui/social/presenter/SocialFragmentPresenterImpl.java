@@ -39,7 +39,7 @@ public class SocialFragmentPresenterImpl implements SocialFragmentPresenter {
 
                     socialFragmentView.viewSocialDataProgress(false);
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
+                    ErrorUtil.Companion.setError(context, TAG, throwable);
                     socialFragmentView.viewSocialDataProgress(false);
                 });
 
@@ -61,7 +61,7 @@ public class SocialFragmentPresenterImpl implements SocialFragmentPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void followSocialCampaign(String id) {
-        BaseNetworkApi.followCampaign(PrefUtils.getBrandToken(context), id)
+        BaseNetworkApi.followCampaign( id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(followCampaignResponse -> {

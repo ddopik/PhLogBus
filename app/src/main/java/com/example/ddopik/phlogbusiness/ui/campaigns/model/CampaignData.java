@@ -1,12 +1,13 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.model;
 
+import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 /**
- * Created by abdalla_maged on 10/4/2018.
+ * Created by abdalla_maged on 12/25/2018.
  */
 public class CampaignData {
     @SerializedName("current_page")
@@ -14,7 +15,7 @@ public class CampaignData {
     public Integer currentPage;
     @SerializedName("data")
     @Expose
-    public List<HomeCampaign> data = null;
+    public List<Campaign> data = null;
     @SerializedName("first_page_url")
     @Expose
     public String firstPageUrl;
@@ -45,7 +46,4 @@ public class CampaignData {
     @SerializedName("total")
     @Expose
     public Integer total;
-
-
 }
-

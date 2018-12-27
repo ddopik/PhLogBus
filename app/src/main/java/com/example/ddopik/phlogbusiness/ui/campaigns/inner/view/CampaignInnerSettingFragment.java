@@ -7,22 +7,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+
+import org.w3c.dom.Text;
 
 
 /**
  * Created by abdalla_maged on 10/8/2018.
  */
-public class CampaignInnerMissionFragment extends BaseFragment implements CampaignInnerActivity.OnMissionCampaignDataRecived {
+public class CampaignInnerSettingFragment extends BaseFragment {
 
 
-    private TextView missionDescription;
     private View mainView;
+    private Text campaignStatus,campaignPrize,campaignStartDate,campaignEndDate;
 
-    public static CampaignInnerMissionFragment getInstance() {
+    public static CampaignInnerSettingFragment getInstance() {
 
-        return new CampaignInnerMissionFragment();
+        return new CampaignInnerSettingFragment();
     }
 
     @Nullable
@@ -52,14 +55,12 @@ public class CampaignInnerMissionFragment extends BaseFragment implements Campai
 
     @Override
     protected void initViews() {
-        missionDescription = mainView.findViewById(R.id.mission_desc);
 
-
+        campaignStatus = mainView.findViewById(R.id.campaign_status);
+        campaignPrize = mainView.findViewById(R.id.campaign_prize);
+        campaignStartDate = mainView.findViewById(R.id.campaign_start_date);
+        campaignEndDate = mainView.findViewById(R.id.campaign_end_date);
     }
 
-    @Override
-    public void onCampaignDescription(String desc) {
 
-            missionDescription.setText(desc);
-    }
 }

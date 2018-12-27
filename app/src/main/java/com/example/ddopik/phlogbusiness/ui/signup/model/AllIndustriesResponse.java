@@ -9,7 +9,7 @@ import java.util.List;
 public class AllIndustriesResponse {
 
 
-    @SerializedName("countries")
+    @SerializedName("data")
     @Expose
     public List<Industry> industryList = null;
     @SerializedName("state")

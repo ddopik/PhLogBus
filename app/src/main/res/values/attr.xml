@@ -8,4 +8,11 @@
         </attr>
         <attr name="span_size" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="CustomTextView">
+        <!--<attr name="fontTypeFaceStyle" format="enum">-->
+        <!--<enum name="raleway-bold" value="0" />-->
+        <!--&lt;!&ndash;</attr>&ndash;&gt;         ///define more View style attribute to be generacily included-->
+        <attr name="color" format="color" />
+    </declare-styleable>
 </resources>

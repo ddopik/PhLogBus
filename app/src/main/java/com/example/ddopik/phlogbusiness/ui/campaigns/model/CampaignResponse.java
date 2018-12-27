@@ -1,6 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.model;
 
-import com.google.gson.annotations.Expose;
+ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -12,8 +12,4 @@ public class CampaignResponse {
         @SerializedName("data")
         @Expose
         public CampaignData data;
-        @SerializedName("state")
-        @Expose
-        public String state;
-
 }
