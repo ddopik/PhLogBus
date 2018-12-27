@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="start"
-    android:minHeight="?attr/actionBarSize">
+     android:minHeight="?attr/actionBarSize">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -23,11 +23,13 @@
             android:textColor="@color/white" />
 
         <ImageButton
-            android:id="@+id/back_btn"
+            android:id="@+id/add_campaign_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
+            android:layout_margin="@dimen/widgets_padding"
             android:layout_gravity="end|center"
+            app:srcCompat="@drawable/ic_add_circle_black_24dp"
      />
 
     </FrameLayout>
