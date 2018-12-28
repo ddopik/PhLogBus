@@ -139,6 +139,8 @@
     <string name="campaign_name">Campaign Name</string>
     <string name="add_campaign">Add campaign</string>
     <string name="camaign_name_required">Campaign name is required</string>
+    <string name="campaign_description">Campaign description</string>
+    <string name="campaign_prize">Campaign prize</string>
 
 
 </resources>

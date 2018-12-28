@@ -37,6 +37,8 @@
         <activity android:name=".ui.campaigns.inner.view.CampaignInnerActivity" />
         <activity android:name=".ui.campaigns.addcampaign.view.AddCampaignActivity"
                   android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".ui.campaigns.addcampaign.view.AddCampaignStepTwoActivity"
+                  android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.Utiltes;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import com.example.ddopik.phlogbusiness.R;
 
@@ -29,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static android.support.v4.content.ContextCompat.getSystemService;
 
 /**
  * Created by ddopik @_@....
@@ -269,6 +273,8 @@ public class Utilities {
 
         return phrase.toString();
     }
+
+
 
     public void printHashKey(Context context) {
         try {

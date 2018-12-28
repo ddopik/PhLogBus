@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Tag;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.ui.uploadimage.model.Tag;
 import com.example.ddopik.phlogbusiness.ui.uploadimage.view.adapter.AutoCompleteTagMenuAdapter;
 import com.example.ddopik.phlogbusiness.ui.uploadimage.view.adapter.SelectedTagAdapter;
 import com.google.android.flexbox.FlexDirection;
@@ -45,7 +45,6 @@ public class AddTagActivity extends BaseActivity {
          if (getIntent().getStringExtra(IMAGE_PREVIEW) != null) {
              imagePreviewPath = getIntent().getStringExtra(IMAGE_PREVIEW);
              initView();
-             initPresenter();
              initListener();
          }
 
@@ -56,7 +55,7 @@ public class AddTagActivity extends BaseActivity {
     public void initView() {
 
         Tag tag=new Tag();
-        tag.tagName="Tag";
+        tag.name="Tag";
         tagList.add(tag);
         tagList.add(tag);
         tagList.add(tag);
@@ -116,7 +115,7 @@ public class AddTagActivity extends BaseActivity {
 
             List<Tag> tempList=new ArrayList<Tag>();
             for (int i=0;i<tagList.size();i++) {
-                if(!tagList.get(i).tagName.equals(tag.tagName)){
+                if(!tagList.get(i).name.equals(tag.name)){
                     tempList.add(tagList.get(i));
                 }
 
@@ -126,7 +125,6 @@ public class AddTagActivity extends BaseActivity {
             selectedTagAdapter.notifyDataSetChanged();
         };
         initKeyBoardListener();
-
         backBtn.setOnClickListener((view)->onBackPressed());
 
     }
@@ -153,7 +151,7 @@ public class AddTagActivity extends BaseActivity {
                         //Key board is visible
                     } else if (lastVisibleDecorViewHeight + MIN_KEYBOARD_HEIGHT_PX < visibleDecorViewHeight) {
                         Tag newTag = new Tag();
-                        newTag.tagName = autoCompleteTextView.getText().toString();
+                        newTag.name = autoCompleteTextView.getText().toString();
                         addSelectedTag(newTag);
                     }
                 }

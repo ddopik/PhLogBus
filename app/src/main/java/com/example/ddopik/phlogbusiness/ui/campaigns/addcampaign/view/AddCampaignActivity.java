@@ -23,6 +23,7 @@ import java.io.File;
 
 import static com.example.ddopik.phlogbusiness.Utiltes.Constants.REQUEST_CODE_CAMERA;
 import static com.example.ddopik.phlogbusiness.Utiltes.Constants.REQUEST_CODE_GALLERY;
+import static com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignStepTwoActivity.CAMPAIGN_DATA;
 
 public class AddCampaignActivity extends BaseActivity {
 
@@ -71,6 +72,9 @@ public class AddCampaignActivity extends BaseActivity {
             campaignNameInput.setEnabled(false);
             addCampaignRequestModel.campaignName=campaignName.getText().toString();
             Intent intent=new Intent(this,AddCampaignStepTwoActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra(CAMPAIGN_DATA,addCampaignRequestModel);
+            startActivity(intent);
 
         } else {
 //            campaignNameInput.setEnabled(true);
