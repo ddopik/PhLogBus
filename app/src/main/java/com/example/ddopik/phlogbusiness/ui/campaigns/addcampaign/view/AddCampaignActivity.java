@@ -78,7 +78,7 @@ public class AddCampaignActivity extends BaseActivity {
 
         } else {
 //            campaignNameInput.setEnabled(true);
-            campaignNameInput.setError(getResources().getString(R.string.camaign_name_required));
+            campaignNameInput.setError(getResources().getString(R.string.campaign_name_required));
         }
     }
 

@@ -49,7 +49,7 @@
                             android:layout_gravity="center"
                             android:layout_marginStart="@dimen/dp45"
                             android:max="100"
-                            android:progress="45"
+                            android:progress="75"
                             android:progressDrawable="@drawable/progress_horizontal_custom"/>
 
                 </LinearLayout>
@@ -72,8 +72,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp45"
-                        android:hint="@string/campaign_description"
-                        android:theme="@style/TextLabel"
+                         android:theme="@style/TextLabel"
                         app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                     <EditText
@@ -86,7 +85,8 @@
                             android:textColor="@color/black677078"
                             android:textSize="@dimen/sign_up_text_size"
                             android:textStyle="bold"
-                            tools:text="@string/campaign_description"/>
+                            android:hint="@string/campaign_description"
+                   />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -94,12 +94,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp45"
-                        android:hint="@string/campaign_prize"
-                        android:theme="@style/TextLabel"
+                         android:theme="@style/TextLabel"
                         app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                     <EditText
-                            android:id="@+id/campaign_name"
+                            android:id="@+id/campaign_prize"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
@@ -108,7 +107,8 @@
                             android:textColor="@color/black677078"
                             android:textSize="@dimen/sign_up_text_size"
                             android:textStyle="bold"
-                            tools:text="@string/campaign_prize"/>
+                            android:hint="@string/campaign_prize"
+                          />
                 </android.support.design.widget.TextInputLayout>
 
 
@@ -143,7 +143,7 @@
 
             </LinearLayout>
                 <Button
-                        android:id="@+id/add_campaign_step_one_next_btn"
+                        android:id="@+id/add_campaign_step_two_next_btn"
                         android:layout_width="@dimen/sign_up_btn_size_w"
                         android:layout_height="@dimen/sign_up_btn_size_h"
                         android:background="@color/text_input_color"

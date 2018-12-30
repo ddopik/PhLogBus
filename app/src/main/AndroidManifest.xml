@@ -39,6 +39,7 @@
                   android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ui.campaigns.addcampaign.view.AddCampaignStepTwoActivity"
                   android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".ui.campaigns.addcampaign.view.AddCampaignStepThreeActivity"/>
     </application>
 
 </manifest>

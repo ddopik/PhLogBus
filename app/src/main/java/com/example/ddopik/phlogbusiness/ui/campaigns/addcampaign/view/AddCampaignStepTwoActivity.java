@@ -1,15 +1,17 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.Utilities;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
@@ -17,25 +19,26 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.AddCampai
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.presenter.AddCampaignPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.presenter.AddCampaignStepTwoPresenter;
 import com.google.android.flexbox.FlexDirection;
-
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.support.v4.content.ContextCompat.getSystemService;
-
 
 public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampaignStepTwoActivityView {
     public static String CAMPAIGN_DATA = "campaign_data";
     private AddCampaignRequestModel addCampaignRequestModel;
+
+    private TextInputLayout campaignDescInput, campaignPrizeInput;
+    private EditText campaignDescription, campiagnPrize;
     private AutoCompleteTextView autoCompleteTextView;
     private List<Industry> industryList = new ArrayList<Industry>();
     private List<Industry> industriesMenuList = new ArrayList<Industry>();
     private CampaignIndustryAdapter campaignIndustryAdapter;
     private AutoCompleteCampaignIndustryMenuAdapter autoCompleteCampaignIndustryMenuAdapter;
     private AddCampaignStepTwoPresenter addCampaignStepTwoPresenter;
+    private Button nextBtn;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,16 +57,14 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
     @Override
     public void initView() {
 
+        campaignDescInput = findViewById(R.id.campaign_description_input);
+        campaignPrizeInput = findViewById(R.id.campaign_prize_input);
+        campaignDescription = findViewById(R.id.campaign_description);
+        campiagnPrize = findViewById(R.id.campaign_prize);
 
         autoCompleteTextView = findViewById(R.id.campaign_tag_auto_complete);
         CustomRecyclerView tagsRv = findViewById(R.id.campaigns_tags_rv);
-
-
-
-
-
-
-
+        nextBtn = findViewById(R.id.add_campaign_step_two_next_btn);
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getApplicationContext());
         flexboxLayoutManager.setFlexDirection(FlexDirection.ROW);
         flexboxLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
@@ -94,14 +95,47 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
         };
         initKeyBoardListener();
 
+        nextBtn.setOnClickListener(v -> {
+
+            if (validInputs()) {
+                addCampaignRequestModel.campaignDescription = campaignDescription.getText().toString();
+                addCampaignRequestModel.campaignPrize = campiagnPrize.getText().toString();
+
+                Intent intent = new Intent(this, AddCampaignStepThreeActivity.class);
+                intent.putExtra(AddCampaignStepTwoActivity.CAMPAIGN_DATA, addCampaignRequestModel);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            }
+        });
+
 //        backBtn.setOnClickListener((view) -> onBackPressed());
 
-//        uploadBrn.setOnClickListener(v -> {
-//            addTagActivityPresenter.uploadPhoto(imagePreviewPath, imageCaption, imageLocation, draftState, imageType, industryList);
-//        });
+
     }
 
+    private boolean validInputs() {
 
+        boolean inputStates = true;
+
+        if (campaignDescription.getText().length() == 0) {
+            campaignDescInput.setError(getResources().getString(R.string.invalid_description_value));
+            inputStates = false;
+        } else {
+            campaignDescInput.setErrorEnabled(false);
+        }
+
+        if (campiagnPrize.getText().length() == 0) {
+            campaignPrizeInput.setError(getResources().getString(R.string.invalid_prize_value));
+            inputStates = false;
+
+        } else {
+
+            campaignPrizeInput.setErrorEnabled(false);
+
+        }
+
+        return inputStates;
+    }
     @Override
     public void initPresenter() {
         addCampaignStepTwoPresenter=new AddCampaignPresenterImpl();
@@ -175,11 +209,6 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
         autoCompleteCampaignIndustryMenuAdapter.onMenuItemClicked = this::addSelectedIndustry;
 
 
-
-//        this.industriesMenuList.clear();
-//        this.industriesMenuList.addAll(industryList);
-//        autoCompleteCampaignIndustryMenuAdapter.notifyDataSetInvalidated();
-//        autoCompleteCampaignIndustryMenuAdapter.notifyDataSetChanged();
     }
     private  void hideSoftKeyBoard () {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);

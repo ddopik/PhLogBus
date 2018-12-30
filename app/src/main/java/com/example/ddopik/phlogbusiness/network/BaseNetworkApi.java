@@ -4,6 +4,7 @@ import com.androidnetworking.common.Priority;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumImgCommentResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponse;
 import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerResponse;
+import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.SubmitCampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.CampaignInnerPhotosResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.CampaignInnerResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.CampaignResponse;
@@ -68,6 +69,7 @@ public class BaseNetworkApi {
     private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/image/comment/submit";
     private static final String FOLLOW_CAMPAIGN_URL = BASE_URL + "/join_photographer_campaign";
     private static final String UPLOAD_PROFILE_IMG = BASE_URL + "/profile/upload";
+    private static final String SUBMIT_CAMPAIGN_URL = BASE_URL + "/campaign/create";
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
 
@@ -262,6 +264,17 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(FollowCampaignResponse.class);
+    }
+    public static io.reactivex.Observable<SubmitCampaignResponse> submitCampaign(String token, HashMap<String, String> data, File campaignImg) {
+        return Rx2AndroidNetworking.upload(SUBMIT_CAMPAIGN_URL)
+                .addHeaders("x-auth-token", token)
+                .addHeaders("x-user-type", DEFAULT_USER_TYPE)
+                .addHeaders("x-lang-code", "en-us")
+                .addMultipartFile("image_cover", campaignImg)
+                .addMultipartParameter(data)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(SubmitCampaignResponse.class);
     }
 
     public static io.reactivex.Observable<UploadProfileImgResponse> uploadUserProfilePhoto(String token,File image) {

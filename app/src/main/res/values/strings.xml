@@ -138,9 +138,19 @@
     <string name="choose_cover_image">Choose Cover Image</string>
     <string name="campaign_name">Campaign Name</string>
     <string name="add_campaign">Add campaign</string>
-    <string name="camaign_name_required">Campaign name is required</string>
+    <string name="campaign_name_required">Campaign name is required</string>
     <string name="campaign_description">Campaign description</string>
     <string name="campaign_prize">Campaign prize</string>
+    <string name="campaign_end_date">Campaign end date</string>
+    <string name="campaign_start_date">Campaign start date</string>
+    <string name="invalid_price_value">Invalid price value</string>
+    <string name="invalid_description_value">Invalid description value</string>
+    <string name="invalid_start_date_value">Invalid start date value</string>
+    <string name="invalid_prize_value">Invalid prize value</string>
+    <string name="please_select_end_date">Please select end date</string>
+    <string name="please_select_start_date">Please select start date</string>
+    <string name="submit">Submit</string>
+    <string name="save_as_draft">Save as draft</string>
 
 
 </resources>
