@@ -54,6 +54,7 @@ public class AddCampaignPresenterImpl implements AddCampaignStepTwoPresenter, Ad
                 .subscribe(submitCampaignResponse -> {
                     addCampaignStepThreeActivityView.viewSubmitCampaignProgress(false);
                     addCampaignStepThreeActivityView.viewMessage(submitCampaignResponse.msg);
+                    addCampaignStepThreeActivityView.onCampaignCompleted();
                 }, throwable -> {
                     ErrorUtil.Companion.setError(context, TAG, throwable);
                     addCampaignStepThreeActivityView.viewSubmitCampaignProgress(false);

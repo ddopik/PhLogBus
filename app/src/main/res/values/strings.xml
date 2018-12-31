@@ -151,6 +151,8 @@
     <string name="please_select_start_date">Please select start date</string>
     <string name="submit">Submit</string>
     <string name="save_as_draft">Save as draft</string>
+    <string name="campaign_image_cover_required">Campaign image cover Required</string>
+    <string name="please_add_more_industry">Please add at least one Industry</string>
 
 
 </resources>

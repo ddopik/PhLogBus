@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -10,6 +11,7 @@ import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.widgets.PickDateDialog;
+import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.AddCampaignRequestModel;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.presenter.AddCampaignPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.presenter.AddCampaignStepThreePresenter;
@@ -19,7 +21,7 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
     public static String CAMPAIGN_DATA = "campaign_data";
     private TextInputLayout campaignStartDateInput, campaignEndDateInput;
     private EditText campaignStartDate, campaignEndDate;
-    private Button submitCampaignBtn;
+    private Button submitCampaignBtn, submitCampaignDraftBtn;
     private ProgressBar submitCampaignProgress;
     private AddCampaignRequestModel addCampaignRequestModel;
     private AddCampaignStepThreePresenter addCampaignStepThreePresenter;
@@ -45,6 +47,7 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
         campaignEndDate = findViewById(R.id.campaign_end_date);
         submitCampaignBtn = findViewById(R.id.add_campaign_step_three_next_btn);
         submitCampaignBtn = findViewById(R.id.add_campaign_step_three_next_btn);
+        submitCampaignDraftBtn = findViewById(R.id.set_campaign_draft);
         submitCampaignProgress = findViewById(R.id.submit_campaign_progress);
     }
 
@@ -65,19 +68,18 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
                 }
             });
             pickDateDialog.show(getSupportFragmentManager(), PickDateDialog.class.getSimpleName());
+
         });
 
 
         campaignEndDate.setOnClickListener(v -> {
             PickDateDialog pickDateDialog = new PickDateDialog();
-            pickDateDialog.setOnDateSet(new PickDateDialog.OnDateSet() {
-                @Override
-                public void onDateSet(int year, int month, int day) {
-                    String dateString = year + "-" + (month + 1) + "-" + day;
-                    campaignEndDate.setText(dateString);
-                }
+            pickDateDialog.setOnDateSet((year, month, day) -> {
+                String dateString = year + "-" + (month + 1) + "-" + day;
+                campaignEndDate.setText(dateString);
             });
             pickDateDialog.show(getSupportFragmentManager(), PickDateDialog.class.getSimpleName());
+
         });
 
 
@@ -86,14 +88,24 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
 
                 addCampaignRequestModel.campaignStartDate=campaignStartDate.getText().toString();
                 addCampaignRequestModel.campaignEndDate =campaignEndDate.getText().toString();
-
+                addCampaignRequestModel.isDraft = "false";
                 addCampaignStepThreePresenter.submitCampaign(this,addCampaignRequestModel,getBaseContext());
             }
         });
 
+
+        submitCampaignDraftBtn.setOnClickListener(v -> {
+            if (isInputValid()) {
+
+                addCampaignRequestModel.campaignStartDate = campaignStartDate.getText().toString();
+                addCampaignRequestModel.campaignEndDate = campaignEndDate.getText().toString();
+                addCampaignRequestModel.isDraft = "true";
+                addCampaignStepThreePresenter.submitCampaign(this, addCampaignRequestModel, getBaseContext());
+            }
+        });
+
+
     }
-
-
     private boolean isInputValid() {
         boolean inputState = true;
 
@@ -121,6 +133,13 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
             submitCampaignProgress.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    public void onCampaignCompleted() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 
     @Override

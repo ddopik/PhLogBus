@@ -71,9 +71,11 @@
                         android:scaleType="centerInside"
                         android:layout_height="@dimen/add_campaign_upload_cover_img_size"/>
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                        android:id="@+id/upload_campaign_img_lapel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/widgets_padding"
+                        android:textColor="@color/gray677078"
                         android:text="@string/choose_cover_image"/>
 
                 <android.support.design.widget.TextInputLayout

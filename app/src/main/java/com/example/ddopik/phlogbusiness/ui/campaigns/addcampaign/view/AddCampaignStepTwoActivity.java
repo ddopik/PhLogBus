@@ -100,7 +100,7 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
             if (validInputs()) {
                 addCampaignRequestModel.campaignDescription = campaignDescription.getText().toString();
                 addCampaignRequestModel.campaignPrize = campiagnPrize.getText().toString();
-
+                addCampaignRequestModel.industryList=industryList;
                 Intent intent = new Intent(this, AddCampaignStepThreeActivity.class);
                 intent.putExtra(AddCampaignStepTwoActivity.CAMPAIGN_DATA, addCampaignRequestModel);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -131,6 +131,13 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
         } else {
 
             campaignPrizeInput.setErrorEnabled(false);
+
+        }
+
+
+        if (industryList.size() == 0) {
+            autoCompleteTextView.setError(getResources().getString(R.string.please_add_more_industry));
+            inputStates = false;
 
         }
 

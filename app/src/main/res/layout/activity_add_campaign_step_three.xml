@@ -121,12 +121,12 @@
                             android:id="@+id/set_campaign_draft"
                             android:layout_width="@dimen/sign_up_btn_size_w"
                             android:layout_height="@dimen/sign_up_btn_size_h"
-
                             android:text="@string/save_as_draft"
                             android:layout_below="@+id/cont"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginBottom=""
-                            android:textColor="@color/white"
+                            android:layout_marginBottom="@dimen/dp16"
+                            android:textColor="@color/text_input_color"
+                            android:background="@drawable/square_frame"
                             android:layout_marginTop="225dp"
                             android:textSize="@dimen/sign_up_text_size_meduim"/>
 
@@ -136,10 +136,10 @@
                             android:layout_height="@dimen/sign_up_btn_size_h"
                             android:background="@color/text_input_color"
                             android:text="@string/submit"
+                            android:layout_marginBottom="@dimen/dp16"
                             android:layout_below="@+id/set_campaign_draft"
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/white"
-
                             android:textSize="@dimen/sign_up_text_size_meduim"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -147,7 +147,10 @@
             <ProgressBar
                     android:id="@+id/submit_campaign_progress"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+            />
         </FrameLayout>
     </ScrollView>
 

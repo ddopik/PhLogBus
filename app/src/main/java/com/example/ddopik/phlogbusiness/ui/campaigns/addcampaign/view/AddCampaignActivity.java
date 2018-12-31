@@ -9,12 +9,12 @@ import android.support.design.widget.TextInputLayout;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.AddCampaignRequestModel;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -28,6 +28,7 @@ import static com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.Add
 public class AddCampaignActivity extends BaseActivity {
 
     private ImageView campaignPicCoverBtn;
+    private CustomTextView uploadCampaignImgLapel;
     private TextInputLayout campaignNameInput;
     private EditText campaignName;
     private Button campaignNextBtn;
@@ -44,6 +45,7 @@ public class AddCampaignActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        uploadCampaignImgLapel = findViewById(R.id.upload_campaign_img_lapel);
         addCampaignRequestModel=new AddCampaignRequestModel();
         campaignPicCoverBtn = findViewById(R.id.campaign_pic_cover_btn);
         campaignNameInput=findViewById(R.id.campaign_name_input);
@@ -62,24 +64,37 @@ public class AddCampaignActivity extends BaseActivity {
             openPickerDialog();
         });
         campaignNextBtn.setOnClickListener(v -> {
-            moveNext();
+            if (validInputs()) {
+                addCampaignRequestModel.campaignName = campaignName.getText().toString();
+                Intent intent = new Intent(this, AddCampaignStepTwoActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra(CAMPAIGN_DATA, addCampaignRequestModel);
+                startActivity(intent);
+            }
         });
     }
 
 
-    private void moveNext() {
-        if (campaignName.getText().length() > 0) {
-            campaignNameInput.setEnabled(false);
-            addCampaignRequestModel.campaignName=campaignName.getText().toString();
-            Intent intent=new Intent(this,AddCampaignStepTwoActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.putExtra(CAMPAIGN_DATA,addCampaignRequestModel);
-            startActivity(intent);
-
-        } else {
-//            campaignNameInput.setEnabled(true);
+    private Boolean validInputs() {
+        boolean inputStats = true;
+        if (campaignName.getText().length() == 0) {
             campaignNameInput.setError(getResources().getString(R.string.campaign_name_required));
+            inputStats = false;
+        } else {
+            campaignNameInput.setErrorEnabled(false);
         }
+
+        if (addCampaignRequestModel.campaignCoverPhoto == null) {
+//            campaignNameInput.setEnabled(true);
+            uploadCampaignImgLapel.setText(getResources().getString(R.string.campaign_image_cover_required));
+            uploadCampaignImgLapel.setTextColor(getResources().getColor(R.color.colorRed));
+            inputStats = false;
+        } else {
+            uploadCampaignImgLapel.setText(getResources().getString(R.string.choose_cover_image));
+            uploadCampaignImgLapel.setTextColor(getResources().getColor(R.color.gray677078));
+        }
+
+        return inputStats;
     }
 
     private void openPickerDialog() {
