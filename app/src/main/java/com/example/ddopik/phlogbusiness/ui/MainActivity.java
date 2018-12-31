@@ -16,6 +16,7 @@ import com.example.ddopik.phlogbusiness.app.PhLogBusinessApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.campaigns.view.CampaignsFragment;
+import com.example.ddopik.phlogbusiness.ui.lightbox.view.BrandLightBoxFragment;
 import com.example.ddopik.phlogbusiness.ui.notification.view.NotificationFragment;
 import com.example.ddopik.phlogbusiness.ui.profile.view.BrandProfileFragment;
 import com.example.ddopik.phlogbusiness.ui.social.view.SocialFragment;
@@ -151,7 +152,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         }
 
-         void navigate(Constants.NavigationHelper navigationHelper) {
+       public void navigate(Constants.NavigationHelper navigationHelper) {
             clearSelected();
             int homeBrnImg = R.drawable.ic_tab_home_on;
             int campaignBtnImg = R.drawable.ic_tab_missions_on;
@@ -210,16 +211,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     break;
                 }
 
-                case EDIT_PROFILE: {
+                case LIGHT_BOX: {
 
 //
-//                    addFragment(R.id.view_container, EditPhotoGrapherProfileFragment.getInstance(), EditPhotoGrapherProfileFragment.class.getSimpleName(), true);
-//                    myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
-//                    myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
-//                    myProfileBtn.setCompoundDrawablePadding(8);
-//                    toolbar.setVisibility(View.GONE);
-//                    toolBarTitle.setText(getResources().getString(R.string.profile));
-//                    currentTab = EDIT_PROFILE;
+                    addFragment(R.id.view_container, BrandLightBoxFragment.getInstance(), BrandLightBoxFragment.class.getSimpleName(), true);
+                    myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
+                    myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
+                    myProfileBtn.setCompoundDrawablePadding(8);
+                    toolbar.setVisibility(View.GONE);
+                    toolBarTitle.setText(getResources().getString(R.string.profile));
+                    currentTab = EDIT_PROFILE;
 
                     break;
                 }

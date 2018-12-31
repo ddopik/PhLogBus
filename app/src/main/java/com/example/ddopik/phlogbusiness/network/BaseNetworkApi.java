@@ -10,6 +10,7 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.CampaignInnerRe
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.CampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowBrandResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowCampaignResponse;
+import com.example.ddopik.phlogbusiness.ui.lightbox.model.BrandLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.LoginResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
@@ -72,6 +73,7 @@ public class BaseNetworkApi {
     private static final String UPLOAD_PROFILE_IMG = BASE_URL + "/profile/upload";
     private static final String SUBMIT_CAMPAIGN_URL = BASE_URL + "/campaign/create";
     private static final String BRAND_PROFILE_URL = BASE_URL + "/profile";
+    private static final String BRAND_LIGHT_BOX_URL = BASE_URL +"/lightBox/all";
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
 
@@ -273,6 +275,16 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(BrandProfileResponse.class);
+    }
+
+
+
+     public static io.reactivex.Observable<BrandLightBoxResponse> getBrandLightBoxes(String page) {
+        return Rx2AndroidNetworking.post(BRAND_LIGHT_BOX_URL)
+                .setPriority(Priority.HIGH)
+                .addQueryParameter(PAGER_PATH_PARAMETER,page)
+                .build()
+                .getObjectObservable(BrandLightBoxResponse.class);
     }
 
 

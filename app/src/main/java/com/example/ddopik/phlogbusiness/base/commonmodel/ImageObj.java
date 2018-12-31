@@ -21,7 +21,7 @@ public class ImageObj {
     public String caption;
     @SerializedName("is_for_sale")
     @Expose
-    public Integer isForSale;
+    public String isForSale;
     @SerializedName("location")
     @Expose
     public String location;
@@ -30,13 +30,48 @@ public class ImageObj {
     public String canSoldExclussive;
     @SerializedName("created_at")
     @Expose
-    public Object createdAt;
+    public String createdAt;
     @SerializedName("updated_at")
     @Expose
-    public Object updatedAt;
+    public String updatedAt;
     @SerializedName("deleted_at")
     @Expose
-    public Object deletedAt;
+    public String deletedAt;
 
+
+    @SerializedName("filters")
+    @Expose
+    public String filters;
+    @SerializedName("thumbnail_url")
+    @Expose
+    public String thumbnailUrl;
+    @SerializedName("url")
+    @Expose
+    public String url;
+
+    @SerializedName("photographer")
+    @Expose
+    public Photographer photographer;
+    @SerializedName("is_saved")
+    @Expose
+    public Boolean isSaved;
+    @SerializedName("is_liked")
+    @Expose
+    public Boolean isLiked;
+    @SerializedName("comments_count")
+    @Expose
+    public Integer commentsCount;
+    @SerializedName("saves_count")
+    @Expose
+    public Integer savesCount;
+    @SerializedName("likes_count")
+    @Expose
+    public Integer likesCount;
+    @SerializedName("rate_total")
+    @Expose
+    public Integer rateTotal;
+    @SerializedName("rate_sum")
+    @Expose
+    public String rateSum;
 
 }
