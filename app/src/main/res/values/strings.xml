@@ -153,6 +153,9 @@
     <string name="save_as_draft">Save as draft</string>
     <string name="campaign_image_cover_required">Campaign image cover Required</string>
     <string name="please_add_more_industry">Please add at least one Industry</string>
+	<string name="set_up_ur_account">Setup your brand</string>
+    <string name="cart">Cart</string>
+    <string name="my_light_box">My lightbox</string>
 
 
 </resources>

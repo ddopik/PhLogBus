@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
-             android:id="@+id/user_profile_background_img"
+             android:id="@+id/bramd_profile_cover_img"
              android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-        >
+             android:layout_height="match_parent">
 
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
 
 
 
@@ -22,20 +22,20 @@
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-
+    
+    
                 <ImageView
-                        android:id="@+id/user_profile_img"
+                        android:id="@+id/brand_profile_img_ic"
                         android:layout_width="@dimen/header_img_size"
                         android:layout_height="@dimen/header_img_size"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/phlog_logo" />
+                        android:src="@drawable/phlog_logo"/>
 
             </RelativeLayout>
-
-
-            <TextView
-                    android:id="@+id/user_profile_full_name"
+    
+    
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                    android:id="@+id/header_profile_brand_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -45,9 +45,9 @@
                     android:text="@string/full_name"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_normal" />
-
-            <TextView
-                    android:id="@+id/user_profile_username"
+    
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                    android:id="@+id/header_profile_brand_website"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -58,15 +58,17 @@
 
 
         </LinearLayout>
-
-        <Button
-                android:id="@+id/follow_user"
+    
+        <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                android:id="@+id/brand_profile_industry"
                 android:layout_width="@dimen/user_profile_follow_btn_w"
                 android:layout_height="@dimen/user_profile_follow_btn_h"
-                android:text="@string/follow"
                 android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:background="@drawable/rounded_orange_btn"/>
+                android:gravity="center"
+                android:background="@color/white"
+                android:textColor="@color/text_input_color"
+                tools:text="Industry"
+        />
 
     </LinearLayout>
 </FrameLayout>

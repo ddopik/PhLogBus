@@ -17,7 +17,7 @@ import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.campaigns.view.CampaignsFragment;
 import com.example.ddopik.phlogbusiness.ui.notification.view.NotificationFragment;
-import com.example.ddopik.phlogbusiness.ui.profile.ProfileFragment;
+import com.example.ddopik.phlogbusiness.ui.profile.view.BrandProfileFragment;
 import com.example.ddopik.phlogbusiness.ui.social.view.SocialFragment;
 import com.example.ddopik.phlogbusiness.ui.uploadimage.view.GalleryImageFragment;
 
@@ -199,7 +199,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     break;
                 }
                 case PROFILE: {
-                    addFragment(R.id.view_container, new ProfileFragment(), ProfileFragment.class.getSimpleName(), false);
+                    addFragment(R.id.view_container, new BrandProfileFragment(), BrandProfileFragment.class.getSimpleName(), false);
 
                     myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
                     myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);

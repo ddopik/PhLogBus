@@ -13,6 +13,7 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowCampaignRespons
 import com.example.ddopik.phlogbusiness.ui.login.model.LoginResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
+import com.example.ddopik.phlogbusiness.ui.profile.model.BrandProfileResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.SignUpResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.UploadProfileImgResponse;
@@ -70,6 +71,7 @@ public class BaseNetworkApi {
     private static final String FOLLOW_CAMPAIGN_URL = BASE_URL + "/join_photographer_campaign";
     private static final String UPLOAD_PROFILE_IMG = BASE_URL + "/profile/upload";
     private static final String SUBMIT_CAMPAIGN_URL = BASE_URL + "/campaign/create";
+    private static final String BRAND_PROFILE_URL = BASE_URL + "/profile";
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
 
@@ -259,12 +261,23 @@ public class BaseNetworkApi {
     }
     public static io.reactivex.Observable<FollowCampaignResponse> followCampaign(String campaignID) {
         return Rx2AndroidNetworking.post(FOLLOW_CAMPAIGN_URL)
-
                 .addBodyParameter("campaign_id", campaignID)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(FollowCampaignResponse.class);
     }
+
+
+     public static io.reactivex.Observable<BrandProfileResponse> getBrandProfileData() {
+        return Rx2AndroidNetworking.post(BRAND_PROFILE_URL)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(BrandProfileResponse.class);
+    }
+
+
+
+
     public static io.reactivex.Observable<SubmitCampaignResponse> submitCampaign(String token, HashMap<String, String> data, File campaignImg) {
         return Rx2AndroidNetworking.upload(SUBMIT_CAMPAIGN_URL)
                 .addHeaders("x-auth-token", token)

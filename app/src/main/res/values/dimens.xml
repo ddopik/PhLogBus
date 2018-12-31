@@ -43,7 +43,7 @@
     <dimen name="widgets_padding_s">4dp</dimen>
     <dimen name="activity_padding">16dp</dimen>
     <dimen name="inner_header_preview_height">320dp</dimen>
-    <dimen name="header_img_size">85dp</dimen>
+    <dimen name="header_img_size">145dp</dimen>
     <dimen name="form_container_padding">36dp</dimen>
 
     <!--//ViewHolders-->
@@ -86,6 +86,9 @@
 
     <dimen name="user_profile_rating_bar_width">65dp</dimen>
     <dimen name="user_profile_rating_bar_height">20dp</dimen>
+    <dimen name="user_profile_list_arrow_ic">18dp</dimen>
+    <dimen name="user_profile_ic_size">30dp</dimen>
+    <dimen name="user_profile_list_txt_size">170dp</dimen>
 
 
     <dimen name="campaign_button_size">30dp</dimen>

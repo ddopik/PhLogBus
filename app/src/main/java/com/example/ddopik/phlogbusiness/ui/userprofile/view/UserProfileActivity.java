@@ -74,8 +74,6 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
             followUser=findViewById(R.id.follow_user);
             userProfilePhotosAdapter = new UserProfilePhotosAdapter(this, userPhotoList);
             userProfilePhotosRv.setAdapter(userProfilePhotosAdapter);
-
-
             userProfilePresenter.getUserProfileData(userID); //todo static call here
             userProfilePresenter.getUserPhotos(userID,0);
 
