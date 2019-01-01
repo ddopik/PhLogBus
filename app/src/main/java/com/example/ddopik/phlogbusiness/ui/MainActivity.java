@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = findViewById(R.id.phlog_toolbar);
+        toolbar = findViewById(R.id.phlog_business_main_toolbar);
         super.setSupportActionBar(toolbar);
         navigationManger = new NavigationManger();
         initView();
@@ -219,7 +219,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
                     myProfileBtn.setCompoundDrawablePadding(8);
                     toolbar.setVisibility(View.GONE);
-                    toolBarTitle.setText(getResources().getString(R.string.profile));
+//                    toolBarTitle.setText(getResources().getString(R.string.light_box));
                     currentTab = EDIT_PROFILE;
 
                     break;
@@ -251,6 +251,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             }
             case PROFILE: {
+                navigationManger.navigate(HOME);
+                break;
+            }
+            case UPLOAD_PHOTO: {
                 navigationManger.navigate(HOME);
                 break;
             }

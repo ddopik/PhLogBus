@@ -13,11 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import com.esafirm.imagepicker.features.ImagePicker;
-
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.uploadimage.view.adapter.GalleryImageAdapter;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -36,7 +34,7 @@ public class GalleryImageFragment extends BaseFragment {
     private View mainView;
     private GalleryImageAdapter galleryImageAdapter;
     private CustomRecyclerView galleryRv;
-    private ImageButton openCameraBtn, backBtn;
+    private ImageButton openCameraBtn;
 
     @Nullable
     @Override
@@ -79,7 +77,7 @@ public class GalleryImageFragment extends BaseFragment {
         galleryRv = mainView.findViewById(R.id.gallery_img_rv);
         galleryRv.setAdapter(galleryImageAdapter);
         openCameraBtn = mainView.findViewById(R.id.open_camera_btn);
-        backBtn = mainView.findViewById(R.id.back_btn);
+
 
     }
 
@@ -91,14 +89,11 @@ public class GalleryImageFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).getSupportActionBar().hide();
-
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        ((MainActivity) getActivity()).getSupportActionBar().show();
     }
 
     private void initListeners() {
@@ -111,9 +106,7 @@ public class GalleryImageFragment extends BaseFragment {
 
             RequestCameraPermutations();
         });
-        backBtn.setOnClickListener((view) -> {
-            getActivity().recreate();
-        });
+
 
     }
 

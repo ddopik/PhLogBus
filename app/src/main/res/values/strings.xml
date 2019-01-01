@@ -157,6 +157,11 @@
     <string name="cart">Cart</string>
     <string name="my_light_box">My lightbox</string>
 	<string name="photos">photos</string>
+    <string name="light_box">Lightbox</string>
+    <string name="enter_name">Enter name</string>
+    <string name="add">Add</string>
+    <string name="new_light_box">New lightbox</string>
+	<string name="delete">Delete</string>
 
 
 </resources>

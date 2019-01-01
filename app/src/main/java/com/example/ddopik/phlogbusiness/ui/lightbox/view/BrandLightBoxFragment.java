@@ -6,28 +6,33 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.base.widgets.dialogs.AddNewLightBoxDialogFragment;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.LightBox;
 import com.example.ddopik.phlogbusiness.ui.lightbox.presenter.BrandLightBoxPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.lightbox.presenter.BrandLightBoxPresnter;
+import com.example.ddopik.phlogbusiness.ui.lightbox.view.adapter.LightBoxAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BrandLightBoxFragment extends BaseFragment implements BrandLightBoxFragmentView {
 
+    public  static String TAG=BrandLightBoxFragment.class.getSimpleName();
 
     private View mainView;
     private BrandLightBoxPresnter brandLightBoxPresnter;
     private CustomRecyclerView lightBoxRv;
-    private LighBoxAdapter lighBoxAdapter;
+    private LightBoxAdapter lightBoxAdapter;
     private PagingController pagingController;
     private List<LightBox> lightBoxList = new ArrayList<LightBox>();
     private ProgressBar lightBoxProgressBar;
+    private ImageButton backBtn,addLightBoxBtn;
 
     public static BrandLightBoxFragment getInstance(){
         BrandLightBoxFragment brandLightBoxFragment=new BrandLightBoxFragment();
@@ -61,8 +66,10 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
 
         lightBoxRv = mainView.findViewById(R.id.light_box_rv);
         lightBoxProgressBar = mainView.findViewById(R.id.lightbox_progress);
-        lighBoxAdapter = new LighBoxAdapter(lightBoxList);
-        lightBoxRv.setAdapter(lighBoxAdapter);
+        addLightBoxBtn=mainView.findViewById(R.id.add_light_box_btn);
+        backBtn=mainView.findViewById(R.id.back_btn);
+        lightBoxAdapter = new LightBoxAdapter(lightBoxList);
+        lightBoxRv.setAdapter(lightBoxAdapter);
 
     }
 
@@ -73,12 +80,41 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
                 brandLightBoxPresnter.getLightBoxes(page);
             }
         };
+
+        lightBoxAdapter.onLightBoxClickListener=new LightBoxAdapter.OnLightBoxClickListener() {
+            @Override
+            public void onLightBoxClick(LightBox lightBox) {
+            }
+
+            @Override
+            public void onSliderContainerClicked(LightBox lightBox) {
+
+            }
+
+            @Override
+            public void onDeleteLightBoxClicked(LightBox lightBox) {
+
+
+
+
+
+
+            }
+        };
+
+        addLightBoxBtn.setOnClickListener(v->{
+            AddNewLightBoxDialogFragment addNewLightBoxDialogFragment=AddNewLightBoxDialogFragment.getInstance();
+            addNewLightBoxDialogFragment.show(getChildFragmentManager(),AddNewLightBoxDialogFragment.class.getSimpleName());
+        });
+        backBtn.setOnClickListener(v->{
+            getActivity().onBackPressed();
+        });
     }
 
     @Override
     public void viewLightBoxes(List<LightBox> lightBoxes) {
         this.lightBoxList.addAll(lightBoxes);
-        lighBoxAdapter.notifyDataSetChanged();
+        lightBoxAdapter.notifyDataSetChanged();
 
     }
 

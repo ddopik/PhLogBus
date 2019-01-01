@@ -1,0 +1,48 @@
+<android.support.v7.widget.Toolbar
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/phlog_ligh_box_toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="start"
+		android:minHeight="?attr/actionBarSize">
+	<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+		
+		
+		
+		<ImageButton
+				android:id="@+id/back_btn"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:background="@color/transparent"
+				android:layout_gravity="start|center"
+				app:srcCompat="@drawable/ic_arrow_left" />
+		
+		<com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+				android:id="@+id/toolbar_title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:textAllCaps="true"
+				android:text="@string/light_box"
+				android:textColor="@color/white" />
+		
+		<ImageButton
+				android:id="@+id/add_light_box_btn"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:background="@color/transparent"
+				android:layout_margin="@dimen/widgets_padding"
+				android:layout_gravity="end|center"
+				app:srcCompat="@drawable/ic_add_btn"
+		/>
+	
+	</FrameLayout>
+
+</android.support.v7.widget.Toolbar>
+
+
+
+

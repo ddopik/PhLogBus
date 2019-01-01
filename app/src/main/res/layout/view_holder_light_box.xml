@@ -10,7 +10,7 @@
                                     app:cardElevation="@dimen/item_card_elevation">
 	
 	<LinearLayout
-			android:id="@+id/lighbox_container"
+			android:id="@+id/lightbox_container"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:orientation="vertical"
@@ -48,19 +48,21 @@
 			
 			
 			<ImageButton
-					android:id="@+id/add_lightbox_btn"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					app:srcCompat="@drawable/ic_check_black_24dp"
+					android:id="@+id/add_lightbox_menu_btn"
+					android:layout_width="35dp"
+					android:layout_height="35dp"
+					app:srcCompat="@drawable/ic_add_lighbox"
 					android:background="@color/transparent"
+					android:scaleType="centerInside"
 					android:layout_gravity="end|center"
 					android:layout_marginEnd="@dimen/dp6"/>
 		</FrameLayout>
 		
-		<FrameLayout
-				android:id="@+id/lightbox_slider"
+		<com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
+				android:id="@+id/lightbox_slider_rv"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"/>
+				android:layout_height="match_parent"
+				app:orientation="horizontal"/>
 		
 	
 	</LinearLayout>

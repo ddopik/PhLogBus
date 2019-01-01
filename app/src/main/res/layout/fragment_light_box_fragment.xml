@@ -3,12 +3,20 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
              android:layout_height="match_parent">
-	<com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
-			android:id="@+id/light_box_rv"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			app:orientation="vertical"
-			tools:listitem="@layout/recycler_view_item"/>
+	<RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+		
+		<include
+				android:id="@+id/light_box_app_bar"
+				layout="@layout/app_bar_light_box"/>
+		<com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
+				android:id="@+id/light_box_rv"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_below="@+id/light_box_app_bar"
+				app:orientation="vertical"
+				tools:listitem="@layout/recycler_view_item"/>
+	</RelativeLayout>
+	
 	<ProgressBar
 			android:id="@+id/lightbox_progress"
 			android:layout_width="wrap_content"

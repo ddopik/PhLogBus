@@ -1,13 +1,11 @@
-package com.example.ddopik.phlogbusiness.ui.signup.view;
+package com.example.ddopik.phlogbusiness.base.widgets.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.ui.login.view.LoginActivity;
 

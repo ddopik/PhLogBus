@@ -36,7 +36,9 @@
     <dimen name="sign_up_text_input_margin_top">12dp</dimen>
     <dimen name="welcome_screen_text_height">150dp</dimen>
     <dimen name="item_card_corner_radius">4dp</dimen>
+    <dimen name="dialog_card_corner_radius">12dp</dimen>
     <dimen name="item_card_elevation">2dp</dimen>
+    <dimen name="dialog_card_elevation">2dp</dimen>
     <dimen name="splash_logo_size">85dp</dimen>
     <dimen name="widgets_cap">8dp</dimen>
     <dimen name="widgets_padding">8dp</dimen>
@@ -161,10 +163,11 @@
 
     <!--///ConfirmMailDialog////-->
     <dimen name="confirm_mail_dialog_height">160dp</dimen>
-
-    <dimen name="social_img_slider_w">175dp</dimen>
-    <dimen name="social_img_slider_h">280dp</dimen>
-    <dimen name="social_profile_img_w">300dp</dimen>
+	
+	<dimen name="img_slider_w">175dp</dimen>
+	<dimen name="img_slider_h">280dp</dimen>
+	
+	<dimen name="social_profile_img_w">300dp</dimen>
     <dimen name="social_album_icon_w">200dp</dimen>
     <dimen name="social_album_icon_h">75dp</dimen>
     <dimen name="social_album_icon_h_xl">154dp</dimen>
