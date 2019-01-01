@@ -2,13 +2,14 @@ package com.example.ddopik.phlogbusiness.ui.lightbox.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.lightbox.view.BrandLightBoxFragmentView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class BrandLightBoxPresenterImpl implements BrandLightBoxPresnter {
+public class BrandLightBoxPresenterImpl implements BrandLightBoxPresenter {
 
     private static String TAG=BrandLightBoxPresenterImpl.class.getSimpleName();
 
@@ -24,16 +25,34 @@ public class BrandLightBoxPresenterImpl implements BrandLightBoxPresnter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void getLightBoxes(int page) {
+    public void getLightBoxes(int page,boolean forceReFresh) {
         brandLightBoxFragmentView.viewLightBoxProgress(true);
         BaseNetworkApi.getBrandLightBoxes(String.valueOf(page))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(brandLightBoxResponse -> {
-                    brandLightBoxFragmentView.viewLightBoxes(brandLightBoxResponse.data);
+                    brandLightBoxFragmentView.viewLightBoxes(brandLightBoxResponse.data,forceReFresh);
                     brandLightBoxFragmentView.viewLightBoxProgress(false);
                 }, throwable -> {
                     ErrorUtil.Companion.setError(context,TAG,throwable);
+                    brandLightBoxFragmentView.viewLightBoxProgress(false);
+                });
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void deleteLightBox(int id) {
+        brandLightBoxFragmentView.viewLightBoxProgress(true);
+        BaseNetworkApi.deleteLightBox(String.valueOf(id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(deleteLightBoxResponse -> {
+                    brandLightBoxFragmentView.showMessage(context.getResources().getString(R.string.light_box_deleted));
+                    brandLightBoxFragmentView.viewLightBoxProgress(false);
+                    brandLightBoxFragmentView.onLightBoxLightDeleted();
+                }, throwable -> {
+                    ErrorUtil.Companion.setError(
+                            context,TAG,throwable);
                     brandLightBoxFragmentView.viewLightBoxProgress(false);
                 });
     }

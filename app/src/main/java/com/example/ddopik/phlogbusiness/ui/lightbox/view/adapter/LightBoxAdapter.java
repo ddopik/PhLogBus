@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
-import com.example.ddopik.phlogbusiness.ui.lightbox.model.LightBox;
+import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
 
 import java.util.List;
 
@@ -59,7 +59,9 @@ public class LightBoxAdapter extends RecyclerView.Adapter<LightBoxAdapter.LightB
         }
 
         lightBoxViewHolder.LightBoxMenuBrn.setOnClickListener(v->{
-            onLightBoxClickListener.onDeleteLightBoxClicked(lightBoxList.get(i));
+
+
+
             PopupMenu popupMenu = new PopupMenu(context, lightBoxViewHolder.LightBoxMenuBrn);
             popupMenu.setOnMenuItemClickListener(menuItem -> {
 
@@ -71,9 +73,9 @@ public class LightBoxAdapter extends RecyclerView.Adapter<LightBoxAdapter.LightB
                     }
                 }
 
-
                 return false;
             });
+
             popupMenu.setGravity(Gravity.END);
             popupMenu.inflate(R.menu.menu_light_box);
             popupMenu.show();

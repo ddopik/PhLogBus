@@ -23,6 +23,7 @@
         android:id="@+id/campaigns_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="@dimen/widgets_padding"
         android:layout_below="@+id/campaigns_tab"/>
 
 </RelativeLayout>

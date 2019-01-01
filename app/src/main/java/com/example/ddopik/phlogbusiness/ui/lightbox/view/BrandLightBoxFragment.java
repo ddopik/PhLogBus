@@ -13,9 +13,9 @@ import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.AddNewLightBoxDialogFragment;
-import com.example.ddopik.phlogbusiness.ui.lightbox.model.LightBox;
+import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
 import com.example.ddopik.phlogbusiness.ui.lightbox.presenter.BrandLightBoxPresenterImpl;
-import com.example.ddopik.phlogbusiness.ui.lightbox.presenter.BrandLightBoxPresnter;
+import com.example.ddopik.phlogbusiness.ui.lightbox.presenter.BrandLightBoxPresenter;
 import com.example.ddopik.phlogbusiness.ui.lightbox.view.adapter.LightBoxAdapter;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
     public  static String TAG=BrandLightBoxFragment.class.getSimpleName();
 
     private View mainView;
-    private BrandLightBoxPresnter brandLightBoxPresnter;
+    private BrandLightBoxPresenter brandLightBoxPresenter;
     private CustomRecyclerView lightBoxRv;
     private LightBoxAdapter lightBoxAdapter;
     private PagingController pagingController;
@@ -52,13 +52,13 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
         initPresenter();
         initViews();
         initListeners();
-        brandLightBoxPresnter.getLightBoxes(0);
+        brandLightBoxPresenter.getLightBoxes(0,true);
     }
 
 
     @Override
     protected void initPresenter() {
-        brandLightBoxPresnter = new BrandLightBoxPresenterImpl(this, getContext());
+        brandLightBoxPresenter = new BrandLightBoxPresenterImpl(this, getContext());
     }
 
     @Override
@@ -77,7 +77,7 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
         pagingController = new PagingController(lightBoxRv) {
             @Override
             public void getPagingControllerCallBack(int page) {
-                brandLightBoxPresnter.getLightBoxes(page);
+                brandLightBoxPresenter.getLightBoxes(page,false);
             }
         };
 
@@ -93,12 +93,7 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
 
             @Override
             public void onDeleteLightBoxClicked(LightBox lightBox) {
-
-
-
-
-
-
+                brandLightBoxPresenter.deleteLightBox(lightBox.id);
             }
         };
 
@@ -112,10 +107,12 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
     }
 
     @Override
-    public void viewLightBoxes(List<LightBox> lightBoxes) {
+    public void viewLightBoxes(List<LightBox> lightBoxes,boolean forceRefreash) {
+        if(forceRefreash){
+            this.lightBoxList.clear();
+        }
         this.lightBoxList.addAll(lightBoxes);
         lightBoxAdapter.notifyDataSetChanged();
-
     }
 
     @Override
@@ -131,5 +128,10 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
             lightBoxProgressBar.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    public void onLightBoxLightDeleted() {
+        brandLightBoxPresenter.getLightBoxes(0,true);
     }
 }

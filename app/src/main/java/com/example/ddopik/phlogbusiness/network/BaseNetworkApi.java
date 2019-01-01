@@ -11,6 +11,7 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.model.CampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowBrandResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowCampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.BrandLightBoxResponse;
+import com.example.ddopik.phlogbusiness.ui.lightbox.model.DeleteLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.LoginResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
@@ -74,6 +75,7 @@ public class BaseNetworkApi {
     private static final String SUBMIT_CAMPAIGN_URL = BASE_URL + "/campaign/create";
     private static final String BRAND_PROFILE_URL = BASE_URL + "/profile";
     private static final String BRAND_LIGHT_BOX_URL = BASE_URL +"/lightBox/all";
+    private static final String DELETE_LIGHT_BOX_URL = BASE_URL +"/lightBox/delete";
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
 
@@ -287,6 +289,13 @@ public class BaseNetworkApi {
                 .getObjectObservable(BrandLightBoxResponse.class);
     }
 
+    public static io.reactivex.Observable<DeleteLightBoxResponse> deleteLightBox(String id) {
+        return Rx2AndroidNetworking.post(DELETE_LIGHT_BOX_URL)
+                .setPriority(Priority.HIGH)
+                .addBodyParameter("lightbox_id",id)
+                .build()
+                .getObjectObservable(DeleteLightBoxResponse.class);
+    }
 
 
 

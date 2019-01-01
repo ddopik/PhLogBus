@@ -13,6 +13,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:layout_below="@+id/light_box_app_bar"
+				android:layout_margin="@dimen/widgets_padding"
 				app:orientation="vertical"
 				tools:listitem="@layout/recycler_view_item"/>
 	</RelativeLayout>

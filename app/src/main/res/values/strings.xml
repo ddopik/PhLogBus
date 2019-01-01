@@ -162,6 +162,7 @@
     <string name="add">Add</string>
     <string name="new_light_box">New lightbox</string>
 	<string name="delete">Delete</string>
+	<string name="light_box_deleted">Light box deleted</string>
 
 
 </resources>
