@@ -3,7 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.signup.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.signup.view.UploadSignUpPhotoView;
 

@@ -11,7 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.Utilities;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.ConfirmEmailDialog;

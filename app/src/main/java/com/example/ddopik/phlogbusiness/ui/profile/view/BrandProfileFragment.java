@@ -17,7 +17,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Brand;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
@@ -25,7 +25,7 @@ import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenter;
 import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenterImpl;
 
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.NavigationHelper.LIGHT_BOX;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.LIGHT_BOX;
 
 /**
  * Created by abdalla_maged On Dec,2018

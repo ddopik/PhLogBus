@@ -77,4 +77,6 @@ public class Brand {
     @SerializedName("level")
     @Expose
     public Integer level;
+    @Expose
+    public Boolean isFollow;
 }

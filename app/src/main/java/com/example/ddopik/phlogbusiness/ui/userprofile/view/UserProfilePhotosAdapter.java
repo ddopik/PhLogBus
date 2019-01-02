@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
-import com.example.ddopik.phlogbusiness.base.commonmodel.ImageObj;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 
 import io.reactivex.annotations.NonNull;
 
@@ -20,12 +20,12 @@ import java.util.List;
 public class UserProfilePhotosAdapter extends RecyclerView.Adapter<UserProfilePhotosAdapter.PhotosViewHolder> {
 
 
-    private List<ImageObj> userPhotoList;
+    private List<BaseImage> userPhotoList;
     private Context context;
     private UserProfilePhotosAdapter.PhotosViewHolder photosViewHolder;
     private PhotoAction photoAction;
 
-    public UserProfilePhotosAdapter(Context context, List<ImageObj> userPhotoList) {
+    public UserProfilePhotosAdapter(Context context, List<BaseImage> userPhotoList) {
         this.context = context;
         this.userPhotoList = userPhotoList;
     }
@@ -43,7 +43,7 @@ public class UserProfilePhotosAdapter extends RecyclerView.Adapter<UserProfilePh
 
 
         GlideApp.with(context)
-                .load(userPhotoList.get(i).image)
+                .load(userPhotoList.get(i).url)
                 .centerCrop()
 //                .override(450,450)
                 .placeholder(R.drawable.ic_launcher_foreground)
@@ -71,6 +71,6 @@ public class UserProfilePhotosAdapter extends RecyclerView.Adapter<UserProfilePh
     }
 
     public interface PhotoAction {
-        void onPhotoClicked(ImageObj imageObj);
+        void onPhotoClicked(BaseImage baseImage);
     }
 }

@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
@@ -20,7 +19,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.signup.presenter.UploadSignUpPhotoPresenter;
@@ -31,8 +30,8 @@ import java.io.File;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.REQUEST_CODE_CAMERA;
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.REQUEST_CODE_GALLERY;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.REQUEST_CODE_CAMERA;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.REQUEST_CODE_GALLERY;
 
 /**
  * Created by abdalla_maged On Nov,2018

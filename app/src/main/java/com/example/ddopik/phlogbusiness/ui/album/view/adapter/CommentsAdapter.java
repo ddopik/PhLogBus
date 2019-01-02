@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.ui.album.model.UserComment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
 
 
 import java.util.List;
@@ -18,9 +18,9 @@ import java.util.List;
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> {
 
     private Context context;
-    private List<UserComment> commentList;
+    private List<Comment> commentList;
 
-    public CommentsAdapter(List<UserComment> commentList) {
+    public CommentsAdapter(List<Comment> commentList) {
         this.commentList = commentList;
     }
 

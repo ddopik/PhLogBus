@@ -2,11 +2,9 @@ package com.example.ddopik.phlogbusiness.ui.album.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
-import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.album.view.AlbumPreviewActivityView;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -28,24 +26,34 @@ public class AlbumPreviewActivityPresenterImpl implements AlbumPreviewActivityPr
 
 
     @Override
-    public void getSelectedSearchAlbum(String albumID,String pageNum) {
+    public void getSelectedSearchAlbum(int albumID, String pageNum) {
         albumPreviewActivityView.viewAlbumPreviewProgress(true);
-        BaseNetworkApi.getSearchSelectedAlbum(PrefUtils.getBrandToken(context),albumID, pageNum)
+        BaseNetworkApi.getSearchSelectedAlbum( String.valueOf(albumID), pageNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(albumPreviewResponse -> {
-                         albumPreviewActivityView.viewAlumPreview(albumPreviewResponse.data);
-
+                    albumPreviewActivityView.viewAlumPreviewData(albumPreviewResponse.data);
                     albumPreviewActivityView.viewAlbumPreviewProgress(false);
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable.toString());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());
                     albumPreviewActivityView.viewAlbumPreviewProgress(false);
                 });
-
-
     }
 
 
+    @SuppressLint("CheckResult")
+    @Override
+    public void getAlbumPreviewImages(int albumId,int  pageNum) {
+        BaseNetworkApi.getAlbumImagesPreview( String.valueOf(albumId),String.valueOf( pageNum))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(albumPreviewImagesResponse -> {
+                    albumPreviewActivityView.viwAlbumPreviewImages(albumPreviewImagesResponse.data.imagesList);
+                    albumPreviewActivityView.viewAlbumPreviewProgress(false);
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());
+                    albumPreviewActivityView.viewAlbumPreviewProgress(false);
+                });
 
-
+    }
 }

@@ -3,7 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.welcome.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.welcome.view.WelcomeView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,7 +34,7 @@ public class WelcomeScreenImpl implements WelcomePresenter {
                         welcomeView.showWelcomeImageSlider(welcomeScreenResponse.initSlider);
 
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable.toString());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());
                 });
 
     }

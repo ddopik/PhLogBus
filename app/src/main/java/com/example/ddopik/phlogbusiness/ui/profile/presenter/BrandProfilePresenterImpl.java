@@ -2,7 +2,7 @@ package com.example.ddopik.phlogbusiness.ui.profile.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.profile.view.BrandProfileFragmentView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -31,7 +31,7 @@ public class BrandProfilePresenterImpl implements BrandProfilePresenter {
                     brandProfileFragmentView.viewBrandProfileProgress(false);
                     brandProfileFragmentView.viewBrandProfileData(brandProfileResponse.brand);
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context,TAG,throwable);
+                    CustomErrorUtil.Companion.setError(context,TAG,throwable);
                     brandProfileFragmentView.viewBrandProfileProgress(false);
                 });
     }

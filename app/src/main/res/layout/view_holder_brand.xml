@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/view_holder_item_list_height_med"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/dp8"
+    android:background="@color/white"
+    app:cardCornerRadius="@dimen/item_card_corner_radius"
+    app:cardElevation="@dimen/item_card_elevation">
+
+    <LinearLayout
+        android:id="@+id/search_brand_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/widgets_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/brand_search_icon_img"
+                android:layout_width="@dimen/icon_view_holder_size_m"
+                android:layout_height="@dimen/icon_view_holder_size_m"
+                android:layout_marginStart="@dimen/dp6"
+                tools:src="@drawable/default_user_pic" />
+
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                android:id="@+id/brand_search_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dp12"
+                android:layout_weight="3"
+                android:fontFamily="@font/arial_rounded_font"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_medium"
+                tools:text="Brand text" />
+
+            <Button
+                android:id="@+id/follow_brand"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_orange_btn"
+                android:fontFamily="@string/filters"
+                android:text="@string/follow"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dp4">
+
+            <ImageView
+                android:id="@+id/brand_search_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_photographer_profile" />
+
+
+                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                    android:id="@+id/brand_search_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    tools:text="15 following "
+                    android:layout_margin="@dimen/dp8"
+                    android:fontFamily="@font/arial_rounded_font"
+                    android:textSize="@dimen/font_normal"
+                    android:textColor="@color/white"/>
+
+
+
+        </FrameLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

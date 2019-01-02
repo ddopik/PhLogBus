@@ -5,9 +5,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
-import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
-import com.example.ddopik.phlogbusiness.Utiltes.Utilities;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.login.model.LoginData;
 import com.example.ddopik.phlogbusiness.ui.login.view.LoginView;
@@ -51,7 +51,7 @@ public class LoginPresenterImp implements LoginPresenter {
                     saveBrand(loginResponse.getData());
 
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable);;
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);;
                 });
     }
 
@@ -111,7 +111,7 @@ public class LoginPresenterImp implements LoginPresenter {
 
             @Override
             public void onError(Throwable error) {
-                ErrorUtil.Companion.setError(context, TAG, error);
+                CustomErrorUtil.Companion.setError(context, TAG, error);
             }
 
             @Override
@@ -137,7 +137,7 @@ public class LoginPresenterImp implements LoginPresenter {
 //                        Log.e(TAG, "processFaceBookUser() Error--->" + socialLoginResponse.state +"  "+ socialLoginResponse.msg) ;
                     }
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 

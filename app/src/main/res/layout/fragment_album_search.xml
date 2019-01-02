@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:background="@color/white">
+
+    <ExpandableListView
+        android:id="@+id/filters_expand"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:cacheColorHint="#00000000"
+        android:childDivider="@android:color/transparent"
+        android:divider="@color/black"
+        android:dividerHeight="1dp"
+        android:groupIndicator="@drawable/group_indicator"
+        android:scrollbars="vertical|horizontal"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
+        android:id="@+id/album_search_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:orientation="vertical"
+        android:visibility="visible"
+        tools:visibility="visible"/>
+
+    <ProgressBar
+        android:id="@+id/album_search_filter_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_gravity="center"/>
+
+</FrameLayout>

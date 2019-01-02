@@ -3,7 +3,6 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Tag;
 
 import java.io.File;
 import java.util.ArrayList;

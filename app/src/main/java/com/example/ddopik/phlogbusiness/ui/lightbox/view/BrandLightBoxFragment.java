@@ -32,7 +32,8 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
     private PagingController pagingController;
     private List<LightBox> lightBoxList = new ArrayList<LightBox>();
     private ProgressBar lightBoxProgressBar;
-    private ImageButton backBtn,addLightBoxBtn;
+    private ImageButton lightBoxBackBtn,addLightBoxBtn;
+
 
     public static BrandLightBoxFragment getInstance(){
         BrandLightBoxFragment brandLightBoxFragment=new BrandLightBoxFragment();
@@ -67,7 +68,7 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
         lightBoxRv = mainView.findViewById(R.id.light_box_rv);
         lightBoxProgressBar = mainView.findViewById(R.id.lightbox_progress);
         addLightBoxBtn=mainView.findViewById(R.id.add_light_box_btn);
-        backBtn=mainView.findViewById(R.id.back_btn);
+        lightBoxBackBtn=mainView.findViewById(R.id.back_btn);
         lightBoxAdapter = new LightBoxAdapter(lightBoxList);
         lightBoxRv.setAdapter(lightBoxAdapter);
 
@@ -108,7 +109,7 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
             });
             addNewLightBoxDialogFragment.show(getChildFragmentManager(),AddNewLightBoxDialogFragment.class.getSimpleName());
         });
-        backBtn.setOnClickListener(v->{
+        lightBoxBackBtn.setOnClickListener(v->{
             getActivity().onBackPressed();
         });
     }

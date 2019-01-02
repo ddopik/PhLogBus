@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
-import com.example.ddopik.phlogbusiness.base.commonmodel.ImageObj;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 
 import java.util.List;
 
@@ -18,10 +18,10 @@ public class LightBoxSliderAdapter extends RecyclerView.Adapter<LightBoxSliderAd
 
     public OnLightBoxImgSliderClick OnLightBoxImgSliderClick;
     private Context context;
-    private List<ImageObj> imageObjList;
+    private List<BaseImage> baseImageList;
 
-    public LightBoxSliderAdapter(List<ImageObj> imageObjList) {
-        this.imageObjList = imageObjList;
+    public LightBoxSliderAdapter(List<BaseImage> baseImageList) {
+        this.baseImageList = baseImageList;
     }
 
     @NonNull
@@ -36,14 +36,14 @@ public class LightBoxSliderAdapter extends RecyclerView.Adapter<LightBoxSliderAd
     public void onBindViewHolder(@NonNull LightBoxSliderViewHolder lightBoxSliderViewHolder, int i) {
 
         GlideApp.with(context)
-                .load(imageObjList.get(i).url)
+                .load(baseImageList.get(i).url)
                 .placeholder(R.drawable.default_place_holder)
                 .error(R.drawable.default_error_img)
                 .into(lightBoxSliderViewHolder.lightBoxSliderImg);
 
         if (OnLightBoxImgSliderClick != null) {
             lightBoxSliderViewHolder.lightBoxSliderImg.setOnClickListener(v -> {
-                OnLightBoxImgSliderClick.onImgClick(imageObjList.get(i));
+                OnLightBoxImgSliderClick.onImgClick(baseImageList.get(i));
             });
         }
 
@@ -51,11 +51,11 @@ public class LightBoxSliderAdapter extends RecyclerView.Adapter<LightBoxSliderAd
 
     @Override
     public int getItemCount() {
-        return imageObjList.size();
+        return baseImageList.size();
     }
 
     public interface OnLightBoxImgSliderClick {
-        void onImgClick(ImageObj imageObj);
+        void onImgClick(BaseImage baseImage);
     }
 
     class LightBoxSliderViewHolder extends RecyclerView.ViewHolder {

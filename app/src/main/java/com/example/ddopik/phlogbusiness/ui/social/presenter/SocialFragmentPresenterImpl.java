@@ -5,8 +5,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
-import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.social.view.SocialFragmentView;
 
@@ -39,7 +39,7 @@ public class SocialFragmentPresenterImpl implements SocialFragmentPresenter {
 
                     socialFragmentView.viewSocialDataProgress(false);
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     socialFragmentView.viewSocialDataProgress(false);
                 });
 
@@ -67,7 +67,7 @@ public class SocialFragmentPresenterImpl implements SocialFragmentPresenter {
                 .subscribe(followCampaignResponse -> {
                     socialFragmentView.showMessage(context.getResources().getString(R.string.campaign_followed));
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
                 });
     }
 
@@ -80,7 +80,7 @@ public class SocialFragmentPresenterImpl implements SocialFragmentPresenter {
                 .subscribe(followBrandResponse -> {
                     socialFragmentView.showMessage(context.getResources().getString(R.string.brand_followed));
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
                 });
     }
 }

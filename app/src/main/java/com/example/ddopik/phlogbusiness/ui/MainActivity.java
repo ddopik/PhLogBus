@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.Constants;
-import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.app.PhLogBusinessApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
@@ -22,7 +22,7 @@ import com.example.ddopik.phlogbusiness.ui.profile.view.BrandProfileFragment;
 import com.example.ddopik.phlogbusiness.ui.social.view.SocialFragment;
 import com.example.ddopik.phlogbusiness.ui.uploadimage.view.GalleryImageFragment;
 
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.NavigationHelper.*;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.*;
 
 /**
  * Created by abdalla_maged On Nov,2018

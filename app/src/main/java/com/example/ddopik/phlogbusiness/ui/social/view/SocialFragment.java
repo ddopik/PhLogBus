@@ -12,24 +12,23 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.ui.album.model.AlbumImg;
 import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
 import com.example.ddopik.phlogbusiness.ui.brand.view.BrandInnerActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerActivity;
 import com.example.ddopik.phlogbusiness.ui.social.model.Entite;
 import com.example.ddopik.phlogbusiness.ui.social.model.SocialData;
-import com.example.ddopik.phlogbusiness.ui.social.presenter.SocialFragmentPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.social.presenter.SocialFragmentPresenter;
+import com.example.ddopik.phlogbusiness.ui.social.presenter.SocialFragmentPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.social.view.adapter.SocialAdapter;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
+import com.example.ddopik.phlogbusiness.ui.search.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.ALBUM_ID;
-import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.ALL_ALBUM_IMAGES;
-import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.SELECTED_IMG_ID;
+import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.*;
 import static com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity.USER_ID;
 
 
@@ -47,7 +46,7 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        mainView =inflater.inflate(R.layout.fragment_home,container,false);
+        mainView =inflater.inflate(R.layout.fragment_social,container,false);
         return mainView;
 
     }
@@ -81,10 +80,11 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView {
     }
 
     private void initListener(){
-//        homeSearch.setOnClickListener((v)->{
-//            Intent intent=new Intent(getActivity(), SearchActivity.class);
-//            startActivity(intent);
-//        });
+        homeSearch.setOnClickListener((v)->{
+            Intent intent=new Intent(getActivity(), SearchActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
 
         socialAdapter.onSocialItemListener = new SocialAdapter.OnSocialItemListener() {
             @Override
@@ -117,11 +117,11 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView {
                 Intent intent = new Intent(getActivity(), AllAlbumImgActivity.class);
 
 //                intent.putExtra(SELECTED_IMG_ID,albumImg.albumImgId);/// todo album id should passed here
-                List<AlbumImg> albumImgList = new ArrayList<>();
+                List<BaseImage> albumImgList = new ArrayList<>();
                 for (int i = 0; i < entite.imgs.size(); i++) {
-                    AlbumImg albumImg = new AlbumImg();
-                    albumImg.albumImgId = String.valueOf(i);
-                    albumImg.AlbumImg = entite.imgs.get(i);
+                    BaseImage albumImg = new BaseImage();
+                    albumImg.id = i;
+                    albumImg.url = entite.imgs.get(i);
                     albumImgList.add(albumImg);
                 }
                 intent.putExtra(ALBUM_ID, String.valueOf(entite.id));

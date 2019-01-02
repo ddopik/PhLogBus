@@ -3,7 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
-import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerActivityView;
 import io.reactivex.android.schedulers.AndroidSchedulers;

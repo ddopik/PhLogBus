@@ -4,8 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
-import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.album.view.AlbumCommentActivityView;
 
@@ -38,7 +38,7 @@ public class AlbumCommentActivityImpl implements AlbumCommentActivityPresenter {
                     albumCommentActivityView.viewAddCommentProgress(false);
                 }, throwable -> {
 
-                    ErrorUtil.Companion.setError(context, TAG, throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     albumCommentActivityView.viewAddCommentProgress(false);
                 });
     }
@@ -54,7 +54,7 @@ public class AlbumCommentActivityImpl implements AlbumCommentActivityPresenter {
                     albumCommentActivityView.viewPhotoComment(albumImgCommentResponse.data);
                     albumCommentActivityView.viewAddCommentProgress(false);
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable.toString());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());
                     albumCommentActivityView.viewAddCommentProgress(false);
                 });
 

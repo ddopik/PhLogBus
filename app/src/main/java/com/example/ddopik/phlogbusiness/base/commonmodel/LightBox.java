@@ -26,5 +26,5 @@ public class LightBox {
     public Integer photosCount;
     @SerializedName("photos")
     @Expose
-    public List<ImageObj> photos = null;
+    public List<BaseImage> photos = null;
 }

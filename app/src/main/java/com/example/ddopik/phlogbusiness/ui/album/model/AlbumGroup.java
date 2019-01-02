@@ -1,5 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.album.model;
 
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,5 +10,5 @@ import java.util.List;
  */
 public class AlbumGroup {
 
-    public List<AlbumImg> albumGroupList=new ArrayList<AlbumImg>();
+    public List<BaseImage> albumGroupList=new ArrayList<BaseImage>();
  }

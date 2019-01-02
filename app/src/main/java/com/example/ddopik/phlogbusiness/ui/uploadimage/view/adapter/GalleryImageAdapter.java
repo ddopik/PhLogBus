@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 
 
 import java.util.List;

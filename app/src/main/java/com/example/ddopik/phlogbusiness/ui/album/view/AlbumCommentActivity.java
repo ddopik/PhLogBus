@@ -8,7 +8,7 @@ import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumImgCommentData;
-import com.example.ddopik.phlogbusiness.ui.album.model.UserComment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
 
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class AlbumCommentActivity extends BaseActivity implements AlbumCommentAc
     private EditText comment;
     private Button sendBtn;
     private ProgressBar addCommentProgress;
-    private List<UserComment> userCommentList=new ArrayList<>();
+    private List<Comment> commentList =new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -18,7 +18,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerData;
 import com.example.ddopik.phlogbusiness.ui.brand.presenter.BrandInnerDataPresenterImpl;

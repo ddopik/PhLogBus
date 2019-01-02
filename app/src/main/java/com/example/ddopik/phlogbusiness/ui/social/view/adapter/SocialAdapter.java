@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.ui.social.model.Entite;
 import com.example.ddopik.phlogbusiness.ui.social.model.SocialData;
@@ -17,7 +17,7 @@ import com.example.ddopik.phlogbusiness.ui.social.model.SocialData;
 
 import java.util.List;
 
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.*;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.*;
 
 
 /**

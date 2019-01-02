@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPresenterImpl;

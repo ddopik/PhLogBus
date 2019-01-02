@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationItem;
 
 

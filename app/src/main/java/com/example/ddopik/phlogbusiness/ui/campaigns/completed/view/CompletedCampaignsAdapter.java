@@ -15,9 +15,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
-import com.example.ddopik.phlogbusiness.ui.campaigns.draft.view.DraftCampaignsAdapter;
 
 import java.util.List;
 

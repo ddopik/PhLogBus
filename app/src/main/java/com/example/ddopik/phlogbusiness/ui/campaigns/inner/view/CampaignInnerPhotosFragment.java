@@ -11,7 +11,7 @@ import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
-import com.example.ddopik.phlogbusiness.base.commonmodel.ImageObj;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPhotosFragmentPresenter;
@@ -29,7 +29,7 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
     private View mainView;
     private CustomRecyclerView campaignInnerRv;
     private ProgressBar campaignInnerProgressBar;
-    private List<ImageObj> photoGrapherPhotoList = new ArrayList<ImageObj>();
+    private List<BaseImage> photoGrapherPhotoList = new ArrayList<BaseImage>();
     private CampaignInnerPhotosAdapter campaignInnerPhotosAdapter;
     private PagingController pagingController;
     private CampaignInnerPhotosFragmentPresenter campaignInnerPhotosFragmentPresenter;
@@ -101,7 +101,7 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
     }
 
     @Override
-    public void getInnerCampaignPhotos(List<ImageObj> campaignInnerPhotoList) {
+    public void getInnerCampaignPhotos(List<BaseImage> campaignInnerPhotoList) {
         photoGrapherPhotoList.addAll(campaignInnerPhotoList);
         campaignInnerPhotosAdapter.notifyDataSetChanged();
 

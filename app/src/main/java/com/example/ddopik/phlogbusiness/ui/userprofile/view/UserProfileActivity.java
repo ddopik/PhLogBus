@@ -8,9 +8,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.*;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
-import com.example.ddopik.phlogbusiness.base.commonmodel.ImageObj;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.userprofile.presenter.UserProfilePresenter;
@@ -32,7 +32,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     private CustomRecyclerView userProfilePhotosRv;
     private UserProfilePhotosAdapter userProfilePhotosAdapter;
     private UserProfilePresenter userProfilePresenter;
-    private List<ImageObj> userPhotoList = new ArrayList<ImageObj>();
+    private List<BaseImage> userPhotoList = new ArrayList<BaseImage>();
     private ProgressBar userProfilePhotosProgressBar;
     private Button followUser;
     private PagingController pagingController;
@@ -146,7 +146,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     }
 
     @Override
-    public void viewUserPhotos(List<ImageObj> userPhotoList) {
+    public void viewUserPhotos(List<BaseImage> userPhotoList) {
         this.userPhotoList.addAll(userPhotoList);
         this.userPhotoList.addAll(userPhotoList);
         userProfilePhotosAdapter.notifyDataSetChanged();

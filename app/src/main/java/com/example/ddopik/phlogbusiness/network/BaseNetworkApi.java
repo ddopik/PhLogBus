@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.network;
 
 import com.androidnetworking.common.Priority;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumImgCommentResponse;
+import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewImagesResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponse;
 import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.SubmitCampaignResponse;
@@ -17,6 +18,9 @@ import com.example.ddopik.phlogbusiness.ui.login.model.LoginResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
 import com.example.ddopik.phlogbusiness.ui.profile.model.BrandProfileResponse;
+import com.example.ddopik.phlogbusiness.ui.search.album.model.AlbumSearchResponse;
+import com.example.ddopik.phlogbusiness.ui.search.album.model.SearchFiltersResponse;
+import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.SignUpResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.UploadProfileImgResponse;
@@ -53,6 +57,8 @@ public class BaseNetworkApi {
     private static final String BASE_URL_COMMON = "http://178.128.162.10/public/api/common";
 
     private static final String WELCOME_SLIDES_IMAGES = BASE_URL + "/photographer/init_slider";
+    private static final String USER_SEARCH_FILTERS = BASE_URL + "/filters";
+    private static final String SEARCH_ALBUM = BASE_URL + "/album/search";
     private static final String ALL_INDUSTRY = BASE_URL_COMMON + "/industries/list";
     private static final String SIGN_UP_USER = BASE_URL + "/auth/signup";
     private static final String NORMAL_LOGIN = BASE_URL + "/auth/login";
@@ -69,7 +75,9 @@ public class BaseNetworkApi {
     private static final String USER_PROFILE_URL = BASE_URL + "/get_info_photographer";
     private static final String USER_PROFILE_PHOTOS = BASE_URL + "/image_photographer";
     private static final String PHOTOGRAPHER_FOLLOW_USER_URL = BASE_URL + "/follow";
-    private static final String GET_SEARCH_ALBUM = BASE_URL +"/search_in_one_album";
+    private static final String PHOTOGRAPHER_SEARCH_URL = BASE_URL + "/photographer/list";
+    private static final String GET_ALBUM_PREVIEW = BASE_URL +"/album/details";
+    private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL +"/album/photos";
     private static final String GET_IMAGE_COMMENT = BASE_URL + "/image/comments";
     private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/image/comment/submit";
     private static final String FOLLOW_CAMPAIGN_URL = BASE_URL + "/join_photographer_campaign";
@@ -131,6 +139,25 @@ public class BaseNetworkApi {
                 .getObjectObservable(WelcomeScreenResponse.class);
     }
 
+    public static io.reactivex.Observable<SearchFiltersResponse> getFilters() {
+        return Rx2AndroidNetworking.get(USER_SEARCH_FILTERS)
+
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(SearchFiltersResponse.class);
+    }
+
+
+
+    public static io.reactivex.Observable<AlbumSearchResponse> getSearchAlbum(String key, String page) {
+        return Rx2AndroidNetworking.post(SEARCH_ALBUM)
+                .addQueryParameter(PAGER_PATH_PARAMETER, page)
+                .addQueryParameter("keyword", key)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(AlbumSearchResponse.class);
+    }
+
 
     public static io.reactivex.Observable<FollowBrandResponse> followBrand(String token, String brandId){
         return Rx2AndroidNetworking.post(BRAND_FOLLOW_URL)
@@ -147,6 +174,18 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(SocialResponse.class);
+    }
+
+
+
+    public static io.reactivex.Observable<ProfileSearchResponse> getProfileSearch(String key, int page) {
+        return Rx2AndroidNetworking.post(PHOTOGRAPHER_SEARCH_URL)
+                .addBodyParameter("keyword", key)
+                .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
+                .getResponseOnlyFromNetwork()
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(ProfileSearchResponse.class);
     }
 
     public static io.reactivex.Observable<NotificationResponse> getNotification(String token, String page){
@@ -231,13 +270,22 @@ public class BaseNetworkApi {
                 .getObjectObservable(FollowUserResponse.class);
     }
 
-    public static io.reactivex.Observable<AlbumPreviewResponse> getSearchSelectedAlbum(String token,String albumId,String page) {
-        return Rx2AndroidNetworking.post(GET_SEARCH_ALBUM)
-                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
+    public static io.reactivex.Observable<AlbumPreviewResponse> getSearchSelectedAlbum(String albumId,String page) {
+        return Rx2AndroidNetworking.post(GET_ALBUM_PREVIEW)
                 .addQueryParameter(PAGER_PATH_PARAMETER,page)
+                .addBodyParameter("album_id",albumId)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(AlbumPreviewResponse.class);
+    }
+
+    public static io.reactivex.Observable<AlbumPreviewImagesResponse> getAlbumImagesPreview(String albumId, String page) {
+        return Rx2AndroidNetworking.post(GET_ALBUM_IMAGES_PREVIEW)
+                .addQueryParameter(PAGER_PATH_PARAMETER,page)
+                .addBodyParameter("album_id",albumId)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(AlbumPreviewImagesResponse.class);
     }
 
     public static io.reactivex.Observable<AlbumImgCommentResponse> getImageComments(String token, String image_id, String page) {

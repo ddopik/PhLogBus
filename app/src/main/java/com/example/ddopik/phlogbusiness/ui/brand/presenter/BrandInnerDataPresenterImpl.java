@@ -3,8 +3,8 @@ package com.example.ddopik.phlogbusiness.ui.brand.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
-import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.brand.view.BrandInnerActivityView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -38,7 +38,7 @@ public class BrandInnerDataPresenterImpl implements BrandInnerPresenter {
                     brandInnerActivityView.viewInnerBrandProgressBar(false);
                 }, throwable -> {
                     brandInnerActivityView.viewInnerBrandProgressBar(false);
-                    ErrorUtil.Companion.setError(context,TAG,throwable.getMessage());
+                    CustomErrorUtil.Companion.setError(context,TAG,throwable.getMessage());
                 });
 
     }

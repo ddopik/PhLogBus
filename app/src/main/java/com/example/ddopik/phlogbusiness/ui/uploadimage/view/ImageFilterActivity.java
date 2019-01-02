@@ -11,8 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.BitmapUtils;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.ui.uploadimage.view.fillters.FiltersListFragment;
 import com.example.ddopik.phlogbusiness.ui.uploadimage.view.fillters.PickImageViewPagerAdapter;
@@ -21,7 +20,7 @@ import com.zomato.photofilters.imageprocessors.subfilters.BrightnessSubFilter;
 import com.zomato.photofilters.imageprocessors.subfilters.ContrastSubFilter;
 import com.zomato.photofilters.imageprocessors.subfilters.SaturationSubfilter;
 
-import static com.example.ddopik.phlogbusiness.Utiltes.BitmapUtils.getBitmapFromGallery;
+import static com.example.ddopik.phlogbusiness.utiltes.BitmapUtils.getBitmapFromGallery;
 
 
 /**

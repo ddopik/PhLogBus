@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Tag;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

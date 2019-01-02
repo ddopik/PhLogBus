@@ -4,7 +4,7 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.campaigns.completed.view.CompleteCampaignsFragmentView;
 import com.example.ddopik.phlogbusiness.ui.campaigns.completed.presenter.CompleteCampaignPresenter;
@@ -37,7 +37,7 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
 //                .subscribe(followCampaignResponse -> {
 //                    campaignFragmentView.showMessage(context.getResources().getString(R.string.campaign_followed));
 //                }, throwable -> {
-//                    ErrorUtil.Companion.setError(context, TAG, throwable);
+//                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
 //                });
     }
 
@@ -53,7 +53,7 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
                     completeCampaignsFragmentView.viewAllCompletedCampaign(campaignResponse.data.data);
                  }, throwable -> {
                     completeCampaignsFragmentView.showAllCompletedCampaignProgress(false);
-                    ErrorUtil.Companion.setError(context,TAG,throwable);
+                    CustomErrorUtil.Companion.setError(context,TAG,throwable);
                 });
     }
 
@@ -70,7 +70,7 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
 
                 }, throwable -> {
                     draftCampaignsFragmentView.showDraftCampaignProgress(false);
-                    ErrorUtil.Companion.setError(context, TAG, throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 
@@ -87,7 +87,7 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
 
                 }, throwable -> {
                     runningCampaignFragmentView.showAllCampaignProgress(false);
-                    ErrorUtil.Companion.setError(context, TAG, throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 

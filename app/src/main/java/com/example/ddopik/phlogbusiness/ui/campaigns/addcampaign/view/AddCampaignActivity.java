@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.AddCampaignRequestModel;
@@ -21,8 +21,8 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import java.io.File;
 
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.REQUEST_CODE_CAMERA;
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.REQUEST_CODE_GALLERY;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.REQUEST_CODE_CAMERA;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.REQUEST_CODE_GALLERY;
 import static com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignStepTwoActivity.CAMPAIGN_DATA;
 
 public class AddCampaignActivity extends BaseActivity {

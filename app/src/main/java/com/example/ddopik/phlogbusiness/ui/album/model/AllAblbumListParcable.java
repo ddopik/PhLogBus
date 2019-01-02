@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.ui.album.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class AllAblbumListParcable implements Parcelable {
 
-    public List<AlbumImg> albumImgList;
+    public List<BaseImage> albumImgList;
 
 
 
@@ -21,8 +22,8 @@ public class AllAblbumListParcable implements Parcelable {
 
     public AllAblbumListParcable(Parcel in) {
 
-        albumImgList = new ArrayList<AlbumImg>();
-        in.readTypedList(albumImgList, AlbumImg.CREATOR);
+        albumImgList = new ArrayList<BaseImage>();
+        in.readTypedList(albumImgList, BaseImage.CREATOR);
     }
 
     public static final Creator<AllAblbumListParcable> CREATOR = new Creator<AllAblbumListParcable>() {
@@ -47,11 +48,11 @@ public class AllAblbumListParcable implements Parcelable {
         outParcel.writeTypedList(albumImgList);
     }
 
-    public List<AlbumImg> getAlbumImgList() {
+    public List<BaseImage> getAlbumImgList() {
         return albumImgList;
     }
 
-    public void setAlbumImgList(List<AlbumImg> albumImgList) {
+    public void setAlbumImgList(List<BaseImage> albumImgList) {
         this.albumImgList = albumImgList;
     }
 }

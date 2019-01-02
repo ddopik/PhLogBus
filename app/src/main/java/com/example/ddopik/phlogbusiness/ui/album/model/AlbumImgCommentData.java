@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.album.model;
 
+import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -14,7 +15,7 @@ public class AlbumImgCommentData {
     public Integer currentPage;
     @SerializedName("data")
     @Expose
-    public List<UserComment> data = null;
+    public List<Comment> data = null;
     @SerializedName("first_page_url")
     @Expose
     public String firstPageUrl;

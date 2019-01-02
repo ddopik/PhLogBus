@@ -18,6 +18,7 @@ public class AddNewLightBoxDialogFragment extends DialogFragment {
     private EditText lightBoxName;
     private Button addBtn, cancelBtn;
 
+
     public static AddNewLightBoxDialogFragment getInstance() {
         AddNewLightBoxDialogFragment addNewLightBoxDialogFragment=new AddNewLightBoxDialogFragment();
 

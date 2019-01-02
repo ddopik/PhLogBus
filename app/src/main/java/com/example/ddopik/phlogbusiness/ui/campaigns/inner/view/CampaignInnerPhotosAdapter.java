@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
-import com.example.ddopik.phlogbusiness.base.commonmodel.ImageObj;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 
 import java.util.List;
 
@@ -19,12 +19,12 @@ import java.util.List;
 public class CampaignInnerPhotosAdapter extends RecyclerView.Adapter<CampaignInnerPhotosAdapter.PhotosViewHolder> {
 
 
-    private List<ImageObj> photoGrapherPhotosList;
+    private List<BaseImage> photoGrapherPhotosList;
     private Context context;
     private CampaignInnerPhotosAdapter.PhotosViewHolder photosViewHolder;
     public PhotoAction photoAction;
 
-    public CampaignInnerPhotosAdapter(Context context, List<ImageObj> photoGrapherPhotosList) {
+    public CampaignInnerPhotosAdapter(Context context, List<BaseImage> photoGrapherPhotosList) {
         this.context = context;
         this.photoGrapherPhotosList = photoGrapherPhotosList;
     }
@@ -42,7 +42,7 @@ public class CampaignInnerPhotosAdapter extends RecyclerView.Adapter<CampaignInn
 
 
         GlideApp.with(context)
-                .load(photoGrapherPhotosList.get(i).image)
+                .load(photoGrapherPhotosList.get(i).url)
                 .centerCrop()
 //                .override(450,450)
                 .placeholder(R.drawable.ic_launcher_foreground)
@@ -70,6 +70,6 @@ public class CampaignInnerPhotosAdapter extends RecyclerView.Adapter<CampaignInn
     }
 
     public interface PhotoAction {
-        void onPhotoClicked(ImageObj imageObj);
+        void onPhotoClicked(BaseImage baseImage);
     }
 }

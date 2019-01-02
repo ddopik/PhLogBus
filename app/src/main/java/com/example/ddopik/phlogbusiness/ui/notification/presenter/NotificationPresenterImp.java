@@ -3,8 +3,8 @@ package com.example.ddopik.phlogbusiness.ui.notification.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
-import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.notification.view.NotificationFragmentView;
 
@@ -35,10 +35,10 @@ public class NotificationPresenterImp implements NotificationPresenter {
                     notificationFragmentView.viewNotificationProgress(false);
 
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable.toString());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());
                     notificationFragmentView.viewNotificationProgress(false);
                 });
     }
-    // ErrorUtil.setError(context, TAG, albumPreviewResponse.msg, albumPreviewResponse.state);
-// ErrorUtil.setError(context, TAG, throwable.toString());
+    // CustomErrorUtil.setError(context, TAG, albumPreviewResponse.msg, albumPreviewResponse.state);
+// CustomErrorUtil.setError(context, TAG, throwable.toString());
 }

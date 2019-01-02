@@ -11,9 +11,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumGroup;
-import com.example.ddopik.phlogbusiness.ui.album.model.AlbumImg;
 
 
 import java.util.List;
@@ -51,7 +51,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
 
         if (albumGroupList.get(position).albumGroupList.size() >= 1){
             GlideApp.with(context)
-                    .load(albumGroupList.get(position).albumGroupList.get(0).AlbumImg)
+                    .load(albumGroupList.get(position).albumGroupList.get(0).url)
                     .placeholder(R.drawable.default_user_pic)
                     .apply(requestOptions)
                     .error(R.drawable.default_photographer_profile)
@@ -63,7 +63,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
 
         if (albumGroupList.get(position).albumGroupList.size() >= 2) {
             GlideApp.with(context)
-                    .load(albumGroupList.get(position).albumGroupList.get(1).AlbumImg)
+                    .load(albumGroupList.get(position).albumGroupList.get(1).url)
                     .placeholder(R.drawable.default_user_pic)
                     .apply(requestOptions)
                     .error(R.drawable.default_photographer_profile)
@@ -73,7 +73,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
         }
         if (albumGroupList.get(position).albumGroupList.size() >= 3) {
             GlideApp.with(context)
-                    .load(albumGroupList.get(position).albumGroupList.get(2).AlbumImg)
+                    .load(albumGroupList.get(position).albumGroupList.get(2).url)
                     .placeholder(R.drawable.default_user_pic)
                     .apply(requestOptions)
                     .error(R.drawable.default_photographer_profile)
@@ -83,7 +83,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
         }
         if (albumGroupList.get(position).albumGroupList.size() >= 4) {
             GlideApp.with(context)
-                    .load(albumGroupList.get(position).albumGroupList.get(3).AlbumImg)
+                    .load(albumGroupList.get(position).albumGroupList.get(3).url)
                     .placeholder(R.drawable.default_user_pic)
                     .apply(requestOptions)
                     .error(R.drawable.default_photographer_profile)
@@ -119,6 +119,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
 
 
     public interface OnAlbumImageClicked{
-       void  onImageClicked(AlbumImg albumImg);
+       void  onImageClicked(BaseImage albumImg);
     }
 }

@@ -3,7 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.signup.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.signup.view.SignUpView;
 
@@ -33,7 +33,7 @@ public class SignUpPresenterImp implements SignUpPresenter {
                 .subscribe(signUpResponse -> {
                     signUpView.signUpSuccess();
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 
@@ -45,7 +45,7 @@ public class SignUpPresenterImp implements SignUpPresenter {
                 .subscribe(allIndustriesResponse -> {
                     signUpView.showIndustries(allIndustriesResponse.industryList);
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 

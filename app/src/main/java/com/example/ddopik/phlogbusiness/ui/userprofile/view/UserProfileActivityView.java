@@ -1,6 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.userprofile.view;
 
-import com.example.ddopik.phlogbusiness.base.commonmodel.ImageObj;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface UserProfileActivityView {
     void viewUserProfilePhotosCount(String photosCount);//
     void viewUserProfileFollowersCount(String followersCount); //
     void viewUserProfileFollowingCount(String followingCount); //
-    void viewUserPhotos(List<ImageObj> userPhotoList);
+    void viewUserPhotos(List<BaseImage> userPhotoList);
     void viewUserPhotosProgress(boolean state);
     void showMessage(String msg);
 }

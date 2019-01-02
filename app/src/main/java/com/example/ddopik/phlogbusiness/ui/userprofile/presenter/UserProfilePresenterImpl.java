@@ -4,8 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
-import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.userprofile.model.UserProfileData;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivityView;
@@ -43,7 +43,7 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
 
 
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
                 });
     }
 
@@ -63,7 +63,7 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
 
                 }, throwable -> {
                     userProfileActivityView.viewUserPhotosProgress(false);
-                    ErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
                 });
 
     }
@@ -79,7 +79,7 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
                         userProfileActivityView.showMessage(context.getResources().getString(R.string.following_state) +" "+ followUserResponse.data);
 
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
                 });
     }
 }

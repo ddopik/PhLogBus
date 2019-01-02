@@ -2,8 +2,8 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
-import com.example.ddopik.phlogbusiness.Utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.AddCampaignRequestModel;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignStepThreeActivityView;
@@ -25,7 +25,7 @@ public class AddCampaignPresenterImpl implements AddCampaignStepTwoPresenter, Ad
                 .subscribe(allIndustriesResponse -> {
                     addCampaignStepTwoActivityView.viewIndustries(allIndustriesResponse.industryList);
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 
@@ -56,7 +56,7 @@ public class AddCampaignPresenterImpl implements AddCampaignStepTwoPresenter, Ad
                     addCampaignStepThreeActivityView.viewMessage(submitCampaignResponse.msg);
                     addCampaignStepThreeActivityView.onCampaignCompleted();
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context, TAG, throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     addCampaignStepThreeActivityView.viewSubmitCampaignProgress(false);
                 });
     }

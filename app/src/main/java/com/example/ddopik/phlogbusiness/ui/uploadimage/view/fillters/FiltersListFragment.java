@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.BitmapUtils;
+import com.example.ddopik.phlogbusiness.utiltes.BitmapUtils;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.SpacesItemDecoration;
 import com.zomato.photofilters.FilterPack;

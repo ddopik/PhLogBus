@@ -15,8 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.GlideApp;
-import com.example.ddopik.phlogbusiness.Utiltes.MapUtls;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.MapUtls;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.ui.uploadimage.view.adapter.PlaceArrayAdapter;
 import com.google.android.gms.common.ConnectionResult;
@@ -32,7 +32,7 @@ import io.reactivex.annotations.NonNull;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.REQUEST_CODE_LOCATION;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.REQUEST_CODE_LOCATION;
 
 
 /**

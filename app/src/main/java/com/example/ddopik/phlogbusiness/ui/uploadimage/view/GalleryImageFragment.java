@@ -22,8 +22,8 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import java.util.ArrayList;
 
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.REQUEST_CODE_CAMERA;
-import static com.example.ddopik.phlogbusiness.Utiltes.Constants.REQUEST_CODE_GALLERY;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.REQUEST_CODE_CAMERA;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.REQUEST_CODE_GALLERY;
 
 
 /**

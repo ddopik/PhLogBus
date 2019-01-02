@@ -3,7 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.lightbox.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.Utiltes.ErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.lightbox.view.BrandLightBoxFragmentView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -36,7 +36,7 @@ public class BrandLightBoxPresenterImpl implements BrandLightBoxPresenter {
                     brandLightBoxFragmentView.viewLightBoxes(brandLightBoxResponse.data,forceReFresh);
                     brandLightBoxFragmentView.viewLightBoxProgress(false);
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(context,TAG,throwable);
+                    CustomErrorUtil.Companion.setError(context,TAG,throwable);
                     brandLightBoxFragmentView.viewLightBoxProgress(false);
                 });
     }
@@ -53,7 +53,7 @@ public class BrandLightBoxPresenterImpl implements BrandLightBoxPresenter {
                     brandLightBoxFragmentView.viewLightBoxProgress(false);
                     brandLightBoxFragmentView.onLightBoxLightDeleted();
                 }, throwable -> {
-                    ErrorUtil.Companion.setError(
+                    CustomErrorUtil.Companion.setError(
                             context,TAG,throwable);
                     brandLightBoxFragmentView.viewLightBoxProgress(false);
                 });
@@ -76,7 +76,7 @@ public class BrandLightBoxPresenterImpl implements BrandLightBoxPresenter {
                     brandLightBoxFragmentView.onLightBoxLightDeleted();
                 },throwable -> {
                     brandLightBoxFragmentView.viewLightBoxProgress(false);
-                    ErrorUtil.Companion.setError(context,TAG,throwable);
+                    CustomErrorUtil.Companion.setError(context,TAG,throwable);
                 });
     }
 }
