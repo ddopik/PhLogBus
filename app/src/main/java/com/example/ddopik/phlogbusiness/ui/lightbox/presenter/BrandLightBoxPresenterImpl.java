@@ -9,6 +9,8 @@ import com.example.ddopik.phlogbusiness.ui.lightbox.view.BrandLightBoxFragmentVi
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import java.util.HashMap;
+
 public class BrandLightBoxPresenterImpl implements BrandLightBoxPresenter {
 
     private static String TAG=BrandLightBoxPresenterImpl.class.getSimpleName();
@@ -54,6 +56,27 @@ public class BrandLightBoxPresenterImpl implements BrandLightBoxPresenter {
                     ErrorUtil.Companion.setError(
                             context,TAG,throwable);
                     brandLightBoxFragmentView.viewLightBoxProgress(false);
+                });
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void addLightBox(String name,String description) {
+
+        brandLightBoxFragmentView.viewLightBoxProgress(true);
+        HashMap<String,String> data=new HashMap<String, String>();
+        data.put("name",name);
+        data.put("description",description);
+        BaseNetworkApi.addLightBox(data)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(addLightBoxResponse -> {
+                    brandLightBoxFragmentView.viewLightBoxProgress(false);
+                    brandLightBoxFragmentView.showMessage(addLightBoxResponse.msg);
+                    brandLightBoxFragmentView.onLightBoxLightDeleted();
+                },throwable -> {
+                    brandLightBoxFragmentView.viewLightBoxProgress(false);
+                    ErrorUtil.Companion.setError(context,TAG,throwable);
                 });
     }
 }

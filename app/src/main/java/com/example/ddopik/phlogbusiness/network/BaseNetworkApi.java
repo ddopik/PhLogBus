@@ -10,6 +10,7 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.CampaignInnerRe
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.CampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowBrandResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowCampaignResponse;
+import com.example.ddopik.phlogbusiness.ui.lightbox.model.AddLighBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.BrandLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.DeleteLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.LoginResponse;
@@ -28,6 +29,7 @@ import com.rx2androidnetworking.Rx2AndroidNetworking;
 
 import java.io.File;
 import java.util.HashMap;
+
 /**
  * Created by abdalla-maged on 3/29/18.
  */
@@ -76,6 +78,7 @@ public class BaseNetworkApi {
     private static final String BRAND_PROFILE_URL = BASE_URL + "/profile";
     private static final String BRAND_LIGHT_BOX_URL = BASE_URL +"/lightBox/all";
     private static final String DELETE_LIGHT_BOX_URL = BASE_URL +"/lightBox/delete";
+    private static final String ADD_LIGHT_BOX_URL = BASE_URL +"/lightBox/add";
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
 
@@ -295,6 +298,14 @@ public class BaseNetworkApi {
                 .addBodyParameter("lightbox_id",id)
                 .build()
                 .getObjectObservable(DeleteLightBoxResponse.class);
+    }
+
+    public static io.reactivex.Observable<AddLighBoxResponse> addLightBox(HashMap<String,String> data) {
+        return Rx2AndroidNetworking.post(ADD_LIGHT_BOX_URL)
+                .setPriority(Priority.HIGH)
+                .addBodyParameter(data)
+                .build()
+                .getObjectObservable(AddLighBoxResponse.class);
     }
 
 

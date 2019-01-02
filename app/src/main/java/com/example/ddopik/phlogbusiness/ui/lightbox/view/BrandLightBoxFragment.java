@@ -10,12 +10,12 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.AddNewLightBoxDialogFragment;
-import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
-import com.example.ddopik.phlogbusiness.ui.lightbox.presenter.BrandLightBoxPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.lightbox.presenter.BrandLightBoxPresenter;
+import com.example.ddopik.phlogbusiness.ui.lightbox.presenter.BrandLightBoxPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.lightbox.view.adapter.LightBoxAdapter;
 
 import java.util.ArrayList;
@@ -99,6 +99,13 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
 
         addLightBoxBtn.setOnClickListener(v->{
             AddNewLightBoxDialogFragment addNewLightBoxDialogFragment=AddNewLightBoxDialogFragment.getInstance();
+            addNewLightBoxDialogFragment.setOnDialogAdd(new AddNewLightBoxDialogFragment.OnDialogAdd() {
+                @Override
+                public void onDialogAddBtn(String lightBoxName) {
+                    brandLightBoxPresenter.addLightBox(lightBoxName, "desc");
+                    addNewLightBoxDialogFragment.dismiss();
+                }
+            });
             addNewLightBoxDialogFragment.show(getChildFragmentManager(),AddNewLightBoxDialogFragment.class.getSimpleName());
         });
         backBtn.setOnClickListener(v->{
@@ -133,5 +140,10 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
     @Override
     public void onLightBoxLightDeleted() {
         brandLightBoxPresenter.getLightBoxes(0,true);
+    }
+
+    @Override
+    public void onLightBoxLightAdded() {
+        brandLightBoxPresenter.getLightBoxes(0, true);
     }
 }

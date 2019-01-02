@@ -22,7 +22,9 @@
 				android:text="@string/new_light_box"/>
 		
 		
-		<EditText android:layout_width="match_parent"
+		<EditText
+				android:id="@+id/light_box_name"
+				android:layout_width="match_parent"
 		          android:layout_height="wrap_content"
 		          android:minWidth="250dp"
 		          android:padding="@dimen/widgets_padding"
@@ -35,14 +37,17 @@
 		<LinearLayout android:layout_width="match_parent"
 		              android:layout_height="wrap_content"
 		              android:orientation="horizontal">
-			<Button android:layout_width="wrap_content"
+			<Button android:id="@+id/add_light_box_dialog_btn"
+					android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:text="@string/add"
 			        android:textColor="@color/white"
 			        android:layout_weight="1"
 			        android:background="@color/text_input_color"/>
 			
-			<Button android:layout_width="wrap_content"
+			<Button
+					android:id="@+id/cancel_add_light_box_dialog_btn"
+					android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:background="@color/white"
 			        android:layout_weight="1"
