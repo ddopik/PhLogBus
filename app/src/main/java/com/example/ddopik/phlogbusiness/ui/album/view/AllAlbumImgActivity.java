@@ -93,6 +93,7 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
             public void onAlbumImgClick(BaseImage albumImg) {
 
                 Intent intent=new Intent(getBaseContext(),AlbumCommentActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
 

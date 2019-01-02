@@ -13,9 +13,18 @@ public class AlbumPreviewResponseData {
     @SerializedName("current_page")
     @Expose
     public Integer currentPage;
+
+
+
     @SerializedName("data")
     @Expose
     public List<BaseImage> data = null;
+
+    @SerializedName("preview")
+    @Expose
+    public String preview;
+
+
     @SerializedName("first_page_url")
     @Expose
     public String firstPageUrl;

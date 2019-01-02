@@ -112,7 +112,7 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
 
 
         GlideApp.with(this)
-                .load(albumGroupList.get(0).albumGroupList.get(0).url)
+                .load(albumPreviewResponseData.preview)
                 .placeholder(R.drawable.default_photographer_profile)
                 .error(R.drawable.default_photographer_profile)
                 .into(albumPreviewImg);
@@ -122,24 +122,31 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
 
     @Override
     public void viwAlbumPreviewImages(List<BaseImage> baseImageList) {
-        allAlbumImg.addAll(baseImageList);
-        AlbumGroup singleGroup = new AlbumGroup();
-        int albumGroupCounter = 0;
 
-        for (int i = 0; i < allAlbumImg.size(); i++) {
-            albumGroupCounter++;
-            singleGroup.albumGroupList.add(allAlbumImg.get(i));
+        if (baseImageList.size() > 0){
 
-            if (albumGroupCounter == 4 || i == allAlbumImg.size() - 1) {
-                albumGroupList.add(singleGroup);
-                albumGroupCounter = 0;
-                singleGroup = new AlbumGroup();
+            allAlbumImg.addAll(baseImageList);
+
+
+            AlbumGroup singleGroup = new AlbumGroup();
+            int albumGroupCounter = 0;
+
+            for (int i = 0; i < allAlbumImg.size(); i++) {
+                albumGroupCounter++;
+                singleGroup.albumGroupList.add(allAlbumImg.get(i));
+
+                if (albumGroupCounter == 4 || i == allAlbumImg.size() - 1) {
+                    albumGroupList.add(singleGroup);
+                    albumGroupCounter = 0;
+                    singleGroup = new AlbumGroup();
+                }
+
+
             }
 
-
+            albumAdapter.notifyDataSetChanged();
         }
 
-        albumAdapter.notifyDataSetChanged();
     }
 
     @Override
