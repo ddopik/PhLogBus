@@ -3,12 +3,17 @@ package com.example.ddopik.phlogbusiness.ui.album.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.view.View;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
+import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.ui.album.presenter.AlbumPreviewActivityPresenterImpl;
+import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgActivityPresenter;
+import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgActivityPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AllAlbumImgAdapter;
 
 import java.util.ArrayList;
@@ -21,12 +26,17 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
 
     public static String ALBUM_ID = "album_id";
-    public static String ALL_ALBUM_IMAGES = "album_list";
     public static String SELECTED_IMG_ID = "selected_img_id";
-    private String albumId;
+    public static String CURRENT_PAGE = "current_page";
+    private int albumId;
+    private int selectedImageId;
+    private int currentPage;
+    private CustomRecyclerView allAlbumImgRv;
     private AllAlbumImgAdapter allAlbumImgAdapter;
     private List<BaseImage> albumImgList = new ArrayList<>();
     private ProgressBar albumImgProgress;
+    private AllAlbumImgActivityPresenter allAlbumImgActivityPresenter;
+    private PagingController pagingController;
 
 
     @Override
@@ -34,56 +44,36 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_album_img);
 
+        if (getIntent().getIntExtra(ALBUM_ID, 0) != 0) {
+            initPresenter();
+            initView();
+            initListener();
 
-        initPresenter();
-        initView();
-        initListener();
-
-
+        }
     }
 
 
     @Override
     public void initView() {
-        if (getIntent().getParcelableArrayListExtra(ALL_ALBUM_IMAGES) != null && getIntent().getStringExtra(ALBUM_ID) != null) {
-            this.albumId = getIntent().getStringExtra(ALBUM_ID);
-            this.albumImgList = getIntent().<BaseImage>getParcelableArrayListExtra(ALL_ALBUM_IMAGES);
-            String selectedPosition = getIntent().getStringExtra(SELECTED_IMG_ID);
+
+        this.albumId = getIntent().getIntExtra(ALBUM_ID, 0);
+        this.selectedImageId = getIntent().getIntExtra(SELECTED_IMG_ID, 0);
+        this.currentPage = getIntent().getIntExtra(CURRENT_PAGE, 0);
 
         allAlbumImgAdapter = new AllAlbumImgAdapter(albumImgList);
         albumImgProgress = findViewById(R.id.album_img_list_progress_bar);
-        CustomRecyclerView allAlbumImgRv = findViewById(R.id.album_img_list_rv);
+        allAlbumImgRv = findViewById(R.id.album_img_list_rv);
         allAlbumImgRv.setAdapter(allAlbumImgAdapter);
 
-
-            for (int i=0;i<albumImgList.size();i++){
-                if(albumImgList.get(i).id.equals(selectedPosition) ){
-                    allAlbumImgRv.getLayoutManager().scrollToPosition(i);
-                    break;
-                }
-            }
-
-
+        for (int i = 1; i < currentPage; i++) {
+            allAlbumImgActivityPresenter.getAlbumImages(albumId, i);
         }
-
-
-//        RecyclerView.SmoothScroller smoothScroller = new
-//                LinearSmoothScroller(getBaseContext()) {
-//                    @Override
-//                    protected int getVerticalSnapPreference() {
-//                        return LinearSmoothScroller.SNAP_TO_ANY;
-//                    }
-//                };
-//
-//        smoothScroller.setTargetPosition(6);
-//
-//        allAlbumImgRv.getLayoutManager().startSmoothScroll(smoothScroller);
 
     }
 
     @Override
     public void initPresenter() {
-
+        allAlbumImgActivityPresenter = new AllAlbumImgActivityPresenterImpl(this, this);
     }
 
     private void initListener() {
@@ -92,7 +82,7 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
             @Override
             public void onAlbumImgClick(BaseImage albumImg) {
 
-                Intent intent=new Intent(getBaseContext(),AlbumCommentActivity.class);
+                Intent intent = new Intent(getBaseContext(), AlbumCommentActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
@@ -104,24 +94,44 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
             @Override
             public void onAlbumImgCommentClick(BaseImage albumImg) {
-                Intent intent=new Intent(getBaseContext(),AlbumCommentActivity.class);
+                Intent intent = new Intent(getBaseContext(), AlbumCommentActivity.class);
                 startActivity(intent);
             }
 
             @Override
-            public void onAlbumImgDownloadClick(BaseImage albumImg) {
+            public void onAlbumImgAddLightBoxClick(BaseImage albumImg) {
 
             }
         };
+
+        pagingController = new PagingController(allAlbumImgRv) {
+            @Override
+            public void getPagingControllerCallBack(int page) {
+
+                if (currentPage < page)
+                    allAlbumImgActivityPresenter.getAlbumImages(albumId, page);
+
+            }
+        };
+
 
     }
 
     @Override
     public void viewAlbumImageList(List<BaseImage> albumImgList) {
 
-        this.albumImgList.clear();
+
         this.albumImgList.addAll(albumImgList);
         allAlbumImgAdapter.notifyDataSetChanged();
+
+        for (int i = 0; i < albumImgList.size(); i++) {
+            if (albumImgList.get(i).id.equals(selectedImageId)) {
+                allAlbumImgRv.getLayoutManager().scrollToPosition(i);
+                break;
+            }
+
+        }
+
 
     }
 

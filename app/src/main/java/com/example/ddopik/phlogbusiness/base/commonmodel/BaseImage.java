@@ -13,9 +13,10 @@ import java.util.List;
  */
 public class BaseImage implements Parcelable {
 
-    public BaseImage(){
+    public BaseImage() {
 
     }
+
     @SerializedName("caption")
     @Expose
     public String caption;
@@ -41,14 +42,8 @@ public class BaseImage implements Parcelable {
     public String albumName;
 
 
-    @SerializedName("like_count")
-    @Expose
-    public String likeCount;
 
 
-    @SerializedName("comment_count")
-    @Expose
-    public String commentCount;
 
     @SerializedName("id")
     @Expose
@@ -66,29 +61,26 @@ public class BaseImage implements Parcelable {
     @Expose
     public List<Tag> tags;
 
-    protected BaseImage(Parcel in) {
-        caption = in.readString();
-        updatedAt = in.readString();
-        createdAt = in.readString();
-        location = in.readString();
-        thumbnailUrl = in.readString();
-        url = in.readString();
-        albumName = in.readString();
-        likeCount = in.readString();
-        commentCount = in.readString();
-        id = in.readByte() == 0x00 ? null : in.readInt();
-        photographer = (Photographer) in.readValue(Photographer.class.getClassLoader());
-        byte isSavedVal = in.readByte();
-        isSaved = isSavedVal == 0x02 ? null : isSavedVal != 0x00;
-        byte isLikedVal = in.readByte();
-        isLiked = isLikedVal == 0x02 ? null : isLikedVal != 0x00;
-        if (in.readByte() == 0x01) {
-            tags = new ArrayList<Tag>();
-            in.readList(tags, Tag.class.getClassLoader());
-        } else {
-            tags = null;
-        }
-    }
+
+    @Expose
+    public String filters;
+
+
+    @SerializedName("is_rated")
+    @Expose
+    public Boolean isRated;
+    @SerializedName("comments_count")
+    @Expose
+    public Integer commentsCount;
+    @SerializedName("saves_count")
+    @Expose
+    public Integer savesCount;
+    @SerializedName("likes_count")
+    @Expose
+    public Integer likesCount;
+    @SerializedName("rate")
+    @Expose
+    public String rate;
 
     @Override
     public int describeContents() {
@@ -97,45 +89,55 @@ public class BaseImage implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(caption);
-        dest.writeString(updatedAt);
-        dest.writeString(createdAt);
-        dest.writeString(location);
-        dest.writeString(thumbnailUrl);
-        dest.writeString(url);
-        dest.writeString(albumName);
-        dest.writeString(likeCount);
-        dest.writeString(commentCount);
-        if (id == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(id);
-        }
-        dest.writeValue(photographer);
-        if (isSaved == null) {
-            dest.writeByte((byte) (0x02));
-        } else {
-            dest.writeByte((byte) (isSaved ? 0x01 : 0x00));
-        }
-        if (isLiked == null) {
-            dest.writeByte((byte) (0x02));
-        } else {
-            dest.writeByte((byte) (isLiked ? 0x01 : 0x00));
-        }
-        if (tags == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(tags);
-        }
+        dest.writeString(this.caption);
+        dest.writeString(this.updatedAt);
+        dest.writeString(this.createdAt);
+        dest.writeString(this.location);
+        dest.writeString(this.thumbnailUrl);
+        dest.writeString(this.url);
+        dest.writeString(this.albumName);
+
+
+        dest.writeValue(this.id);
+        dest.writeParcelable(this.photographer, flags);
+        dest.writeValue(this.isSaved);
+        dest.writeValue(this.isLiked);
+        dest.writeTypedList(this.tags);
+        dest.writeString(this.filters);
+        dest.writeValue(this.isRated);
+        dest.writeValue(this.commentsCount);
+        dest.writeValue(this.savesCount);
+        dest.writeValue(this.likesCount);
+        dest.writeValue(this.rate);
     }
 
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<BaseImage> CREATOR = new Parcelable.Creator<BaseImage>() {
+    protected BaseImage(Parcel in) {
+        this.caption = in.readString();
+        this.updatedAt = in.readString();
+        this.createdAt = in.readString();
+        this.location = in.readString();
+        this.thumbnailUrl = in.readString();
+        this.url = in.readString();
+        this.albumName = in.readString();
+
+
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.photographer = in.readParcelable(Photographer.class.getClassLoader());
+        this.isSaved = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.isLiked = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.tags = in.createTypedArrayList(Tag.CREATOR);
+        this.filters = in.readString();
+        this.isRated = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.commentsCount = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.savesCount = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.likesCount = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.rate = (String) in.readValue(Integer.class.getClassLoader());
+    }
+
+    public static final Creator<BaseImage> CREATOR = new Creator<BaseImage>() {
         @Override
-        public BaseImage createFromParcel(Parcel in) {
-            return new BaseImage(in);
+        public BaseImage createFromParcel(Parcel source) {
+            return new BaseImage(source);
         }
 
         @Override

@@ -180,7 +180,7 @@
             android:text="@string/follow"
             android:layout_gravity="center"
             android:textColor="@color/white"
-            android:background="@drawable/rounded_orange_btn"/>
+            android:background="@drawable/rounded_blue_btn"/>
 
     </LinearLayout>
 </FrameLayout>

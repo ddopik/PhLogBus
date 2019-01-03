@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.ALBUM_ID;
+import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.CURRENT_PAGE;
 import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.SELECTED_IMG_ID;
 
 
@@ -31,12 +32,13 @@ import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity
 public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewActivityView {
 
 
-    public static final String ALBUM_PREVIEW_ID="album_preview_id";
+    public static final String ALBUM_PREVIEW_ID = "album_preview_id";
     private int albumID;
-    private List<AlbumGroup> albumGroupList=new ArrayList<>();
+    private int currentPage;
+    private List<AlbumGroup> albumGroupList = new ArrayList<>();
 
     private AlbumAdapter albumAdapter;
-     private ImageView albumPreviewImg;
+    private ImageView albumPreviewImg;
     private ProgressBar albumPreviewProgress;
     private CustomRecyclerView albumRv;
     private PagingController pagingController;
@@ -57,18 +59,16 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
     }
 
 
-
-
     @Override
     public void initView() {
-        albumPreviewImg=findViewById(R.id.album_preview_img);
+        albumPreviewImg = findViewById(R.id.album_preview_img);
         albumRv = findViewById(R.id.album_rv);
         albumPreviewProgress = findViewById(R.id.user_profile_progress_bar);
 
         // Set adapter object.
         albumAdapter = new AlbumAdapter(getBaseContext(), albumGroupList);
         albumRv.setAdapter(albumAdapter);
-        albumPreviewActivityPresenter.getSelectedSearchAlbum(albumID,"0");
+        albumPreviewActivityPresenter.getSelectedSearchAlbum(albumID, "0");
         albumPreviewActivityPresenter.getAlbumPreviewImages(albumID, 0);
 
     }
@@ -85,15 +85,17 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
             @Override
             public void getPagingControllerCallBack(int page) {
                 albumPreviewActivityPresenter.getAlbumPreviewImages(albumID, page);
+                currentPage=page;
             }
         };
 
         albumAdapter.onAlbumImageClicked = albumImg -> {
 
-            Intent intent =new Intent(this,AllAlbumImgActivity.class);
-             intent.putExtra(ALBUM_ID,albumID);
+            Intent intent = new Intent(this, AllAlbumImgActivity.class);
+            intent.putExtra(ALBUM_ID, albumID);
             intent.putExtra(SELECTED_IMG_ID, albumImg.id);
-             startActivity(intent);
+            intent.putExtra(CURRENT_PAGE, currentPage);
+            startActivity(intent);
 
         };
     }
@@ -104,10 +106,8 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
     }
 
 
-
     @Override
     public void viewAlumPreviewData(AlbumPreviewResponseData albumPreviewResponseData) {
-
 
 
         GlideApp.with(this)

@@ -125,7 +125,7 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView {
                     albumImgList.add(albumImg);
                 }
                 intent.putExtra(ALBUM_ID, String.valueOf(entite.id));
-                intent.putParcelableArrayListExtra(ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) albumImgList);
+//                intent.putParcelableArrayListExtra(ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) albumImgList);
                 intent.putExtra(SELECTED_IMG_ID, "1"); ///todo selected img id should be passed here
                 startActivity(intent);
             }

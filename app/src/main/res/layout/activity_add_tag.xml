@@ -118,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center|top"
-            android:background="@drawable/rounded_orange_btn"
+            android:background="@drawable/rounded_blue_btn"
             android:fontFamily="@font/arial_rounded_font"
             android:text="@string/upload_photo"
             android:textColor="@color/white"

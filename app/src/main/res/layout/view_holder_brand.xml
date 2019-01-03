@@ -46,7 +46,7 @@
                 android:layout_height="35dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@drawable/rounded_orange_btn"
+                android:background="@drawable/rounded_blue_btn"
                 android:fontFamily="@string/filters"
                 android:text="@string/follow"
                 android:textColor="@color/white" />

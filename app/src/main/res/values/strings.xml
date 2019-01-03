@@ -164,6 +164,7 @@
 	<string name="delete">Delete</string>
 	<string name="light_box_deleted">Light box deleted</string>
 	<string name="result">Result</string>
+	<string name="add_to_cart">Add to cart</string>
 
 
 </resources>
