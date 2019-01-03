@@ -144,7 +144,7 @@
     <dimen name="dp1">1dp</dimen>
     <dimen name="dp120">120dp</dimen>
     <dimen name="add_light_box_btn_w">120dp</dimen>
-    <dimen name="add_light_box_btn_h">120dp</dimen>
+    <dimen name="add_light_box_btn_h">35dp</dimen>
 
 
     <!--//////////////////////BrandInner/////////////////////////////////-->

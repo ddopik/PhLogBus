@@ -110,7 +110,7 @@
 					<FrameLayout
 							android:id="@+id/album_img_add_to_light_box"
 							android:layout_width="@dimen/add_light_box_btn_w"
-							android:layout_height="@dimen/add_light_box_btn_h"
+							android:layout_height="35dp"
 							android:layout_gravity="end"
 							android:layout_marginTop="@dimen/dp16"
 							android:layout_marginEnd="@dimen/dp16"
