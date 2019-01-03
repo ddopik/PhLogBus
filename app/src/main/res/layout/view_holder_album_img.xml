@@ -109,8 +109,8 @@
 					
 					<FrameLayout
 							android:id="@+id/album_img_add_to_light_box"
-							android:layout_width="120dp"
-							android:layout_height="35dp"
+							android:layout_width="@dimen/add_light_box_btn_w"
+							android:layout_height="@dimen/add_light_box_btn_h"
 							android:layout_gravity="end"
 							android:layout_marginTop="@dimen/dp16"
 							android:layout_marginEnd="@dimen/dp16"
@@ -124,8 +124,8 @@
 								android:text="@string/add_to_cart"
 								android:layout_gravity="center"/>
 						
-						<ImageView android:layout_width="16dp"
-								   android:layout_height="16dp"
+						<ImageView android:layout_width="@dimen/ic_size_s"
+								   android:layout_height="@dimen/ic_size_s"
 								   android:layout_gravity="start|center"
 								   android:layout_marginStart="10dp"
 								   app:srcCompat="@drawable/ic_light_box"

@@ -140,8 +140,11 @@
     <dimen name="item_flex_height_l">250dp</dimen>
     <dimen name="item_flex_height_s">175dp</dimen>
     <dimen name="ic_size">24dp</dimen>
+    <dimen name="ic_size_s">12dp</dimen>
     <dimen name="dp1">1dp</dimen>
     <dimen name="dp120">120dp</dimen>
+    <dimen name="add_light_box_btn_w">120dp</dimen>
+    <dimen name="add_light_box_btn_h">120dp</dimen>
 
 
     <!--//////////////////////BrandInner/////////////////////////////////-->
@@ -173,5 +176,6 @@
     <dimen name="social_album_icon_h_xl">154dp</dimen>
     <dimen name="bottom_bar_item_padding">2dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+	
 
 </resources>
