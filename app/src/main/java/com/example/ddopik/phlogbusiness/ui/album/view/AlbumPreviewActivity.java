@@ -2,7 +2,6 @@ package com.example.ddopik.phlogbusiness.ui.album.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,7 +21,8 @@ import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.*;
+import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.ALBUM_ID;
+import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.SELECTED_IMG_ID;
 
 
 /**
@@ -34,8 +34,8 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
     public static final String ALBUM_PREVIEW_ID="album_preview_id";
     private int albumID;
     private List<AlbumGroup> albumGroupList=new ArrayList<>();
-    private List<BaseImage> allAlbumImg = new ArrayList<>();
-     private AlbumAdapter albumAdapter;
+
+    private AlbumAdapter albumAdapter;
      private ImageView albumPreviewImg;
     private ProgressBar albumPreviewProgress;
     private CustomRecyclerView albumRv;
@@ -93,7 +93,6 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
             Intent intent =new Intent(this,AllAlbumImgActivity.class);
              intent.putExtra(ALBUM_ID,albumID);
             intent.putExtra(SELECTED_IMG_ID, albumImg.id);
-             intent.putParcelableArrayListExtra(ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) allAlbumImg);
              startActivity(intent);
 
         };
@@ -123,29 +122,30 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
     @Override
     public void viwAlbumPreviewImages(List<BaseImage> baseImageList) {
 
-        if (baseImageList.size() > 0){
-
-            allAlbumImg.addAll(baseImageList);
+        if (baseImageList.size() > 0) {
 
 
-            AlbumGroup singleGroup = new AlbumGroup();
-            int albumGroupCounter = 0;
+            for (int i = 0; i < baseImageList.size(); i++) {
 
-            for (int i = 0; i < allAlbumImg.size(); i++) {
-                albumGroupCounter++;
-                singleGroup.albumGroupList.add(allAlbumImg.get(i));
-
-                if (albumGroupCounter == 4 || i == allAlbumImg.size() - 1) {
-                    albumGroupList.add(singleGroup);
-                    albumGroupCounter = 0;
-                    singleGroup = new AlbumGroup();
+                if (albumGroupList.size() == 0) {
+                    AlbumGroup albumGroup = new AlbumGroup();
+                    albumGroup.albumGroupList.add(baseImageList.get(i));
+                    albumGroupList.add(albumGroup);
+                } else if (albumGroupList.get(albumGroupList.size() - 1).albumGroupList.size() < 4) {
+                    albumGroupList.get(albumGroupList.size() - 1).albumGroupList.add(baseImageList.get(i));
+                } else {
+                    AlbumGroup albumGroup = new AlbumGroup();
+                    albumGroup.albumGroupList.add(baseImageList.get(i));
+                    albumGroupList.add(albumGroup);
                 }
 
 
             }
 
+
             albumAdapter.notifyDataSetChanged();
         }
+
 
     }
 
