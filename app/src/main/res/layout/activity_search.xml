@@ -28,7 +28,7 @@
             android:padding="@dimen/widgets_padding">
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                android:id="@+id/tab_brand"
+                android:id="@+id/tab_images"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/activity_search_tab_h"
                 android:layout_margin="@dimen/dp12"

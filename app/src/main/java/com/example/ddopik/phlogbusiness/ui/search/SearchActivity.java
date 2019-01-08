@@ -20,7 +20,7 @@ import com.example.ddopik.phlogbusiness.ui.search.profile.view.ProfileSearchFrag
 public class SearchActivity extends BaseActivity {
 
     private EditText searchView;
-    private CustomTextView brandTab, profileTab, albumTab, filterTab, searchResult;
+    private CustomTextView imagesTab, profileTab, albumTab, filterTab, searchResult;
     private FrameLayout searchContainer;
     private AlbumSearchFragment albumSearchFragment;
     private OnFilterClicked onFilterClicked;
@@ -33,6 +33,14 @@ public class SearchActivity extends BaseActivity {
         initPresenter();
         initView();
         initListener();
+
+
+        /////default tap
+        setTapSelected(R.id.tab_images);
+        ImagesSearchFragment imagesSearchFragment = ImagesSearchFragment.getInstance();
+        imagesSearchFragment.setBrandSearchView(onSearchTabSelected);
+        addFragment(R.id.search_container, imagesSearchFragment, ImagesSearchFragment.class.getSimpleName(), false);
+
     }
 
 
@@ -40,7 +48,7 @@ public class SearchActivity extends BaseActivity {
     public void initView() {
 
         searchView = findViewById(R.id.search_view);
-        brandTab = findViewById(R.id.tab_brand);
+        imagesTab = findViewById(R.id.tab_images);
         profileTab = findViewById(R.id.tab_profile);
         albumTab = findViewById(R.id.tab_album);
         searchContainer = findViewById(R.id.search_container);
@@ -56,7 +64,7 @@ public class SearchActivity extends BaseActivity {
 
     private void initListener() {
 
-        onSearchTabSelected=new OnSearchTabSelected() {
+        onSearchTabSelected = new OnSearchTabSelected() {
             @Override
             public EditText getSearchView() {
                 return searchView;
@@ -68,11 +76,11 @@ public class SearchActivity extends BaseActivity {
             }
         };
 
-        brandTab.setOnClickListener((view) -> {
-            setTapSelected(R.id.tab_brand);
-            ImagesSearchFragment brandSearchFragment = ImagesSearchFragment.getInstance();
-            brandSearchFragment.setBrandSearchView(onSearchTabSelected);
-            addFragment(R.id.search_container, brandSearchFragment, ImagesSearchFragment.class.getSimpleName(), false);
+        imagesTab.setOnClickListener((view) -> {
+            setTapSelected(R.id.tab_images);
+            ImagesSearchFragment imagesSearchFragment = ImagesSearchFragment.getInstance();
+            imagesSearchFragment.setBrandSearchView(onSearchTabSelected);
+            addFragment(R.id.search_container, imagesSearchFragment, ImagesSearchFragment.class.getSimpleName(), false);
 
         });
         profileTab.setOnClickListener((view) -> {
@@ -107,19 +115,19 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void setTapSelected(int tabId) {
-        brandTab.setTextColor(getResources().getColor(R.color.text_input_color));
+        imagesTab.setTextColor(getResources().getColor(R.color.text_input_color));
         profileTab.setTextColor(getResources().getColor(R.color.text_input_color));
         albumTab.setTextColor(getResources().getColor(R.color.text_input_color));
 
-        brandTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange));
+        imagesTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange));
         profileTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange));
         albumTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange));
         filterTab.setVisibility(View.GONE);
 
         switch (tabId) {
-            case R.id.tab_brand:
-                brandTab.setTextColor(getResources().getColor(R.color.white));
-                brandTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange_fill));
+            case R.id.tab_images:
+                imagesTab.setTextColor(getResources().getColor(R.color.white));
+                imagesTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange_fill));
                 break;
 
             case R.id.tab_profile:

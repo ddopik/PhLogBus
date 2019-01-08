@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				xmlns:tools="http://schemas.android.com/tools"
 				android:layout_width="match_parent" android:layout_height="wrap_content">
 	<LinearLayout
 			android:id="@+id/album_img_header"
@@ -67,16 +66,34 @@
 					android:orientation="vertical"
 					android:padding="@dimen/widgets_padding">
 				
-				
-				<ImageView
-						android:id="@+id/album_img"
-						android:layout_width="match_parent"
+				<FrameLayout
+						android:layout_width="wrap_content"
 						android:layout_height="0dp"
-						android:layout_weight="3"
-						android:scaleType="centerCrop"
-						android:src="@drawable/default_user_profile"
-				/>
+						android:layout_weight="3">
 				
+					
+					<ImageView
+							android:id="@+id/album_img"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:scaleType="centerCrop"
+							android:src="@drawable/default_user_profile"
+					
+					
+					/>
+					
+					
+					<ImageButton
+							android:id="@+id/add_lightBox_img_btn"
+							android:layout_width="40dp"
+							android:layout_height="40dp"
+							android:layout_gravity="end"
+							android:scaleType="centerInside"
+							android:layout_margin="@dimen/dp16"
+							app:srcCompat="@drawable/ic_add_img_lighbox"
+							android:background="@color/transparent"
+					/>
+				</FrameLayout>
 				
 				<FrameLayout
 						android:layout_width="match_parent"
@@ -108,7 +125,7 @@
 					</LinearLayout>
 					
 					<FrameLayout
-							android:id="@+id/album_img_add_to_light_box"
+							android:id="@+id/album_img_add_to_cart"
 							android:layout_width="@dimen/add_light_box_btn_w"
 							android:layout_height="35dp"
 							android:layout_gravity="end"
@@ -130,7 +147,7 @@
 								   android:layout_marginStart="10dp"
 								   app:srcCompat="@drawable/ic_light_box"
 								   android:scaleType="centerInside"
-								   android:background="@color/white"/>
+						/>
 					</FrameLayout>
 					
 				

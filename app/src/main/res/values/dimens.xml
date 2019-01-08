@@ -176,6 +176,10 @@
     <dimen name="social_album_icon_h_xl">154dp</dimen>
     <dimen name="bottom_bar_item_padding">2dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-	
-
+    
+    
+    
+    <!--//////CustomDialog-->
+    <dimen name="custom_dialog_width">300dp</dimen>
+    
 </resources>

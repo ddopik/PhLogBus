@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.network;
 
 import com.androidnetworking.common.Priority;
+import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumImgCommentResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewImagesResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponse;
@@ -87,6 +88,7 @@ public class BaseNetworkApi {
     private static final String BRAND_LIGHT_BOX_URL = BASE_URL +"/lightBox/all";
     private static final String DELETE_LIGHT_BOX_URL = BASE_URL +"/lightBox/delete";
     private static final String ADD_LIGHT_BOX_URL = BASE_URL +"/lightBox/add";
+    private static final String GET_LIGHT_BOX_URL = BASE_URL +"/lightBox/all";
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
 
@@ -354,6 +356,14 @@ public class BaseNetworkApi {
                 .addBodyParameter(data)
                 .build()
                 .getObjectObservable(AddLighBoxResponse.class);
+    }
+
+    public static io.reactivex.Observable<AddToLightBoxResponse> getLightBoxes() {
+        return Rx2AndroidNetworking.post(GET_LIGHT_BOX_URL)
+                .setPriority(Priority.HIGH)
+
+                .build()
+                .getObjectObservable(AddToLightBoxResponse.class);
     }
 
 

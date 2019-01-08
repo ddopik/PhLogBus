@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:id="@+id/add_to_light_box_container"
+			 android:layout_width="match_parent"
+			 android:layout_height="wrap_content"
+			 tools:background="@color/white">
+	
+	<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:layout_margin="@dimen/dp12"
+			android:padding="@dimen/widgets_padding">
+		<ImageView android:layout_width="wrap_content"
+				   android:layout_height="wrap_content"
+				   android:src="@drawable/ic_add_img_lighbox"/>
+		
+		
+		<LinearLayout android:layout_width="0dp"
+					  android:layout_height="match_parent"
+					  android:layout_weight="1"
+					  android:layout_marginTop="@dimen/widgets_padding"
+					  android:layout_marginStart="@dimen/dp20"
+					  android:orientation="vertical">
+			
+			<com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+					android:id="@+id/light_box_name"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textStyle="bold"
+					android:textSize="@dimen/text_medium_s"
+					tools:text="light box name"
+			/>
+			<com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+					android:id="@+id/light_box_photos_count"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/dp4"
+					tools:text="22 photos"/>
+		
+		
+		</LinearLayout>
+		
+		<RadioButton
+				android:id="@+id/add_img_to_light_box_rb"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:layout_gravity="center"
+		/>
+	</LinearLayout>
+
+</FrameLayout>

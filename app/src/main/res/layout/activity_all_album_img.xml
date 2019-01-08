@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
-        android:id="@+id/album_img_list_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:orientation="vertical"/>
-
-    <ProgressBar
-        android:id="@+id/album_img_list_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+			 xmlns:app="http://schemas.android.com/apk/res-auto"
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 android:padding="@dimen/widgets_padding">
+	
+	<com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
+			android:id="@+id/album_img_list_rv"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:orientation="vertical"/>
+	
+	<ProgressBar
+			android:id="@+id/album_img_list_progress_bar"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:visibility="gone"
+			tools:visibility="visible"/>
 
 </FrameLayout>

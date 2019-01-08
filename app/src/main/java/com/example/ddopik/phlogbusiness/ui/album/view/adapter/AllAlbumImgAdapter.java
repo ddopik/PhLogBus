@@ -74,7 +74,8 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
             albumImgViewHolder.albumImg.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgClick(albumImgList.get(i)));
             albumImgViewHolder.albumImgLike.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgLikeClick(albumImgList.get(i)));
             albumImgViewHolder.albumImgComment.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgCommentClick(albumImgList.get(i)));
-            albumImgViewHolder.albumImgLightBoxAdd.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgAddLightBoxClick(albumImgList.get(i)));
+            albumImgViewHolder.addLightBoxImgBtn.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgAddLightBoxClick(albumImgList.get(i)));
+            albumImgViewHolder.albumImgAddToCartBtn.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgToCartClick(albumImgList.get(i)));
             albumImgViewHolder.albumImgLikeVal.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgLikeClick(albumImgList.get(i)));
             albumImgViewHolder.albumImgCommentVal.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgCommentClick(albumImgList.get(i)));
         }
@@ -89,21 +90,23 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
     public class AlbumImgViewHolder extends RecyclerView.ViewHolder {
 
         ImageView albumIcon, albumImg;
+        ImageView addLightBoxImgBtn;
         CustomTextView albumName, albumAuthor, albumImgLikeVal, albumImgCommentVal;
         ImageButton albumImgLike, albumImgComment;
-        FrameLayout albumImgLightBoxAdd;
+        FrameLayout albumImgAddToCartBtn;
 
         AlbumImgViewHolder(View view) {
             super(view);
             albumIcon = view.findViewById(R.id.album_icon);
             albumImg = view.findViewById(R.id.album_img);
+            addLightBoxImgBtn=view.findViewById(R.id.add_lightBox_img_btn);
             albumName = view.findViewById(R.id.album_name);
              albumAuthor = view.findViewById(R.id.album_author);
             albumImgLikeVal = view.findViewById(R.id.album_img_like_count);
             albumImgCommentVal = view.findViewById(R.id.album_img_comment_count);
             albumImgLike = view.findViewById(R.id.album_img_like_btn);
             albumImgComment = view.findViewById(R.id.album_img_comment);
-            albumImgLightBoxAdd = view.findViewById(R.id.album_img_add_to_light_box);
+            albumImgAddToCartBtn = view.findViewById(R.id.album_img_add_to_cart);
         }
     }
 
@@ -115,6 +118,8 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         void onAlbumImgCommentClick(BaseImage albumImg);
 
         void onAlbumImgAddLightBoxClick(BaseImage albumImg);
+
+        void onAlbumImgToCartClick(BaseImage albumImg);
 
 
     }

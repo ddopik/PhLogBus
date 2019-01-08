@@ -17,7 +17,6 @@ import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.campaigns.view.CampaignsFragment;
 import com.example.ddopik.phlogbusiness.ui.lightbox.view.BrandLightBoxFragment;
-import com.example.ddopik.phlogbusiness.ui.notification.view.NotificationFragment;
 import com.example.ddopik.phlogbusiness.ui.profile.view.BrandProfileFragment;
 import com.example.ddopik.phlogbusiness.ui.social.view.SocialFragment;
 import com.example.ddopik.phlogbusiness.ui.uploadimage.view.GalleryImageFragment;
@@ -29,10 +28,10 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelpe
  */
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-    private CustomTextView toolBarTitle, callSupportBan;
+    private CustomTextView toolBarTitle, callSupportBtn;
     private BottomAppBar bottomNavigation;
     private Button homeBrn, campaignBtn, myProfileBtn;
-    private FloatingActionButton callSupportBtn;
+    private FloatingActionButton callSupportFloatBtn;
     private Toolbar toolbar;
     private ImageButton backBtn;
     public static NavigationManger navigationManger;
@@ -61,8 +60,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         campaignBtn = findViewById(R.id.navigation_missions);
         myProfileBtn = findViewById(R.id.navigation_profile);
 
-        callSupportBtn = findViewById(R.id.btn_call_support);
-        callSupportBan = findViewById(R.id.navigation_call_support);
+        callSupportFloatBtn = findViewById(R.id.btn_call_support);
+        callSupportBtn = findViewById(R.id.navigation_call_support);
 
     }
 
@@ -75,7 +74,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         campaignBtn.setOnClickListener(this);
         myProfileBtn.setOnClickListener(this);
 
-        callSupportBtn.setOnClickListener(this);
+        callSupportFloatBtn.setOnClickListener(this);
     }
 
     private void initListener() {
@@ -145,11 +144,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg_off, 0, 0);
             myProfileBtn.setCompoundDrawablePadding(8);
 
-            callSupportBan.setVisibility(View.INVISIBLE);
-            callSupportBtn.setImageResource(R.drawable.btn_call_support);
-            callSupportBan.setTextColor(getResources().getColor(R.color.gray677078));
+            callSupportBtn.setVisibility(View.INVISIBLE);
+            callSupportFloatBtn.setImageResource(R.drawable.btn_call_support);
+            callSupportBtn.setTextColor(getResources().getColor(R.color.gray677078));
 
-            callSupportBan.setCompoundDrawablePadding(8);
+            callSupportBtn.setCompoundDrawablePadding(8);
 
 
         }
@@ -195,9 +194,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                }
                 case CALL_SUPPORT: {
                     addFragment(R.id.view_container, new GalleryImageFragment(), GalleryImageFragment.class.getSimpleName(), false);
-                    callSupportBan.setVisibility(View.VISIBLE);
-                    callSupportBan.setTextColor(getResources().getColor(R.color.text_input_color));
-                    callSupportBtn.setImageResource(R.drawable.btn_call_support_selected);
+                    callSupportBtn.setVisibility(View.VISIBLE);
+                    callSupportBtn.setTextColor(getResources().getColor(R.color.text_input_color));
+                    callSupportFloatBtn.setImageResource(R.drawable.btn_call_support_selected);
                     toolbar.setVisibility(View.VISIBLE);
                     toolBarTitle.setText(getResources().getString(R.string.call_support));
                     currentTab = CALL_SUPPORT;

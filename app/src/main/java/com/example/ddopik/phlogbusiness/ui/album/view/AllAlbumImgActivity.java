@@ -11,6 +11,7 @@ import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.AddToLightBoxDialogFragment;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AlbumPreviewActivityPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgActivityPresenter;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgActivityPresenterImpl;
@@ -76,6 +77,11 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
         allAlbumImgActivityPresenter = new AllAlbumImgActivityPresenterImpl(this, this);
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
     private void initListener() {
 
         allAlbumImgAdapter.onAlbumImgClicked = new AllAlbumImgAdapter.OnAlbumImgClicked() {
@@ -100,9 +106,15 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
             @Override
             public void onAlbumImgAddLightBoxClick(BaseImage albumImg) {
+                AddToLightBoxDialogFragment.getInstance().show(getSupportFragmentManager(),AllAlbumImgActivity.class.getSimpleName());
+            }
+
+            @Override
+            public void onAlbumImgToCartClick(BaseImage albumImg) {
 
             }
         };
+
 
         pagingController = new PagingController(allAlbumImgRv) {
             @Override
