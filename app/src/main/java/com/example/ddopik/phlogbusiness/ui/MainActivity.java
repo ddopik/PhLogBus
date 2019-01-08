@@ -8,8 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.app.PhLogBusinessApp;
@@ -29,10 +29,10 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelpe
  */
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-    private TextView toolBarTitle;
+    private CustomTextView toolBarTitle, callSupportBan;
     private BottomAppBar bottomNavigation;
-    private Button homeBrn, campaignBtn, notificationBtn, myProfileBtn;
-    private FloatingActionButton picImgHomeBtn;
+    private Button homeBrn, campaignBtn, myProfileBtn;
+    private FloatingActionButton callSupportBtn;
     private Toolbar toolbar;
     private ImageButton backBtn;
     public static NavigationManger navigationManger;
@@ -60,8 +60,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         homeBrn = findViewById(R.id.navigation_home);
         campaignBtn = findViewById(R.id.navigation_missions);
         myProfileBtn = findViewById(R.id.navigation_profile);
-        notificationBtn = findViewById(R.id.navigation_notification);
-        picImgHomeBtn = findViewById(R.id.pic_img_home_btn);
+
+        callSupportBtn = findViewById(R.id.btn_call_support);
+        callSupportBan = findViewById(R.id.navigation_call_support);
 
     }
 
@@ -73,8 +74,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         homeBrn.setOnClickListener(this);
         campaignBtn.setOnClickListener(this);
         myProfileBtn.setOnClickListener(this);
-        notificationBtn.setOnClickListener(this);
-        picImgHomeBtn.setOnClickListener(this);
+
+        callSupportBtn.setOnClickListener(this);
     }
 
     private void initListener() {
@@ -101,14 +102,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.navigation_missions:
                 navigationManger.navigate(CAMPAIGN);
                 break;
-            case R.id.navigation_notification:
-                navigationManger.navigate(NOTIFICATION);
+            case R.id.navigation_call_support:
+                navigationManger.navigate(CALL_SUPPORT);
                 break;
             case R.id.navigation_profile:
                 navigationManger.navigate(PROFILE);
                 break;
-            case R.id.pic_img_home_btn:
-                navigationManger.navigate(UPLOAD_PHOTO);
+            case R.id.btn_call_support:
+                navigationManger.navigate(CALL_SUPPORT);
                 break;
             default:
         }
@@ -138,16 +139,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             campaignBtn.setCompoundDrawablesWithIntrinsicBounds(0, campaignBtnImg_off, 0, 0);
             campaignBtn.setCompoundDrawablePadding(8);
 
-            notificationBtn.setTextColor(getResources().getColor(R.color.gray677078));
-            notificationBtn.setCompoundDrawablesWithIntrinsicBounds(0, notificationBtnImg_off, 0, 0);
-            notificationBtn.setCompoundDrawablePadding(8);
+
 
             myProfileBtn.setTextColor(getResources().getColor(R.color.gray677078));
             myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg_off, 0, 0);
             myProfileBtn.setCompoundDrawablePadding(8);
 
+            callSupportBan.setVisibility(View.INVISIBLE);
+            callSupportBtn.setImageResource(R.drawable.btn_call_support);
+            callSupportBan.setTextColor(getResources().getColor(R.color.gray677078));
 
-            picImgHomeBtn.setImageResource(R.drawable.btn_upload_img);
+            callSupportBan.setCompoundDrawablePadding(8);
 
 
         }
@@ -180,23 +182,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     currentTab = CAMPAIGN;
                     break;
                 }
-                case NOTIFICATION: {
-
-                    addFragment(R.id.view_container, new NotificationFragment(), NotificationFragment.class.getSimpleName(), false);
-                    notificationBtn.setTextColor(getResources().getColor(R.color.text_input_color));
-                    notificationBtn.setCompoundDrawablesWithIntrinsicBounds(0, notificationBtnImg, 0, 0);
-                    notificationBtn.setCompoundDrawablePadding(8);
-                    toolbar.setVisibility(View.VISIBLE);
-                    toolBarTitle.setText(getResources().getString(R.string.notification));
-                    currentTab = NOTIFICATION;
-                    break;
-                }
-                case UPLOAD_PHOTO: {
+//                case NOTIFICATION: {
+//
+//                    addFragment(R.id.view_container, new NotificationFragment(), NotificationFragment.class.getSimpleName(), false);
+//                    notificationBtn.setTextColor(getResources().getColor(R.color.text_input_color));
+//                    notificationBtn.setCompoundDrawablesWithIntrinsicBounds(0, notificationBtnImg, 0, 0);
+//                    notificationBtn.setCompoundDrawablePadding(8);
+//                    toolbar.setVisibility(View.VISIBLE);
+//                    toolBarTitle.setText(getResources().getString(R.string.notification));
+//                    currentTab = NOTIFICATION;
+//                    break;
+//                }
+                case CALL_SUPPORT: {
                     addFragment(R.id.view_container, new GalleryImageFragment(), GalleryImageFragment.class.getSimpleName(), false);
-                    picImgHomeBtn.setImageResource(R.drawable.btn_upload_selected_img);
+                    callSupportBan.setVisibility(View.VISIBLE);
+                    callSupportBan.setTextColor(getResources().getColor(R.color.text_input_color));
+                    callSupportBtn.setImageResource(R.drawable.btn_call_support_selected);
                     toolbar.setVisibility(View.VISIBLE);
-                    toolBarTitle.setText(getResources().getString(R.string.upload_photo));
-                    currentTab = UPLOAD_PHOTO;
+                    toolBarTitle.setText(getResources().getString(R.string.call_support));
+                    currentTab = CALL_SUPPORT;
                     break;
                 }
                 case PROFILE: {
@@ -254,7 +258,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 navigationManger.navigate(HOME);
                 break;
             }
-            case UPLOAD_PHOTO: {
+            case CALL_SUPPORT: {
                 navigationManger.navigate(HOME);
                 break;
             }
