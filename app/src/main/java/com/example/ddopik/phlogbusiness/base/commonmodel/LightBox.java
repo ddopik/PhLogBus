@@ -27,4 +27,6 @@ public class LightBox {
     @SerializedName("photos")
     @Expose
     public List<BaseImage> photos = null;
+
+    public boolean isChecked ;
 }

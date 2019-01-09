@@ -2,12 +2,18 @@ package com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.pres
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
+import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.AddToLightBoxDialogFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.AddToLightBoxDialogFragmentView;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AddNewLightBoxDialogPresenterImpl implements AddNewLightBoxDialogPresenter{
 
@@ -30,6 +36,34 @@ public class AddNewLightBoxDialogPresenterImpl implements AddNewLightBoxDialogPr
                 .subscribe(addToLightBoxResponse -> {
                     addToLightBoxDialogFragmentView.viewLightBoxes(addToLightBoxResponse.data);
                     addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
+                }, throwable -> {
+
+                    CustomErrorUtil.Companion.setError(context,TAG,throwable);
+                    addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
+                });
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void addImagesToLightBox(List<LightBox> lightBoxId, int imageID,AddToLightBoxDialogFragment addToLightBoxDialogFragment) {
+
+
+        Map<String,String> data=new HashMap<String, String>();
+
+        for ( int i=0;i<lightBoxId.size();i++){
+            data.put("lightbox_id["+i+"]",lightBoxId.get(i).id.toString());
+        }
+
+        data.put("photo_id",String.valueOf(imageID));
+
+        addToLightBoxDialogFragmentView.viewLightBoxProgress(true);
+        BaseNetworkApi.addImageToLightBox(data).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(addToLightBoxResponse -> {
+                    addToLightBoxDialogFragmentView.viewMessage(addToLightBoxResponse.msg);
+                    addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
+                    addToLightBoxDialogFragment.dismiss();
+
                 }, throwable -> {
 
                     CustomErrorUtil.Companion.setError(context,TAG,throwable);

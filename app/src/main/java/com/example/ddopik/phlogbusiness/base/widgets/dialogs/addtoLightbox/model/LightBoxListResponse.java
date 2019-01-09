@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class AddToLightBoxResponse {
+public class LightBoxListResponse {
 
     @SerializedName("msg")
     @Expose

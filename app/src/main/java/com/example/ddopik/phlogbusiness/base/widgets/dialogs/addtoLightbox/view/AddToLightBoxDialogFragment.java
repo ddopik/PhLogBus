@@ -9,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.AddNewLightBoxDialogFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.presenter.AddNewLightBoxDialogPresenter;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.presenter.AddNewLightBoxDialogPresenterImpl;
@@ -20,7 +21,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.prese
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddToLightBoxDialogFragment extends DialogFragment  implements AddToLightBoxDialogFragmentView,OnAddToLightBoxClicked  {
+public class AddToLightBoxDialogFragment extends DialogFragment implements AddToLightBoxDialogFragmentView {
 
     private View mainDialogView;
     private AddNewLightBoxDialogFragment.OnDialogAdd onDialogAdd;
@@ -29,13 +30,15 @@ public class AddToLightBoxDialogFragment extends DialogFragment  implements AddT
     private AddToLightBoxAdapter addToLightBoxAdapter;
     private List<LightBox> lightBoxList=new ArrayList<>();
     private ProgressBar addImgToLightBoxProgress;
+    private BaseImage selectedImage;
 
     private AddNewLightBoxDialogPresenter addNewLightBoxDialogPresenter;
 
 
 
-    public static AddToLightBoxDialogFragment getInstance() {
+    public static AddToLightBoxDialogFragment getInstance(BaseImage image) {
         AddToLightBoxDialogFragment addToLightBoxDialogFragment = new AddToLightBoxDialogFragment();
+        addToLightBoxDialogFragment.selectedImage=image;
         return addToLightBoxDialogFragment;
     }
 
@@ -61,9 +64,9 @@ public class AddToLightBoxDialogFragment extends DialogFragment  implements AddT
     private void initView() {
         addImgToLightBoxProgress=mainDialogView.findViewById(R.id.add_img_to_light_box_progress);
         addToLightBoxRv = mainDialogView.findViewById(R.id.add_to_light_box_rv);
-        addToLightBoxBtn = mainDialogView.findViewById(R.id.add_light_box_dialog_btn);
+        addToLightBoxBtn = mainDialogView.findViewById(R.id.add_light_to_box_dialog_btn);
         cancelBtn = mainDialogView.findViewById(R.id.cancel_add_to_light_box_dialog_btn);
-        addToLightBoxAdapter=new AddToLightBoxAdapter(lightBoxList,this);
+        addToLightBoxAdapter = new AddToLightBoxAdapter(lightBoxList);
         addToLightBoxRv.setAdapter(addToLightBoxAdapter);
     }
 
@@ -76,6 +79,29 @@ public class AddToLightBoxDialogFragment extends DialogFragment  implements AddT
             dismiss();
         });
 
+        addToLightBoxAdapter.onAddToLightBoxClicked = (adapterLightBox, position) -> {
+
+            if (!lightBoxList.get(position).isChecked) {
+                lightBoxList.get(position).isChecked = true;
+            } else {
+                lightBoxList.get(position).isChecked = false;
+            }
+            addToLightBoxAdapter.notifyDataSetChanged();
+
+            if (lightBoxList.size() > 0) {
+                addToLightBoxBtn.setText(getResources().getString(R.string.save));
+            } else {
+                addToLightBoxBtn.setText(getResources().getString(R.string.add_to_light_box));
+            }
+        };
+
+
+
+
+
+        addToLightBoxBtn.setOnClickListener(v->{
+            addNewLightBoxDialogPresenter.addImagesToLightBox(lightBoxList,selectedImage.id,this);
+        });
 
     }
 
@@ -97,7 +123,7 @@ public class AddToLightBoxDialogFragment extends DialogFragment  implements AddT
     }
 
     @Override
-    public void onAddToLightBoxItemClicked(LightBox lightBox, Boolean state) {
-
+    public void viewMessage(String message) {
+        Toast.makeText(getContext(),message,Toast.LENGTH_LONG).show();
     }
 }

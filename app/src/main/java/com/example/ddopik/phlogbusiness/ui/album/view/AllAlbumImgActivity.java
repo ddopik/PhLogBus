@@ -106,7 +106,7 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
             @Override
             public void onAlbumImgAddLightBoxClick(BaseImage albumImg) {
-                AddToLightBoxDialogFragment.getInstance().show(getSupportFragmentManager(),AllAlbumImgActivity.class.getSimpleName());
+                AddToLightBoxDialogFragment.getInstance(albumImg).show(getSupportFragmentManager(),AllAlbumImgActivity.class.getSimpleName());
             }
 
             @Override

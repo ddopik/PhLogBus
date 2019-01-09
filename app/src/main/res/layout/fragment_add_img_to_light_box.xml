@@ -30,6 +30,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				app:orientation="vertical"
+				android:layout_marginBottom="@dimen/dp16"
 		/>
 	
 	
@@ -37,12 +38,13 @@
 	<LinearLayout android:layout_width="match_parent"
 				  android:layout_height="wrap_content"
 				  android:orientation="vertical"
+				
 				  android:padding="@dimen/dp16"
 				  android:layout_gravity="bottom">
 		<Button android:id="@+id/add_light_to_box_dialog_btn"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:text="@string/add"
+				android:text="@string/add_to_light_box"
 				android:textColor="@color/white"
 				android:layout_weight="1"
 				android:background="@color/text_input_color"/>

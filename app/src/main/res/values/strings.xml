@@ -167,6 +167,8 @@
 	<string name="add_to_cart">Add to cart</string>
 	<string name="call_support">Call support</string>
 	<string name="choose_light_box">Choose lightBox</string>
+	<string name="save">Save</string>
+    <string name="add_to_light_box">Add to lightBox</string>
 
 
 </resources>

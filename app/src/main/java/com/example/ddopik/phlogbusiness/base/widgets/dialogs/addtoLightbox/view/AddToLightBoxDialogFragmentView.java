@@ -9,4 +9,6 @@ public interface AddToLightBoxDialogFragmentView {
     void viewLightBoxes(List<LightBox> lightBoxList);
 
     void viewLightBoxProgress(Boolean state);
+
+    void viewMessage(String message);
 }

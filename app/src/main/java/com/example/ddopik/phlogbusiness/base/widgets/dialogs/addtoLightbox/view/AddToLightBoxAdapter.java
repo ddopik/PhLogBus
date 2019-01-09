@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import com.example.ddopik.phlogbusiness.R;
@@ -13,17 +14,18 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 
 import java.util.List;
+import java.util.logging.Handler;
 
 public class AddToLightBoxAdapter extends RecyclerView.Adapter<AddToLightBoxAdapter.AddToLightBoxViewHolder> {
 
     private Context context;
-    private OnAddToLightBoxClicked onAddToLightBoxClicked;
-    private List<LightBox> lightBoxList;
+     private List<LightBox> lightBoxList;
+    public OnAddToLightBoxClicked onAddToLightBoxClicked;
 
 
-    public AddToLightBoxAdapter(List<LightBox> lightBoxList, OnAddToLightBoxClicked onAddToLightBoxClicked) {
+    public AddToLightBoxAdapter(List<LightBox> lightBoxList) {
         this.lightBoxList = lightBoxList;
-        this.onAddToLightBoxClicked = onAddToLightBoxClicked;
+
     }
 
     @NonNull
@@ -37,19 +39,37 @@ public class AddToLightBoxAdapter extends RecyclerView.Adapter<AddToLightBoxAdap
     @Override
     public void onBindViewHolder(@NonNull AddToLightBoxViewHolder addToLightBoxViewHolder, int i) {
 
+
         addToLightBoxViewHolder.lightBoxName.setText(lightBoxList.get(i).name);
         addToLightBoxViewHolder.lightBoxPhotosCount.setText(new StringBuilder().append(lightBoxList.get(i).photos.size()).append(" ").append(context.getResources().getString(R.string.photos)).toString());
+        addToLightBoxViewHolder.addImgToLightBoxRadioBtn.setChecked(lightBoxList.get(i).isChecked);
+
+
 
         if (onAddToLightBoxClicked != null) {
-
+            //case all container pressed
             addToLightBoxViewHolder.addToLightBoxContainer.setOnClickListener(v -> {
-                onAddToLightBoxClicked.onAddToLightBoxItemClicked(lightBoxList.get(i), addToLightBoxViewHolder.addImgToLighrBoxRadioBtn.isChecked());
+                onAddToLightBoxClicked.onAddToLightBoxItemClicked(lightBoxList.get(i),i);
+                if(addToLightBoxViewHolder.addImgToLightBoxRadioBtn.isChecked()){
+                    addToLightBoxViewHolder.addImgToLightBoxRadioBtn.setChecked(false);
+            }else {
+                addToLightBoxViewHolder.addImgToLightBoxRadioBtn.setChecked(true);
+            }
             });
+//            case only RadioBtn pressed
+            addToLightBoxViewHolder.addImgToLightBoxRadioBtn.setOnClickListener(v-> {
 
-            addToLightBoxViewHolder.addImgToLighrBoxRadioBtn.setOnClickListener(v -> {
-                onAddToLightBoxClicked.onAddToLightBoxItemClicked(lightBoxList.get(i), addToLightBoxViewHolder.addImgToLighrBoxRadioBtn.isChecked());
-            });
+                if(addToLightBoxViewHolder.addImgToLightBoxRadioBtn.isChecked()){
+                    addToLightBoxViewHolder.addImgToLightBoxRadioBtn.setChecked(false);
+                }else {
+                    addToLightBoxViewHolder.addImgToLightBoxRadioBtn.setChecked(true);
+                }
+
+                onAddToLightBoxClicked.onAddToLightBoxItemClicked(lightBoxList.get(i),i);
+        });
+
         }
+
 
     }
 
@@ -61,7 +81,7 @@ public class AddToLightBoxAdapter extends RecyclerView.Adapter<AddToLightBoxAdap
     class AddToLightBoxViewHolder extends RecyclerView.ViewHolder {
 
         CustomTextView lightBoxName, lightBoxPhotosCount;
-        RadioButton addImgToLighrBoxRadioBtn;
+        RadioButton addImgToLightBoxRadioBtn;
         FrameLayout addToLightBoxContainer;
 
         AddToLightBoxViewHolder(View view) {
@@ -69,8 +89,16 @@ public class AddToLightBoxAdapter extends RecyclerView.Adapter<AddToLightBoxAdap
             lightBoxName = view.findViewById(R.id.light_box_name);
             lightBoxPhotosCount = view.findViewById(R.id.light_box_photos_count);
             addToLightBoxContainer = view.findViewById(R.id.add_to_light_box_container);
-            addImgToLighrBoxRadioBtn = view.findViewById(R.id.add_img_to_light_box_rb);
+            addImgToLightBoxRadioBtn = view.findViewById(R.id.add_img_to_light_box_rb);
+
+
         }
+    }
+
+
+
+    public interface OnAddToLightBoxClicked {
+        void onAddToLightBoxItemClicked(LightBox lightBox,int position);
     }
 
 
