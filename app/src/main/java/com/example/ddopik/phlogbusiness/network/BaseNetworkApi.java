@@ -4,9 +4,10 @@ import com.androidnetworking.common.Priority;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.LightBoxListResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.RemoveImageToLightBoxResponse;
-import com.example.ddopik.phlogbusiness.ui.album.model.AlbumImgCommentResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewImagesResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponse;
+import com.example.ddopik.phlogbusiness.ui.album.model.ImgCommentResponse;
+import com.example.ddopik.phlogbusiness.ui.album.model.LikeImageResponse;
 import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.SubmitCampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.CampaignInnerPhotosResponse;
@@ -61,7 +62,7 @@ public class BaseNetworkApi {
     private static final String BASE_URL_COMMON = "http://178.128.162.10/public/api/common";
 
     private static final String WELCOME_SLIDES_IMAGES = BASE_URL + "/photographer/init_slider";
-    private static final String USER_SEARCH_FILTERS = BASE_URL + "/filters";
+    private static final String USER_SEARCH_FILTERS = BASE_URL_COMMON + "/filters/list";
     private static final String SEARCH_ALBUM = BASE_URL + "/album/search";
     private static final String ALL_INDUSTRY = BASE_URL_COMMON + "/industries/list";
     private static final String SIGN_UP_USER = BASE_URL + "/auth/signup";
@@ -83,7 +84,8 @@ public class BaseNetworkApi {
     private static final String GET_ALBUM_PREVIEW = BASE_URL +"/album/details";
     private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL +"/album/photos";
     private static final String GET_IMAGE_COMMENT = BASE_URL + "/image/comments";
-    private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/image/comment/submit";
+    private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/image/comment/submit";s
+    private static final String LIKE_IMAGE = BASE_URL + "/photo/like";
     private static final String FOLLOW_CAMPAIGN_URL = BASE_URL + "/join_photographer_campaign";
     private static final String UPLOAD_PROFILE_IMG = BASE_URL + "/profile/upload";
     private static final String SUBMIT_CAMPAIGN_URL = BASE_URL + "/campaign/create";
@@ -295,23 +297,35 @@ public class BaseNetworkApi {
                 .getObjectObservable(AlbumPreviewImagesResponse.class);
     }
 
-    public static io.reactivex.Observable<AlbumImgCommentResponse> getImageComments(String token, String image_id, String page) {
+
+    public static io.reactivex.Observable<ImgCommentResponse> getImageComments(String image_id, String page) {
         return Rx2AndroidNetworking.post(GET_IMAGE_COMMENT)
-                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
-                .addQueryParameter("image_id",image_id)
-                .addQueryParameter(PAGER_PATH_PARAMETER,page)
+                .addQueryParameter("image_id", image_id)
+                .addQueryParameter(PAGER_PATH_PARAMETER, page)
+                .getResponseOnlyFromNetwork()
                 .setPriority(Priority.HIGH)
                 .build()
-                .getObjectObservable(AlbumImgCommentResponse.class);
+                .getObjectObservable(ImgCommentResponse.class);
     }
-    public static io.reactivex.Observable<AlbumImgCommentResponse> submitImageComment(String token, String image_id, String imageComment) {
+
+    public static io.reactivex.Observable<ImgCommentResponse> submitImageComment(String image_id, String imageComment) {
         return Rx2AndroidNetworking.post(SUBMIT_IMAGE_COMMENT)
-                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
-                .addQueryParameter("image_id",image_id)
-                .addQueryParameter("comment_text",imageComment)
+                .addQueryParameter("image_id", image_id)
+                .addQueryParameter("comment", imageComment)
                 .setPriority(Priority.HIGH)
                 .build()
-                .getObjectObservable(AlbumImgCommentResponse.class);
+                .getObjectObservable(ImgCommentResponse.class);
+    }
+
+
+
+    public static io.reactivex.Observable<LikeImageResponse> likeImage(String imageId) {
+        return Rx2AndroidNetworking.post(LIKE_IMAGE)
+                .addBodyParameter("image_id", imageId)
+                .getResponseOnlyFromNetwork()
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(LikeImageResponse.class);
     }
     public static io.reactivex.Observable<BrandInnerResponse> getBrandInnerData(String token, String brandId) {
         return Rx2AndroidNetworking.post(INNER_BRAND_URL)

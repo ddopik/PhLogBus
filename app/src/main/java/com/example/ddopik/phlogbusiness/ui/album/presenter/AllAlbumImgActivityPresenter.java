@@ -6,4 +6,6 @@ public interface AllAlbumImgActivityPresenter {
 
     void getAlbumImages(int albumId,int  pageNum);
 
+    void likeImage(int imageId);
+
  }

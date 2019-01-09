@@ -184,4 +184,13 @@
     <!--//////CustomDialog-->
     <dimen name="custom_dialog_width">300dp</dimen>
     
+    
+    
+    
+    
+    
+    
+    <dimen name="comment_header_photo_h">300dp</dimen>
+
+
 </resources>

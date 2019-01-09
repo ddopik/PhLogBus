@@ -117,7 +117,7 @@
 								android:id="@+id/album_img_comment"
 								android:layout_width="@dimen/ic_size"
 								android:layout_height="@dimen/ic_size"
-								android:layout_marginStart="@dimen/dp16"
+								android:layout_marginStart="@dimen/dp32"
 								android:background="@color/transparent"
 								android:scaleType="centerCrop"
 								app:srcCompat="@drawable/ic_comment"/>

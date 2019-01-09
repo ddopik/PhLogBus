@@ -24,7 +24,7 @@ import com.example.ddopik.phlogbusiness.ui.album.view.AlbumPreviewActivity;
 import com.example.ddopik.phlogbusiness.ui.search.OnSearchTabSelected;
 import com.example.ddopik.phlogbusiness.ui.search.SearchActivity;
 import com.example.ddopik.phlogbusiness.ui.search.album.model.FilterOption;
-import com.example.ddopik.phlogbusiness.ui.search.album.model.SearchFilter;
+import com.example.ddopik.phlogbusiness.ui.search.album.model.Filter;
 import com.example.ddopik.phlogbusiness.ui.search.album.presenter.AlbumSearchFragmentImpl;
 import com.example.ddopik.phlogbusiness.ui.search.album.presenter.AlbumSearchPresenter;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
@@ -59,7 +59,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     private ExpandableListView filterExpListView;
     private ProgressBar progressBar;
     private AlbumSearchPresenter albumSearchPresenter;
-    private List<SearchFilter> searchFilterList = new ArrayList<>();
+    private List<Filter> filterList = new ArrayList<>();
     private DisplayMetrics metrics = new DisplayMetrics();
     private List<AlbumSearch> albumSearchList = new ArrayList<AlbumSearch>();
     private AlbumSearchAdapter albumSearchAdapter;
@@ -113,7 +113,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         progressBar = mainView.findViewById(R.id.album_search_filter_progress);
         filterExpListView = mainView.findViewById(R.id.filters_expand);
         albumSearchRv = mainView.findViewById(R.id.album_search_rv);
-        expandableListAdapter = new ExpandableListAdapter(getActivity(), searchFilterList);
+        expandableListAdapter = new ExpandableListAdapter(getActivity(), filterList);
         albumSearchAdapter = new AlbumSearchAdapter(albumSearchList);
         albumSearchRv.setAdapter(albumSearchAdapter);
         filterExpListView.setAdapter(expandableListAdapter);
@@ -155,15 +155,15 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
 
 
         expandableListAdapter.onChildViewListener = filterOption -> {
-            showToast(filterOption.name);
-            for (int i = 0; i < searchFilterList.size(); i++) {
-                for (int x = 0; x < searchFilterList.get(i).options.size(); x++) {
-                    FilterOption currFilterOption = searchFilterList.get(i).options.get(x);
-                    if (currFilterOption.name.equals(filterOption.name)) {
+            showToast(filterOption.systemName);
+            for (int i = 0; i < filterList.size(); i++) {
+                for (int x = 0; x < filterList.get(i).options.size(); x++) {
+                    FilterOption currFilterOption = filterList.get(i).options.get(x);
+                    if (currFilterOption.displayName.equals(filterOption.displayName)) {
                         if (currFilterOption.isSelected) {
-                            searchFilterList.get(i).options.get(x).isSelected = false;
+                            filterList.get(i).options.get(x).isSelected = false;
                         } else {
-                            searchFilterList.get(i).options.get(x).isSelected = true;
+                            filterList.get(i).options.get(x).isSelected = true;
                         }
                         expandableListAdapter.notifyDataSetChanged();
                         return;
@@ -231,10 +231,10 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     }
 
     @Override
-    public void viewSearchFilters(List<SearchFilter> searchFilterList) {
+    public void viewSearchFilters(List<Filter> filterList) {
         filterExpListView.setVisibility(View.VISIBLE);
         albumSearchRv.setVisibility(View.GONE);
-        this.searchFilterList.addAll(searchFilterList);
+        this.filterList.addAll(filterList);
         expandableListAdapter.notifyDataSetChanged();
 
 

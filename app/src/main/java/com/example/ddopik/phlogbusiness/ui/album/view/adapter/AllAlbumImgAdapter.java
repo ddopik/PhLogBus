@@ -69,7 +69,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         if(albumImgList.get(i).likesCount !=null)
             albumImgViewHolder.albumImgLikeVal.setText(new StringBuilder().append(albumImgList.get(i).likesCount).append(" Likes").toString());
         if(albumImgList.get(i).commentsCount !=null)
-            albumImgViewHolder.albumImgCommentVal.setText(new StringBuilder().append(albumImgList.get(i).commentsCount).append("Comments").toString());
+            albumImgViewHolder.albumImgCommentVal.setText(new StringBuilder().append(albumImgList.get(i).commentsCount).append(" Comments").toString());
 
         /**
          * view remove icon when image is already saved to lightBox to at least on LightBox

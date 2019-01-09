@@ -9,6 +9,9 @@ import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AllAlbumImgActivityPresenterImpl implements AllAlbumImgActivityPresenter {
 
     public static String TAG=AllAlbumImgActivityPresenterImpl.class.getSimpleName();
@@ -38,7 +41,24 @@ public class AllAlbumImgActivityPresenterImpl implements AllAlbumImgActivityPres
                 });
     }
 
-//    @SuppressLint("CheckResult")
+    @SuppressLint("CheckResult")
+    @Override
+    public void likeImage(int imageId) {
+
+          allAlbumImgActivityView.viewAlbumImageListProgress(true);
+        BaseNetworkApi.likeImage(String.valueOf(imageId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(likeImageResponse -> {
+                    allAlbumImgActivityView.viewMessage(likeImageResponse.msg);
+                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());
+                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                });
+    }
+
+    //    @SuppressLint("CheckResult")
 //    @Override
 //    public void removeLightBoxImage(BaseImage baseImage) {
 //

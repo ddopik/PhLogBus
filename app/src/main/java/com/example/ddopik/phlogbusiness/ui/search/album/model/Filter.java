@@ -3,17 +3,19 @@ package com.example.ddopik.phlogbusiness.ui.search.album.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
- * Created by abdalla_maged on 10/31/2018.
+ * Created by abdalla_maged on 10/30/2018.
  */
-public class FilterOption {
+public class Filter {
+
+
+
 
     @SerializedName("id")
     @Expose
     public Integer id;
-    @SerializedName("filter_group_id")
-    @Expose
-    public Integer filterGroupId;
     @SerializedName("system_name")
     @Expose
     public String systemName;
@@ -29,7 +31,8 @@ public class FilterOption {
     @SerializedName("display_name")
     @Expose
     public String displayName;
-
-    public boolean isSelected;
+    @SerializedName("filters")
+    @Expose
+    public List<FilterOption> options = null;
 
 }

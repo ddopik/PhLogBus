@@ -23,6 +23,8 @@
     <string name="sign_up_terms_notifier">By creating An account you are agree to our user Agreement and privacy
         Policy
     </string>
+    <string name="comment_cant_not_be_null">Comment can\'t be null</string>
+    
     <string name="sign_in_to_continue">Sign In to continue</string>
     <string name="do_not_have_account">Don\'t Have an account?" "</string>
     <string name="or">OR</string>
@@ -170,6 +172,9 @@
 	<string name="save">Save</string>
     <string name="add_to_light_box">Add to lightBox</string>
 	<string name="add_new_light_box">Add new LightBox</string>
+	<string name="images">Images</string>
+    <string name="like">Like</string>
+    <string name="comment">Commnet</string>
 
 
 </resources>

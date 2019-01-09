@@ -3,7 +3,6 @@ package com.example.ddopik.phlogbusiness.ui.album.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -14,7 +13,6 @@ import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.AddToLightBoxDialogFragment;
-import com.example.ddopik.phlogbusiness.ui.album.presenter.AlbumPreviewActivityPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgActivityPresenter;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgActivityPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AllAlbumImgAdapter;
@@ -94,20 +92,22 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
         allAlbumImgAdapter.onAlbumImgClicked = new AllAlbumImgAdapter.OnAlbumImgClicked() {
             @Override
             public void onAlbumImgClick(BaseImage albumImg) {
-
-                Intent intent = new Intent(getBaseContext(), AlbumCommentActivity.class);
+                Intent intent = new Intent(getBaseContext(), ImageCommentActivity.class);
+                intent.putExtra(ImageCommentActivity.IMAGE_DATA,albumImg);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
 
             @Override
             public void onAlbumImgLikeClick(BaseImage albumImg) {
-                showToast("like");
+                 allAlbumImgActivityPresenter.likeImage(albumImg.id);
             }
 
             @Override
             public void onAlbumImgCommentClick(BaseImage albumImg) {
-                Intent intent = new Intent(getBaseContext(), AlbumCommentActivity.class);
+                Intent intent = new Intent(getBaseContext(), ImageCommentActivity.class);
+                intent.putExtra(ImageCommentActivity.IMAGE_DATA,albumImg);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
 

@@ -12,12 +12,6 @@ public class SearchFiltersResponse {
 
     @SerializedName("data")
     @Expose
-    public List<SearchFilter> data = null;
-    @SerializedName("msg")
-    @Expose
-    public String msg;
-    @SerializedName("state")
-    @Expose
-    public String state;
+    public List<Filter> data = null;
 
 }

@@ -8,16 +8,21 @@ import com.google.gson.annotations.SerializedName;
  * Created by abdalla_maged On Nov,2018
  */
 public class Comment {
-
-    @SerializedName("comment_id")
+    @SerializedName("updated_at")
     @Expose
-    public String commentId;
-    @SerializedName("comment_text")
+    public String updatedAt;
+    @SerializedName("created_at")
     @Expose
-    public String commentText;
-    @SerializedName("comment_user")
+    public String createdAt;
+    @SerializedName("comment")
     @Expose
-    public ComentedUser comentedUser;
+    public String comment;
+    @SerializedName("id")
+    @Expose
+    public Integer id;
+    @SerializedName("photographer")
+    @Expose
+    public Photographer photographer;
 
 
 }
