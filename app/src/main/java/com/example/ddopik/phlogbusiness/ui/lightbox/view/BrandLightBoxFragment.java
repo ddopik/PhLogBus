@@ -94,18 +94,15 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
 
             @Override
             public void onDeleteLightBoxClicked(LightBox lightBox) {
-                brandLightBoxPresenter.deleteLightBox(lightBox.id);
+//                brandLightBoxPresenter.deleteLightBox(lightBox.id);
             }
         };
 
         addLightBoxBtn.setOnClickListener(v->{
             AddNewLightBoxDialogFragment addNewLightBoxDialogFragment=AddNewLightBoxDialogFragment.getInstance();
-            addNewLightBoxDialogFragment.setOnDialogAdd(new AddNewLightBoxDialogFragment.OnDialogAdd() {
-                @Override
-                public void onDialogAddBtn(String lightBoxName) {
-                    brandLightBoxPresenter.addLightBox(lightBoxName, "desc");
-                    addNewLightBoxDialogFragment.dismiss();
-                }
+            addNewLightBoxDialogFragment.setOnDialogAdd(lightBoxName -> {
+                brandLightBoxPresenter.addLightBox(lightBoxName, "desc");
+                addNewLightBoxDialogFragment.dismiss();
             });
             addNewLightBoxDialogFragment.show(getChildFragmentManager(),AddNewLightBoxDialogFragment.class.getSimpleName());
         });

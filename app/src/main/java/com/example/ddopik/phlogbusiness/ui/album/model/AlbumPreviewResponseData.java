@@ -10,49 +10,23 @@ import java.util.List;
  * Created by abdalla_maged on 11/6/2018.
  */
 public class AlbumPreviewResponseData {
-    @SerializedName("current_page")
+    @SerializedName("updated_at")
     @Expose
-    public Integer currentPage;
-
-
-
-    @SerializedName("data")
+    public String updatedAt;
+    @SerializedName("name")
     @Expose
-    public List<BaseImage> data = null;
-
+    public String name;
+    @SerializedName("created_at")
+    @Expose
+    public String createdAt;
+    @SerializedName("id")
+    @Expose
+    public Integer id;
+    @SerializedName("photos_count")
+    @Expose
+    public Integer photosCount;
     @SerializedName("preview")
     @Expose
     public String preview;
 
-
-    @SerializedName("first_page_url")
-    @Expose
-    public String firstPageUrl;
-    @SerializedName("from")
-    @Expose
-    public Integer from;
-    @SerializedName("last_page")
-    @Expose
-    public Integer lastPage;
-    @SerializedName("last_page_url")
-    @Expose
-    public String lastPageUrl;
-    @SerializedName("next_page_url")
-    @Expose
-    public String nextPageUrl;
-    @SerializedName("path")
-    @Expose
-    public String path;
-    @SerializedName("per_page")
-    @Expose
-    public Integer perPage;
-    @SerializedName("prev_page_url")
-    @Expose
-    public Object prevPageUrl;
-    @SerializedName("to")
-    @Expose
-    public Integer to;
-    @SerializedName("total")
-    @Expose
-    public Integer total;
 }

@@ -10,4 +10,6 @@ public interface AddNewLightBoxDialogPresenter {
     void getLightBoxes();
 
     void addImagesToLightBox(List<LightBox> lightBoxId, int imageID, AddToLightBoxDialogFragment addToLightBoxDialogFragment);
+
+    void  addLightBox(String name,String description);
 }

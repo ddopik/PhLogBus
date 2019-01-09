@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.AddToLightBoxDialogFragment;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AlbumPreviewActivityPresenterImpl;
@@ -27,11 +29,14 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
 
     public static String ALBUM_ID = "album_id";
+    public static String ALBUM_NAME = "album_name";
     public static String SELECTED_IMG_ID = "selected_img_id";
     public static String CURRENT_PAGE = "current_page";
     private int albumId;
     private int selectedImageId;
     private int currentPage;
+     private ImageButton backBtn;
+    private CustomTextView toolBarTitle;
     private CustomRecyclerView allAlbumImgRv;
     private AllAlbumImgAdapter allAlbumImgAdapter;
     private List<BaseImage> albumImgList = new ArrayList<>();
@@ -56,11 +61,13 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
     @Override
     public void initView() {
-
+        toolBarTitle = findViewById(R.id.toolbar_title);
+        toolBarTitle.setText(getIntent().getStringExtra(ALBUM_NAME));
         this.albumId = getIntent().getIntExtra(ALBUM_ID, 0);
         this.selectedImageId = getIntent().getIntExtra(SELECTED_IMG_ID, 0);
         this.currentPage = getIntent().getIntExtra(CURRENT_PAGE, 0);
 
+        backBtn=findViewById(R.id.back_btn);
         allAlbumImgAdapter = new AllAlbumImgAdapter(albumImgList);
         albumImgProgress = findViewById(R.id.album_img_list_progress_bar);
         allAlbumImgRv = findViewById(R.id.album_img_list_rv);
@@ -113,6 +120,11 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
             public void onAlbumImgToCartClick(BaseImage albumImg) {
 
             }
+
+            @Override
+            public void onAlbumImgLightBoxRemoveClick(BaseImage albumImg) {
+//                allAlbumImgActivityPresenter.removeLightBoxImage(albumImg);
+            }
         };
 
 
@@ -125,6 +137,8 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
             }
         };
+
+        backBtn.setOnClickListener(v-> onBackPressed());
 
 
     }
@@ -159,9 +173,10 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
     }
 
     @Override
-    public void showToast(String msg) {
-        super.showToast(msg);
+    public void viewMessage(String msg) {
+        showToast(msg);
     }
+
 
 
 }

@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.ui.album.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivityView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
@@ -36,4 +37,23 @@ public class AllAlbumImgActivityPresenterImpl implements AllAlbumImgActivityPres
                     allAlbumImgActivityView.viewAlbumImageListProgress(false);
                 });
     }
+
+//    @SuppressLint("CheckResult")
+//    @Override
+//    public void removeLightBoxImage(BaseImage baseImage) {
+//
+//
+//
+//        allAlbumImgActivityView.viewAlbumImageListProgress(true);
+//        BaseNetworkApi.removeLightBoxImage()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(albumPreviewImagesResponse -> {
+//                    allAlbumImgActivityView.viewMessage(albumPreviewImagesResponse.msg);
+//                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+//                }, throwable -> {
+//                    CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());
+//                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+//                });
+//    }
 }

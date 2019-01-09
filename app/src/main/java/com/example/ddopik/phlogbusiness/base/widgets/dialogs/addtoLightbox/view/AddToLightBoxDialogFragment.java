@@ -91,7 +91,7 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
             if (lightBoxList.size() > 0) {
                 addToLightBoxBtn.setText(getResources().getString(R.string.save));
             } else {
-                addToLightBoxBtn.setText(getResources().getString(R.string.add_to_light_box));
+                addToLightBoxBtn.setText(getResources().getString(R.string.add_new_light_box));
             }
         };
 
@@ -100,13 +100,41 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
 
 
         addToLightBoxBtn.setOnClickListener(v->{
-            addNewLightBoxDialogPresenter.addImagesToLightBox(lightBoxList,selectedImage.id,this);
+
+
+                for ( int i=0;i<lightBoxList.size();i++) {
+                    /**
+                     * send if at least on lightBox checked
+                     * */
+                    if (lightBoxList.get(i).isChecked) {
+                        addNewLightBoxDialogPresenter.addImagesToLightBox(lightBoxList, selectedImage.id, this);
+                        break;
+                    }
+                    /**
+                     * No LightBox prefered try add newOne
+                     * */
+                    if(i==lightBoxList.size()-1){
+                        AddNewLightBoxDialogFragment addNewLightBoxDialogFragment=AddNewLightBoxDialogFragment.getInstance();
+                        addNewLightBoxDialogFragment.setOnDialogAdd(lightBoxName -> {
+                            addNewLightBoxDialogPresenter.addLightBox(lightBoxName, "desc");
+                            addNewLightBoxDialogFragment.dismiss();
+                        });
+                        addNewLightBoxDialogFragment.show(getChildFragmentManager(),AddToLightBoxDialogFragment.class.getSimpleName());
+                        break;
+                    }
+
+                }
+
+
+
+
         });
 
     }
 
     @Override
     public void viewLightBoxes(List<LightBox> lightBoxList) {
+        this.lightBoxList.clear();
         this.lightBoxList.addAll(lightBoxList);
         addToLightBoxAdapter.notifyDataSetChanged();
 

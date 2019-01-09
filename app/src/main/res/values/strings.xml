@@ -169,6 +169,7 @@
 	<string name="choose_light_box">Choose lightBox</string>
 	<string name="save">Save</string>
     <string name="add_to_light_box">Add to lightBox</string>
+	<string name="add_new_light_box">Add new LightBox</string>
 
 
 </resources>

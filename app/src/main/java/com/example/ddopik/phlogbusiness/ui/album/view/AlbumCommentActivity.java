@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumImgCommentData;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
 
@@ -23,6 +24,9 @@ public class AlbumCommentActivity extends BaseActivity implements AlbumCommentAc
     private Button sendBtn;
     private ProgressBar addCommentProgress;
     private List<Comment> commentList =new ArrayList<>();
+    private CustomTextView toolBarTitle;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,9 +41,10 @@ public class AlbumCommentActivity extends BaseActivity implements AlbumCommentAc
 
     @Override
     public void initView() {
-        comment=findViewById(R.id.img_comment);
+         comment=findViewById(R.id.img_comment);
         sendBtn=findViewById(R.id.send_comment);
         addCommentProgress=findViewById(R.id.add_comment_progress);
+        toolBarTitle.setText(getResources().getString(R.string.campaigns));
     }
 
     @Override

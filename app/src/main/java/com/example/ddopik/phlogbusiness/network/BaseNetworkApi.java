@@ -3,6 +3,7 @@ package com.example.ddopik.phlogbusiness.network;
 import com.androidnetworking.common.Priority;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.LightBoxListResponse;
+import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.RemoveImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumImgCommentResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewImagesResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponse;
@@ -92,6 +93,7 @@ public class BaseNetworkApi {
     private static final String ADD_LIGHT_BOX_URL = BASE_URL +"/lightBox/add";
     private static final String GET_LIGHT_BOX_URL = BASE_URL +"/lightBox/all";
     private static final String ADD_IMG_TO_LIGHT_BOX_URL = BASE_URL +"/lightBox/photo/save";
+    private static final String REMOVE_IMG_TO_LIGHT_BOX_URL = BASE_URL +"/lightBox/photo/delete";
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
 
@@ -275,7 +277,7 @@ public class BaseNetworkApi {
                 .getObjectObservable(FollowUserResponse.class);
     }
 
-    public static io.reactivex.Observable<AlbumPreviewResponse> getSearchSelectedAlbum(String albumId,String page) {
+    public static io.reactivex.Observable<AlbumPreviewResponse> getAlbumDetails(String albumId, String page) {
         return Rx2AndroidNetworking.post(GET_ALBUM_PREVIEW)
                 .addQueryParameter(PAGER_PATH_PARAMETER,page)
                 .addBodyParameter("album_id",albumId)
@@ -375,6 +377,14 @@ public class BaseNetworkApi {
                 .addBodyParameter(data)
                 .build()
                 .getObjectObservable(AddImageToLightBoxResponse.class);
+    }
+
+    public static io.reactivex.Observable<RemoveImageToLightBoxResponse> removeLightBoxImage(Map<String,String> data) {
+        return Rx2AndroidNetworking.post(REMOVE_IMG_TO_LIGHT_BOX_URL)
+                .setPriority(Priority.HIGH)
+                .addBodyParameter(data)
+                .build()
+                .getObjectObservable(RemoveImageToLightBoxResponse.class);
     }
 
 

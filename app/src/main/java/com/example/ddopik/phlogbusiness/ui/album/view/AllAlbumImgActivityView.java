@@ -10,4 +10,5 @@ import java.util.List;
 public interface AllAlbumImgActivityView  {
     void viewAlbumImageList(List<BaseImage> albumImgList);
     void viewAlbumImageListProgress(boolean state);
+    void viewMessage(String msg);
 }

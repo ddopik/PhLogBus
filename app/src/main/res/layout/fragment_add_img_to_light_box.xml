@@ -44,7 +44,7 @@
 		<Button android:id="@+id/add_light_to_box_dialog_btn"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:text="@string/add_to_light_box"
+				android:text="@string/add_new_light_box"
 				android:textColor="@color/white"
 				android:layout_weight="1"
 				android:background="@color/text_input_color"/>

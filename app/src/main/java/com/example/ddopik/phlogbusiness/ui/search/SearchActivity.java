@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
@@ -12,6 +13,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.ui.search.album.view.AlbumSearchFragment;
 import com.example.ddopik.phlogbusiness.ui.search.images.view.ImagesSearchFragment;
 import com.example.ddopik.phlogbusiness.ui.search.profile.view.ProfileSearchFragment;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
 
 /**
@@ -20,6 +22,9 @@ import com.example.ddopik.phlogbusiness.ui.search.profile.view.ProfileSearchFrag
 public class SearchActivity extends BaseActivity {
 
     private EditText searchView;
+    private CustomTextView toolBarTitle;
+    private ImageButton backBtn;
+
     private CustomTextView imagesTab, profileTab, albumTab, filterTab, searchResult;
     private FrameLayout searchContainer;
     private AlbumSearchFragment albumSearchFragment;
@@ -46,7 +51,9 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        backBtn=findViewById(R.id.back_btn);
+        toolBarTitle = findViewById(R.id.toolbar_title);
+        toolBarTitle.setText(getResources().getString(R.string.search));
         searchView = findViewById(R.id.search_view);
         imagesTab = findViewById(R.id.tab_images);
         profileTab = findViewById(R.id.tab_profile);
@@ -104,6 +111,11 @@ public class SearchActivity extends BaseActivity {
             if (onFilterClicked != null) {
                 onFilterClicked.onFilterIconClicked();
             }
+        });
+
+        backBtn.setOnClickListener(v->      {
+            Utilities.hideKeyboard(this);
+            onBackPressed();
         });
 
     }

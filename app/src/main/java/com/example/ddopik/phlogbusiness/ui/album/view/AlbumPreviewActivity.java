@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumGroup;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponseData;
@@ -21,9 +23,7 @@ import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.ALBUM_ID;
-import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.CURRENT_PAGE;
-import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.SELECTED_IMG_ID;
+import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.*;
 
 
 /**
@@ -35,8 +35,9 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
     public static final String ALBUM_PREVIEW_ID = "album_preview_id";
     private int albumID;
     private int currentPage;
+    private ImageButton backBtn;
     private List<AlbumGroup> albumGroupList = new ArrayList<>();
-
+    private CustomTextView albumName, albumPhotosCount,toolBarTitle;
     private AlbumAdapter albumAdapter;
     private ImageView albumPreviewImg;
     private ProgressBar albumPreviewProgress;
@@ -61,6 +62,11 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
 
     @Override
     public void initView() {
+        toolBarTitle = findViewById(R.id.toolbar_title);
+        backBtn=findViewById(R.id.back_btn);
+
+        albumName = findViewById(R.id.album_detail_name);
+        albumPhotosCount = findViewById(R.id.album_detail_photos_count);
         albumPreviewImg = findViewById(R.id.album_preview_img);
         albumRv = findViewById(R.id.album_rv);
         albumPreviewProgress = findViewById(R.id.user_profile_progress_bar);
@@ -68,7 +74,7 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
         // Set adapter object.
         albumAdapter = new AlbumAdapter(getBaseContext(), albumGroupList);
         albumRv.setAdapter(albumAdapter);
-        albumPreviewActivityPresenter.getSelectedSearchAlbum(albumID, "0");
+        albumPreviewActivityPresenter.getAlbumDetails(albumID, "0");
         albumPreviewActivityPresenter.getAlbumPreviewImages(albumID, 0);
 
     }
@@ -93,11 +99,14 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
 
             Intent intent = new Intent(this, AllAlbumImgActivity.class);
             intent.putExtra(ALBUM_ID, albumID);
+            intent.putExtra(ALBUM_NAME, albumName.getText());
             intent.putExtra(SELECTED_IMG_ID, albumImg.id);
             intent.putExtra(CURRENT_PAGE, currentPage);
             startActivity(intent);
 
         };
+
+        backBtn.setOnClickListener(v-> onBackPressed());
     }
 
     @Override
@@ -116,6 +125,9 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
                 .error(R.drawable.default_photographer_profile)
                 .into(albumPreviewImg);
 
+        toolBarTitle.setText(albumPreviewResponseData.name);
+        albumName.setText(albumPreviewResponseData.name);
+        albumPhotosCount.setText(new StringBuilder().append(albumPreviewResponseData.photosCount).append(" ").append(getResources().getString(R.string.photos)).toString());
         albumAdapter.notifyDataSetChanged();
     }
 

@@ -61,6 +61,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 
 
 
+
         if(albumImgList.get(i).thumbnailUrl !=null)
             albumImgViewHolder.albumName.setText(albumImgList.get(i).thumbnailUrl);
         if(albumImgList.get(i).photographer !=null)
@@ -69,6 +70,14 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
             albumImgViewHolder.albumImgLikeVal.setText(new StringBuilder().append(albumImgList.get(i).likesCount).append(" Likes").toString());
         if(albumImgList.get(i).commentsCount !=null)
             albumImgViewHolder.albumImgCommentVal.setText(new StringBuilder().append(albumImgList.get(i).commentsCount).append("Comments").toString());
+
+        /**
+         * view remove icon when image is already saved to lightBox to at least on LightBox
+         * view AddToLightBox icon when image not Saved to ant LightBox
+         * **/
+        if(albumImgList.get(i).isSaved){
+            albumImgViewHolder.addLightBoxImgBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_img_remove_light_box));
+        }
 
         if (onAlbumImgClicked != null) {
             albumImgViewHolder.albumImg.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgClick(albumImgList.get(i)));
@@ -120,6 +129,8 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         void onAlbumImgAddLightBoxClick(BaseImage albumImg);
 
         void onAlbumImgToCartClick(BaseImage albumImg);
+
+        void onAlbumImgLightBoxRemoveClick(BaseImage albumImg);
 
 
     }

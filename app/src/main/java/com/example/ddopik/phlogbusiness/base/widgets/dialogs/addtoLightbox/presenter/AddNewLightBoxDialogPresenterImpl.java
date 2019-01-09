@@ -51,6 +51,7 @@ public class AddNewLightBoxDialogPresenterImpl implements AddNewLightBoxDialogPr
         Map<String,String> data=new HashMap<String, String>();
 
         for ( int i=0;i<lightBoxId.size();i++){
+            if (lightBoxId.get(i).isChecked)
             data.put("lightbox_id["+i+"]",lightBoxId.get(i).id.toString());
         }
 
@@ -68,6 +69,29 @@ public class AddNewLightBoxDialogPresenterImpl implements AddNewLightBoxDialogPr
 
                     CustomErrorUtil.Companion.setError(context,TAG,throwable);
                     addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
+                });
+    }
+
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void addLightBox(String name,String description) {
+
+        addToLightBoxDialogFragmentView.viewLightBoxProgress(true);
+        HashMap<String,String> data=new HashMap<String, String>();
+        data.put("name",name);
+        data.put("description",description);
+        BaseNetworkApi.addLightBox(data)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(addLightBoxResponse -> {
+                    addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
+                    addToLightBoxDialogFragmentView.viewMessage(addLightBoxResponse.msg);
+                    getLightBoxes();
+
+                },throwable -> {
+                    addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
+                    CustomErrorUtil.Companion.setError(context,TAG,throwable);
                 });
     }
 }
