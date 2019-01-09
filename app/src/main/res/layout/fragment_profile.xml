@@ -136,7 +136,7 @@
 			    <ImageView android:layout_width="@dimen/user_profile_ic_size"
 			               android:layout_height="@dimen/user_profile_ic_size"
 			               android:layout_weight="1"
-			               android:src="@drawable/ic_light_box"/>
+			               android:src="@drawable/ic_light_box_white"/>
 			    <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
 					    android:layout_width="@dimen/user_profile_list_txt_size"
 					    android:layout_height="wrap_content"

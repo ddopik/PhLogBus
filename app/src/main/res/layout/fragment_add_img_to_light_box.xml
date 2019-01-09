@@ -3,18 +3,16 @@
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-
-		android:minHeight="@dimen/dp150"
+		android:layout_height="wrap_content"
+		android:minWidth="@dimen/custom_dialog_width"
+		android:minHeight="400dp"
 		android:layout_gravity="top|center"
 		app:cardCornerRadius="@dimen/dialog_card_corner_radius"
 		app:cardElevation="@dimen/dialog_card_elevation">
 	
 	
 	<LinearLayout android:layout_width="match_parent"
-				  android:layout_height="wrap_content"
-				  android:minWidth="@dimen/custom_dialog_width"
-				  android:minHeight="400dp"
+				  android:layout_height="match_parent"
 				  android:orientation="vertical"
 				  android:padding="@dimen/dp16"
 	>
@@ -23,6 +21,7 @@
 				android:layout_height="wrap_content"
 				android:text="@string/choose_light_box"
 				android:layout_marginBottom="@dimen/dp18"
+				android:textSize="@dimen/text_title_head"
 				android:textStyle="bold"/>
 		
 		
@@ -32,34 +31,33 @@
 				android:layout_height="wrap_content"
 				app:orientation="vertical"
 		/>
-		
-		
-		<LinearLayout android:layout_width="match_parent"
-					  android:layout_height="wrap_content"
-					  android:orientation="vertical"
-		>
-			<Button android:id="@+id/add_light_to_box_dialog_btn"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/add"
-					android:textColor="@color/white"
-					android:layout_weight="1"
-					android:background="@color/text_input_color"/>
-			
-			<Button
-					android:id="@+id/cancel_add_to_light_box_dialog_btn"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:background="@color/white"
-					android:layout_weight="1"
-					android:textColor="@color/text_input_color"
-					android:text="@string/cancel"/>
-		
-		</LinearLayout>
 	
 	
 	</LinearLayout>
+	<LinearLayout android:layout_width="match_parent"
+				  android:layout_height="wrap_content"
+				  android:orientation="vertical"
+				  android:padding="@dimen/dp16"
+				  android:layout_gravity="bottom">
+		<Button android:id="@+id/add_light_to_box_dialog_btn"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/add"
+				android:textColor="@color/white"
+				android:layout_weight="1"
+				android:background="@color/text_input_color"/>
+		
+		<Button
+				android:id="@+id/cancel_add_to_light_box_dialog_btn"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/white"
+				android:layout_weight="1"
+				
+				android:textColor="@color/text_input_color"
+				android:text="@string/cancel"/>
 	
+	</LinearLayout>
 	<ProgressBar
 			android:id="@+id/add_img_to_light_box_progress"
 			android:layout_width="wrap_content"

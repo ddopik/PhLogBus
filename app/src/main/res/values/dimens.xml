@@ -15,6 +15,7 @@
     <dimen name="dp26">26dp</dimen>
     <dimen name="dp28">28dp</dimen>
     <dimen name="dp30">30dp</dimen>
+    <dimen name="dp35">35dp</dimen>
     <dimen name="dp32">32dp</dimen>
     <dimen name="dp45">45dp</dimen>
     <dimen name="dp65">65dp</dimen>
@@ -141,6 +142,7 @@
     <dimen name="item_flex_height_s">175dp</dimen>
     <dimen name="ic_size">24dp</dimen>
     <dimen name="ic_size_s">12dp</dimen>
+    <dimen name="ic_size_m">16dp</dimen>
     <dimen name="dp1">1dp</dimen>
     <dimen name="dp120">120dp</dimen>
     <dimen name="add_light_box_btn_w">120dp</dimen>
