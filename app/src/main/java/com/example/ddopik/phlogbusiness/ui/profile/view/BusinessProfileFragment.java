@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.profile.view;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +19,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
@@ -83,7 +85,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
 
         });
         setupBrandBtn.setOnClickListener(v -> {
-
+            startActivity(new Intent(getContext(), SetupBrandActivity.class));
         });
         cartBtn.setOnClickListener(v -> {
 

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.setupbrand.fragment.stepone.StepOneFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent=".75">
+
+
+        <ImageView
+            android:id="@+id/cover_image_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/grayDFE4E8"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/cover_place_holder"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_brand_cover_place_holder"
+            app:layout_constraintBottom_toBottomOf="@+id/cover_image_view"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/cover_image_view"
+            app:layout_constraintTop_toTopOf="@+id/cover_image_view"
+            app:layout_constraintWidth_percent=".5" />
+
+        <ImageView
+            android:id="@+id/thumbnail_image_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/circle"
+            android:scaleType="centerCrop"
+            app:backgroundTint="@color/gray400"
+            app:layout_constraintBottom_toBottomOf="@+id/cover_image_view"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="@+id/cover_image_view"
+            app:layout_constraintTop_toTopOf="@+id/cover_image_view"
+            app:layout_constraintVertical_bias="0.050000012"
+            app:layout_constraintWidth_percent=".3" />
+
+        <ImageView
+            android:id="@+id/thumbnail-place_holder"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_brand_thumbnail_place_holder"
+            app:layout_constraintBottom_toBottomOf="@+id/thumbnail_image_view"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@+id/thumbnail_image_view"
+            app:layout_constraintStart_toStartOf="@+id/thumbnail_image_view"
+            app:layout_constraintTop_toTopOf="@+id/thumbnail_image_view"
+            app:layout_constraintWidth_percent=".15" />
+
+        <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="start|bottom"
+            android:text="@string/choose_cover_and_thumbnail"
+            android:textColor="@color/gray2B2E00"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".0325"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cover_image_view" />
+
+        <EditText
+            android:id="@+id/arabic_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:hint="@string/name_in_arabic"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/english_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".1"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            app:layout_constraintVertical_chainStyle="spread" />
+
+        <EditText
+            android:id="@+id/english_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:hint="@string/name_in_english"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".1"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/arabic_name" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
