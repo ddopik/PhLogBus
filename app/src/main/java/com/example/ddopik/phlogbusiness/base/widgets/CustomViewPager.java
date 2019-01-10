@@ -56,7 +56,7 @@ public class CustomViewPager extends ViewPager {
                 boolean right = initialX - ev.getX() < 0;
                 return right ? super.onTouchEvent(ev) : canSwipeLeft && super.onTouchEvent(ev);
             default:
-                return canSwipeLeft;
+                return super.onTouchEvent(ev);
         }
     }
 

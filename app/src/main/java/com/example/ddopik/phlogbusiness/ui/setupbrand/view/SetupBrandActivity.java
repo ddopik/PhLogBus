@@ -70,6 +70,11 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
         });
     }
 
+    private void validate() {
+        SetupBrandPresenter.ValidationResult result = presenter.shouldProceed(currentStep, model);
+        viewPager.setCanSwipeLeft(result.shouldProceed);
+    }
+
     private void setStepsProgress(int i) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             progressBar.setProgress(i, true);
@@ -114,6 +119,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                 model.thumbnail = (String) action.object;
                 break;
         }
+        validate();
     };
 
     public interface SubViewActionConsumer {
