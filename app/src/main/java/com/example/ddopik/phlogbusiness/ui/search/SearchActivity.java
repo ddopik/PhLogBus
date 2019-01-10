@@ -42,9 +42,7 @@ public class SearchActivity extends BaseActivity {
 
         /////default tap
         setTapSelected(R.id.tab_images);
-        ImagesSearchFragment imagesSearchFragment = ImagesSearchFragment.getInstance();
-        imagesSearchFragment.setImagesSearchView(onSearchTabSelected);
-        addFragment(R.id.search_container, imagesSearchFragment, ImagesSearchFragment.class.getSimpleName(), false);
+
 
     }
 
@@ -85,28 +83,17 @@ public class SearchActivity extends BaseActivity {
 
         imagesTab.setOnClickListener((view) -> {
             setTapSelected(R.id.tab_images);
-            filterTab.setVisibility(View.VISIBLE);
-            ImagesSearchFragment imagesSearchFragment = ImagesSearchFragment.getInstance();
-            onFilterClicked = imagesSearchFragment;
-            imagesSearchFragment.setImagesSearchView(onSearchTabSelected);
-            addFragment(R.id.search_container, imagesSearchFragment, ImagesSearchFragment.class.getSimpleName(), false);
+
 
         });
         profileTab.setOnClickListener((view) -> {
-            setTapSelected(R.id.tab_profile);
-            ProfileSearchFragment profileSearchFragment = ProfileSearchFragment.getInstance();
-            profileSearchFragment.setOnSearchProfile(onSearchTabSelected);
-            addFragment(R.id.search_container, profileSearchFragment, ProfileSearchFragment.class.getSimpleName(), false);
+
 
         });
 
         albumTab.setOnClickListener((view) -> {
             setTapSelected(R.id.tab_album);
-            filterTab.setVisibility(View.VISIBLE);
-            albumSearchFragment = AlbumSearchFragment.getInstance();
-            onFilterClicked = albumSearchFragment;
-            albumSearchFragment.setAlbumSearchView(onSearchTabSelected);
-            addFragment(R.id.search_container, albumSearchFragment, AlbumSearchFragment.class.getSimpleName(), false);
+
         });
 
         filterTab.setOnClickListener(v -> {
@@ -142,16 +129,36 @@ public class SearchActivity extends BaseActivity {
             case R.id.tab_images:
                 imagesTab.setTextColor(getResources().getColor(R.color.white));
                 imagesTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange_fill));
+
+                filterTab.setVisibility(View.VISIBLE);
+                ImagesSearchFragment imagesSearchFragment = ImagesSearchFragment.getInstance();
+                onFilterClicked = imagesSearchFragment;
+                imagesSearchFragment.setImagesSearchView(onSearchTabSelected);
+                addFragment(R.id.search_container, imagesSearchFragment, ImagesSearchFragment.class.getSimpleName(), false);
+
                 break;
 
             case R.id.tab_profile:
                 profileTab.setTextColor(getResources().getColor(R.color.white));
                 profileTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange_fill));
+
+                setTapSelected(R.id.tab_profile);
+                ProfileSearchFragment profileSearchFragment = ProfileSearchFragment.getInstance();
+                profileSearchFragment.setOnSearchProfile(onSearchTabSelected);
+                addFragment(R.id.search_container, profileSearchFragment, ProfileSearchFragment.class.getSimpleName(), false);
+
                 break;
 
             case R.id.tab_album:
                 albumTab.setTextColor(getResources().getColor(R.color.white));
                 albumTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange_fill));
+
+                filterTab.setVisibility(View.VISIBLE);
+                albumSearchFragment = AlbumSearchFragment.getInstance();
+                onFilterClicked = albumSearchFragment;
+                albumSearchFragment.setAlbumSearchView(onSearchTabSelected);
+                addFragment(R.id.search_container, albumSearchFragment, AlbumSearchFragment.class.getSimpleName(), false);
+
                 break;
 
         }

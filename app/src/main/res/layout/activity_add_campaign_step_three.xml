@@ -113,7 +113,32 @@
 
                             />
                         </android.support.design.widget.TextInputLayout>
-
+    
+    
+    
+                        <android.support.design.widget.TextInputLayout
+                                android:id="@+id/number_of_winner_input"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp45"
+                                android:theme="@style/TextLabel"
+                                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+        
+                            <EditText
+                                    android:id="@+id/number_of_winner"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:singleLine="true"
+                                    android:textAlignment="textStart"
+                                    android:textColor="@color/black677078"
+                                    android:textSize="@dimen/sign_up_text_size"
+                                    android:textStyle="bold"
+                                    android:hint="@string/number_of_winners"
+        
+        
+                            />
+                        </android.support.design.widget.TextInputLayout>
 
                     </LinearLayout>
 
@@ -127,7 +152,7 @@
                             android:layout_marginBottom="@dimen/dp16"
                             android:textColor="@color/text_input_color"
                             android:background="@drawable/square_frame"
-                            android:layout_marginTop="225dp"
+                            android:layout_marginTop="100dp"
                             android:textSize="@dimen/sign_up_text_size_meduim"/>
 
                     <Button

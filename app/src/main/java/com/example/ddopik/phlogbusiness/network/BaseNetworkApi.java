@@ -27,6 +27,7 @@ import com.example.ddopik.phlogbusiness.ui.search.album.model.SearchFiltersRespo
 import com.example.ddopik.phlogbusiness.ui.search.images.model.ImagesSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
+import com.example.ddopik.phlogbusiness.ui.signup.model.AllTagsResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.SignUpResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.UploadProfileImgResponse;
 import com.example.ddopik.phlogbusiness.ui.social.model.SocialResponse;
@@ -140,6 +141,13 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(AllIndustriesResponse.class);
+    }
+
+    public static io.reactivex.Observable<AllTagsResponse> getAllTags() {
+        return Rx2AndroidNetworking.get(ALL_INDUSTRY)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(AllTagsResponse.class);
     }
 
 

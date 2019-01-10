@@ -3,6 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Tag;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,13 +19,14 @@ public class AddCampaignRequestModel implements Parcelable {
     public String campaignPrize;
     public String campaignStartDate;
     public String campaignEndDate;
+    public String winnersNumber;
     public String isDraft;
-    public List<Industry> industryList;
+    public List<Tag> tagList;
 
     public HashMap<String, String> getTags() {
         HashMap<String, String> tagsSelected = new HashMap<String, String>();
-        for (int i = 0; i < industryList.size(); i++) {
-            tagsSelected.put("tags[" + i + "]", industryList.get(i).nameEn);
+        for (int i = 0; i < tagList.size(); i++) {
+            tagsSelected.put("tags[" + i + "]", tagList.get(i).name);
         }
 
         return tagsSelected;
@@ -46,8 +48,9 @@ public class AddCampaignRequestModel implements Parcelable {
         dest.writeString(this.campaignPrize);
         dest.writeString(this.campaignStartDate);
         dest.writeString(this.campaignEndDate);
+        dest.writeString(this.winnersNumber);
         dest.writeString(this.isDraft);
-        dest.writeList(this.industryList);
+        dest.writeTypedList(this.tagList);
     }
 
     protected AddCampaignRequestModel(Parcel in) {
@@ -57,9 +60,9 @@ public class AddCampaignRequestModel implements Parcelable {
         this.campaignPrize = in.readString();
         this.campaignStartDate = in.readString();
         this.campaignEndDate = in.readString();
+        this.winnersNumber = in.readString();
         this.isDraft = in.readString();
-        this.industryList = new ArrayList<Industry>();
-        in.readList(this.industryList, Industry.class.getClassLoader());
+        this.tagList = in.createTypedArrayList(Tag.CREATOR);
     }
 
     public static final Creator<AddCampaignRequestModel> CREATOR = new Creator<AddCampaignRequestModel>() {

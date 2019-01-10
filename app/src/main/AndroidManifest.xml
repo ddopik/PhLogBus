@@ -39,7 +39,8 @@
                   android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ui.campaigns.addcampaign.view.AddCampaignStepTwoActivity"
                   android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.campaigns.addcampaign.view.AddCampaignStepThreeActivity"/>
+        <activity android:name=".ui.campaigns.addcampaign.view.AddCampaignStepThreeActivity"
+                  android:windowSoftInputMode="stateHidden"/>
 	    <activity android:name=".ui.search.SearchActivity"/>
         <activity android:name=".ui.album.view.AlbumPreviewActivity"/>
 	    <activity android:name=".ui.album.view.AllAlbumImgActivity"/>
