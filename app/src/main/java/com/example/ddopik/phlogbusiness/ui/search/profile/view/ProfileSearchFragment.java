@@ -17,7 +17,7 @@ import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
-import com.example.ddopik.phlogbusiness.ui.search.OnSearchTabSelected;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.OnSearchTabSelected;
 import com.example.ddopik.phlogbusiness.ui.search.profile.presenter.ProfileSearchPresenter;
 import com.example.ddopik.phlogbusiness.ui.search.profile.presenter.ProfileSearchPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;

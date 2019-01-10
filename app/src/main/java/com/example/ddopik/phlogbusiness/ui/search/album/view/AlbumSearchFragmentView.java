@@ -1,6 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.search.album.view;
 
-import com.example.ddopik.phlogbusiness.ui.search.album.model.Filter;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.softmills.phlog.ui.search.view.album.model.AlbumSearch;
 
 import java.util.List;

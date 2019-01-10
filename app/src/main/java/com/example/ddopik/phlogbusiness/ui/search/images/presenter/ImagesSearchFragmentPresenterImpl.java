@@ -3,10 +3,15 @@ package com.example.ddopik.phlogbusiness.ui.search.images.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.ui.search.images.view.ImagesSearchFragmentView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by abdalla_maged on 10/31/2018.
@@ -26,35 +31,32 @@ public class ImagesSearchFragmentPresenterImpl implements ImagesSearchFragmentPr
     }
 
 
-    @SuppressLint("CheckResult")
-    @Override
-    public void getSearchFilters() {
-        imagesSearchFragmentView.viewImagesSearchProgress(true);
-        BaseNetworkApi.getFilters()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(searchAlbumResponse -> {
-                    imagesSearchFragmentView.viewSearchFilters(searchAlbumResponse.data);
-                    imagesSearchFragmentView.viewImagesSearchProgress(false);
-                }, throwable -> {
-                     imagesSearchFragmentView.viewImagesSearchProgress(false);
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                });
-
-
-    }
 
 
     @SuppressLint("CheckResult")
     @Override
-    public void getSearchImages(String key, int page) {
+    public void getSearchImages(String key, List<Filter> filterList, int page) {
         imagesSearchFragmentView.viewImagesSearchProgress(true);
-        BaseNetworkApi.getSearchImages( key, String.valueOf(page))
+
+        int filterCount=0;
+        Map<String,String> filtersMap=new HashMap<String, String>();
+        for (int i=0;i<filterList.size();i++){
+            for (int x=0;x<filterList.get(i).options.size();x++){
+                if (filterList.get(i).options.get(x).isSelected) {
+                    filtersMap.put("filter["+filterCount+"]",filterList.get(i).options.get(x).id.toString());
+                    filterCount ++;
+                }
+            }
+
+        }
+
+
+        BaseNetworkApi.getSearchImages( key, filtersMap,String.valueOf(page))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(imagesSearchResponse -> {
                     imagesSearchFragmentView.viewImagesSearchProgress(false);
-                    imagesSearchFragmentView.viewImagesSearchItems(imagesSearchResponse.data.imageList);
+                    imagesSearchFragmentView.viewImagesSearchImages(imagesSearchResponse.data.imageList);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     imagesSearchFragmentView.viewImagesSearchProgress(false);

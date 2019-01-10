@@ -1,9 +1,12 @@
 package com.example.ddopik.phlogbusiness.ui.search.images.view;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,21 +16,21 @@ import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.ui.album.model.AlbumGroup;
-import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
-import com.example.ddopik.phlogbusiness.ui.album.view.ImageCommentActivity;
-import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AlbumAdapter;
-import com.example.ddopik.phlogbusiness.ui.search.SearchActivity;
-import com.example.ddopik.phlogbusiness.ui.search.album.model.Filter;
-import com.example.ddopik.phlogbusiness.ui.search.album.view.ExpandableListAdapter;
-import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
- import com.example.ddopik.phlogbusiness.ui.search.OnSearchTabSelected;
+import com.example.ddopik.phlogbusiness.ui.album.model.AlbumGroup;
+import com.example.ddopik.phlogbusiness.ui.album.view.ImageCommentActivity;
+import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AlbumAdapter;
+import com.example.ddopik.phlogbusiness.ui.search.album.model.FilterOption;
+import com.example.ddopik.phlogbusiness.ui.search.album.view.ExpandableListAdapter;
 import com.example.ddopik.phlogbusiness.ui.search.images.presenter.ImagesSearchFragmentPresenter;
 import com.example.ddopik.phlogbusiness.ui.search.images.presenter.ImagesSearchFragmentPresenterImpl;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.OnSearchTabSelected;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.SearchActivity;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.jakewharton.rxbinding3.widget.TextViewTextChangeEvent;
@@ -38,9 +41,9 @@ import io.reactivex.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.*;
 
 /**
  * Created by abdalla_maged on 10/31/2018.
@@ -54,13 +57,12 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     private CustomRecyclerView searchImageRv;
     private ProgressBar searchImageProgress;
     private ExpandableListView filterExpListView;
+    private DisplayMetrics metrics = new DisplayMetrics();
 
     private List<Filter> filterList = new ArrayList<>();
     private ExpandableListAdapter expandableListAdapter;
     private AlbumAdapter imageSearchAdapter;
     private List<AlbumGroup> albumGroupList = new ArrayList<>();
-
-    private List<BaseImage> imagesSearchList = new ArrayList<>();
     private ImagesSearchFragmentPresenter imagesSearchFragmentPresenter;
     private PagingController pagingController;
     private CompositeDisposable disposable = new CompositeDisposable();
@@ -90,7 +92,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         }
 
         if (imageSearch.getText().toString().length() > 0)
-            imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), 0);
+            imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, 0);
     }
 
 
@@ -99,19 +101,28 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         imagesSearchFragmentPresenter = new ImagesSearchFragmentPresenterImpl(getContext(), this);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void initViews() {
 
 //        imageSearch = mainView.findViewById(R.id.search_brand);
         imageSearch = onSearchTabSelected.getSearchView();
-        filterExpListView = mainView.findViewById(R.id.filters_expand);
+        filterExpListView = mainView.findViewById(R.id.images_filters_expand);
         expandableListAdapter = new ExpandableListAdapter(getActivity(), filterList);
-
+        filterExpListView.setAdapter(expandableListAdapter);
         searchResultCount = onSearchTabSelected.getSearchResultCount();
         searchImageRv = mainView.findViewById(R.id.search_images_rv);
         searchImageProgress = mainView.findViewById(R.id.search_images_progress_bar);
         imageSearchAdapter = new AlbumAdapter(getContext(), albumGroupList);
         searchImageRv.setAdapter(imageSearchAdapter);
+
+
+        //////// setting ExpandableList indicator to right
+        Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+        filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(), 50), width - Utilities.GetPixelFromDips(getContext(), 10));
+        filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(), 50), width - Utilities.GetPixelFromDips(getContext(), 10));
+        ///////////
     }
 
     private void initListener() {
@@ -131,9 +142,30 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             @Override
             public void getPagingControllerCallBack(int page) {
 
-                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), page );
+                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, page);
 
 
+            }
+        };
+
+
+        expandableListAdapter.onChildViewListener = filterOption -> {
+            for (int i = 0; i < filterList.size(); i++) {
+                for (int x = 0; x < filterList.get(i).options.size(); x++) {
+                    FilterOption currFilterOption = filterList.get(i).options.get(x);
+
+                    if (currFilterOption.id.equals(filterOption.id)) {
+                        if (currFilterOption.isSelected) {
+                            filterList.get(i).options.get(x).isSelected = false;
+                        } else {
+                            filterList.get(i).options.get(x).isSelected = true;
+                        }
+
+
+                        expandableListAdapter.notifyDataSetChanged();
+                        return;
+                    }
+                }
             }
         };
 
@@ -151,9 +183,9 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
                 // user cleared search get default data
 
-                imagesSearchList.clear();
-                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), 0);
+                albumGroupList.clear();
                 imageSearchAdapter.notifyDataSetChanged();
+                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, 0);
                 Log.e(TAG, "search string: " + imageSearch.getText().toString());
 
             }
@@ -171,11 +203,9 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     }
 
     @Override
-    public void viewImagesSearchItems(List<BaseImage> baseImageList) {
+    public void viewImagesSearchImages(List<BaseImage> baseImageList) {
 
         if (baseImageList.size() > 0) {
-
-
             for (int i = 0; i < baseImageList.size(); i++) {
 
                 if (albumGroupList.size() == 0) {
@@ -192,21 +222,24 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
 
 
             }
-
-
-            imageSearchAdapter.notifyDataSetChanged();
-            Utilities.hideKeyboard(getActivity());
-            searchResultCount.setText(new StringBuilder().append(this.imagesSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
-
         }
 
+        /**
+         * inCase last Album wasn't filled with all 4 photos
+         * */
+        int lastImageCount = ((albumGroupList.get(albumGroupList.size() - 1)).albumGroupList.size());
+        int AllImageCount=((albumGroupList.size()-1)*4)+lastImageCount;
 
+        /**
+         * Replacing (Apply) in case Expandable was previously visible
+         * */
+        filterExpListView.setVisibility(View.GONE);
+        searchImageRv.setVisibility(View.VISIBLE);
+        imageSearchAdapter.notifyDataSetChanged();
+        searchResultCount.setText(new StringBuilder().append(AllImageCount).append(" ").append(getResources().getString(R.string.result)).toString());
+        searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
 
-//        this.imagesSearchList.addAll(baseImageList);
-//        imageSearchAdapter.notifyDataSetChanged();
-//        imageSearchAdapter.notifyDataSetChanged();
-//        searchResultCount.setText(new StringBuilder().append(this.imagesSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
-//        hideSoftKeyBoard();
+        Utilities.hideKeyboard(getActivity());
     }
 
     @Override
@@ -235,26 +268,29 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     }
 
 
-//    private void hideSoftKeyBoard() {
-//        imageSearch.clearFocus();
-//        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-//        if (imm.isAcceptingText()) { // verify if the soft keyboard is open
-//            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-//        }
-//    }
+
 
     @Override
-    public void viewSearchFilters(List<Filter> filterList) {
+    public void onFilterIconClicked(List<Filter> filterList) {
         filterExpListView.setVisibility(View.VISIBLE);
         searchImageRv.setVisibility(View.GONE);
-        this.filterList.addAll(filterList);
-        expandableListAdapter.notifyDataSetChanged();
+
+        if (this.filterList.size() == 0) {
+            this.filterList.addAll(filterList);
+            expandableListAdapter.notifyDataSetChanged();
+        }
 
 
-    }
+        searchResultCount.setText(getActivity().getResources().getString(R.string.apply));
+        searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.text_input_color));
+        searchResultCount.setOnClickListener(v -> {
+            albumGroupList.clear();
+            imageSearchAdapter.notifyDataSetChanged();
+            imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString(), filterList, 0);
+        });
 
-    @Override
-    public void onFilterIconClicked() {
+
+//        imagesSearchFragmentPresenter.getSearchFilters();
 
     }
 }

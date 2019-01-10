@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.search;
+package com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,16 +10,21 @@ import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.ui.search.album.view.AlbumSearchFragment;
 import com.example.ddopik.phlogbusiness.ui.search.images.view.ImagesSearchFragment;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.presenter.SearchActivityPresenter;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.presenter.SearchActivityPresenterImp;
 import com.example.ddopik.phlogbusiness.ui.search.profile.view.ProfileSearchFragment;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
+
+import java.util.List;
 
 
 /**
  * Created by abdalla_maged on 10/29/2018.
  */
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseActivity implements SearchActivityView {
 
     private EditText searchView;
     private CustomTextView toolBarTitle;
@@ -27,10 +32,10 @@ public class SearchActivity extends BaseActivity {
 
     private CustomTextView imagesTab, profileTab, albumTab, filterTab, searchResult;
     private FrameLayout searchContainer;
-    private AlbumSearchFragment albumSearchFragment;
     private OnFilterClicked onFilterClicked;
     private OnSearchTabSelected onSearchTabSelected;
 
+    private SearchActivityPresenter searchActivityPresenter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +44,9 @@ public class SearchActivity extends BaseActivity {
         initView();
         initListener();
 
-
         /////default tap
         setTapSelected(R.id.tab_images);
-
+        searchActivityPresenter.getSearchFilters();
 
     }
 
@@ -60,11 +64,12 @@ public class SearchActivity extends BaseActivity {
         filterTab = findViewById(R.id.filter_ic);
         searchResult = findViewById(R.id.search_result);
 
+
     }
 
     @Override
     public void initPresenter() {
-
+        searchActivityPresenter=new SearchActivityPresenterImp(this,this);
     }
 
     private void initListener() {
@@ -79,6 +84,8 @@ public class SearchActivity extends BaseActivity {
             public TextView getSearchResultCount() {
                 return searchResult;
             }
+
+
         };
 
         imagesTab.setOnClickListener((view) -> {
@@ -96,11 +103,6 @@ public class SearchActivity extends BaseActivity {
 
         });
 
-        filterTab.setOnClickListener(v -> {
-            if (onFilterClicked != null) {
-                onFilterClicked.onFilterIconClicked();
-            }
-        });
 
         backBtn.setOnClickListener(v->      {
             Utilities.hideKeyboard(this);
@@ -154,7 +156,7 @@ public class SearchActivity extends BaseActivity {
                 albumTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange_fill));
 
                 filterTab.setVisibility(View.VISIBLE);
-                albumSearchFragment = AlbumSearchFragment.getInstance();
+                AlbumSearchFragment albumSearchFragment = AlbumSearchFragment.getInstance();
                 onFilterClicked = albumSearchFragment;
                 albumSearchFragment.setAlbumSearchView(onSearchTabSelected);
                 addFragment(R.id.search_container, albumSearchFragment, AlbumSearchFragment.class.getSimpleName(), false);
@@ -165,7 +167,20 @@ public class SearchActivity extends BaseActivity {
 
     }
 
-    public interface OnFilterClicked {
-        void onFilterIconClicked();
+    @Override
+    public void setFilters(List<Filter> filterList) {
+
+
+        filterTab.setOnClickListener(v -> {
+            if (onFilterClicked != null) {
+                onFilterClicked.onFilterIconClicked(filterList);
+            }
+        });
     }
+
+    public interface OnFilterClicked {
+        void onFilterIconClicked(List<Filter> filterList);
+    }
+
+
 }

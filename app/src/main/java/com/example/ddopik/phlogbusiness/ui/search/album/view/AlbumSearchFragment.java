@@ -21,13 +21,14 @@ import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.view.AlbumPreviewActivity;
-import com.example.ddopik.phlogbusiness.ui.search.OnSearchTabSelected;
-import com.example.ddopik.phlogbusiness.ui.search.SearchActivity;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.OnSearchTabSelected;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.SearchActivity;
 import com.example.ddopik.phlogbusiness.ui.search.album.model.FilterOption;
-import com.example.ddopik.phlogbusiness.ui.search.album.model.Filter;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.ui.search.album.presenter.AlbumSearchFragmentImpl;
 import com.example.ddopik.phlogbusiness.ui.search.album.presenter.AlbumSearchPresenter;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.example.softmills.phlog.ui.search.view.album.model.AlbumSearch;
 import com.example.softmills.phlog.ui.search.view.album.view.AlbumSearchAdapter;
 import com.jakewharton.rxbinding3.widget.RxTextView;
@@ -93,7 +94,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
 
         if (albumSearch.getText().toString().length() > 0) {
             albumSearchList.clear();
-            albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), 0);
+            albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList,0);
         } //there is A search query exist
 
     }
@@ -121,8 +122,8 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         //////// setting ExpandableList indicator to right
         Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
-        filterExpListView.setIndicatorBoundsRelative(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
-        filterExpListView.setIndicatorBoundsRelative(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
+        filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(),50), width - Utilities.GetPixelFromDips(getContext(),10));
+        filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(),50), width - Utilities.GetPixelFromDips(getContext(),10));
         ///////////
 
 
@@ -147,7 +148,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
             @Override
             public void getPagingControllerCallBack(int page) {
                 if (albumSearch.getText().length() > 0) {
-                    albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), page);
+                    albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList,page);
                 }
 
             }
@@ -186,7 +187,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
                 // user cleared search get default data
                 albumSearchList.clear();
-                albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), 0);
+                albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList,0);
                 Log.e(TAG,"search string: "+albumSearch.getText().toString());
 
         }
@@ -223,13 +224,6 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     }
 
 
-    private int GetPixelFromDips(float pixels) {
-        // Get the screen's density scale
-        final float scale = getResources().getDisplayMetrics().density;
-        // Convert the dps to pixels, based on density scale
-        return (int) (pixels * scale + 0.5f);
-    }
-
     @Override
     public void viewSearchFilters(List<Filter> filterList) {
         filterExpListView.setVisibility(View.VISIBLE);
@@ -255,10 +249,23 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     }
 
     @Override
-    public void onFilterIconClicked() {
+    public void onFilterIconClicked(List<Filter> filterList) {
+        filterExpListView.setVisibility(View.VISIBLE);
+        albumSearchRv.setVisibility(View.GONE);
 
-        albumSearchPresenter.getSearchFilters();
-    }
+
+        this.filterList.addAll(filterList);
+        expandableListAdapter.notifyDataSetChanged();
+
+        searchResultCount.setText(getActivity().getResources().getString(R.string.apply));
+        searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.text_input_color));
+
+
+        searchResultCount.setOnClickListener(v->{
+            albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(),filterList,0);
+        });
+
+     }
 
     @Override
     public void onDestroy() {

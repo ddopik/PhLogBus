@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.search.album.model;
 
+import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

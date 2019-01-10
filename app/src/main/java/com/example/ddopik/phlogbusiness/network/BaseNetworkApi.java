@@ -171,18 +171,19 @@ public class BaseNetworkApi {
     public static io.reactivex.Observable<AlbumSearchResponse> getSearchAlbum(String key, String page) {
         return Rx2AndroidNetworking.post(SEARCH_ALBUM)
                 .addQueryParameter(PAGER_PATH_PARAMETER, page)
-                .addQueryParameter("keyword", key)
+                .addBodyParameter("keyword", key)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(AlbumSearchResponse.class);
     }
 
 
-    public static io.reactivex.Observable<ImagesSearchResponse> getSearchImages(String key, String page) {
+    public static io.reactivex.Observable<ImagesSearchResponse> getSearchImages(String key,Map<String,String> filters ,String page) {
         return Rx2AndroidNetworking.post(SEARCH_IMAGES)
                 .addQueryParameter(PAGER_PATH_PARAMETER, page)
-                .addQueryParameter("keyword", key)
-                .setPriority(Priority.HIGH)
+                .addBodyParameter("keyword",key)
+                .addBodyParameter(filters)
+                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(ImagesSearchResponse.class);
     }

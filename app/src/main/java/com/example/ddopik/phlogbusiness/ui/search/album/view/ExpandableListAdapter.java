@@ -11,7 +11,7 @@ import android.widget.RadioButton;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.ui.search.album.model.FilterOption;
-import com.example.ddopik.phlogbusiness.ui.search.album.model.Filter;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 
 import java.util.List;
 

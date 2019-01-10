@@ -69,8 +69,17 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
                     .error(R.drawable.default_error_img)
                     .apply(requestOptions)
                     .into(albumFlexItem.albumImg2);
-            if (onAlbumImageClicked !=null)
-                albumFlexItem.albumImg2.setOnClickListener((v)->onAlbumImageClicked.onImageClicked( albumGroupList.get(position).albumGroupList.get(1)));
+            if (onAlbumImageClicked !=null) {
+                albumFlexItem.albumImg2.setOnClickListener((v) -> onAlbumImageClicked.onImageClicked(albumGroupList.get(position).albumGroupList.get(1)));
+            }
+        }else {
+            GlideApp.with(context)
+                    .load("sadadasdsad")
+                    .placeholder(R.drawable.default_place_holder)
+                    .error(R.drawable.default_error_img)
+                    .apply(requestOptions)
+                    .into(albumFlexItem.albumImg2);
+
         }
         if (albumGroupList.get(position).albumGroupList.size() >= 3) {
             GlideApp.with(context)
