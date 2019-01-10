@@ -43,7 +43,7 @@ public class SearchActivity extends BaseActivity {
         /////default tap
         setTapSelected(R.id.tab_images);
         ImagesSearchFragment imagesSearchFragment = ImagesSearchFragment.getInstance();
-        imagesSearchFragment.setBrandSearchView(onSearchTabSelected);
+        imagesSearchFragment.setImagesSearchView(onSearchTabSelected);
         addFragment(R.id.search_container, imagesSearchFragment, ImagesSearchFragment.class.getSimpleName(), false);
 
     }
@@ -85,8 +85,10 @@ public class SearchActivity extends BaseActivity {
 
         imagesTab.setOnClickListener((view) -> {
             setTapSelected(R.id.tab_images);
+            filterTab.setVisibility(View.VISIBLE);
             ImagesSearchFragment imagesSearchFragment = ImagesSearchFragment.getInstance();
-            imagesSearchFragment.setBrandSearchView(onSearchTabSelected);
+            onFilterClicked = imagesSearchFragment;
+            imagesSearchFragment.setImagesSearchView(onSearchTabSelected);
             addFragment(R.id.search_container, imagesSearchFragment, ImagesSearchFragment.class.getSimpleName(), false);
 
         });

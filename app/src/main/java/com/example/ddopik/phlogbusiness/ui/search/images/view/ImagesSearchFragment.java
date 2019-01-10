@@ -8,21 +8,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
+import com.example.ddopik.phlogbusiness.ui.album.model.AlbumGroup;
+import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
+import com.example.ddopik.phlogbusiness.ui.album.view.ImageCommentActivity;
+import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AlbumAdapter;
+import com.example.ddopik.phlogbusiness.ui.search.SearchActivity;
+import com.example.ddopik.phlogbusiness.ui.search.album.model.Filter;
+import com.example.ddopik.phlogbusiness.ui.search.album.view.ExpandableListAdapter;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Brand;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
-import com.example.ddopik.phlogbusiness.ui.brand.view.BrandInnerActivity;
-import com.example.ddopik.phlogbusiness.ui.search.OnSearchTabSelected;
-import com.example.ddopik.phlogbusiness.ui.search.images.presenter.BrandSearchFragmentPresenter;
-import com.example.ddopik.phlogbusiness.ui.search.images.presenter.BrandSearchFragmentPresenterImpl;
+ import com.example.ddopik.phlogbusiness.ui.search.OnSearchTabSelected;
+import com.example.ddopik.phlogbusiness.ui.search.images.presenter.ImagesSearchFragmentPresenter;
+import com.example.ddopik.phlogbusiness.ui.search.images.presenter.ImagesSearchFragmentPresenterImpl;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.jakewharton.rxbinding3.widget.TextViewTextChangeEvent;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,12 +40,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
+import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.*;
 
 /**
  * Created by abdalla_maged on 10/31/2018.
  */
-public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFragmentView {
+public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFragmentView,SearchActivity.OnFilterClicked {
 
     private String TAG = ImagesSearchFragment.class.getSimpleName();
     private View mainView;
@@ -47,9 +53,15 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     private TextView searchResultCount;
     private CustomRecyclerView searchImageRv;
     private ProgressBar searchImageProgress;
-    private ImageSearchAdapter imageSearchAdapter;
-    private List<Brand> brandSearchList = new ArrayList<>();
-    private BrandSearchFragmentPresenter brandSearchFragmentPresenter;
+    private ExpandableListView filterExpListView;
+
+    private List<Filter> filterList = new ArrayList<>();
+    private ExpandableListAdapter expandableListAdapter;
+    private AlbumAdapter imageSearchAdapter;
+    private List<AlbumGroup> albumGroupList = new ArrayList<>();
+
+    private List<BaseImage> imagesSearchList = new ArrayList<>();
+    private ImagesSearchFragmentPresenter imagesSearchFragmentPresenter;
     private PagingController pagingController;
     private CompositeDisposable disposable = new CompositeDisposable();
     private OnSearchTabSelected onSearchTabSelected;
@@ -62,7 +74,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mainView = inflater.inflate(R.layout.fragment_brand_search, container, false);
+        mainView = inflater.inflate(R.layout.fragment_images_search, container, false);
         return mainView;
     }
 
@@ -78,13 +90,13 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         }
 
         if (imageSearch.getText().toString().length() > 0)
-            brandSearchFragmentPresenter.getSearchBrand(imageSearch.getText().toString().trim(), 0);
+            imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), 0);
     }
 
 
     @Override
     protected void initPresenter() {
-        brandSearchFragmentPresenter = new BrandSearchFragmentPresenterImpl(getContext(), this);
+        imagesSearchFragmentPresenter = new ImagesSearchFragmentPresenterImpl(getContext(), this);
     }
 
     @Override
@@ -92,10 +104,13 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
 
 //        imageSearch = mainView.findViewById(R.id.search_brand);
         imageSearch = onSearchTabSelected.getSearchView();
+        filterExpListView = mainView.findViewById(R.id.filters_expand);
+        expandableListAdapter = new ExpandableListAdapter(getActivity(), filterList);
+
         searchResultCount = onSearchTabSelected.getSearchResultCount();
-        searchImageRv = mainView.findViewById(R.id.search_brand_rv);
-        searchImageProgress = mainView.findViewById(R.id.search_brand_progress_bar);
-        imageSearchAdapter = new ImageSearchAdapter(getContext(), brandSearchList);
+        searchImageRv = mainView.findViewById(R.id.search_images_rv);
+        searchImageProgress = mainView.findViewById(R.id.search_images_progress_bar);
+        imageSearchAdapter = new AlbumAdapter(getContext(), albumGroupList);
         searchImageRv.setAdapter(imageSearchAdapter);
     }
 
@@ -116,15 +131,16 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             @Override
             public void getPagingControllerCallBack(int page) {
 
-                brandSearchFragmentPresenter.getSearchBrand(imageSearch.getText().toString().trim(), page );
+                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), page );
 
 
             }
         };
 
-        imageSearchAdapter.brandAdapterListener = brandSearch -> {
-            Intent intent = new Intent(getActivity(), BrandInnerActivity.class);
-            intent.putExtra(BrandInnerActivity.BRAND_ID, String.valueOf(brandSearch.id));
+        imageSearchAdapter.onAlbumImageClicked = imageSearch -> {
+            Intent intent = new Intent(getContext(), ImageCommentActivity.class);
+            intent.putExtra(ImageCommentActivity.IMAGE_DATA,imageSearch);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         };
     }
@@ -135,8 +151,8 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
                 // user cleared search get default data
 
-                brandSearchList.clear();
-                brandSearchFragmentPresenter.getSearchBrand(imageSearch.getText().toString().trim(), 0);
+                imagesSearchList.clear();
+                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), 0);
                 imageSearchAdapter.notifyDataSetChanged();
                 Log.e(TAG, "search string: " + imageSearch.getText().toString());
 
@@ -156,10 +172,41 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
 
     @Override
     public void viewImagesSearchItems(List<BaseImage> baseImageList) {
-        this.brandSearchList.addAll(brandSearchList);
-        imageSearchAdapter.notifyDataSetChanged();
-        searchResultCount.setText(new StringBuilder().append(this.brandSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
-        hideSoftKeyBoard();
+
+        if (baseImageList.size() > 0) {
+
+
+            for (int i = 0; i < baseImageList.size(); i++) {
+
+                if (albumGroupList.size() == 0) {
+                    AlbumGroup albumGroup = new AlbumGroup();
+                    albumGroup.albumGroupList.add(baseImageList.get(i));
+                    albumGroupList.add(albumGroup);
+                } else if (albumGroupList.get(albumGroupList.size() - 1).albumGroupList.size() < 4) {
+                    albumGroupList.get(albumGroupList.size() - 1).albumGroupList.add(baseImageList.get(i));
+                } else {
+                    AlbumGroup albumGroup = new AlbumGroup();
+                    albumGroup.albumGroupList.add(baseImageList.get(i));
+                    albumGroupList.add(albumGroup);
+                }
+
+
+            }
+
+
+            imageSearchAdapter.notifyDataSetChanged();
+            Utilities.hideKeyboard(getActivity());
+            searchResultCount.setText(new StringBuilder().append(this.imagesSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
+
+        }
+
+
+
+//        this.imagesSearchList.addAll(baseImageList);
+//        imageSearchAdapter.notifyDataSetChanged();
+//        imageSearchAdapter.notifyDataSetChanged();
+//        searchResultCount.setText(new StringBuilder().append(this.imagesSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
+//        hideSoftKeyBoard();
     }
 
     @Override
@@ -183,16 +230,31 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         disposable.clear();
     }
 
-    public void setBrandSearchView(OnSearchTabSelected onSearchTabSelected) {
+    public void setImagesSearchView(OnSearchTabSelected onSearchTabSelected) {
         this.onSearchTabSelected = onSearchTabSelected;
     }
 
 
-    private void hideSoftKeyBoard() {
-        imageSearch.clearFocus();
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-        if (imm.isAcceptingText()) { // verify if the soft keyboard is open
-            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-        }
+//    private void hideSoftKeyBoard() {
+//        imageSearch.clearFocus();
+//        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+//        if (imm.isAcceptingText()) { // verify if the soft keyboard is open
+//            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+//        }
+//    }
+
+    @Override
+    public void viewSearchFilters(List<Filter> filterList) {
+        filterExpListView.setVisibility(View.VISIBLE);
+        searchImageRv.setVisibility(View.GONE);
+        this.filterList.addAll(filterList);
+        expandableListAdapter.notifyDataSetChanged();
+
+
+    }
+
+    @Override
+    public void onFilterIconClicked() {
+
     }
 }

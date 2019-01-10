@@ -256,6 +256,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
 
     @Override
     public void onFilterIconClicked() {
+
         albumSearchPresenter.getSearchFilters();
     }
 

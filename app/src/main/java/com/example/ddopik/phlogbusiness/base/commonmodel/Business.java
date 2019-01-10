@@ -20,4 +20,10 @@ public class Business {
     @SerializedName("full_name")
     @Expose
     public String fullName;
+    @SerializedName("web_site")
+    @Expose
+    public String website;
+    @SerializedName("industry")
+    @Expose
+    public Industry industry;
 }

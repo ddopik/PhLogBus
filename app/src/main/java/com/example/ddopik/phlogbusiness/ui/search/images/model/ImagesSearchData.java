@@ -1,6 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.search.images.model;
 
-import com.example.ddopik.phlogbusiness.base.commonmodel.Brand;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,13 +9,13 @@ import java.util.List;
 /**
  * Created by abdalla_maged on 10/31/2018.
  */
-public class BrandSearchData {
+public class ImagesSearchData {
     @SerializedName("current_page")
     @Expose
     public Integer currentPage;
     @SerializedName("data")
     @Expose
-    public List<Brand> data = null;
+    public List<BaseImage> imageList = null;
     @SerializedName("first_page_url")
     @Expose
     public String firstPageUrl;
@@ -30,7 +30,7 @@ public class BrandSearchData {
     public String lastPageUrl;
     @SerializedName("next_page_url")
     @Expose
-    public Object nextPageUrl;
+    public String nextPageUrl;
     @SerializedName("path")
     @Expose
     public String path;
@@ -46,4 +46,5 @@ public class BrandSearchData {
     @SerializedName("total")
     @Expose
     public Integer total;
+
 }

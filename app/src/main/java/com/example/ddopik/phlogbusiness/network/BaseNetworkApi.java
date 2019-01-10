@@ -21,9 +21,10 @@ import com.example.ddopik.phlogbusiness.ui.lightbox.model.DeleteLightBoxResponse
 import com.example.ddopik.phlogbusiness.ui.login.model.LoginResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
-import com.example.ddopik.phlogbusiness.ui.profile.model.BrandProfileResponse;
+import com.example.ddopik.phlogbusiness.ui.profile.model.BusinessProfileResponse;
 import com.example.ddopik.phlogbusiness.ui.search.album.model.AlbumSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.search.album.model.SearchFiltersResponse;
+import com.example.ddopik.phlogbusiness.ui.search.images.model.ImagesSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.SignUpResponse;
@@ -64,6 +65,7 @@ public class BaseNetworkApi {
     private static final String WELCOME_SLIDES_IMAGES = BASE_URL + "/photographer/init_slider";
     private static final String USER_SEARCH_FILTERS = BASE_URL_COMMON + "/filters/list";
     private static final String SEARCH_ALBUM = BASE_URL + "/album/search";
+    private static final String SEARCH_IMAGES = BASE_URL + "/photo/search";
     private static final String ALL_INDUSTRY = BASE_URL_COMMON + "/industries/list";
     private static final String SIGN_UP_USER = BASE_URL + "/auth/signup";
     private static final String NORMAL_LOGIN = BASE_URL + "/auth/login";
@@ -84,7 +86,7 @@ public class BaseNetworkApi {
     private static final String GET_ALBUM_PREVIEW = BASE_URL +"/album/details";
     private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL +"/album/photos";
     private static final String GET_IMAGE_COMMENT = BASE_URL + "/image/comments";
-    private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/image/comment/submit";s
+    private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/image/comment/submit";
     private static final String LIKE_IMAGE = BASE_URL + "/photo/like";
     private static final String FOLLOW_CAMPAIGN_URL = BASE_URL + "/join_photographer_campaign";
     private static final String UPLOAD_PROFILE_IMG = BASE_URL + "/profile/upload";
@@ -165,6 +167,16 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(AlbumSearchResponse.class);
+    }
+
+
+    public static io.reactivex.Observable<ImagesSearchResponse> getSearchImages(String key, String page) {
+        return Rx2AndroidNetworking.post(SEARCH_IMAGES)
+                .addQueryParameter(PAGER_PATH_PARAMETER, page)
+                .addQueryParameter("keyword", key)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(ImagesSearchResponse.class);
     }
 
 
@@ -344,11 +356,11 @@ public class BaseNetworkApi {
     }
 
 
-     public static io.reactivex.Observable<BrandProfileResponse> getBrandProfileData() {
+     public static io.reactivex.Observable<BusinessProfileResponse> getBrandProfileData() {
         return Rx2AndroidNetworking.post(BRAND_PROFILE_URL)
                 .setPriority(Priority.HIGH)
                 .build()
-                .getObjectObservable(BrandProfileResponse.class);
+                .getObjectObservable(BusinessProfileResponse.class);
     }
 
 
