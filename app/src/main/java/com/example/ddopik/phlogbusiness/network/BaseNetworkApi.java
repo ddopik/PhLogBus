@@ -26,6 +26,7 @@ import com.example.ddopik.phlogbusiness.ui.search.album.model.AlbumSearchRespons
 import com.example.ddopik.phlogbusiness.ui.search.album.model.SearchFiltersResponse;
 import com.example.ddopik.phlogbusiness.ui.search.images.model.ImagesSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchResponse;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.SignUpResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.UploadProfileImgResponse;
@@ -92,10 +93,10 @@ public class BaseNetworkApi {
     private static final String UPLOAD_PROFILE_IMG = BASE_URL + "/profile/upload";
     private static final String SUBMIT_CAMPAIGN_URL = BASE_URL + "/campaign/create";
     private static final String BRAND_PROFILE_URL = BASE_URL + "/profile";
-    private static final String BRAND_LIGHT_BOX_URL = BASE_URL +"/lightBox/all";
+    private static final String BRAND_LIGHT_BOX_URL = BASE_URL +"/lightBox/ALL";
     private static final String DELETE_LIGHT_BOX_URL = BASE_URL +"/lightBox/delete";
     private static final String ADD_LIGHT_BOX_URL = BASE_URL +"/lightBox/add";
-    private static final String GET_LIGHT_BOX_URL = BASE_URL +"/lightBox/all";
+    private static final String GET_LIGHT_BOX_URL = BASE_URL +"/lightBox/ALL";
     private static final String ADD_IMG_TO_LIGHT_BOX_URL = BASE_URL +"/lightBox/photo/save";
     private static final String REMOVE_IMG_TO_LIGHT_BOX_URL = BASE_URL +"/lightBox/photo/delete";
     //Path Parameters
@@ -436,6 +437,28 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(UploadProfileImgResponse.class);
+    }
+
+    public static io.reactivex.Observable<String> uploadBrandDocument(String token, File image, int i) {
+        return Rx2AndroidNetworking.upload(UPLOAD_PROFILE_IMG)
+                .addHeaders("x-auth-token", token)
+                .addHeaders("x-user-type", DEFAULT_USER_TYPE)
+                .addHeaders("x-lang-code", "en-us")
+                .addMultipartFile("thumbnail", image)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getStringObservable();
+    }
+
+    public static io.reactivex.Observable<String> setupBrand(String token, SetupBrandModel model) {
+        return Rx2AndroidNetworking.post(UPLOAD_PROFILE_IMG)
+                .addBodyParameter(model)
+                .addHeaders("x-auth-token", token)
+                .addHeaders("x-user-type", DEFAULT_USER_TYPE)
+                .addHeaders("x-lang-code", "en-us")
+                .setPriority(Priority.HIGH)
+                .build()
+                .getStringObservable();
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

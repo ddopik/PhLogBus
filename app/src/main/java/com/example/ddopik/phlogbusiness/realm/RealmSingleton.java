@@ -46,7 +46,7 @@ public class RealmSingleton {
         return nextId;
     }
     /**
-     * Clear all Realm Configuration and Tables data
+     * Clear ALL Realm Configuration and Tables data
      */
     public static void clearRealm() {
         Realm.deleteRealm(Realm.getDefaultConfiguration());

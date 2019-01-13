@@ -226,7 +226,7 @@ public class BitmapUtils {
 
     /**
      * A copy of the Android internals StoreThumbnail method, it used with the insertImage to
-     * populate the android.provider.MediaStore.Images.Media#insertImage with all the correct
+     * populate the android.provider.MediaStore.Images.Media#insertImage with ALL the correct
      * meta data. The StoreThumbnail method is private so it must be duplicated here.
      *
      * @see MediaStore.Images.Media (StoreThumbnail private method)

@@ -6,7 +6,7 @@ package com.example.ddopik.phlogbusiness.realm;
 
 
 /**
- * this graph should define all your Realm Moduls
+ * this graph should define ALL your Realm Moduls
  * */
 //@RealmModule(classes = {/*RealmModule.class*/})
 public class RealmModules {

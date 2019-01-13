@@ -19,10 +19,21 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\softmills-omar\Desktop\PLogBusinessSlices\Assets.xcassets (1)\imgeico.png" />
-                                      <entry key="outputName" value="ic_brand_cover_place_holder" />
+                                      <entry key="imageAsset" value="C:\Users\softmills-omar\Desktop\PLogBusinessSlices\Assets.xcassets (1)\verifyPrimaryColor@2x.png" />
+                                      <entry key="outputName" value="ic_check_active" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="ffffff" />
+                                      <entry key="themeColor" value="0093e2" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                            <entry key="launcherLegacy">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
                                     </map>
                                   </option>
                                 </PersistentState>

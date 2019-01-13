@@ -186,6 +186,22 @@
     <string name="error_missing_thumbnail">Choose a thumbnail photo</string>
     <string name="error_missing_arabic_name">Provide an Arabic name</string>
     <string name="error_missing_english_name">Provide an English name</string>
+    <string name="hint_phone">Phone</string>
+    <string name="hint_address">Address</string>
+    <string name="hint_website">Website</string>
+    <string name="error_missing_industry">Select an industry</string>
+    <string name="error_missing_phone">provide a phone number</string>
+    <string name="error_missing_address">Provide an address</string>
+    <string name="error_missing_email">Provide an email</string>
+    <string name="error_invalid_email">Invalid email</string>
+    <string name="error_missing_website">Provide a website</string>
+    <string name="error_invalid_website">Invalid website url</string>
+    <string name="required_document">Required Documents.</string>
+    <string name="error_missing_commercial_record">Provide commercial record</string>
+    <string name="error_missing_taxes_record">Provide taxes record</string>
+    <string name="taxes_record">Taxes Record</string>
+    <string name="commercial_record">Commercial Record</string>
+    <string name="hint_brand_desc">Descripe your brand</string>
 
 
 </resources>

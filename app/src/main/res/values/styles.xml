@@ -67,4 +67,11 @@
         <item name="colorControlNormal">@color/colorGray</item>
         <item name="colorControlActivated">@color/cyan93E2</item>
     </style>
+
+
+    <style name="DialogFragmentTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- We do not want to change the status bar color -->
+        <item name="colorPrimaryDark">@color/transparent</item>
+    </style>
 </resources>

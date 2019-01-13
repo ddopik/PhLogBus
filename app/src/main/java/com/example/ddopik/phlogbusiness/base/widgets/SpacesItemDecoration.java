@@ -11,7 +11,7 @@ import android.view.View;
 
 /**
  * This class is to add padding around RecyclerView thumbnail images.
- * The padding-right will be added to all the thumbnail images but not to the last item in the list.
+ * The padding-RIGHT will be added to ALL the thumbnail images but not to the last item in the list.
  * **/
 public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
     private int space;

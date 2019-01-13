@@ -17,58 +17,72 @@ public class CustomViewPager extends ViewPager {
         super(context, attrs);
     }
 
-//    @Override
-//    public boolean onInterceptTouchEvent(MotionEvent ev) {
-//        switch (ev.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                initialX = ev.getX();
-//                return true;
-//            case MotionEvent.ACTION_MOVE:
-//                boolean right = initialX - ev.getX() < 0;
-//                if (right)
-//                    return super.onInterceptTouchEvent(ev);
-//                else if (initialX - ev.getX() > 100 && !hit) {
-//                    hit = true;
-//                    return supplier.shouldSwipe();
-//                } else
-//                    return false;
-//            case MotionEvent.ACTION_UP:
-//                hit = false;
-//                return true;
-//            default:
-//                return false;
-//        }
-//    }
+    private SwipeDirection direction = SwipeDirection.ALL;
 
-    private boolean canSwipeLeft;
-
-    public void setCanSwipeLeft(boolean canSwipeLeft) {
-        this.canSwipeLeft = canSwipeLeft;
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (this.isSwipeAllowed(event)) {
+            return super.onTouchEvent(event);
+        }
+        return false;
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                initialX = ev.getX();
-                return true;
-            case MotionEvent.ACTION_MOVE:
-                boolean right = initialX - ev.getX() < 0;
-                return right ? super.onTouchEvent(ev) : canSwipeLeft && super.onTouchEvent(ev);
-            default:
-                return super.onTouchEvent(ev);
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        if (this.isSwipeAllowed(event)) {
+            return super.onInterceptTouchEvent(event);
         }
+        return false;
+    }
+
+    private boolean isSwipeAllowed(MotionEvent event) {
+        if (this.direction == SwipeDirection.ALL) return true;
+
+        if (direction == SwipeDirection.NONE)//disable any swipe
+            return false;
+
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            initialX = event.getX();
+            return true;
+        }
+
+        if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            try {
+                float diffX = event.getX() - initialX;
+                if (diffX > 0 && direction == SwipeDirection.RIGHT) {
+                    // swipe from LEFT to RIGHT detected
+                    return false;
+                } else if (diffX < 0 && direction == SwipeDirection.LEFT) {
+                    // swipe from RIGHT to LEFT detected
+                    if (onSwipeLeftListener != null && Math.abs(diffX) > 50)
+                        onSwipeLeftListener.onSwipeLeft();
+                    return false;
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+
+        return true;
+    }
+
+    public void setAllowedSwipeDirection(SwipeDirection direction) {
+        this.direction = direction;
+    }
+
+    public enum SwipeDirection {
+        ALL, LEFT, RIGHT, NONE
     }
 
     private float initialX;
 
-    private Supplier supplier;
+    private OnSwipeLeftListener onSwipeLeftListener;
 
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
+    public void setOnSwipeLeftListener(OnSwipeLeftListener onSwipeLeftListener) {
+        this.onSwipeLeftListener = onSwipeLeftListener;
     }
 
-    public interface Supplier {
-        boolean shouldSwipe();
+    public interface OnSwipeLeftListener {
+        void onSwipeLeft();
     }
 }

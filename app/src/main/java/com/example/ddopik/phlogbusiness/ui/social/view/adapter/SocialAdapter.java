@@ -287,7 +287,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
                         .into(socialViewHolder.socialCampaignImg);
 
                 socialViewHolder.socialCampaignTitle.setText(entite.nameEn);
-                socialViewHolder.socialCampaignDayLeft.setText("day left here");
+                socialViewHolder.socialCampaignDayLeft.setText("day LEFT here");
                 socialViewHolder.socialCampaignName.setText(entite.nameEn);
 
                 if (onSocialItemListener != null) {
