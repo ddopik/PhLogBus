@@ -73,6 +73,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
             loading.setVisibility(View.VISIBLE);
         else {
             loading.setVisibility(View.INVISIBLE);
+            finish();
         }
     }
 
