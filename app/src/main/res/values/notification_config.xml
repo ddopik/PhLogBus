@@ -10,7 +10,7 @@
     <!--normal notification config-->
     <string name="normal_notification_id" translatable="false">1203</string>
     <string name="normal_notification_channel_id" translatable="false">1204</string>
-    <string name="normal_notification_channel_name">sic_normal_channel</string>
+    <string name="normal_notification_channel_name">phlog_normal_channel</string>
     <string name="normal_notification_channel_desc">required channel</string>
     <string name="normal_notification_group_key">1205</string>
 </resources>

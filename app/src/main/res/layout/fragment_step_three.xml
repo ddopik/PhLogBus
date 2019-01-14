@@ -39,149 +39,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/space1" />
 
-        <Space
-            android:id="@+id/space"
+        <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".05"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/customTextView" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:id="@+id/commercial_record_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/space">
-
-            <ImageView
-                android:id="@+id/commercial_record_image"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                android:background="@color/grayEDF0F3"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintHeight_percent=".8"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/commercial_record_title"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:lines="1"
-                android:text="@string/commercial_record"
-                android:textColor="@color/gray400"
-                android:textStyle="bold"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintBottom_toBottomOf="@+id/commercial_record_image"
-                app:layout_constraintEnd_toStartOf="@+id/commercial_record_check_image"
-                app:layout_constraintHeight_percent=".25"
-                app:layout_constraintStart_toEndOf="@+id/commercial_record_image"
-                app:layout_constraintTop_toTopOf="@+id/commercial_record_image"
-                app:layout_constraintWidth_percent=".45" />
-
-            <ImageView
-                android:id="@+id/commercial_record_check_image"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:src="@drawable/ic_check_grayed"
-                app:layout_constraintHeight_percent=".4"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent=".01"
-                android:background="@color/gray700"
-                app:layout_constraintStart_toStartOf="parent">
-
-            </FrameLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:id="@+id/taxes_record_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/commercial_record_view">
-
-            <ImageView
-                android:id="@+id/taxes_record_image"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                android:background="@color/grayEDF0F3"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintHeight_percent=".8"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/taxes_record_title"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:lines="1"
-                android:text="@string/taxes_record"
-                android:textColor="@color/gray400"
-                android:textStyle="bold"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintBottom_toBottomOf="@+id/taxes_record_image"
-                app:layout_constraintEnd_toStartOf="@+id/taxes_record_check_image"
-                app:layout_constraintHeight_percent=".25"
-                app:layout_constraintStart_toEndOf="@+id/taxes_record_image"
-                app:layout_constraintTop_toTopOf="@+id/taxes_record_image"
-                app:layout_constraintWidth_percent=".45" />
-
-            <ImageView
-                android:id="@+id/taxes_record_check_image"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:src="@drawable/ic_check_grayed"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent=".4"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/gray700"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent=".01"
-                app:layout_constraintStart_toStartOf="parent">
-
-            </FrameLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <EditText
-            android:id="@+id/desc_edit_text"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="start|top"
-            android:hint="@string/hint_brand_desc"
-            android:inputType="textPersonName"
-            android:lines="5"
-            android:textSize="@dimen/sign_up_text_size_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".2"
+            app:layout_constraintHeight_percent=".85"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/taxes_record_view"
-            app:layout_constraintVertical_bias="0.2" />
+            app:layout_constraintTop_toBottomOf="@+id/customTextView"
+            app:layout_constraintVertical_bias="1.0"
+            app:orientation="vertical" />
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

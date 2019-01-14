@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.network;
 
 import com.androidnetworking.common.Priority;
+import com.androidnetworking.interfaces.UploadProgressListener;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.LightBoxListResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.RemoveImageToLightBoxResponse;
@@ -35,6 +36,7 @@ import com.example.ddopik.phlogbusiness.ui.userprofile.model.FollowUserResponse;
 import com.example.ddopik.phlogbusiness.ui.userprofile.model.UserPhotosResponse;
 import com.example.ddopik.phlogbusiness.ui.userprofile.model.UserProfileResponse;
 import com.example.ddopik.phlogbusiness.ui.welcome.model.WelcomeScreenResponse;
+import com.rx2androidnetworking.Rx2ANRequest;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 
 import java.io.File;
@@ -46,7 +48,6 @@ import java.util.Map;
  */
 
 public class BaseNetworkApi {
-
 
 
     //Network Status
@@ -84,8 +85,8 @@ public class BaseNetworkApi {
     private static final String USER_PROFILE_PHOTOS = BASE_URL + "/image_photographer";
     private static final String PHOTOGRAPHER_FOLLOW_USER_URL = BASE_URL + "/follow";
     private static final String PHOTOGRAPHER_SEARCH_URL = BASE_URL + "/photographer/list";
-    private static final String GET_ALBUM_PREVIEW = BASE_URL +"/album/details";
-    private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL +"/album/photos";
+    private static final String GET_ALBUM_PREVIEW = BASE_URL + "/album/details";
+    private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL + "/album/photos";
     private static final String GET_IMAGE_COMMENT = BASE_URL + "/image/comments";
     private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/image/comment/submit";
     private static final String LIKE_IMAGE = BASE_URL + "/photo/like";
@@ -93,12 +94,12 @@ public class BaseNetworkApi {
     private static final String UPLOAD_PROFILE_IMG = BASE_URL + "/profile/upload";
     private static final String SUBMIT_CAMPAIGN_URL = BASE_URL + "/campaign/create";
     private static final String BRAND_PROFILE_URL = BASE_URL + "/profile";
-    private static final String BRAND_LIGHT_BOX_URL = BASE_URL +"/lightBox/ALL";
-    private static final String DELETE_LIGHT_BOX_URL = BASE_URL +"/lightBox/delete";
-    private static final String ADD_LIGHT_BOX_URL = BASE_URL +"/lightBox/add";
-    private static final String GET_LIGHT_BOX_URL = BASE_URL +"/lightBox/ALL";
-    private static final String ADD_IMG_TO_LIGHT_BOX_URL = BASE_URL +"/lightBox/photo/save";
-    private static final String REMOVE_IMG_TO_LIGHT_BOX_URL = BASE_URL +"/lightBox/photo/delete";
+    private static final String BRAND_LIGHT_BOX_URL = BASE_URL + "/lightBox/ALL";
+    private static final String DELETE_LIGHT_BOX_URL = BASE_URL + "/lightBox/delete";
+    private static final String ADD_LIGHT_BOX_URL = BASE_URL + "/lightBox/add";
+    private static final String GET_LIGHT_BOX_URL = BASE_URL + "/lightBox/ALL";
+    private static final String ADD_IMG_TO_LIGHT_BOX_URL = BASE_URL + "/lightBox/photo/save";
+    private static final String REMOVE_IMG_TO_LIGHT_BOX_URL = BASE_URL + "/lightBox/photo/delete";
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
 
@@ -160,7 +161,6 @@ public class BaseNetworkApi {
     }
 
 
-
     public static io.reactivex.Observable<AlbumSearchResponse> getSearchAlbum(String key, String page) {
         return Rx2AndroidNetworking.post(SEARCH_ALBUM)
                 .addQueryParameter(PAGER_PATH_PARAMETER, page)
@@ -181,23 +181,22 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<FollowBrandResponse> followBrand(String token, String brandId){
+    public static io.reactivex.Observable<FollowBrandResponse> followBrand(String token, String brandId) {
         return Rx2AndroidNetworking.post(BRAND_FOLLOW_URL)
-                .addBodyParameter(TOKEN_BODY_PARAMETER,token)
-                .addBodyParameter("brand_id",brandId)
+                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
+                .addBodyParameter("brand_id", brandId)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(FollowBrandResponse.class);
     }
 
-    public static io.reactivex.Observable<SocialResponse> getSocialData(String token){
+    public static io.reactivex.Observable<SocialResponse> getSocialData(String token) {
         return Rx2AndroidNetworking.post(SOCIAL_DATA_URL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(SocialResponse.class);
     }
-
 
 
     public static io.reactivex.Observable<ProfileSearchResponse> getProfileSearch(String key, int page) {
@@ -210,31 +209,33 @@ public class BaseNetworkApi {
                 .getObjectObservable(ProfileSearchResponse.class);
     }
 
-    public static io.reactivex.Observable<NotificationResponse> getNotification(String token, String page){
+    public static io.reactivex.Observable<NotificationResponse> getNotification(String token, String page) {
         return Rx2AndroidNetworking.post(GET_ALL_NOTIFICATION)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
-                .addQueryParameter(PAGER_PATH_PARAMETER,page)
+                .addQueryParameter(PAGER_PATH_PARAMETER, page)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(NotificationResponse.class);
     }
 
 
-    public static io.reactivex.Observable<CampaignResponse> getAllCompleteCampaign(  int page) {
+    public static io.reactivex.Observable<CampaignResponse> getAllCompleteCampaign(int page) {
         return Rx2AndroidNetworking.post(ALL_COMPLETED_CAMPAIGN_URL)
                 .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignResponse.class);
     }
-    public static io.reactivex.Observable<CampaignResponse> getAllDraftCampaign( int page) {
+
+    public static io.reactivex.Observable<CampaignResponse> getAllDraftCampaign(int page) {
         return Rx2AndroidNetworking.post(ALL_DRAFT_CAMPAIGN_URL)
                 .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignResponse.class);
     }
-    public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(  int page) {
+
+    public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(int page) {
         return Rx2AndroidNetworking.post(ALL_RUING_CAMPAIGN_URL)
                 .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
                 .setPriority(Priority.HIGH)
@@ -282,11 +283,10 @@ public class BaseNetworkApi {
     }
 
 
-
-    public static io.reactivex.Observable<FollowUserResponse> followUser(String token, String userID){
+    public static io.reactivex.Observable<FollowUserResponse> followUser(String token, String userID) {
         return Rx2AndroidNetworking.post(PHOTOGRAPHER_FOLLOW_USER_URL)
-                .addBodyParameter(TOKEN_BODY_PARAMETER,token)
-                .addBodyParameter("user_names_id_to",userID)
+                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
+                .addBodyParameter("user_names_id_to", userID)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(FollowUserResponse.class);
@@ -294,8 +294,8 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<AlbumPreviewResponse> getAlbumDetails(String albumId, String page) {
         return Rx2AndroidNetworking.post(GET_ALBUM_PREVIEW)
-                .addQueryParameter(PAGER_PATH_PARAMETER,page)
-                .addBodyParameter("album_id",albumId)
+                .addQueryParameter(PAGER_PATH_PARAMETER, page)
+                .addBodyParameter("album_id", albumId)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(AlbumPreviewResponse.class);
@@ -303,8 +303,8 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<AlbumPreviewImagesResponse> getAlbumImagesPreview(String albumId, String page) {
         return Rx2AndroidNetworking.post(GET_ALBUM_IMAGES_PREVIEW)
-                .addQueryParameter(PAGER_PATH_PARAMETER,page)
-                .addBodyParameter("album_id",albumId)
+                .addQueryParameter(PAGER_PATH_PARAMETER, page)
+                .addBodyParameter("album_id", albumId)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(AlbumPreviewImagesResponse.class);
@@ -331,7 +331,6 @@ public class BaseNetworkApi {
     }
 
 
-
     public static io.reactivex.Observable<LikeImageResponse> likeImage(String imageId) {
         return Rx2AndroidNetworking.post(LIKE_IMAGE)
                 .addBodyParameter("image_id", imageId)
@@ -340,6 +339,7 @@ public class BaseNetworkApi {
                 .build()
                 .getObjectObservable(LikeImageResponse.class);
     }
+
     public static io.reactivex.Observable<BrandInnerResponse> getBrandInnerData(String token, String brandId) {
         return Rx2AndroidNetworking.post(INNER_BRAND_URL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
@@ -348,6 +348,7 @@ public class BaseNetworkApi {
                 .build()
                 .getObjectObservable(BrandInnerResponse.class);
     }
+
     public static io.reactivex.Observable<FollowCampaignResponse> followCampaign(String campaignID) {
         return Rx2AndroidNetworking.post(FOLLOW_CAMPAIGN_URL)
                 .addBodyParameter("campaign_id", campaignID)
@@ -357,7 +358,7 @@ public class BaseNetworkApi {
     }
 
 
-     public static io.reactivex.Observable<BusinessProfileResponse> getBrandProfileData() {
+    public static io.reactivex.Observable<BusinessProfileResponse> getBrandProfileData() {
         return Rx2AndroidNetworking.post(BRAND_PROFILE_URL)
                 .setPriority(Priority.HIGH)
                 .build()
@@ -365,11 +366,10 @@ public class BaseNetworkApi {
     }
 
 
-
-     public static io.reactivex.Observable<BrandLightBoxResponse> getBrandLightBoxes(String page) {
+    public static io.reactivex.Observable<BrandLightBoxResponse> getBrandLightBoxes(String page) {
         return Rx2AndroidNetworking.post(BRAND_LIGHT_BOX_URL)
                 .setPriority(Priority.HIGH)
-                .addQueryParameter(PAGER_PATH_PARAMETER,page)
+                .addQueryParameter(PAGER_PATH_PARAMETER, page)
                 .build()
                 .getObjectObservable(BrandLightBoxResponse.class);
     }
@@ -377,12 +377,12 @@ public class BaseNetworkApi {
     public static io.reactivex.Observable<DeleteLightBoxResponse> deleteLightBox(String id) {
         return Rx2AndroidNetworking.post(DELETE_LIGHT_BOX_URL)
                 .setPriority(Priority.HIGH)
-                .addBodyParameter("lightbox_id",id)
+                .addBodyParameter("lightbox_id", id)
                 .build()
                 .getObjectObservable(DeleteLightBoxResponse.class);
     }
 
-    public static io.reactivex.Observable<AddLighBoxResponse> addLightBox(HashMap<String,String> data) {
+    public static io.reactivex.Observable<AddLighBoxResponse> addLightBox(HashMap<String, String> data) {
         return Rx2AndroidNetworking.post(ADD_LIGHT_BOX_URL)
                 .setPriority(Priority.HIGH)
                 .addBodyParameter(data)
@@ -398,7 +398,7 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<AddImageToLightBoxResponse> addImageToLightBox(Map<String,String> data) {
+    public static io.reactivex.Observable<AddImageToLightBoxResponse> addImageToLightBox(Map<String, String> data) {
         return Rx2AndroidNetworking.post(ADD_IMG_TO_LIGHT_BOX_URL)
                 .setPriority(Priority.HIGH)
                 .addBodyParameter(data)
@@ -406,14 +406,13 @@ public class BaseNetworkApi {
                 .getObjectObservable(AddImageToLightBoxResponse.class);
     }
 
-    public static io.reactivex.Observable<RemoveImageToLightBoxResponse> removeLightBoxImage(Map<String,String> data) {
+    public static io.reactivex.Observable<RemoveImageToLightBoxResponse> removeLightBoxImage(Map<String, String> data) {
         return Rx2AndroidNetworking.post(REMOVE_IMG_TO_LIGHT_BOX_URL)
                 .setPriority(Priority.HIGH)
                 .addBodyParameter(data)
                 .build()
                 .getObjectObservable(RemoveImageToLightBoxResponse.class);
     }
-
 
 
     public static io.reactivex.Observable<SubmitCampaignResponse> submitCampaign(String token, HashMap<String, String> data, File campaignImg) {
@@ -428,7 +427,7 @@ public class BaseNetworkApi {
                 .getObjectObservable(SubmitCampaignResponse.class);
     }
 
-    public static io.reactivex.Observable<UploadProfileImgResponse> uploadUserProfilePhoto(String token,File image) {
+    public static io.reactivex.Observable<UploadProfileImgResponse> uploadUserProfilePhoto(String token, File image) {
         return Rx2AndroidNetworking.upload(UPLOAD_PROFILE_IMG)
                 .addHeaders("x-auth-token", token)
                 .addHeaders("x-user-type", DEFAULT_USER_TYPE)
@@ -439,21 +438,26 @@ public class BaseNetworkApi {
                 .getObjectObservable(UploadProfileImgResponse.class);
     }
 
-    public static io.reactivex.Observable<String> uploadBrandDocument(String token, int id, File file) {
+    public static io.reactivex.Observable<String> uploadBrandDocument(String token, String id, File file, UploadProgressListener progressListener) {
         return Rx2AndroidNetworking.upload(UPLOAD_PROFILE_IMG)
                 .addHeaders("x-auth-token", token)
                 .addHeaders("x-user-type", DEFAULT_USER_TYPE)
                 .addHeaders("x-lang-code", "en-us")
                 .addMultipartFile("file", file)
-                .addMultipartParameter("document_type_id", "" + id)
+                .addMultipartParameter("document_type_id", id)
                 .setPriority(Priority.HIGH)
                 .build()
+                .setUploadProgressListener(progressListener)
                 .getStringObservable();
     }
 
     public static io.reactivex.Observable<String> setupBrand(String token, SetupBrandModel model) {
-        return Rx2AndroidNetworking.post(UPLOAD_PROFILE_IMG)
-                .addBodyParameter(model)
+        Rx2ANRequest.MultiPartBuilder builder = Rx2AndroidNetworking.upload(UPLOAD_PROFILE_IMG);
+        if (model.coverChanged)
+            builder.addMultipartFile("", new File(model.cover));
+        if (model.thumbnailChanged)
+            builder.addMultipartFile("", new File(model.thumbnail));
+        return builder.addMultipartParameter(model)
                 .addHeaders("x-auth-token", token)
                 .addHeaders("x-user-type", DEFAULT_USER_TYPE)
                 .addHeaders("x-lang-code", "en-us")
@@ -514,4 +518,4 @@ public class BaseNetworkApi {
 //    }
 //
 
-    }
+}

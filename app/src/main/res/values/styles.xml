@@ -74,4 +74,5 @@
         <!-- We do not want to change the status bar color -->
         <item name="colorPrimaryDark">@color/transparent</item>
     </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 </resources>

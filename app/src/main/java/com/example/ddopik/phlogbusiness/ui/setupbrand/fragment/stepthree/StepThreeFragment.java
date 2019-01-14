@@ -3,13 +3,22 @@ package com.example.ddopik.phlogbusiness.ui.setupbrand.fragment.stepthree;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +26,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity.SubViewActionConsumer.ActionType;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity.SubViewActionConsumer.SubViewAction;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandView;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.uploader.UploaderService;
 
+import java.util.List;
+
+import io.reactivex.functions.Consumer;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -37,14 +54,87 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.REQUEST_CODE_GA
  */
 public class StepThreeFragment extends BaseFragment {
 
+    private static final String TAG = StepThreeFragment.class.getSimpleName();
+
     private SetupBrandActivity.SubViewActionConsumer consumer;
     private SetupBrandModel model = new SetupBrandModel();
 
+    private Intent intent;
+    private Messenger messenger;
+    private boolean uploading;
+    private boolean bound;
+
     private View mainView;
-    private View commercialView, taxesView;
-    private ImageView commercialImage, commerialCheckImage, taxesImage, taxesCheckImage;
-    private TextView commercialTitleTV, taxesTitleTV;
-    private EditText descET;
+    private RecyclerView docsRecyclerView;
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            messenger = new Messenger(service);
+            bound = true;
+            Message message = new Message();
+            message.what = UploaderService.ADD_COMMUNICATOR;
+            message.obj = communicator;
+            sendMessageToService(message);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            bound = false;
+        }
+    };
+
+    private SetupBrandView.Communicator communicator = (type, objects) -> {
+        switch (type) {
+            case PROGRESS:
+                if (objects != null && objects.length != 0) {
+                    if (objects[0] instanceof Doc) {
+                        Doc doc = (Doc) objects[0];
+                        if (docsRecyclerView.getAdapter() != null)
+                            ((DocsAdapter<Doc>) docsRecyclerView.getAdapter()).setProgress(doc);
+                    }
+                }
+                break;
+            case ALL_UPLOADING_DONE:
+                if (getContext() != null)
+                    PrefUtils.setIsUploading(getContext(), false);
+                break;
+        }
+    };
+
+    private Consumer<String> selectedFilePathConsumer;
+    private Doc currentDoc;
+
+    private DocsAdapter.ActionListener actionListener = (type, objects) -> {
+        switch (type) {
+            case UPLOAD:
+                if (objects != null && objects.length != 0) {
+                    if (objects[0] instanceof Doc) {
+                        Message message = new Message();
+                        message.what = UploaderService.UPLOAD_FILE;
+                        message.obj = objects[0];
+                        sendMessageToService(message);
+                    }
+                }
+                break;
+            case SELECT:
+                if (objects != null && objects.length != 0) {
+                    if (objects[0] instanceof Consumer) {
+                        selectedFilePathConsumer = (Consumer<String>) objects[0];
+                        openPickerDialog();
+                    }
+                }
+                break;
+        }
+    };
+
+    private Consumer<List<Doc>> listConsumer = docs -> {
+        if (docsRecyclerView.getAdapter() == null) {
+            docsRecyclerView.setAdapter(new DocsAdapter(actionListener));
+        }
+        DocsAdapter<Doc> adapter = (DocsAdapter<Doc>) docsRecyclerView.getAdapter();
+        adapter.setList(docs);
+    };
 
     public StepThreeFragment() {
         // Required empty public constructor
@@ -69,65 +159,36 @@ public class StepThreeFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initViews();
         initListeners();
+        uploading = PrefUtils.getIsUploading(getContext());
+        if (uploading) {
+            initializeUploaderServiceIntent();
+            getContext().bindService(intent, connection, Context.BIND_AUTO_CREATE);
+        }
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (model.commercialRecord != null)
-            setViewsAsChecked(WhichImage.COMMERCIAL_RECORD);
-        if (model.taxesRecord != null)
-            setViewsAsChecked(WhichImage.TAXES_RECORD);
-
+    public void onDestroy() {
+        Message message = new Message();
+        message.what = UploaderService.REMOVE_COMMUNICATOR;
+        message.obj = communicator;
+        sendMessageToService(message);
+        unbindService();
+        super.onDestroy();
     }
 
     @Override
     protected void initPresenter() {
-
+        consumer.accept(new SubViewAction(ActionType.GET_DOCUMENT_LIST, null));
     }
 
     @Override
     protected void initViews() {
-        commercialView = mainView.findViewById(R.id.commercial_record_view);
-        commercialTitleTV = mainView.findViewById(R.id.commercial_record_title);
-        commercialImage = mainView.findViewById(R.id.commercial_record_image);
-        commerialCheckImage = mainView.findViewById(R.id.commercial_record_check_image);
-
-        taxesView = mainView.findViewById(R.id.taxes_record_view);
-        taxesTitleTV = mainView.findViewById(R.id.taxes_record_title);
-        taxesImage = mainView.findViewById(R.id.taxes_record_image);
-        taxesCheckImage = mainView.findViewById(R.id.taxes_record_check_image);
-
-        descET = mainView.findViewById(R.id.desc_edit_text);
+        docsRecyclerView = mainView.findViewById(R.id.recycler_view);
+        docsRecyclerView.setAdapter(new DocsAdapter<Doc>(actionListener));
     }
 
     private void initListeners() {
-        commercialView.setOnClickListener(v -> {
-            whichImage = WhichImage.COMMERCIAL_RECORD;
-            openPickerDialog();
-        });
-        taxesView.setOnClickListener(v -> {
-            whichImage = WhichImage.TAXES_RECORD;
-            openPickerDialog();
-        });
-        TextWatcher descWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                model.desc = descET.getText().toString();
-                consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(SetupBrandActivity.SubViewActionConsumer.ActionType.DESC, model.desc));
-            }
-        };
-        descET.addTextChangedListener(descWatcher);
     }
 
     private void openPickerDialog() {
@@ -185,43 +246,32 @@ public class StepThreeFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-            switch (whichImage) {
-                case COMMERCIAL_RECORD:
-                    model.commercialRecord = ImagePicker.getFirstImageOrNull(data).getPath();
-                    setViewsAsChecked(whichImage);
-                    consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(SetupBrandActivity.SubViewActionConsumer.ActionType.COMMERCIAL_RECORD, model.commercialRecord));
-                    break;
-                case TAXES_RECORD:
-                    model.taxesRecord = ImagePicker.getFirstImageOrNull(data).getPath();
-                    setViewsAsChecked(whichImage);
-                    consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(SetupBrandActivity.SubViewActionConsumer.ActionType.TAXES_RECORD, model.taxesRecord));
-                    break;
+            String path = ImagePicker.getFirstImageOrNull(data).getPath();
+            currentDoc.path = path;
+            try {
+                selectedFilePathConsumer.accept(path);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
 
-    private void setViewsAsChecked(WhichImage whichImage) {
-        switch (whichImage) {
-            case COMMERCIAL_RECORD:
-                GlideApp.with(this)
-                        .load(model.commercialRecord)
-                        .into(commercialImage);
-                commercialTitleTV.setTextColor(getResources().getColor(R.color.black));
-                commerialCheckImage.setBackgroundResource(R.drawable.ic_check_active);
-                break;
-            case TAXES_RECORD:
-                GlideApp.with(this)
-                        .load(model.taxesRecord)
-                        .into(taxesImage);
-                taxesTitleTV.setTextColor(getResources().getColor(R.color.black));
-                taxesCheckImage.setBackgroundResource(R.drawable.ic_check_active);
-                break;
+    private void initializeUploaderServiceIntent() {
+    }
+
+    private void sendMessageToService(Message message) {
+        try {
+            messenger.send(message);
+        } catch (RemoteException e) {
+            Log.e(TAG, e.getMessage());
         }
     }
 
-    private WhichImage whichImage;
-
-    enum WhichImage {
-        COMMERCIAL_RECORD, TAXES_RECORD
+    private void unbindService() {
+        try {
+            getContext().unbindService(connection);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
     }
 }

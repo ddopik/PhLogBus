@@ -81,5 +81,20 @@
             app:layout_constraintHeight_percent=".1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/email_edit_text" />
+
+        <EditText
+            android:id="@+id/desc_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="start|top"
+            android:hint="@string/hint_brand_desc"
+            android:inputType="textPersonName"
+            android:lines="5"
+            android:textSize="@dimen/sign_up_text_size_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/website_edit_text" />
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
@@ -64,12 +65,7 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
                 else
                     return new ValidationResult(true, 0);
             case 3:
-                if (model.commercialRecord == null)
-                    return new ValidationResult(false, R.string.error_missing_commercial_record);
-                else if (model.taxesRecord == null)
-                    return new ValidationResult(false, R.string.error_missing_taxes_record);
-                else
-                    return new ValidationResult(true, 0);
+                return new ValidationResult(true, 0);
         }
         return null;
     }
@@ -93,61 +89,28 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
     }
 
     @Override
-    public void setupBrand(SetupBrandModel model, Context context) {
+    public void setupBrand(SetupBrandModel model, Context context, Consumer<Boolean> consumer) {
         view.setLoading(true);
-//        uploadCover(model, context);
-        setupBrand2(model, context);
-    }
-
-//    private void uploadCover(SetupBrandModel model, Context context) {
-//        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(context), new File(model.cover), 0)
-//                .subscribe(s -> {
-//                    uploadThumb(model, context);
-//                }, throwable -> {
-//                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-//                });
-//        DISPOSABLES.add(disposable);
-//    }
-//
-//    private void uploadThumb(SetupBrandModel model, Context context) {
-//        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(context), new File(model.thumbnail), 0)
-//                .subscribe(s -> {
-//                    uploadCommercialRecord(model, context);
-//                }, throwable -> {
-//                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-//                });
-//        DISPOSABLES.add(disposable);
-//    }
-//
-//    private void uploadCommercialRecord(SetupBrandModel model, Context context) {
-//        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(context), new File(model.commercialRecord), 1)
-//                .subscribe(s -> {
-//                    uploadTaxesRecord(model, context);
-//                }, throwable -> {
-//                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-//                });
-//        DISPOSABLES.add(disposable);
-//    }
-//
-//    private void uploadTaxesRecord(SetupBrandModel model, Context context) {
-//        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(context), new File(model.taxesRecord), 2)
-//                .subscribe(s -> {
-//                    setupBrand2(model, context);
-//                }, throwable -> {
-//                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-//                });
-//        DISPOSABLES.add(disposable);
-//    }
-
-    private void setupBrand2(SetupBrandModel model, Context context) {
         Disposable disposable = BaseNetworkApi.setupBrand(PrefUtils.getBrandToken(context), model)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
                     view.setLoading(false);
+                    consumer.accept(true);
                 }, throwable -> {
+                    consumer.accept(false);
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
         DISPOSABLES.add(disposable);
+    }
+
+    @Override
+    public void loadDocs(Consumer<List<Doc>> object, Context baseContext) {
+
+    }
+
+    @Override
+    public void verify() {
+
     }
 }

@@ -15,6 +15,7 @@ import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomViewPager;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.presenter.SetupBrandPresenter;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.presenter.SetupBrandPresenterImpl;
@@ -73,7 +74,6 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
             loading.setVisibility(View.VISIBLE);
         else {
             loading.setVisibility(View.INVISIBLE);
-            finish();
         }
     }
 
@@ -95,9 +95,6 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
     }
 
     private void setListeners() {
-        viewPager.setOnTouchListener((v, event) -> {
-            return false;
-        });
         actionButton.setOnClickListener(v -> {
             SetupBrandPresenter.ValidationResult result = presenter.shouldProceed(currentStep, model);
             switch (currentStep) {
@@ -109,16 +106,15 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                     break;
                 case 2:
                     if (result.shouldProceed)
-                        viewPager.setCurrentItem(2);
+                        presenter.setupBrand(model, this, aBoolean -> {
+                            if (aBoolean)
+                                viewPager.setCurrentItem(2);
+                        });
                     else
                         showErrorMessage(result);
                     break;
                 case 3:
-                    if (result.shouldProceed) {
-                        presenter.setupBrand(model, this);
-                    }
-                    else
-                        showErrorMessage(result);
+                    presenter.verify();
                     break;
             }
         });
@@ -188,9 +184,11 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                 break;
             case COVER_PHOTO:
                 model.cover = (String) action.object;
+                model.coverChanged = true;
                 break;
             case THUMBNAIL_PHOTO:
                 model.thumbnail = (String) action.object;
+                model.thumbnailChanged = true;
                 break;
             case LOAD_INDUSTRIES:
                 if (action.object instanceof Consumer) {
@@ -212,11 +210,10 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
             case WEBSITE:
                 model.webSite = (String) action.object;
                 break;
-            case COMMERCIAL_RECORD:
-                model.commercialRecord= (String) action.object;
-                break;
-            case TAXES_RECORD:
-                model.taxesRecord = (String) action.object;
+            case GET_DOCUMENT_LIST:
+                if (action.object instanceof Consumer) {
+                presenter.loadDocs((Consumer<List<Doc>>) action.object, getBaseContext());
+            }
                 break;
         }
         validate();
@@ -227,7 +224,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
         void accept(SubViewAction action);
 
         enum ActionType {
-            THUMBNAIL_PHOTO, COVER_PHOTO, ARABIC_NAME, LOAD_INDUSTRIES, INDUSTRY, PHONE, ADDRESS, EMAIL, WEBSITE, ENGLISH_NAME, COMMERCIAL_RECORD, DESC, TAXES_RECORD
+            THUMBNAIL_PHOTO, COVER_PHOTO, ARABIC_NAME, LOAD_INDUSTRIES, INDUSTRY, PHONE, ADDRESS, EMAIL, WEBSITE, ENGLISH_NAME, COMMERCIAL_RECORD, DESC, GET_DOCUMENT_LIST, TAXES_RECORD
         }
 
         class SubViewAction {

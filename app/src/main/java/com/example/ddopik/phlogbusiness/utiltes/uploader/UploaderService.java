@@ -3,11 +3,15 @@ package com.example.ddopik.phlogbusiness.utiltes.uploader;
 import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Messenger;
 import android.util.Log;
 import androidx.annotation.Nullable;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.utiltes.notification.NotificationFactory;
@@ -23,8 +27,55 @@ public class UploaderService extends Service {
 
     public static final String TAG = UploaderService.class.getSimpleName();
 
+    public static final int ADD_COMMUNICATOR = 0;
+    public static final int REMOVE_COMMUNICATOR = 1;
+    public static final int UPLOAD_FILE = 2;
+
     private NotificationFactory notificationFactory = new NotificationFactory();
     private CompositeDisposable disposables = new CompositeDisposable();
+    private List<SetupBrandView.Communicator> communicators = new ArrayList<>();
+
+    private Messenger messenger = new Messenger(new Handler(message -> {
+        switch (message.what) {
+            case ADD_COMMUNICATOR:
+                if (message.obj instanceof SetupBrandView.Communicator) {
+                    SetupBrandView.Communicator c = (SetupBrandView.Communicator) message.obj;
+                    communicators.add(c);
+                }
+                break;
+            case REMOVE_COMMUNICATOR:
+                if (message.obj instanceof SetupBrandView.Communicator) {
+                    SetupBrandView.Communicator c = (SetupBrandView.Communicator) message.obj;
+                    communicators.remove(c);
+                }
+                break;
+            case UPLOAD_FILE:
+                if (message.obj instanceof Doc) {
+                    Doc doc = (Doc) message.obj;
+                    Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(getApplicationContext()), doc.id, new File(doc.path), (bytesUploaded, totalBytes) -> {
+                        doc.progress = (int) (bytesUploaded/ totalBytes * 100);
+                        notifyCommunicatorsWithProgress(doc);
+                    }).subscribe(s -> {
+
+                    }, throwable -> {
+                        Log.e(TAG, throwable.toString());
+                        try {
+                            CustomErrorUtil.Companion.setError(getApplicationContext(), TAG, throwable);
+                        } catch (Exception e) {
+                            Log.e(TAG, e.getMessage());
+                        }
+                    });
+                    disposables.add(disposable);
+                }
+                break;
+        }
+        return true;
+    }));
+
+    private void notifyCommunicatorsWithProgress(Doc doc) {
+        for (SetupBrandView.Communicator communicator : communicators)
+            communicator.handle(SetupBrandView.Communicator.Type.PROGRESS, doc);
+    }
 
     public UploaderService() {
     }
@@ -32,7 +83,7 @@ public class UploaderService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return messenger.getBinder();
     }
 
     @Override
@@ -92,18 +143,18 @@ public class UploaderService extends Service {
     }
 
     private void upload(Map.Entry<Integer, String> entry, Action action) {
-        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(getApplicationContext()), entry.getKey(), new File(entry.getValue()))
-                .subscribe(s -> {
-                    Log.e(TAG, "response: " + s);
-                    action.run();
-                }, throwable -> {
-                    Log.e(TAG, throwable.toString());
-                    try {
-                        CustomErrorUtil.Companion.setError(getApplicationContext(), TAG, throwable);
-                    } catch (Exception e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-                });
-        disposables.add(disposable);
+//        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(getApplicationContext()), entry.getKey(), new File(entry.getValue()))
+//                .subscribe(s -> {
+//                    Log.e(TAG, "response: " + s);
+//                    action.run();
+//                }, throwable -> {
+//                    Log.e(TAG, throwable.toString());
+//                    try {
+//                        CustomErrorUtil.Companion.setError(getApplicationContext(), TAG, throwable);
+//                    } catch (Exception e) {
+//                        Log.e(TAG, e.getMessage());
+//                    }
+//                });
+//        disposables.add(disposable);
     }
 }

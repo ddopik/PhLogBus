@@ -8,6 +8,10 @@ public class SetupBrandModel {
 
     public transient String cover;
 
+    public transient boolean thumbnailChanged;
+
+    public transient boolean coverChanged;
+
     @SerializedName("name_ar")
     public String arabicBrandName;
 
@@ -29,10 +33,7 @@ public class SetupBrandModel {
     @SerializedName("website")
     public String webSite;
 
-    public transient String commercialRecord;
-
-    public transient String taxesRecord;
-
+    @SerializedName("description")
     public String desc;
 
 }

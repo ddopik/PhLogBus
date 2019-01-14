@@ -51,8 +51,10 @@
         <service
                 android:name=".utiltes.uploader.UploaderService"
                 android:enabled="true"
-                android:exported="false">
-        </service>
+                android:exported="false"/>
+
+        <activity android:name=".ui.cart.view.CartActivity">
+        </activity>
     </application>
 
 </manifest>

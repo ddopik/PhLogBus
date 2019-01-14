@@ -204,6 +204,7 @@
     <string name="hint_brand_desc">Descripe your brand</string>
     <string name="phlog_uploading">Uploading...</string>
     <string name="uplaod_done">Upload done</string>
+    <string name="title_activity_cart">CartActivity</string>
 
 
 </resources>

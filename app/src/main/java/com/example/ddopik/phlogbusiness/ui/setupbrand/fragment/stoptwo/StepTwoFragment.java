@@ -34,7 +34,7 @@ public class StepTwoFragment extends BaseFragment {
     private SetupBrandModel model = new SetupBrandModel();
 
     private View mainView;
-    private EditText industryET, phone, address, email, website;
+    private EditText industryET, phone, address, email, website, descET;
 
     private Industry selectedIndustry;
 
@@ -92,6 +92,7 @@ public class StepTwoFragment extends BaseFragment {
         address = mainView.findViewById(R.id.address_edit_text);
         email = mainView.findViewById(R.id.email_edit_text);
         website = mainView.findViewById(R.id.website_edit_text);
+        descET = mainView.findViewById(R.id.desc_edit_text);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -183,6 +184,24 @@ public class StepTwoFragment extends BaseFragment {
                 }
             return false;
         });
+        TextWatcher descWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                model.desc = descET.getText().toString();
+                consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(SetupBrandActivity.SubViewActionConsumer.ActionType.DESC, model.desc));
+            }
+        };
+        descET.addTextChangedListener(descWatcher);
     }
 
     private List<Industry> industries;
