@@ -290,7 +290,5 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         });
 
 
-//        imagesSearchFragmentPresenter.getSearchFilters();
-
     }
 }

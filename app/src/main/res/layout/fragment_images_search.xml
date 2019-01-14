@@ -20,13 +20,12 @@
             tools:visibility="visible"/>
     
     <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
-
-        android:id="@+id/search_images_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-
-        app:orientation="vertical" />
+        
+            android:id="@+id/search_images_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:orientation="vertical"
+            />
 
 
     <ProgressBar

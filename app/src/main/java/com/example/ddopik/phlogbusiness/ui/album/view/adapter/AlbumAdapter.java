@@ -50,6 +50,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
         requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
 
         if (albumGroupList.get(position).albumGroupList.size() >= 1){
+            albumFlexItem.albumImg1.setVisibility(View.VISIBLE);
             GlideApp.with(context)
                     .load(albumGroupList.get(position).albumGroupList.get(0).url)
                     .placeholder(R.drawable.default_place_holder)
@@ -57,31 +58,23 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
                     .apply(requestOptions)
 
                     .into(albumFlexItem.albumImg1);
-
             if (onAlbumImageClicked !=null)
                 albumFlexItem.albumImg1.setOnClickListener((v)->onAlbumImageClicked.onImageClicked( albumGroupList.get(position).albumGroupList.get(0)));
         }
 
         if (albumGroupList.get(position).albumGroupList.size() >= 2) {
+            albumFlexItem.albumImg2.setVisibility(View.VISIBLE);
             GlideApp.with(context)
                     .load(albumGroupList.get(position).albumGroupList.get(1).url)
                     .placeholder(R.drawable.default_place_holder)
                     .error(R.drawable.default_error_img)
                     .apply(requestOptions)
                     .into(albumFlexItem.albumImg2);
-            if (onAlbumImageClicked !=null) {
-                albumFlexItem.albumImg2.setOnClickListener((v) -> onAlbumImageClicked.onImageClicked(albumGroupList.get(position).albumGroupList.get(1)));
-            }
-        }else {
-            GlideApp.with(context)
-                    .load("sadadasdsad")
-                    .placeholder(R.drawable.default_place_holder)
-                    .error(R.drawable.default_error_img)
-                    .apply(requestOptions)
-                    .into(albumFlexItem.albumImg2);
-
+            if (onAlbumImageClicked !=null)
+                albumFlexItem.albumImg2.setOnClickListener((v)->onAlbumImageClicked.onImageClicked( albumGroupList.get(position).albumGroupList.get(1)));
         }
         if (albumGroupList.get(position).albumGroupList.size() >= 3) {
+            albumFlexItem.albumImg3 .setVisibility(View.VISIBLE);
             GlideApp.with(context)
                     .load(albumGroupList.get(position).albumGroupList.get(2).url)
                     .placeholder(R.drawable.default_place_holder)
@@ -92,6 +85,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
                 albumFlexItem.albumImg3.setOnClickListener((v)->onAlbumImageClicked.onImageClicked( albumGroupList.get(position).albumGroupList.get(2)));
         }
         if (albumGroupList.get(position).albumGroupList.size() >= 4) {
+            albumFlexItem.albumImg4.setVisibility(View.VISIBLE);
             GlideApp.with(context)
                     .load(albumGroupList.get(position).albumGroupList.get(3).url)
                     .placeholder(R.drawable.default_place_holder)
