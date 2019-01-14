@@ -65,5 +65,8 @@ public interface Constants {
 
 
 
-
+    interface UploadPermanentNotificationConfig {
+        String NOTIFICATION_ID = "2001";
+        String NOTIFICATION_TITLE = "Uploading";
+    }
 }

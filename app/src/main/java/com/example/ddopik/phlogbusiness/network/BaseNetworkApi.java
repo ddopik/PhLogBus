@@ -439,12 +439,13 @@ public class BaseNetworkApi {
                 .getObjectObservable(UploadProfileImgResponse.class);
     }
 
-    public static io.reactivex.Observable<String> uploadBrandDocument(String token, File image, int i) {
+    public static io.reactivex.Observable<String> uploadBrandDocument(String token, int id, File file) {
         return Rx2AndroidNetworking.upload(UPLOAD_PROFILE_IMG)
                 .addHeaders("x-auth-token", token)
                 .addHeaders("x-user-type", DEFAULT_USER_TYPE)
                 .addHeaders("x-lang-code", "en-us")
-                .addMultipartFile("thumbnail", image)
+                .addMultipartFile("file", file)
+                .addMultipartParameter("document_type_id", "" + id)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getStringObservable();

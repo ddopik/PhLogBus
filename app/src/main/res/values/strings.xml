@@ -202,6 +202,8 @@
     <string name="taxes_record">Taxes Record</string>
     <string name="commercial_record">Commercial Record</string>
     <string name="hint_brand_desc">Descripe your brand</string>
+    <string name="phlog_uploading">Uploading...</string>
+    <string name="uplaod_done">Upload done</string>
 
 
 </resources>

@@ -99,45 +99,45 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
         setupBrand2(model, context);
     }
 
-    private void uploadCover(SetupBrandModel model, Context context) {
-        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(context), new File(model.cover), 0)
-                .subscribe(s -> {
-                    uploadThumb(model, context);
-                }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                });
-        DISPOSABLES.add(disposable);
-    }
-
-    private void uploadThumb(SetupBrandModel model, Context context) {
-        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(context), new File(model.thumbnail), 0)
-                .subscribe(s -> {
-                    uploadCommercialRecord(model, context);
-                }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                });
-        DISPOSABLES.add(disposable);
-    }
-
-    private void uploadCommercialRecord(SetupBrandModel model, Context context) {
-        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(context), new File(model.commercialRecord), 1)
-                .subscribe(s -> {
-                    uploadTaxesRecord(model, context);
-                }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                });
-        DISPOSABLES.add(disposable);
-    }
-
-    private void uploadTaxesRecord(SetupBrandModel model, Context context) {
-        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(context), new File(model.taxesRecord), 2)
-                .subscribe(s -> {
-                    setupBrand2(model, context);
-                }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                });
-        DISPOSABLES.add(disposable);
-    }
+//    private void uploadCover(SetupBrandModel model, Context context) {
+//        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(context), new File(model.cover), 0)
+//                .subscribe(s -> {
+//                    uploadThumb(model, context);
+//                }, throwable -> {
+//                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+//                });
+//        DISPOSABLES.add(disposable);
+//    }
+//
+//    private void uploadThumb(SetupBrandModel model, Context context) {
+//        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(context), new File(model.thumbnail), 0)
+//                .subscribe(s -> {
+//                    uploadCommercialRecord(model, context);
+//                }, throwable -> {
+//                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+//                });
+//        DISPOSABLES.add(disposable);
+//    }
+//
+//    private void uploadCommercialRecord(SetupBrandModel model, Context context) {
+//        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(context), new File(model.commercialRecord), 1)
+//                .subscribe(s -> {
+//                    uploadTaxesRecord(model, context);
+//                }, throwable -> {
+//                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+//                });
+//        DISPOSABLES.add(disposable);
+//    }
+//
+//    private void uploadTaxesRecord(SetupBrandModel model, Context context) {
+//        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(context), new File(model.taxesRecord), 2)
+//                .subscribe(s -> {
+//                    setupBrand2(model, context);
+//                }, throwable -> {
+//                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+//                });
+//        DISPOSABLES.add(disposable);
+//    }
 
     private void setupBrand2(SetupBrandModel model, Context context) {
         Disposable disposable = BaseNetworkApi.setupBrand(PrefUtils.getBrandToken(context), model)

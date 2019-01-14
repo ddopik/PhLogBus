@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--permanent notification configs-->
+    <string name="permanent_notification_id" translatable="false">1201</string>
+    <string name="permanent_notification_title">Phlog</string>
+    <string name="permanent_notification_channel_id" translatable="false">1202</string>
+    <string name="permanent_notification_channel_name">phlog_permanent_channel</string>
+    <string name="permanent_notification_channel_desc">required channel</string>
+
+    <!--normal notification config-->
+    <string name="normal_notification_id" translatable="false">1203</string>
+    <string name="normal_notification_channel_id" translatable="false">1204</string>
+    <string name="normal_notification_channel_name">sic_normal_channel</string>
+    <string name="normal_notification_channel_desc">required channel</string>
+    <string name="normal_notification_group_key">1205</string>
+</resources>
