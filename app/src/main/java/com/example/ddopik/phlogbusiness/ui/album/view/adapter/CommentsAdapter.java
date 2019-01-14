@@ -6,17 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.*;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Tag;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
-
 
 import java.util.List;
 
@@ -29,6 +27,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     private List<Comment> commentList;
     private BaseImage previewImage;
     public CommentAdapterAction commentAdapterAction;
+    private int HEAD=0;
+    private int COMMENT =1;
+    private int ADD_COMMENT=2;
 
 
     public CommentsAdapter(BaseImage previewImage, List<Comment> commentList) {
@@ -41,22 +42,25 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         this.context = viewGroup.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        if (getItemViewType(i) == 0) {
-            return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_comment_start_item, viewGroup, false), 0);
+
+
+        if (i == HEAD) {
+            return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_comment_start_item, viewGroup, false), HEAD);
+        } else if (i ==commentList.size()) {
+            return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_send_comment, viewGroup, false), ADD_COMMENT);
         } else {
-            return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_comment, viewGroup, false), 1);
+            return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_comment, viewGroup, false), COMMENT);
+
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder commentViewHolder, int i) {
 
+        int x=getItemViewType(i);
 
-        if (getItemViewType(i) == 0) {
-            if(previewImage.photographer !=null) {
-                commentViewHolder.imageAuthorName.setText(previewImage.photographer.fullName);
-                commentViewHolder.imageAuthorUserName.setText(previewImage.photographer.userName);
-            }
+        if (getItemViewType(i) == HEAD) {
+
             GlideApp.with(context)
                     .load(previewImage.url)
                     .error(R.drawable.default_error_img)
@@ -66,9 +70,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
             String tagS="";
             if(previewImage.tags !=null)
-            for (Tag tag : previewImage.tags) {
-                tagS=tagS +" #"+ tag.name ;
-            }
+                for (Tag tag : previewImage.tags) {
+                    tagS=tagS +" #"+ tag.name ;
+                }
             commentViewHolder.commentPreviewImgTags.setText(tagS);
             if (previewImage.likesCount != null)
                 commentViewHolder.imgLikeVal.setText(new StringBuilder().append(previewImage.likesCount).append(" ").append(context.getResources().getString(R.string.like)).toString());
@@ -76,14 +80,17 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentViewHolder.imgCommentVal.setText(new StringBuilder().append(previewImage.commentsCount).append(" ").append(context.getResources().getString(R.string.comment)).toString());
             if(commentAdapterAction !=null){
                 commentViewHolder.imageCommentBtn.setOnClickListener(v->{
-                    commentAdapterAction.onImageComment(previewImage);
+                    commentViewHolder.imgCommentVal.requestFocus();
+                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
                 });
                 commentViewHolder.imageLikeBtn.setOnClickListener(v->{
                     commentAdapterAction.onImageLike(previewImage);
                 });
             }
 
-        } else {
+        } else if (getItemViewType(i) == COMMENT) {
             if (commentList.get(i).id != null) {
                 GlideApp.with(context)
                         .load(commentList.get(i).photographer.imageProfile)
@@ -94,18 +101,30 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                         .into(commentViewHolder.commentAuthorImg);
 
                 commentViewHolder.commentVal.setText(commentList.get(i).comment);
+
             }
         }
 
-
+        else if (getItemViewType(i) == ADD_COMMENT) {
+            if (commentAdapterAction != null) {
+                commentViewHolder.sendCommentBtn.setOnClickListener(v -> {
+                    commentAdapterAction.onCommentImageSubmit(commentViewHolder.sendCommentImgVal.getText().toString());
+                });
+            }
+        }
     }
+
+
+
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
-            return 0; //-->For Image Header Preview
+            return HEAD; //-->For Image Header Preview
+        } else if (position == (commentList.size()-1) ) {
+            return ADD_COMMENT; //---> normal Comment viewHolder
         } else {
-            return 1; //---> normal Comment Cell
+            return COMMENT; //--->  Comment Cell
         }
     }
 
@@ -117,28 +136,34 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
 
-        TextView imageAuthorName, imageAuthorUserName, imgLikeVal, imgCommentVal,commentPreviewImgTags;
+        CustomTextView    imgLikeVal, imgCommentVal, commentPreviewImgTags;
         ImageView commentImg;
-        ImageButton imageLikeBtn, imageCommentBtn, ImgDownload;
-        ///Comment Cell
+        ImageButton imageLikeBtn, imageCommentBtn;
+        ///Comment_value Cell
         TextView commentVal;
         ImageView commentAuthorImg;
+        //SendCommentCell
+        EditText sendCommentImgVal;
+        ImageButton sendCommentBtn;
+
 
         CommentViewHolder(View view, int type) {
             super(view);
-            if (type == 0) {
-                imageAuthorName = view.findViewById(R.id.image_author_full_name);
-                imageAuthorUserName = view.findViewById(R.id.image_author_user_name);
+            if (type == HEAD) {
+
                 commentImg = view.findViewById(R.id.comment_preview_img);
                 commentPreviewImgTags=view.findViewById(R.id.comment_preview_img_tag);
                 imageLikeBtn = view.findViewById(R.id.comment_preview_img_like_btn);
                 imageCommentBtn = view.findViewById(R.id.comment_preview_img_comment_btn);
-                ImgDownload = view.findViewById(R.id.comment_preview_img_download);
+
                 imgLikeVal = view.findViewById(R.id.comment_preview_img_like_val);
                 imgCommentVal = view.findViewById(R.id.comment_preview_img_comment_val);
-            } else {
+            } else if (type == COMMENT) {
                 commentVal = view.findViewById(R.id.comment_val);
                 commentAuthorImg = view.findViewById(R.id.commentAuthorImg);
+            } else if (type == ADD_COMMENT) {
+                sendCommentImgVal = view.findViewById(R.id.img_send_comment_val);
+                sendCommentBtn = view.findViewById(R.id.send_comment_btn);
             }
 
         }
@@ -147,6 +172,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     public interface CommentAdapterAction{
         void onImageLike(BaseImage baseImage);
-        void onImageComment(BaseImage baseImage);
+
+
+
+        void onCommentImageSubmit(String comment);
     }
 }

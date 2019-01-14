@@ -7,17 +7,18 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.ImageCommentActivityImpl;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.ImageCommentActivityPresenter;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +29,10 @@ import java.util.List;
 public class ImageCommentActivity extends BaseActivity implements ImageCommentActivityView {
 
     public static String IMAGE_DATA = "image_data";
+    private CustomTextView toolBarTitle;
+    private ImageButton backBtn;
     private BaseImage baseImage;
-    private EditText comment;
-    private Button sendBtn;
+
     private ProgressBar addCommentProgress;
     private CustomRecyclerView commentsRv;
     private List<Comment> userCommentList = new ArrayList<>();
@@ -42,7 +44,6 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         if (getIntent().getParcelableExtra(IMAGE_DATA) != null) {
             setContentView(R.layout.activity_image_commnet);
@@ -57,12 +58,17 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
     @Override
     public void initView() {
-        comment = findViewById(R.id.img_comment);
-        sendBtn = findViewById(R.id.send_comment);
+        toolBarTitle = findViewById(R.id.toolbar_title);
+        backBtn=findViewById(R.id.back_btn);
+
         addCommentProgress = findViewById(R.id.add_comment_progress);
         commentsRv = findViewById(R.id.comment_rv);
+        toolBarTitle.setText(baseImage.albumName);
+        //force adapter to start to render Add commentView
         Comment userComment = new Comment();
-        userCommentList.add(userComment);
+        userCommentList.add(userComment); /// acts As default for image Header
+        userCommentList.add(userComment);/// acts As default for image Add comment
+
         commentsAdapter = new CommentsAdapter(baseImage, userCommentList);
         commentsRv.setAdapter(commentsAdapter);
         imageCommentActivityPresenter.getImageComments(String.valueOf(baseImage.id), "0");
@@ -91,22 +97,18 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             }
 
             @Override
-            public void onImageComment(BaseImage baseImage) {
-                comment.requestFocus();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            public void onCommentImageSubmit(String comment) {
 
-
-            }
+                if (comment.length() > 0) {
+                    imageCommentActivityPresenter.submitComment(String.valueOf(baseImage.id), comment);
+                } else {
+                    showToast(getResources().getString(R.string.comment_cant_not_be_null));
+                }
+             }
         };
 
-        sendBtn.setOnClickListener(v -> {
-            if (comment.getText().toString().length() > 0) {
-                imageCommentActivityPresenter.submitComment(String.valueOf(baseImage.id), comment.getText().toString());
-            } else {
-                showToast(getResources().getString(R.string.comment_cant_not_be_null));
-            }
-        });
+
+        backBtn.setOnClickListener(v -> onBackPressed());
     }
 
     @Override

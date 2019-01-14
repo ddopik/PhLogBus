@@ -10,7 +10,9 @@ import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by abdalla_maged on 10/30/2018.
@@ -33,8 +35,22 @@ public class AlbumSearchFragmentImpl implements AlbumSearchPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void getAlbumSearch(String key, List<Filter> filterList, int page) {
+
+
+        int filterCount=0;
+        Map<String,String> filtersMap=new HashMap<String, String>();
+        for (int i=0;i<filterList.size();i++){
+            for (int x=0;x<filterList.get(i).options.size();x++){
+                if (filterList.get(i).options.get(x).isSelected) {
+                    filtersMap.put("filter["+filterCount+"]",filterList.get(i).options.get(x).id.toString());
+                    filterCount ++;
+                }
+            }
+
+        }
+
         albumSearchFragmentView.showFilterSearchProgress(true);
-        BaseNetworkApi.getSearchAlbum(key, String.valueOf(page))
+        BaseNetworkApi.getSearchAlbum(key, filtersMap,String.valueOf(page))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(albumSearchResponse -> {

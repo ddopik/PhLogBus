@@ -21,9 +21,10 @@ import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.view.AlbumPreviewActivity;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.ExpandableListAdapter;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.OnSearchTabSelected;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.SearchActivity;
-import com.example.ddopik.phlogbusiness.ui.search.album.model.FilterOption;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.FilterOption;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.ui.search.album.presenter.AlbumSearchFragmentImpl;
 import com.example.ddopik.phlogbusiness.ui.search.album.presenter.AlbumSearchPresenter;
@@ -125,8 +126,8 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(),50), width - Utilities.GetPixelFromDips(getContext(),10));
         filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(),50), width - Utilities.GetPixelFromDips(getContext(),10));
         ///////////
-
-
+        searchResultCount.setText(new StringBuilder().append(this.albumSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
+        searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
     }
 
     private void initListener() {
@@ -156,7 +157,6 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
 
 
         expandableListAdapter.onChildViewListener = filterOption -> {
-            showToast(filterOption.systemName);
             for (int i = 0; i < filterList.size(); i++) {
                 for (int x = 0; x < filterList.get(i).options.size(); x++) {
                     FilterOption currFilterOption = filterList.get(i).options.get(x);
@@ -173,9 +173,11 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
             }
         };
 
+
+
         albumSearchAdapter.setOnAlbumPreview(albumSearch -> {
             Intent intent = new Intent(getActivity(), AlbumPreviewActivity.class);
-            intent.putExtra(ALBUM_PREVIEW_ID, albumSearch.getId());
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });
     }
@@ -201,9 +203,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         public void onComplete () {
 
         }
-    }
-
-    ;
+    };
 }
 
     @Override
@@ -211,11 +211,15 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         filterExpListView.setVisibility(View.GONE);
         albumSearchRv.setVisibility(View.VISIBLE);
 
-
         this.albumSearchList.addAll(albumSearchList);
         albumSearchAdapter.notifyDataSetChanged();
+
+        /**
+         * Replacing (Apply) in case Expandable was previously visible
+         * */
         searchResultCount.setText(new StringBuilder().append(this.albumSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
-        hideSoftKeyBoard();
+        searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
+        Utilities.hideKeyboard(getActivity());
     }
 
     @Override
@@ -224,15 +228,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     }
 
 
-    @Override
-    public void viewSearchFilters(List<Filter> filterList) {
-        filterExpListView.setVisibility(View.VISIBLE);
-        albumSearchRv.setVisibility(View.GONE);
-        this.filterList.addAll(filterList);
-        expandableListAdapter.notifyDataSetChanged();
 
-
-    }
 
     @Override
     public void showMessage(String msg) {
@@ -248,24 +244,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         }
     }
 
-    @Override
-    public void onFilterIconClicked(List<Filter> filterList) {
-        filterExpListView.setVisibility(View.VISIBLE);
-        albumSearchRv.setVisibility(View.GONE);
 
-
-        this.filterList.addAll(filterList);
-        expandableListAdapter.notifyDataSetChanged();
-
-        searchResultCount.setText(getActivity().getResources().getString(R.string.apply));
-        searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.text_input_color));
-
-
-        searchResultCount.setOnClickListener(v->{
-            albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(),filterList,0);
-        });
-
-     }
 
     @Override
     public void onDestroy() {
@@ -274,13 +253,29 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     }
 
 
-    private void hideSoftKeyBoard() {
-        albumSearch.clearFocus();
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-        if (imm.isAcceptingText()) { // verify if the soft keyboard is open
-            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+
+    @Override
+    public void onFilterIconClicked(List<Filter> filterList) {
+        filterExpListView.setVisibility(View.VISIBLE);
+        albumSearchRv.setVisibility(View.GONE);
+
+        if (this.filterList.size() == 0) {
+            this.filterList.addAll(filterList);
+            expandableListAdapter.notifyDataSetChanged();
         }
+
+
+        searchResultCount.setText(getActivity().getResources().getString(R.string.apply));
+        searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.text_input_color));
+        searchResultCount.setOnClickListener(v -> {
+            albumSearchList.clear();
+            albumSearchAdapter.notifyDataSetChanged();
+            albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString(), filterList, 0);
+        });
+
+
     }
+
 
     public void setAlbumSearchView(OnSearchTabSelected onSearchTabSelected) {
         this.onSearchTabSelected = onSearchTabSelected;

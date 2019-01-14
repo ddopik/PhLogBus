@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
@@ -24,8 +25,8 @@ import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumGroup;
 import com.example.ddopik.phlogbusiness.ui.album.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AlbumAdapter;
-import com.example.ddopik.phlogbusiness.ui.search.album.model.FilterOption;
-import com.example.ddopik.phlogbusiness.ui.search.album.view.ExpandableListAdapter;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.FilterOption;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.ExpandableListAdapter;
 import com.example.ddopik.phlogbusiness.ui.search.images.presenter.ImagesSearchFragmentPresenter;
 import com.example.ddopik.phlogbusiness.ui.search.images.presenter.ImagesSearchFragmentPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.OnSearchTabSelected;
@@ -123,6 +124,9 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(), 50), width - Utilities.GetPixelFromDips(getContext(), 10));
         filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(), 50), width - Utilities.GetPixelFromDips(getContext(), 10));
         ///////////
+        searchResultCount.setText(new StringBuilder().append(getAlbumImagesCount()).append(" ").append(getResources().getString(R.string.result)).toString());
+        searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
+
     }
 
     private void initListener() {
@@ -138,14 +142,19 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(searchQuery()));
 
-        pagingController = new PagingController(searchImageRv) {
-            @Override
-            public void getPagingControllerCallBack(int page) {
 
-                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, page);
+        /**
+         * visibleThreshold =3 --> is a Special case for ImagesSearchFragment Adapter
+         * */
+        pagingController = new PagingController(searchImageRv,3) {
+
+                      @Override
+                public void getPagingControllerCallBack(int page) {
+
+                    imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, page);
 
 
-            }
+                }
         };
 
 
@@ -205,6 +214,9 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     @Override
     public void viewImagesSearchImages(List<BaseImage> baseImageList) {
 
+        /**
+         * parsing and loading image into AlbumGroups
+         * */
         if (baseImageList.size() > 0) {
             for (int i = 0; i < baseImageList.size(); i++) {
 
@@ -224,11 +236,6 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             }
         }
 
-        /**
-         * inCase last Album wasn't filled with all 4 photos
-         * */
-        int lastImageCount = ((albumGroupList.get(albumGroupList.size() - 1)).albumGroupList.size());
-        int AllImageCount=((albumGroupList.size()-1)*4)+lastImageCount;
 
         /**
          * Replacing (Apply) in case Expandable was previously visible
@@ -236,10 +243,11 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         filterExpListView.setVisibility(View.GONE);
         searchImageRv.setVisibility(View.VISIBLE);
         imageSearchAdapter.notifyDataSetChanged();
-        searchResultCount.setText(new StringBuilder().append(AllImageCount).append(" ").append(getResources().getString(R.string.result)).toString());
+        searchResultCount.setText(new StringBuilder().append(getAlbumImagesCount()).append(" ").append(getResources().getString(R.string.result)).toString());
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
-
         Utilities.hideKeyboard(getActivity());
+
+
     }
 
     @Override
@@ -290,5 +298,19 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         });
 
 
+    }
+
+
+    private int getAlbumImagesCount(){
+        /**
+         * inCase last Album wasn't filled with all 4 photos
+         * */
+
+        if (albumGroupList.size() > 0) {
+            int lastImageCount = ((albumGroupList.get(albumGroupList.size() - 1)).albumGroupList.size());
+          return   ((albumGroupList.size() - 1) * 4) + lastImageCount;
+        } else {
+            return 0;
+        }
     }
 }

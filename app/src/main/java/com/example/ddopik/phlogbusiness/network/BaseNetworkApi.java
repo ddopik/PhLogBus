@@ -23,7 +23,7 @@ import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
 import com.example.ddopik.phlogbusiness.ui.profile.model.BusinessProfileResponse;
 import com.example.ddopik.phlogbusiness.ui.search.album.model.AlbumSearchResponse;
-import com.example.ddopik.phlogbusiness.ui.search.album.model.SearchFiltersResponse;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.SearchFiltersResponse;
 import com.example.ddopik.phlogbusiness.ui.search.images.model.ImagesSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
@@ -168,10 +168,11 @@ public class BaseNetworkApi {
 
 
 
-    public static io.reactivex.Observable<AlbumSearchResponse> getSearchAlbum(String key, String page) {
+    public static io.reactivex.Observable<AlbumSearchResponse> getSearchAlbum(String key,  Map<String,String> filters ,String page) {
         return Rx2AndroidNetworking.post(SEARCH_ALBUM)
                 .addQueryParameter(PAGER_PATH_PARAMETER, page)
                 .addBodyParameter("keyword", key)
+                .addBodyParameter(filters)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(AlbumSearchResponse.class);
