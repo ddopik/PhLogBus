@@ -482,6 +482,13 @@ public class BaseNetworkApi {
                 .getObjectObservable(DocumentsResponse.class);
     }
 
+    public static Observable<String> getCartItems() {
+        return Rx2AndroidNetworking.post(GET_CART_ITEMS_URL)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getStringObservable();
+    }
+
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){
 //        return Rx2AndroidNetworking.get()
 //

@@ -32,6 +32,12 @@ public class CartActivity extends BaseActivity implements CartView {
     }
 
     @Override
+    protected void onDestroy() {
+        presenter.terminate();
+        super.onDestroy();
+    }
+
+    @Override
     public void initView() {
         itemsNumberTV = findViewById(R.id.items_number_text_view);
         cartIsEmptyTV = findViewById(R.id.cart_empty_tv);
@@ -50,6 +56,8 @@ public class CartActivity extends BaseActivity implements CartView {
     @Override
     public void initPresenter() {
         presenter = new CartPresenterImpl();
-        presenter.loadCartItems(getBaseContext());
+        presenter.loadCartItems(objects -> {
+
+        }, getBaseContext());
     }
 }

@@ -8,7 +8,7 @@ public interface SetupBrandView {
         void handle(Type type, Object... objects);
 
         enum Type {
-            PROGRESS, ALL_UPLOADING_DONE
+            PROGRESS, DONE, ERROR, ALL_UPLOADING_DONE
         }
     }
 }

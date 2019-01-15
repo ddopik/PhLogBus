@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
+import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
@@ -88,7 +89,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
             startActivity(new Intent(getContext(), SetupBrandActivity.class));
         });
         cartBtn.setOnClickListener(v -> {
-
+            startActivity(new Intent(getContext(), CartActivity.class));
         });
         myLightBoxBtn.setOnClickListener(v -> {
             MainActivity.navigationManger.navigate(LIGHT_BOX);

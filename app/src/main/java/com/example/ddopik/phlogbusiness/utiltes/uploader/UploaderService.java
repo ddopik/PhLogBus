@@ -38,6 +38,7 @@ public class UploaderService extends Service {
     private NotificationFactory notificationFactory = new NotificationFactory();
     private CompositeDisposable disposables = new CompositeDisposable();
     private List<SetupBrandView.Communicator> communicators = new ArrayList<>();
+    private int uploading;
 
     private Messenger messenger = new Messenger(new Handler(message -> {
         switch (message.what) {
@@ -55,16 +56,20 @@ public class UploaderService extends Service {
                 break;
             case UPLOAD_FILE:
                 if (message.obj instanceof Doc) {
+                    uploading++;
                     Doc doc = (Doc) message.obj;
                     Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(getApplicationContext()), "" + doc.getId(), new File(doc.path), (bytesUploaded, totalBytes) -> {
                         doc.progress = (int) (bytesUploaded / (float) totalBytes * 100);
                         notifyCommunicatorsWithProgress(doc);
-                    })
-                            .subscribeOn(Schedulers.io())
+                    }).subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(s -> {
-
+                                uploading--;
+                                notifyCommunicatorsWithDone(doc);
                             }, throwable -> {
+                                uploading--;
+                                notifyCommunicatorsWithError(doc);
+                                checkAndStop();
                                 Log.e(TAG, throwable.toString());
                                 try {
                                     CustomErrorUtil.Companion.setError(getApplicationContext(), TAG, throwable);
@@ -79,28 +84,49 @@ public class UploaderService extends Service {
         return true;
     }));
 
+    private void checkAndStop() {
+        if (uploading == 0 && bound == 0) {
+            stopForeground(false);
+            stopSelf();
+        }
+    }
+
     private void notifyCommunicatorsWithProgress(Doc doc) {
         for (SetupBrandView.Communicator communicator : communicators)
             communicator.handle(SetupBrandView.Communicator.Type.PROGRESS, doc);
     }
 
+    private void notifyCommunicatorsWithDone(Doc doc) {
+        for (SetupBrandView.Communicator communicator : communicators)
+            communicator.handle(SetupBrandView.Communicator.Type.DONE, doc);
+    }
+
+    private void notifyCommunicatorsWithError(Doc doc) {
+        for (SetupBrandView.Communicator communicator : communicators)
+            communicator.handle(SetupBrandView.Communicator.Type.ERROR, doc);
+    }
+
     public UploaderService() {
     }
+
+    private int bound = 0;
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        bound++;
         return messenger.getBinder();
     }
 
     @Override
+    public boolean onUnbind(Intent intent) {
+        bound--;
+        return super.onUnbind(intent);
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        try {
-            handleIntent(intent);
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        }
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     @Override
@@ -116,52 +142,13 @@ public class UploaderService extends Service {
                 , getString(R.string.phlog_uploading)
                 , null, false, null);
         startForeground(Integer.valueOf(getString(R.string.permanent_notification_id)), notification);
+        PrefUtils.setIsUploading(getApplicationContext(), true);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         disposables.dispose();
-    }
-
-    private void handleIntent(Intent intent) throws Exception {
-        Serializable s = intent.getSerializableExtra("map");
-        if (s instanceof HashMap) {
-            HashMap<Integer, String> map = (HashMap<Integer, String>) s;
-            Iterator<Map.Entry<Integer, String>> iterator = map.entrySet().iterator();
-            if (iterator.hasNext()) {
-                Action action = new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        if (iterator.hasNext())
-                            upload(iterator.next(), this);
-                        else {
-                            notificationFactory.changeNotificationContent(getApplicationContext()
-                                    , getString(R.string.permanent_notification_id)
-                                    , getString(R.string.uplaod_done));
-                            stopForeground(false);
-                            stopSelf();
-                        }
-                    }
-                };
-                action.run();
-            }
-        }
-    }
-
-    private void upload(Map.Entry<Integer, String> entry, Action action) {
-//        Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(getApplicationContext()), entry.getKey(), new File(entry.getValue()))
-//                .subscribe(s -> {
-//                    Log.e(TAG, "response: " + s);
-//                    action.run();
-//                }, throwable -> {
-//                    Log.e(TAG, throwable.toString());
-//                    try {
-//                        CustomErrorUtil.Companion.setError(getApplicationContext(), TAG, throwable);
-//                    } catch (Exception e) {
-//                        Log.e(TAG, e.getMessage());
-//                    }
-//                });
-//        disposables.add(disposable);
+        PrefUtils.setIsUploading(getApplicationContext(), false);
     }
 }

@@ -12,7 +12,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
 
@@ -44,13 +46,13 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
         if (doc.getSystemName() != null)
             holder.title.setText(doc.getSystemName());
         else holder.title.setText("");
-        if (doc.path != null)
-            Glide.with(context)
-                    .load(doc.path)
-                    .into(holder.image);
-        else if (doc.getUploadedFile() != null)
+        if (doc.getUploadedFile() != null)
             Glide.with(context)
                     .load(doc.getUploadedFile())
+                    .into(holder.image);
+        else if (doc.path != null)
+            Glide.with(context)
+                    .load(doc.path)
                     .into(holder.image);
         holder.upload.setVisibility(View.GONE);
         holder.check.setVisibility(View.GONE);
@@ -66,8 +68,13 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
         holder.upload.setOnClickListener(v -> {
             actionListener.accept(ActionListener.Type.UPLOAD, doc);
         });
-        if (doc.progress > 0)
+        if (doc.progress == 100) {
             holder.upload.setVisibility(View.GONE);
+            holder.check.setVisibility(View.VISIBLE);
+        } else if (doc.progress > 0) {
+            holder.upload.setVisibility(View.GONE);
+            holder.check.setVisibility(View.GONE);
+        }
         holder.progress.setProgress(doc.progress);
     }
 
@@ -87,6 +94,7 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
         for (Doc m : list) {
             if (m.getId() == id) {
                 m.progress = model.progress;
+                m.path = model.path;
                 int index = list.indexOf(m);
                 if (index != -1)
                     notifyItemChanged(index);

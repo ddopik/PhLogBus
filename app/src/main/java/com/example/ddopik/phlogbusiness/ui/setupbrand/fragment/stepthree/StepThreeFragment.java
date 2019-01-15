@@ -81,6 +81,7 @@ public class StepThreeFragment extends BaseFragment {
     private SetupBrandView.Communicator communicator = (type, objects) -> {
         switch (type) {
             case PROGRESS:
+            case DONE:
                 if (objects != null && objects.length != 0) {
                     if (objects[0] instanceof Doc) {
                         Doc doc = (Doc) objects[0];
@@ -90,8 +91,18 @@ public class StepThreeFragment extends BaseFragment {
                 }
                 break;
             case ALL_UPLOADING_DONE:
-                if (getContext() != null)
-                    PrefUtils.setIsUploading(getContext(), false);
+//                if (getContext() != null)
+//                    PrefUtils.setIsUploading(getContext(), false);
+                // TODO: can submit?
+                break;
+            case ERROR:
+                if (objects != null && objects.length != 0) {
+                    if (objects[0] instanceof Doc) {
+                        Doc doc = (Doc) objects[0];
+                        if (docsRecyclerView.getAdapter() != null)
+                            ((DocsAdapter) docsRecyclerView.getAdapter()).setProgress(doc);
+                    }
+                }
                 break;
         }
     };
@@ -156,10 +167,11 @@ public class StepThreeFragment extends BaseFragment {
         initListeners();
         initPresenter();
         uploading = PrefUtils.getIsUploading(getContext());
-//        if (uploading) {
-            initializeUploaderServiceIntent();
-            getActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE);
-//        }
+        intent = new Intent(getContext(), UploaderService.class);
+        if (!uploading) {
+            getActivity().startService(intent);
+        }
+        getActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -251,10 +263,6 @@ public class StepThreeFragment extends BaseFragment {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void initializeUploaderServiceIntent() {
-        intent = new Intent(getContext(), UploaderService.class);
     }
 
     private void sendMessageToService(Message message) {
