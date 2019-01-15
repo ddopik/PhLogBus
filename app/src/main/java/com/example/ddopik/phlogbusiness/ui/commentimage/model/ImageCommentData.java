@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.album.model;
+package com.example.ddopik.phlogbusiness.ui.commentimage.model;
 
  import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
  import com.google.gson.annotations.Expose;

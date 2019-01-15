@@ -1,6 +1,5 @@
 package com.example.ddopik.phlogbusiness.base.commonmodel;
 
-import com.example.ddopik.phlogbusiness.ui.album.model.ComentedUser;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

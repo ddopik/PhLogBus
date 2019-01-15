@@ -27,9 +27,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     private List<Comment> commentList;
     private BaseImage previewImage;
     public CommentAdapterAction commentAdapterAction;
-    private int HEAD=0;
-    private int COMMENT =1;
-    private int ADD_COMMENT=2;
+    private int HEAD = 0;
+    private int COMMENT = 1;
+    private int ADD_COMMENT = 2;
 
 
     public CommentsAdapter(BaseImage previewImage, List<Comment> commentList) {
@@ -46,7 +46,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         if (i == HEAD) {
             return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_comment_start_item, viewGroup, false), HEAD);
-        } else if (i ==commentList.size()) {
+        } else if (i == commentList.size()) {
             return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_send_comment, viewGroup, false), ADD_COMMENT);
         } else {
             return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_comment, viewGroup, false), COMMENT);
@@ -57,7 +57,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder commentViewHolder, int i) {
 
-        int x=getItemViewType(i);
+        int x = getItemViewType(i);
 
         if (getItemViewType(i) == HEAD) {
 
@@ -68,24 +68,33 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     .override(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
                     .into(commentViewHolder.commentImg);
 
-            String tagS="";
-            if(previewImage.tags !=null)
+            String tagS = "";
+            if (previewImage.tags != null)
                 for (Tag tag : previewImage.tags) {
-                    tagS=tagS +" #"+ tag.name ;
+                    tagS = tagS + " #" + tag.name;
                 }
             commentViewHolder.commentPreviewImgTags.setText(tagS);
             if (previewImage.likesCount != null)
                 commentViewHolder.imgLikeVal.setText(new StringBuilder().append(previewImage.likesCount).append(" ").append(context.getResources().getString(R.string.like)).toString());
             if (previewImage.commentsCount != null)
                 commentViewHolder.imgCommentVal.setText(new StringBuilder().append(previewImage.commentsCount).append(" ").append(context.getResources().getString(R.string.comment)).toString());
-            if(commentAdapterAction !=null){
-                commentViewHolder.imageCommentBtn.setOnClickListener(v->{
+            if (commentAdapterAction != null) {
+                commentViewHolder.imageCommentBtn.setOnClickListener(v -> {
                     commentViewHolder.imgCommentVal.requestFocus();
                     InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
                 });
-                commentViewHolder.imageLikeBtn.setOnClickListener(v->{
+
+
+                if (previewImage.isLiked) {
+                    commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_off);
+                } else {
+                    commentViewHolder.imageLikeBtn.setImageResource( R.drawable.ic_like_on);
+                }
+
+                commentViewHolder.imageLikeBtn.setOnClickListener(v -> {
+//
                     commentAdapterAction.onImageLike(previewImage);
                 });
             }
@@ -103,9 +112,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentViewHolder.commentVal.setText(commentList.get(i).comment);
 
             }
-        }
-
-        else if (getItemViewType(i) == ADD_COMMENT) {
+        } else if (getItemViewType(i) == ADD_COMMENT) {
             if (commentAdapterAction != null) {
                 commentViewHolder.sendCommentBtn.setOnClickListener(v -> {
                     commentAdapterAction.onCommentImageSubmit(commentViewHolder.sendCommentImgVal.getText().toString());
@@ -115,13 +122,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
 
-
-
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return HEAD; //-->For Image Header Preview
-        } else if (position == (commentList.size()-1) ) {
+        } else if (position == (commentList.size() - 1)) {
             return ADD_COMMENT; //---> normal Comment viewHolder
         } else {
             return COMMENT; //--->  Comment Cell
@@ -136,7 +141,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
 
-        CustomTextView    imgLikeVal, imgCommentVal, commentPreviewImgTags;
+        CustomTextView imgLikeVal, imgCommentVal, commentPreviewImgTags;
         ImageView commentImg;
         ImageButton imageLikeBtn, imageCommentBtn;
         ///Comment_value Cell
@@ -152,7 +157,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             if (type == HEAD) {
 
                 commentImg = view.findViewById(R.id.comment_preview_img);
-                commentPreviewImgTags=view.findViewById(R.id.comment_preview_img_tag);
+                commentPreviewImgTags = view.findViewById(R.id.comment_preview_img_tag);
                 imageLikeBtn = view.findViewById(R.id.comment_preview_img_like_btn);
                 imageCommentBtn = view.findViewById(R.id.comment_preview_img_comment_btn);
 
@@ -170,9 +175,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     }
 
-    public interface CommentAdapterAction{
+    public interface CommentAdapterAction {
         void onImageLike(BaseImage baseImage);
-
 
 
         void onCommentImageSubmit(String comment);

@@ -1,10 +1,12 @@
-package com.example.ddopik.phlogbusiness.ui.album.presenter;
+package com.example.ddopik.phlogbusiness.ui.commentimage.presenter;
+
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 
 /**
  * Created by abdalla_maged On Nov,2018
  */
 public interface ImageCommentActivityPresenter {
     void getImageComments(String imageId, String page);
-    void likePhoto(String imageId);
+    void likePhoto(BaseImage baseImage);
     void submitComment(String imageId, String comment);
 }

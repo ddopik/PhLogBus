@@ -33,7 +33,7 @@
         </activity>
 
         <activity android:name=".ui.userprofile.view.UserProfileActivity"/>
-        <activity android:name=".ui.album.view.ImageCommentActivity"/>
+        <activity android:name=".ui.commentimage.view.ImageCommentActivity"/>
         <activity android:name=".ui.campaigns.inner.view.CampaignInnerActivity" />
         <activity android:name=".ui.campaigns.addcampaign.view.AddCampaignActivity"
                   android:windowSoftInputMode="stateHidden"/>

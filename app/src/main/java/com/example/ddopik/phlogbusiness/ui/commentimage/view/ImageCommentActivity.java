@@ -1,14 +1,9 @@
-package com.example.ddopik.phlogbusiness.ui.album.view;
+package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
+import android.widget.*;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
@@ -16,8 +11,10 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
-import com.example.ddopik.phlogbusiness.ui.album.presenter.ImageCommentActivityImpl;
-import com.example.ddopik.phlogbusiness.ui.album.presenter.ImageCommentActivityPresenter;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageRateResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityImpl;
+import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityPresenter;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
 
 import java.util.ArrayList;
@@ -31,9 +28,9 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     public static String IMAGE_DATA = "image_data";
     private CustomTextView toolBarTitle;
     private ImageButton backBtn;
-    private BaseImage baseImage;
+    private BaseImage previewImage;
 
-    private ProgressBar addCommentProgress;
+    private FrameLayout addCommentProgress;
     private CustomRecyclerView commentsRv;
     private List<Comment> userCommentList = new ArrayList<>();
     private CommentsAdapter commentsAdapter;
@@ -47,7 +44,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
         if (getIntent().getParcelableExtra(IMAGE_DATA) != null) {
             setContentView(R.layout.activity_image_commnet);
-            baseImage = getIntent().getExtras().getParcelable(IMAGE_DATA);
+            previewImage = getIntent().getExtras().getParcelable(IMAGE_DATA);
             initPresenter();
             initView();
             initListener();
@@ -59,19 +56,20 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     @Override
     public void initView() {
         toolBarTitle = findViewById(R.id.toolbar_title);
-        backBtn=findViewById(R.id.back_btn);
+        backBtn = findViewById(R.id.back_btn);
 
         addCommentProgress = findViewById(R.id.add_comment_progress);
+
         commentsRv = findViewById(R.id.comment_rv);
-        toolBarTitle.setText(baseImage.albumName);
+        toolBarTitle.setText(previewImage.albumName);
         //force adapter to start to render Add commentView
         Comment userComment = new Comment();
         userCommentList.add(userComment); /// acts As default for image Header
         userCommentList.add(userComment);/// acts As default for image Add comment
 
-        commentsAdapter = new CommentsAdapter(baseImage, userCommentList);
+        commentsAdapter = new CommentsAdapter(previewImage, userCommentList);
         commentsRv.setAdapter(commentsAdapter);
-        imageCommentActivityPresenter.getImageComments(String.valueOf(baseImage.id), "0");
+        imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), "0");
     }
 
     @Override
@@ -85,7 +83,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         pagingController = new PagingController(commentsRv) {
             @Override
             public void getPagingControllerCallBack(int page) {
-                imageCommentActivityPresenter.getImageComments(String.valueOf(baseImage.id), String.valueOf(page));
+                imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), String.valueOf(page));
             }
         };
 
@@ -93,18 +91,18 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         commentsAdapter.commentAdapterAction = new CommentsAdapter.CommentAdapterAction() {
             @Override
             public void onImageLike(BaseImage baseImage) {
-                imageCommentActivityPresenter.likePhoto(String.valueOf(baseImage.id));
+                imageCommentActivityPresenter.likePhoto(baseImage);
             }
 
             @Override
             public void onCommentImageSubmit(String comment) {
 
                 if (comment.length() > 0) {
-                    imageCommentActivityPresenter.submitComment(String.valueOf(baseImage.id), comment);
+                    imageCommentActivityPresenter.submitComment(String.valueOf(previewImage.id), comment);
                 } else {
                     showToast(getResources().getString(R.string.comment_cant_not_be_null));
                 }
-             }
+            }
         };
 
 
@@ -118,15 +116,46 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     }
 
 
+    @Override
+    public void viewImageLikedStatus(boolean state) {
+        previewImage.isLiked = state;
+        if (state){
+            previewImage.likesCount++;
+        }else {
+            previewImage.likesCount--;
+        }
+        commentsAdapter.notifyDataSetChanged();
+    }
 
     @Override
-    public void viewAddCommentProgress(Boolean state) {
+    public void ViewImageCommentStatus(ImageCommentResponse imageCommentResponse) {
+
+    }
+
+    @Override
+    public void ViewImageRateStatus(ImageRateResponse imageRateResponse) {
+
+    }
+
+
+    @Override
+    public void viewImageProgress(Boolean state) {
         if (state) {
             addCommentProgress.setVisibility(View.VISIBLE);
         } else {
             addCommentProgress.setVisibility(View.GONE);
         }
     }
+
+//    @Override
+//    public void viewHeaderImageProgress(boolean state) {
+//
+//        if (state) {
+//            headerImageProgress.setVisibility(View.VISIBLE);
+//        } else {
+//            headerImageProgress.setVisibility(View.GONE);
+//        }
+//    }
 
     @Override
     public void viewMessage(String msg) {
