@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.setupbrand.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
@@ -12,7 +13,6 @@ import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
-import java.io.File;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -38,31 +38,32 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
     public ValidationResult shouldProceed(int currentStep, SetupBrandModel model) {
         switch (currentStep) {
             case 1:
-                if (model.cover == null)
-                    return new ValidationResult(false, R.string.error_missing_cover);
-                else if (model.thumbnail == null)
-                    return new ValidationResult(false, R.string.error_missing_thumbnail);
-                else if (model.arabicBrandName == null || model.arabicBrandName.isEmpty())
-                    return new ValidationResult(false, R.string.error_missing_arabic_name);
-                else if (model.englishBrandName == null || model.englishBrandName.isEmpty())
-                    return new ValidationResult(false, R.string.error_missing_english_name);
-                else return new ValidationResult(true, 0);
+//                if (model.cover == null)
+//                    return new ValidationResult(false, R.string.error_missing_cover);
+//                else if (model.thumbnail == null)
+//                    return new ValidationResult(false, R.string.error_missing_thumbnail);
+//                else if (model.arabicBrandName == null || model.arabicBrandName.isEmpty())
+//                    return new ValidationResult(false, R.string.error_missing_arabic_name);
+//                else if (model.englishBrandName == null || model.englishBrandName.isEmpty())
+//                    return new ValidationResult(false, R.string.error_missing_english_name);
+//                else
+                    return new ValidationResult(true, 0);
             case 2:
-                if (model.industryId == null)
-                    return new ValidationResult(false, R.string.error_missing_industry);
-                else if (model.phone == null || model.phone.isEmpty())
-                    return new ValidationResult(false, R.string.error_missing_phone);
-                else if (model.address == null || model.address.isEmpty())
-                    return new ValidationResult(false, R.string.error_missing_address);
-                else if (model.email == null || model.email.isEmpty())
-                    return new ValidationResult(false, R.string.error_missing_email);
-                else if (!Utilities.isEmailValid(model.email))
-                    return new ValidationResult(false, R.string.error_invalid_email);
-                else if (model.webSite == null || model.webSite.isEmpty())
-                    return new ValidationResult(false, R.string.error_missing_website);
-                else if (!Utilities.isWebsiteValid(model.webSite))
-                    return new ValidationResult(false, R.string.error_invalid_website);
-                else
+//                if (model.industryId == null)
+//                    return new ValidationResult(false, R.string.error_missing_industry);
+//                else if (model.phone == null || model.phone.isEmpty())
+//                    return new ValidationResult(false, R.string.error_missing_phone);
+//                else if (model.address == null || model.address.isEmpty())
+//                    return new ValidationResult(false, R.string.error_missing_address);
+//                else if (model.email == null || model.email.isEmpty())
+//                    return new ValidationResult(false, R.string.error_missing_email);
+//                else if (!Utilities.isEmailValid(model.email))
+//                    return new ValidationResult(false, R.string.error_invalid_email);
+//                else if (model.webSite == null || model.webSite.isEmpty())
+//                    return new ValidationResult(false, R.string.error_missing_website);
+//                else if (!Utilities.isWebsiteValid(model.webSite))
+//                    return new ValidationResult(false, R.string.error_invalid_website);
+//                else
                     return new ValidationResult(true, 0);
             case 3:
                 return new ValidationResult(true, 0);
@@ -106,7 +107,16 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
 
     @Override
     public void loadDocs(Consumer<List<Doc>> object, Context baseContext) {
-
+        Disposable disposable = BaseNetworkApi.getDocumentList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if (response != null && response.getData() != null)
+                        object.accept(response.getData());
+                }, throwable -> {
+                    Log.e(TAG, throwable.getMessage());
+                });
+        DISPOSABLES.add(disposable);
     }
 
     @Override

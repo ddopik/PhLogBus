@@ -205,6 +205,8 @@
     <string name="phlog_uploading">Uploading...</string>
     <string name="uplaod_done">Upload done</string>
     <string name="title_activity_cart">CartActivity</string>
+    <string name="check_out_now">Check out now</string>
+    <string name="cart_is_empty">Your cart is empty</string>
 
 
 </resources>

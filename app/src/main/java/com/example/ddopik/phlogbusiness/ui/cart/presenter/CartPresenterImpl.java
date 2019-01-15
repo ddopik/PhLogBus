@@ -1,5 +1,8 @@
 package com.example.ddopik.phlogbusiness.ui.cart.presenter;
 
+import android.content.Context;
+
+import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.cart.view.CartView;
 
 public class CartPresenterImpl implements CartPresenter {
@@ -9,5 +12,10 @@ public class CartPresenterImpl implements CartPresenter {
     @Override
     public void setView(CartView view) {
         this.view = view;
+    }
+
+    @Override
+    public void loadCartItems(Context baseContext) {
+//        BaseNetworkApi.getCartIems();
     }
 }

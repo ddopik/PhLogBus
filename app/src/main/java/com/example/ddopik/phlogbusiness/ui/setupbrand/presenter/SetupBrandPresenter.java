@@ -5,12 +5,10 @@ import android.content.Context;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
-import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandView;
 
 import java.util.List;
 
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
 public interface SetupBrandPresenter {

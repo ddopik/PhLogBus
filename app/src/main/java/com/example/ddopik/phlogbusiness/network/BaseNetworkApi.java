@@ -27,6 +27,7 @@ import com.example.ddopik.phlogbusiness.ui.search.album.model.AlbumSearchRespons
 import com.example.ddopik.phlogbusiness.ui.search.album.model.SearchFiltersResponse;
 import com.example.ddopik.phlogbusiness.ui.search.images.model.ImagesSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchResponse;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.model.DocumentsResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.SignUpResponse;
@@ -42,6 +43,8 @@ import com.rx2androidnetworking.Rx2AndroidNetworking;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.reactivex.Observable;
 
 /**
  * Created by abdalla-maged on 3/29/18.
@@ -100,6 +103,12 @@ public class BaseNetworkApi {
     private static final String GET_LIGHT_BOX_URL = BASE_URL + "/lightBox/ALL";
     private static final String ADD_IMG_TO_LIGHT_BOX_URL = BASE_URL + "/lightBox/photo/save";
     private static final String REMOVE_IMG_TO_LIGHT_BOX_URL = BASE_URL + "/lightBox/photo/delete";
+    private static final String SETUP_BRAND_URL = BASE_URL + "/brand/setup";
+    private static final String UPLOAD_DOCUMENT_URL = BASE_URL + "/brand/document/upload";
+    private static final String GET_DOCUMENTS_URL = BASE_URL + "/brand/document/list";
+    private static final String GET_CART_ITEMS_URL = BASE_URL + "/cart/list";
+    private static final String REMOVE_FROM_CART_URL = BASE_URL + "/cart/remove";
+
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
 
@@ -439,7 +448,7 @@ public class BaseNetworkApi {
     }
 
     public static io.reactivex.Observable<String> uploadBrandDocument(String token, String id, File file, UploadProgressListener progressListener) {
-        return Rx2AndroidNetworking.upload(UPLOAD_PROFILE_IMG)
+        return Rx2AndroidNetworking.upload(UPLOAD_DOCUMENT_URL)
                 .addHeaders("x-auth-token", token)
                 .addHeaders("x-user-type", DEFAULT_USER_TYPE)
                 .addHeaders("x-lang-code", "en-us")
@@ -452,11 +461,11 @@ public class BaseNetworkApi {
     }
 
     public static io.reactivex.Observable<String> setupBrand(String token, SetupBrandModel model) {
-        Rx2ANRequest.MultiPartBuilder builder = Rx2AndroidNetworking.upload(UPLOAD_PROFILE_IMG);
+        Rx2ANRequest.MultiPartBuilder builder = Rx2AndroidNetworking.upload(SETUP_BRAND_URL);
         if (model.coverChanged)
-            builder.addMultipartFile("", new File(model.cover));
+            builder.addMultipartFile("image_cover", new File(model.cover));
         if (model.thumbnailChanged)
-            builder.addMultipartFile("", new File(model.thumbnail));
+            builder.addMultipartFile("thumbnail", new File(model.thumbnail));
         return builder.addMultipartParameter(model)
                 .addHeaders("x-auth-token", token)
                 .addHeaders("x-user-type", DEFAULT_USER_TYPE)
@@ -464,6 +473,13 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getStringObservable();
+    }
+
+    public static Observable<DocumentsResponse> getDocumentList() {
+        return Rx2AndroidNetworking.post(GET_DOCUMENTS_URL)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(DocumentsResponse.class);
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

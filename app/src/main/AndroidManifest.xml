@@ -46,15 +46,16 @@
         <activity android:name=".ui.brand.view.BrandInnerActivity"/>
         <activity
                 android:name=".ui.setupbrand.view.SetupBrandActivity"
-                android:screenOrientation="portrait"/>
+                android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
 
         <service
                 android:name=".utiltes.uploader.UploaderService"
                 android:enabled="true"
                 android:exported="false"/>
 
-        <activity android:name=".ui.cart.view.CartActivity">
-        </activity>
+        <activity android:name=".ui.cart.view.CartActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

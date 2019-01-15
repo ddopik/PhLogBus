@@ -1,28 +1,29 @@
 package com.example.ddopik.phlogbusiness.ui.setupbrand.fragment.stepthree;
 
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.ui.setupbrand.model.AdapterModel;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
+
+import io.reactivex.functions.Consumer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.functions.Consumer;
+public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
 
-public class DocsAdapter<T extends AdapterModel> extends RecyclerView.Adapter<DocsAdapter.ViewHolder> {
-
-    private final List<T> list = new ArrayList<>();
+    private final List<Doc> list = new ArrayList<>();
     private final ActionListener actionListener;
 
     public DocsAdapter(ActionListener actionListener) {
@@ -31,25 +32,25 @@ public class DocsAdapter<T extends AdapterModel> extends RecyclerView.Adapter<Do
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolderX onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.doc_card_layout, viewGroup, false);
-        return new ViewHolder(view);
+        return new ViewHolderX(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
-        AdapterModel model = list.get(i);
+    public void onBindViewHolder(@NonNull ViewHolderX holder, int i) {
+        Doc doc = list.get(i);
         Context context = holder.itemView.getContext();
-        if (model.getDisplayName() != null)
-            holder.title.setText(model.getDisplayName());
+        if (doc.getSystemName() != null)
+            holder.title.setText(doc.getSystemName());
         else holder.title.setText("");
-        if (model.getImageFallback() != null)
+        if (doc.path != null)
             Glide.with(context)
-            .load(model.getImageFallback())
-            .into(holder.image);
-        else if (model.getImage() != null)
+                    .load(doc.path)
+                    .into(holder.image);
+        else if (doc.getUploadedFile() != null)
             Glide.with(context)
-                    .load(model.getImage())
+                    .load(doc.getUploadedFile())
                     .into(holder.image);
         holder.upload.setVisibility(View.GONE);
         holder.check.setVisibility(View.GONE);
@@ -60,31 +61,31 @@ public class DocsAdapter<T extends AdapterModel> extends RecyclerView.Adapter<Do
             holder.upload.setVisibility(View.VISIBLE);
         };
         holder.itemView.setOnClickListener(v -> {
-            actionListener.accept(ActionListener.Type.SELECT, consumer);
+            actionListener.accept(ActionListener.Type.SELECT, consumer, doc);
         });
         holder.upload.setOnClickListener(v -> {
-            actionListener.accept(ActionListener.Type.UPLOAD, model);
+            actionListener.accept(ActionListener.Type.UPLOAD, doc);
         });
-        if (model.progress > 0)
+        if (doc.progress > 0)
             holder.upload.setVisibility(View.GONE);
-        holder.progress.setProgress(model.progress);
-}
+        holder.progress.setProgress(doc.progress);
+    }
 
     @Override
     public int getItemCount() {
         return list.size();
     }
 
-    public void setList(List<T> list) {
+    public void setList(List<Doc> list) {
         this.list.clear();
         this.list.addAll(list);
         notifyDataSetChanged();
     }
 
-    public void setProgress(AdapterModel model) {
-        String id = model.getId();
-        for (AdapterModel m : list) {
-            if (m.getId().equals(id)) {
+    public void setProgress(Doc model) {
+        int id = model.getId();
+        for (Doc m : list) {
+            if (m.getId() == id) {
                 m.progress = model.progress;
                 int index = list.indexOf(m);
                 if (index != -1)
@@ -94,13 +95,13 @@ public class DocsAdapter<T extends AdapterModel> extends RecyclerView.Adapter<Do
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolderX extends RecyclerView.ViewHolder {
         TextView title;
         ImageView image, check;
-        ImageButton upload;
+        Button upload;
         ProgressBar progress;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolderX(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.name);
             image = itemView.findViewById(R.id.image);

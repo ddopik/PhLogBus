@@ -1,34 +1,65 @@
 package com.example.ddopik.phlogbusiness.ui.setupbrand.model;
 
-import com.example.ddopik.phlogbusiness.ui.setupbrand.fragment.stepthree.DocsAdapter;
+import com.google.gson.annotations.SerializedName;
 
-public class Doc extends AdapterModel {
+public class Doc {
 
-    public String id;
+	@SerializedName("is_required")
+	private int isRequired;
 
-    public String name;
+	@SerializedName("system_name")
+	private String systemName;
 
-    public String url;
+	@SerializedName("description")
+	private String description;
 
-    public String path;
+	@SerializedName("id")
+	private int id;
 
-    @Override
-    public String getId() {
-        return id;
-    }
+	@SerializedName("uploaded_file")
+	private Object uploadedFile;
 
-    @Override
-    public String getDisplayName() {
-        return name;
-    }
+	public int progress;
 
-    @Override
-    public Object getImage() {
-        return url;
-    }
+	public String path;
 
-    @Override
-    public Object getImageFallback() {
-        return path;
-    }
+	public void setIsRequired(int isRequired){
+		this.isRequired = isRequired;
+	}
+
+	public int getIsRequired(){
+		return isRequired;
+	}
+
+	public void setSystemName(String systemName){
+		this.systemName = systemName;
+	}
+
+	public String getSystemName(){
+		return systemName;
+	}
+
+	public void setDescription(String description){
+		this.description = description;
+	}
+
+	public String getDescription(){
+		return description;
+	}
+
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return id;
+	}
+
+	public void setUploadedFile(Object uploadedFile){
+		this.uploadedFile = uploadedFile;
+	}
+
+	public Object getUploadedFile(){
+		return uploadedFile;
+	}
 }

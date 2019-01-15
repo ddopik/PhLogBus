@@ -16,15 +16,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
@@ -36,7 +31,6 @@ import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity.SubViewActionConsumer.ActionType;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity.SubViewActionConsumer.SubViewAction;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandView;
-import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.utiltes.uploader.UploaderService;
 
@@ -91,7 +85,7 @@ public class StepThreeFragment extends BaseFragment {
                     if (objects[0] instanceof Doc) {
                         Doc doc = (Doc) objects[0];
                         if (docsRecyclerView.getAdapter() != null)
-                            ((DocsAdapter<Doc>) docsRecyclerView.getAdapter()).setProgress(doc);
+                            ((DocsAdapter) docsRecyclerView.getAdapter()).setProgress(doc);
                     }
                 }
                 break;
@@ -118,9 +112,10 @@ public class StepThreeFragment extends BaseFragment {
                 }
                 break;
             case SELECT:
-                if (objects != null && objects.length != 0) {
-                    if (objects[0] instanceof Consumer) {
+                if (objects != null && objects.length >= 1) {
+                    if (objects[0] instanceof Consumer && objects[1] instanceof Doc) {
                         selectedFilePathConsumer = (Consumer<String>) objects[0];
+                        currentDoc = (Doc) objects[1];
                         openPickerDialog();
                     }
                 }
@@ -132,7 +127,7 @@ public class StepThreeFragment extends BaseFragment {
         if (docsRecyclerView.getAdapter() == null) {
             docsRecyclerView.setAdapter(new DocsAdapter(actionListener));
         }
-        DocsAdapter<Doc> adapter = (DocsAdapter<Doc>) docsRecyclerView.getAdapter();
+        DocsAdapter adapter = (DocsAdapter) docsRecyclerView.getAdapter();
         adapter.setList(docs);
     };
 
@@ -159,11 +154,12 @@ public class StepThreeFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initViews();
         initListeners();
+        initPresenter();
         uploading = PrefUtils.getIsUploading(getContext());
-        if (uploading) {
+//        if (uploading) {
             initializeUploaderServiceIntent();
-            getContext().bindService(intent, connection, Context.BIND_AUTO_CREATE);
-        }
+            getActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE);
+//        }
     }
 
     @Override
@@ -172,19 +168,20 @@ public class StepThreeFragment extends BaseFragment {
         message.what = UploaderService.REMOVE_COMMUNICATOR;
         message.obj = communicator;
         sendMessageToService(message);
-        unbindService();
+        if (bound)
+            unbindService();
         super.onDestroy();
     }
 
     @Override
     protected void initPresenter() {
-        consumer.accept(new SubViewAction(ActionType.GET_DOCUMENT_LIST, null));
+        consumer.accept(new SubViewAction(ActionType.GET_DOCUMENT_LIST, listConsumer));
     }
 
     @Override
     protected void initViews() {
         docsRecyclerView = mainView.findViewById(R.id.recycler_view);
-        docsRecyclerView.setAdapter(new DocsAdapter<Doc>(actionListener));
+        docsRecyclerView.setAdapter(new DocsAdapter(actionListener));
     }
 
     private void initListeners() {
@@ -257,11 +254,13 @@ public class StepThreeFragment extends BaseFragment {
     }
 
     private void initializeUploaderServiceIntent() {
+        intent = new Intent(getContext(), UploaderService.class);
     }
 
     private void sendMessageToService(Message message) {
         try {
-            messenger.send(message);
+            if (messenger != null)
+                messenger.send(message);
         } catch (RemoteException e) {
             Log.e(TAG, e.getMessage());
         }
@@ -269,7 +268,7 @@ public class StepThreeFragment extends BaseFragment {
 
     private void unbindService() {
         try {
-            getContext().unbindService(connection);
+            getActivity().unbindService(connection);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }

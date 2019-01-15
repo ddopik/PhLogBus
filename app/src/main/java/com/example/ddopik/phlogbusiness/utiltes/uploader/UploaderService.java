@@ -6,8 +6,9 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Messenger;
+import android.support.annotation.Nullable;
 import android.util.Log;
-import androidx.annotation.Nullable;
+
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
@@ -15,9 +16,12 @@ import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.utiltes.notification.NotificationFactory;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
+import io.reactivex.schedulers.Schedulers;
 
 import java.io.File;
 import java.io.Serializable;
@@ -52,19 +56,22 @@ public class UploaderService extends Service {
             case UPLOAD_FILE:
                 if (message.obj instanceof Doc) {
                     Doc doc = (Doc) message.obj;
-                    Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(getApplicationContext()), doc.id, new File(doc.path), (bytesUploaded, totalBytes) -> {
-                        doc.progress = (int) (bytesUploaded/ totalBytes * 100);
+                    Disposable disposable = BaseNetworkApi.uploadBrandDocument(PrefUtils.getBrandToken(getApplicationContext()), "" + doc.getId(), new File(doc.path), (bytesUploaded, totalBytes) -> {
+                        doc.progress = (int) (bytesUploaded / (float) totalBytes * 100);
                         notifyCommunicatorsWithProgress(doc);
-                    }).subscribe(s -> {
+                    })
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(s -> {
 
-                    }, throwable -> {
-                        Log.e(TAG, throwable.toString());
-                        try {
-                            CustomErrorUtil.Companion.setError(getApplicationContext(), TAG, throwable);
-                        } catch (Exception e) {
-                            Log.e(TAG, e.getMessage());
-                        }
-                    });
+                            }, throwable -> {
+                                Log.e(TAG, throwable.toString());
+                                try {
+                                    CustomErrorUtil.Companion.setError(getApplicationContext(), TAG, throwable);
+                                } catch (Exception e) {
+                                    Log.e(TAG, e.getMessage());
+                                }
+                            });
                     disposables.add(disposable);
                 }
                 break;

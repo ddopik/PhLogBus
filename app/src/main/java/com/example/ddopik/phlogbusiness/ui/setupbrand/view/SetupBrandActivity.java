@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import android.widget.Toast;
-
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
@@ -19,6 +17,7 @@ import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.presenter.SetupBrandPresenter;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.presenter.SetupBrandPresenterImpl;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 import java.util.List;
 
@@ -105,13 +104,13 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                         showErrorMessage(result);
                     break;
                 case 2:
-                    if (result.shouldProceed)
-                        presenter.setupBrand(model, this, aBoolean -> {
-                            if (aBoolean)
+//                    if (result.shouldProceed)
+//                        presenter.setupBrand(model, this, aBoolean -> {
+//                            if (aBoolean)
                                 viewPager.setCurrentItem(2);
-                        });
-                    else
-                        showErrorMessage(result);
+//                        });
+//                    else
+//                        showErrorMessage(result);
                     break;
                 case 3:
                     presenter.verify();
@@ -212,8 +211,13 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                 break;
             case GET_DOCUMENT_LIST:
                 if (action.object instanceof Consumer) {
-                presenter.loadDocs((Consumer<List<Doc>>) action.object, getBaseContext());
-            }
+                    presenter.loadDocs((Consumer<List<Doc>>) action.object, getBaseContext());
+                    break;
+                }
+                break;
+
+            case DESC:
+                model.desc = (String) action.object;
                 break;
         }
         validate();
