@@ -31,13 +31,15 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(albumImgCommentResponse -> {
-                    imageCommentActivityView.viewPhotoComment(albumImgCommentResponse.data.comments);
+                    imageCommentActivityView.viewPhotoComment(albumImgCommentResponse.data);
                     imageCommentActivityView.viewImageProgress(false);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     imageCommentActivityView.viewImageProgress(false);
                 });
     }
+
+
 
     @SuppressLint("CheckResult")
     @Override
@@ -46,9 +48,9 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
         BaseNetworkApi.submitImageComment(imageId, comment)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(albumImgCommentResponse -> {
+                .subscribe(submitImageCommentResponse -> {
                     imageCommentActivityView.viewMessage("Comment Submitted");
-//                    imageCommentActivityView.viewPhotoComment(albumImgCommentResponse.data.comments);
+                    imageCommentActivityView.viewOnImageCommented(submitImageCommentResponse.data.comment);
                     imageCommentActivityView.viewImageProgress(false);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);

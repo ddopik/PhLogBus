@@ -24,4 +24,17 @@ public class Comment {
     public Photographer photographer;
 
 
+    @SerializedName("parent_id")
+    @Expose
+    public String parentId;
+
+    @SerializedName("replies_count")
+    @Expose
+    public Integer repliesCount;
+
+
+    @SerializedName("business")
+    @Expose
+    public Object business;
+
 }

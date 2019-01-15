@@ -21,17 +21,17 @@
 				android:hint="@string/your_comment"
 				android:padding="@dimen/widgets_padding"
 				android:textColorHint="@color/gray400" />
-		
+
 		<ImageButton
 				android:id="@+id/send_comment_btn"
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
+				android:layout_width="@dimen/ic_size_s"
+				android:layout_height="38dp"
 				android:layout_weight="1"
-				android:background="@color/transparent"
-				android:fontFamily="@font/arial_rounded_font"
+				android:background="@drawable/circle_blue"
 				android:text="@string/send"
-				app:srcCompat="@drawable/ic_add_btn"
-				android:textColor="@color/white" />
+				app:srcCompat="@drawable/ic_add_comment"
+				android:scaleType="centerInside"
+				android:textColor="@color/white"/>
 	
 	
 	</LinearLayout>

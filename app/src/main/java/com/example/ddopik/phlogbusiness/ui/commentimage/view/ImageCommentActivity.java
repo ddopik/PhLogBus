@@ -11,7 +11,7 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
-import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageRateResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityPresenter;
@@ -32,7 +32,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
     private FrameLayout addCommentProgress;
     private CustomRecyclerView commentsRv;
-    private List<Comment> userCommentList = new ArrayList<>();
+    private List<Comment> commentList = new ArrayList<>();
     private CommentsAdapter commentsAdapter;
     private PagingController pagingController;
     private ImageCommentActivityPresenter imageCommentActivityPresenter;
@@ -64,10 +64,10 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         toolBarTitle.setText(previewImage.albumName);
         //force adapter to start to render Add commentView
         Comment userComment = new Comment();
-        userCommentList.add(userComment); /// acts As default for image Header
-        userCommentList.add(userComment);/// acts As default for image Add comment
+        commentList.add(userComment); /// acts As default for image Header
+        commentList.add(userComment);/// acts As default for image Add comment
 
-        commentsAdapter = new CommentsAdapter(previewImage, userCommentList);
+        commentsAdapter = new CommentsAdapter(previewImage, commentList);
         commentsRv.setAdapter(commentsAdapter);
         imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), "0");
     }
@@ -110,8 +110,8 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     }
 
     @Override
-    public void viewPhotoComment(List<Comment> commentList) {
-        this.userCommentList.addAll(commentList);
+    public void viewPhotoComment(ImageCommentsData imageCommentsData) {
+        this.commentList.addAll(imageCommentsData.comments.commentList);
         commentsAdapter.notifyDataSetChanged();
     }
 
@@ -119,21 +119,23 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     @Override
     public void viewImageLikedStatus(boolean state) {
         previewImage.isLiked = state;
-        if (state){
+        if (state) {
             previewImage.likesCount++;
-        }else {
+        } else {
             previewImage.likesCount--;
         }
         commentsAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void ViewImageCommentStatus(ImageCommentResponse imageCommentResponse) {
+    public void viewOnImageCommented(Comment comment) {
+        this.commentList.add(comment);
+        commentsAdapter.notifyDataSetChanged();
 
     }
 
     @Override
-    public void ViewImageRateStatus(ImageRateResponse imageRateResponse) {
+    public void viewImageRateStatus(ImageRateResponse imageRateResponse) {
 
     }
 

@@ -239,7 +239,7 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
         return new DisposableObserver<TextViewTextChangeEvent>() {
             @Override
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
-                // user cleared search get default data
+                // user cleared search get default
                 addCampaignStepTwoPresenter.getTags(AddCampaignStepTwoActivity.this, getBaseContext(),autoCompleteTextView.getText().toString().trim());
                 Log.e(TAG, "search string: " + autoCompleteTextView.getText().toString().trim());
 

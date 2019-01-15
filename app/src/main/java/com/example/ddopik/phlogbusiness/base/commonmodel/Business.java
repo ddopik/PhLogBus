@@ -26,4 +26,19 @@ public class Business {
     @SerializedName("industry")
     @Expose
     public Industry industry;
+
+    @SerializedName("user_name")
+    @Expose
+    public String userName;
+
+    @SerializedName("first_name")
+    @Expose
+    public String firstName;
+    @SerializedName("last_name")
+    @Expose
+    public String lastName;
+
+    @SerializedName("brand_status")
+    @Expose
+    public String brandStatus;
 }

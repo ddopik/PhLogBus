@@ -94,7 +94,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 }
 
                 commentViewHolder.imageLikeBtn.setOnClickListener(v -> {
-//
+
                     commentAdapterAction.onImageLike(previewImage);
                 });
             }

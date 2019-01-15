@@ -6,7 +6,8 @@ import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.RemoveImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewImagesResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponse;
-import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.LikeImageResponse;
 import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.SubmitCampaignResponse;
@@ -86,7 +87,7 @@ public class BaseNetworkApi {
     private static final String PHOTOGRAPHER_SEARCH_URL = BASE_URL + "/photographer/list";
     private static final String GET_ALBUM_PREVIEW = BASE_URL +"/album/details";
     private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL +"/album/photos";
-    private static final String GET_IMAGE_COMMENT = BASE_URL + "/image/comments";
+    private static final String GET_IMAGE_COMMENT = BASE_URL + "/comment/list";
     private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/image/comment/submit";
     private static final String LIKE_IMAGE = BASE_URL + "/photo/like";
     private static final String UN_LIKE_IMAGE = BASE_URL + "/photo/unlike";
@@ -321,23 +322,23 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<ImageCommentResponse> getImageComments(String image_id, String page) {
+    public static io.reactivex.Observable<ImageCommentsResponse> getImageComments(String image_id, String page) {
         return Rx2AndroidNetworking.post(GET_IMAGE_COMMENT)
                 .addQueryParameter("image_id", image_id)
                 .addQueryParameter(PAGER_PATH_PARAMETER, page)
                 .getResponseOnlyFromNetwork()
                 .setPriority(Priority.HIGH)
                 .build()
-                .getObjectObservable(ImageCommentResponse.class);
+                .getObjectObservable(ImageCommentsResponse.class);
     }
 
-    public static io.reactivex.Observable<ImageCommentResponse> submitImageComment(String image_id, String imageComment) {
+    public static io.reactivex.Observable<SubmitImageCommentResponse> submitImageComment(String image_id, String imageComment) {
         return Rx2AndroidNetworking.post(SUBMIT_IMAGE_COMMENT)
                 .addQueryParameter("image_id", image_id)
                 .addQueryParameter("comment", imageComment)
                 .setPriority(Priority.HIGH)
                 .build()
-                .getObjectObservable(ImageCommentResponse.class);
+                .getObjectObservable(SubmitImageCommentResponse.class);
     }
 
 
