@@ -16,6 +16,8 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.CampaignInnerRe
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.CampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowBrandResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowCampaignResponse;
+import com.example.ddopik.phlogbusiness.ui.cart.model.CartResponse;
+import com.example.ddopik.phlogbusiness.ui.cart.model.RemoveItemResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.AddLighBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.BrandLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.DeleteLightBoxResponse;
@@ -482,11 +484,19 @@ public class BaseNetworkApi {
                 .getObjectObservable(DocumentsResponse.class);
     }
 
-    public static Observable<String> getCartItems() {
+    public static Observable<CartResponse> getCartItems() {
         return Rx2AndroidNetworking.post(GET_CART_ITEMS_URL)
                 .setPriority(Priority.HIGH)
                 .build()
-                .getStringObservable();
+                .getObjectObservable(CartResponse.class);
+    }
+
+    public static Observable<RemoveItemResponse> removeCartItem(int id) {
+        return Rx2AndroidNetworking.post(REMOVE_FROM_CART_URL)
+                .addBodyParameter("photo_id", "" + id)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(RemoveItemResponse.class);
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

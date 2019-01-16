@@ -16,6 +16,7 @@ import android.widget.EditText;
 
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
@@ -32,6 +33,7 @@ public class StepTwoFragment extends BaseFragment {
 
     private SetupBrandActivity.SubViewActionConsumer consumer;
     private SetupBrandModel model = new SetupBrandModel();
+    private Business business;
 
     private View mainView;
     private EditText industryET, phone, address, email, website, descET;
@@ -43,9 +45,10 @@ public class StepTwoFragment extends BaseFragment {
     }
 
 
-    public static StepTwoFragment newInstance(SetupBrandActivity.SubViewActionConsumer consumer) {
+    public static StepTwoFragment newInstance(SetupBrandActivity.SubViewActionConsumer consumer, Business business) {
         StepTwoFragment fragment = new StepTwoFragment();
         fragment.consumer = consumer;
+        fragment.business = business;
         return fragment;
     }
 
@@ -60,23 +63,24 @@ public class StepTwoFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews();
+        setViews();
         setListeners();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (selectedIndustry != null) {
+        if (selectedIndustry != null ) {
             industryET.setText(selectedIndustry.nameEn);
         }
         if (model.phone != null)
             phone.setText(model.phone);
         if (model.address != null)
-            phone.setText(model.address);
+            address.setText(model.address);
         if (model.email != null)
-            phone.setText(model.email);
+            email.setText(model.email);
         if (model.webSite != null)
-            phone.setText(model.webSite);
+            website.setText(model.webSite);
     }
 
     @Override
@@ -93,6 +97,19 @@ public class StepTwoFragment extends BaseFragment {
         email = mainView.findViewById(R.id.email_edit_text);
         website = mainView.findViewById(R.id.website_edit_text);
         descET = mainView.findViewById(R.id.desc_edit_text);
+    }
+
+    private void setViews() {
+        if (business == null)
+            return;
+        selectedIndustry = business.industry;
+        if (selectedIndustry != null)
+            model.industryId = selectedIndustry.id;
+        model.phone = business.brandPhone;
+        model.address = business.brandAddress;
+        model.email = business.email;
+        model.webSite = business.website;
+        model.desc = business.description;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -208,5 +225,15 @@ public class StepTwoFragment extends BaseFragment {
 
     private Consumer<List<Industry>> listConsumer = industries -> {
         this.industries = industries;
+        if (selectedIndustry != null) {
+            for (Industry industry : industries) {
+                if (industry.id.equals(selectedIndustry.id)) {
+                    selectedIndustry = industry;
+                    if (selectedIndustry.nameEn != null)
+                        industryET.setText(selectedIndustry.nameEn);
+                    break;
+                }
+            }
+        }
     };
 }

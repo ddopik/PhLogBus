@@ -38,32 +38,32 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
     public ValidationResult shouldProceed(int currentStep, SetupBrandModel model) {
         switch (currentStep) {
             case 1:
-//                if (model.cover == null)
-//                    return new ValidationResult(false, R.string.error_missing_cover);
-//                else if (model.thumbnail == null)
-//                    return new ValidationResult(false, R.string.error_missing_thumbnail);
-//                else if (model.arabicBrandName == null || model.arabicBrandName.isEmpty())
-//                    return new ValidationResult(false, R.string.error_missing_arabic_name);
-//                else if (model.englishBrandName == null || model.englishBrandName.isEmpty())
-//                    return new ValidationResult(false, R.string.error_missing_english_name);
-//                else
+                if (model.cover == null)
+                    return new ValidationResult(false, R.string.error_missing_cover);
+                else if (model.thumbnail == null)
+                    return new ValidationResult(false, R.string.error_missing_thumbnail);
+                else if (model.arabicBrandName == null || model.arabicBrandName.isEmpty())
+                    return new ValidationResult(false, R.string.error_missing_arabic_name);
+                else if (model.englishBrandName == null || model.englishBrandName.isEmpty())
+                    return new ValidationResult(false, R.string.error_missing_english_name);
+                else
                     return new ValidationResult(true, 0);
             case 2:
-//                if (model.industryId == null)
-//                    return new ValidationResult(false, R.string.error_missing_industry);
-//                else if (model.phone == null || model.phone.isEmpty())
-//                    return new ValidationResult(false, R.string.error_missing_phone);
-//                else if (model.address == null || model.address.isEmpty())
-//                    return new ValidationResult(false, R.string.error_missing_address);
-//                else if (model.email == null || model.email.isEmpty())
-//                    return new ValidationResult(false, R.string.error_missing_email);
-//                else if (!Utilities.isEmailValid(model.email))
-//                    return new ValidationResult(false, R.string.error_invalid_email);
-//                else if (model.webSite == null || model.webSite.isEmpty())
-//                    return new ValidationResult(false, R.string.error_missing_website);
-//                else if (!Utilities.isWebsiteValid(model.webSite))
-//                    return new ValidationResult(false, R.string.error_invalid_website);
-//                else
+                if (model.industryId == null)
+                    return new ValidationResult(false, R.string.error_missing_industry);
+                else if (model.phone == null || model.phone.isEmpty())
+                    return new ValidationResult(false, R.string.error_missing_phone);
+                else if (model.address == null || model.address.isEmpty())
+                    return new ValidationResult(false, R.string.error_missing_address);
+                else if (model.email == null || model.email.isEmpty())
+                    return new ValidationResult(false, R.string.error_missing_email);
+                else if (!Utilities.isEmailValid(model.email))
+                    return new ValidationResult(false, R.string.error_invalid_email);
+                else if (model.webSite == null || model.webSite.isEmpty())
+                    return new ValidationResult(false, R.string.error_missing_website);
+                else if (!Utilities.isWebsiteValid(model.webSite))
+                    return new ValidationResult(false, R.string.error_invalid_website);
+                else
                     return new ValidationResult(true, 0);
             case 3:
                 return new ValidationResult(true, 0);
@@ -99,6 +99,7 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
                     view.setLoading(false);
                     consumer.accept(true);
                 }, throwable -> {
+                    view.setLoading(false);
                     consumer.accept(false);
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
@@ -107,13 +108,16 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
 
     @Override
     public void loadDocs(Consumer<List<Doc>> object, Context baseContext) {
+        view.setLoading(true);
         Disposable disposable = BaseNetworkApi.getDocumentList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     if (response != null && response.getData() != null)
                         object.accept(response.getData());
+                    view.setLoading(false);
                 }, throwable -> {
+                    view.setLoading(false);
                     Log.e(TAG, throwable.getMessage());
                 });
         DISPOSABLES.add(disposable);

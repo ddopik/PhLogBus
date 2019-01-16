@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.fragment.stepone.StepOneFragment;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.fragment.stepthree.StepThreeFragment;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.fragment.stoptwo.StepTwoFragment;
@@ -20,10 +21,10 @@ public class SetupBrandPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
     }
 
-    public SetupBrandPagerAdapter(FragmentManager supportFragmentManager, SetupBrandActivity.SubViewActionConsumer subViewActionConsumer) {
+    public SetupBrandPagerAdapter(FragmentManager supportFragmentManager, SetupBrandActivity.SubViewActionConsumer subViewActionConsumer, Business business) {
         this(supportFragmentManager);
-        fragments.add(StepOneFragment.newInstance(subViewActionConsumer));
-        fragments.add(StepTwoFragment.newInstance(subViewActionConsumer));
+        fragments.add(StepOneFragment.newInstance(subViewActionConsumer, business));
+        fragments.add(StepTwoFragment.newInstance(subViewActionConsumer, business));
         fragments.add(StepThreeFragment.newInstance(subViewActionConsumer));
     }
 

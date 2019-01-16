@@ -1,11 +1,12 @@
 package com.example.ddopik.phlogbusiness.ui.cart.view;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.ddopik.phlogbusiness.R;
@@ -21,6 +22,7 @@ public class CartActivity extends BaseActivity implements CartView {
     private Button checkoutButton;
     private ImageView cartIsEmptyIV;
     private RecyclerView recyclerView;
+    private ProgressBar loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,8 @@ public class CartActivity extends BaseActivity implements CartView {
         cartIsEmptyIV = findViewById(R.id.cart_empty_iv);
         checkoutButton = findViewById(R.id.checkout_button);
         recyclerView = findViewById(R.id.cart_recycler_view);
-        recyclerView.setAdapter(new CartAdapter());
+        recyclerView.setAdapter(new CartAdapter(actionListener));
+        loading = findViewById(R.id.loading);
     }
 
     private void initListeners() {
@@ -57,7 +60,33 @@ public class CartActivity extends BaseActivity implements CartView {
     public void initPresenter() {
         presenter = new CartPresenterImpl();
         presenter.loadCartItems(objects -> {
-
+            if (objects == null || objects.isEmpty()) {
+                itemsNumberTV.setText(getString(R.string.cart_item_count, 0));
+                cartIsEmptyIV.setVisibility(View.VISIBLE);
+                cartIsEmptyTV.setVisibility(View.VISIBLE);
+            } else {
+                loading.setVisibility(View.GONE);
+                CartAdapter adapter = (CartAdapter) recyclerView.getAdapter();
+                adapter.setList(objects);
+                itemsNumberTV.setText(getString(R.string.cart_item_count, objects.size()));
+            }
         }, getBaseContext());
     }
+
+    private CartAdapter.ActionListener actionListener = (type, o, booleanConsumer) -> {
+        switch (type) {
+            case REMOVE:
+                CharSequence photoChooserOptions[] = new CharSequence[]{getString(R.string.yes), getString(R.string.no)};
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(getString(R.string.remove_cart_item_confirmation));
+                builder.setItems(photoChooserOptions, (dialog, option) -> {
+                    if (option == 0) {
+                        presenter.removeCartItem(this, o, booleanConsumer);
+                    } else if (option == 1) {
+                        dialog.dismiss();
+                    }
+                }).show();
+                break;
+        }
+    };
 }

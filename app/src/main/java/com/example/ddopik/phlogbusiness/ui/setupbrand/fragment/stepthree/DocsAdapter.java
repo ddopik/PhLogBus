@@ -8,25 +8,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
-
+import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandView;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandView.Communicator;
+import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
 
     private final List<Doc> list = new ArrayList<>();
     private final ActionListener actionListener;
+    private final Map<Integer, BiConsumer<Doc, Communicator.Type>> consumers = new HashMap<>();
 
     public DocsAdapter(ActionListener actionListener) {
         this.actionListener = actionListener;
@@ -68,14 +70,33 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
         holder.upload.setOnClickListener(v -> {
             actionListener.accept(ActionListener.Type.UPLOAD, doc);
         });
-        if (doc.progress == 100) {
-            holder.upload.setVisibility(View.GONE);
-            holder.check.setVisibility(View.VISIBLE);
-        } else if (doc.progress > 0) {
-            holder.upload.setVisibility(View.GONE);
-            holder.check.setVisibility(View.GONE);
-        }
-        holder.progress.setProgress(doc.progress);
+//        if (doc.progress == 100) {
+//            holder.upload.setVisibility(View.GONE);
+//            holder.check.setVisibility(View.VISIBLE);
+//        } else if (doc.progress > 0) {
+//            holder.upload.setVisibility(View.GONE);
+//            holder.check.setVisibility(View.GONE);
+//        }
+//        holder.progress.setProgress(doc.progress);
+        BiConsumer<Doc, Communicator.Type> biConsumer = (d, type) -> {
+            doc.path = d.path;
+            doc.progress = d.progress;
+            Glide.with(context)
+                    .load(doc.path)
+                    .into(holder.image);
+            switch (type) {
+                case ERROR:
+                    holder.upload.setVisibility(View.VISIBLE);
+                    break;
+                case PROGRESS:
+                    holder.progress.setProgress(doc.progress);
+                    break;
+                case DONE:
+                    holder.check.setVisibility(View.VISIBLE);
+                    break;
+            }
+        };
+        consumers.put(i, biConsumer);
     }
 
     @Override
@@ -89,15 +110,30 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
         notifyDataSetChanged();
     }
 
-    public void setProgress(Doc model) {
-        int id = model.getId();
-        for (Doc m : list) {
-            if (m.getId() == id) {
-                m.progress = model.progress;
-                m.path = model.path;
-                int index = list.indexOf(m);
-                if (index != -1)
-                    notifyItemChanged(index);
+//    public void setProgress(Doc model) {
+//        int id = model.getId();
+//        for (Doc m : list) {
+//            if (m.getId() == id) {
+//                m.progress = model.progress;
+//                m.path = model.path;
+//                int index = list.indexOf(m);
+//                if (index != -1)
+//                    notifyItemChanged(index);
+//                break;
+//            }
+//        }
+//    }
+
+    public void updateView(Doc doc, Communicator.Type type) {
+        int id = doc.getId();
+        for (Doc d : list) {
+            if (d.getId() == id) {
+                int index = list.indexOf(d);
+                try {
+                    consumers.get(index).accept(doc, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             }
         }

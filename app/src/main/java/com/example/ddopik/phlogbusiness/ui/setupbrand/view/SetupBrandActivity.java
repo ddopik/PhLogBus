@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomViewPager;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
@@ -62,9 +63,17 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_brand);
-
+        handleIntent();
         initView();
         initPresenter();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (currentStep == 1)
+            super.onBackPressed();
+        else
+            viewPager.setCurrentItem(currentStep - 2);
     }
 
     @Override
@@ -76,12 +85,31 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
         }
     }
 
+    private Business business;
+
+    private void handleIntent() {
+        business = (Business) getIntent().getSerializableExtra("business");
+        if (business == null)
+            return;
+        model.cover = business.brandImageCover;
+        model.thumbnail = business.brandThumbnail;
+        model.arabicBrandName = business.nameAr;
+        model.englishBrandName = business.nameEn;
+        if (business.industry != null)
+            model.industryId = business.industry.id;
+        model.phone = business.brandPhone;
+        model.address = business.brandAddress;
+        model.email = business.email;
+        model.webSite = business.website;
+        model.desc = business.description;
+    }
+
     @Override
     public void initView() {
         viewPager = findViewById(R.id.steps_view_pager);
-        pagerAdapter = new SetupBrandPagerAdapter(getSupportFragmentManager(), subViewActionConsumer);
+        pagerAdapter = new SetupBrandPagerAdapter(getSupportFragmentManager(), subViewActionConsumer, business);
         viewPager.addOnPageChangeListener(pageChangeListener);
-        viewPager.setAllowedSwipeDirection(CustomViewPager.SwipeDirection.LEFT);
+        viewPager.setAllowedSwipeDirection(CustomViewPager.SwipeDirection.RIGHT);
         viewPager.setOnSwipeLeftListener(onSwipeLeftListener);
         viewPager.setAdapter(pagerAdapter);
         progressBar = findViewById(R.id.steps_progress_bar);
@@ -104,13 +132,13 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                         showErrorMessage(result);
                     break;
                 case 2:
-//                    if (result.shouldProceed)
-//                        presenter.setupBrand(model, this, aBoolean -> {
-//                            if (aBoolean)
+                    if (result.shouldProceed)
+                        presenter.setupBrand(model, this, aBoolean -> {
+                            if (aBoolean)
                                 viewPager.setCurrentItem(2);
-//                        });
-//                    else
-//                        showErrorMessage(result);
+                        });
+                    else
+                        showErrorMessage(result);
                     break;
                 case 3:
                     presenter.verify();
@@ -121,10 +149,6 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
 
     private void validate() {
         SetupBrandPresenter.ValidationResult result = presenter.shouldProceed(currentStep, model);
-        if (result.shouldProceed)
-            viewPager.setAllowedSwipeDirection(CustomViewPager.SwipeDirection.ALL);
-        else
-            viewPager.setAllowedSwipeDirection(CustomViewPager.SwipeDirection.LEFT);
     }
 
     private void setStepsProgress(int i) {

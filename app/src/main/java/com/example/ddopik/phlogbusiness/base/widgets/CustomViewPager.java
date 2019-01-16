@@ -51,19 +51,19 @@ public class CustomViewPager extends ViewPager {
                 float diffX = event.getX() - initialX;
                 if (diffX > 0 && direction == SwipeDirection.RIGHT) {
                     // swipe from LEFT to RIGHT detected
-                    return false;
+                    return true;
                 } else if (diffX < 0 && direction == SwipeDirection.LEFT) {
                     // swipe from RIGHT to LEFT detected
-                    if (onSwipeLeftListener != null && Math.abs(diffX) > 50)
-                        onSwipeLeftListener.onSwipeLeft();
-                    return false;
+//                    if (onSwipeLeftListener != null && Math.abs(diffX) > 50)
+//                        onSwipeLeftListener.onSwipeLeft();
+                    return true;
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
 
-        return true;
+        return false;
     }
 
     public void setAllowedSwipeDirection(SwipeDirection direction) {

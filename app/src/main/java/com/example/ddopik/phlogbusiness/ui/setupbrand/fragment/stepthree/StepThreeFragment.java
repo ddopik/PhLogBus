@@ -57,6 +57,7 @@ public class StepThreeFragment extends BaseFragment {
     private Messenger messenger;
     private boolean uploading;
     private boolean bound;
+    private boolean started;
 
     private View mainView;
     private RecyclerView docsRecyclerView;
@@ -70,6 +71,10 @@ public class StepThreeFragment extends BaseFragment {
             message.what = UploaderService.ADD_COMMUNICATOR;
             message.obj = communicator;
             sendMessageToService(message);
+            if (shouldUploadOnBind) {
+                shouldUploadOnBind = false;
+                sendMessageToService(pendingMessage);
+            }
         }
 
         @Override
@@ -86,7 +91,7 @@ public class StepThreeFragment extends BaseFragment {
                     if (objects[0] instanceof Doc) {
                         Doc doc = (Doc) objects[0];
                         if (docsRecyclerView.getAdapter() != null)
-                            ((DocsAdapter) docsRecyclerView.getAdapter()).setProgress(doc);
+                            ((DocsAdapter) docsRecyclerView.getAdapter()).updateView(doc, type);
                     }
                 }
                 break;
@@ -100,7 +105,7 @@ public class StepThreeFragment extends BaseFragment {
                     if (objects[0] instanceof Doc) {
                         Doc doc = (Doc) objects[0];
                         if (docsRecyclerView.getAdapter() != null)
-                            ((DocsAdapter) docsRecyclerView.getAdapter()).setProgress(doc);
+                            ((DocsAdapter) docsRecyclerView.getAdapter()).updateView(doc, type);
                     }
                 }
                 break;
@@ -110,17 +115,25 @@ public class StepThreeFragment extends BaseFragment {
     private Consumer<String> selectedFilePathConsumer;
     private Doc currentDoc;
 
+    private boolean shouldUploadOnBind;
+    private Message pendingMessage;
+
     private DocsAdapter.ActionListener actionListener = (type, objects) -> {
         switch (type) {
-            case UPLOAD:
-                if (objects != null && objects.length != 0) {
-                    if (objects[0] instanceof Doc) {
-                        Message message = new Message();
-                        message.what = UploaderService.UPLOAD_FILE;
-                        message.obj = objects[0];
+            case UPLOAD:if (objects != null && objects.length != 0) {
+                if (objects[0] instanceof Doc) {
+                    Message message = new Message();
+                    message.what = UploaderService.UPLOAD_FILE;
+                    message.obj = objects[0];
+                    if (!started) {
+                        shouldUploadOnBind = true;
+                        pendingMessage = message;
+                        getActivity().startService(intent);
+                        getActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE);
+                    } else
                         sendMessageToService(message);
-                    }
                 }
+            }
                 break;
             case SELECT:
                 if (objects != null && objects.length >= 1) {
@@ -168,10 +181,11 @@ public class StepThreeFragment extends BaseFragment {
         initPresenter();
         uploading = PrefUtils.getIsUploading(getContext());
         intent = new Intent(getContext(), UploaderService.class);
-        if (!uploading) {
-            getActivity().startService(intent);
+        if (uploading) {
+//            getActivity().startService(intent);
+            started = true;
+            getActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE);
         }
-        getActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE);
     }
 
     @Override

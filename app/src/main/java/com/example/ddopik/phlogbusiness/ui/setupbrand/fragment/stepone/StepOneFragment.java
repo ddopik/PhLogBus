@@ -21,6 +21,7 @@ import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity.SubViewActionConsumer.*;
@@ -41,6 +42,7 @@ public class StepOneFragment extends BaseFragment {
 
     private SetupBrandActivity.SubViewActionConsumer consumer;
     private SetupBrandModel model = new SetupBrandModel();
+    private Business business;
 
     private View mainView;
     private ImageView thumbnail, thumbnailPlaceHolder, cover, coverPlaceHolder;
@@ -50,9 +52,10 @@ public class StepOneFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-    public static StepOneFragment newInstance(SetupBrandActivity.SubViewActionConsumer consumer) {
+    public static StepOneFragment newInstance(SetupBrandActivity.SubViewActionConsumer consumer, Business business) {
         StepOneFragment fragment = new StepOneFragment();
         fragment.consumer = consumer;
+        fragment.business = business;
         return fragment;
     }
 
@@ -68,6 +71,7 @@ public class StepOneFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews();
+        setViews();
     }
 
     @Override
@@ -75,19 +79,32 @@ public class StepOneFragment extends BaseFragment {
         super.onResume();
         if (model == null)
             return;
-        if (model.cover != null)
+        if (model.cover != null) {
             GlideApp.with(this)
                     .load(model.cover)
                     .into(cover);
-        if (model.thumbnail != null)
+            coverPlaceHolder.setVisibility(View.GONE);
+        }
+        if (model.thumbnail != null) {
             GlideApp.with(this)
                     .load(model.thumbnail)
                     .apply(RequestOptions.circleCropTransform())
                     .into(thumbnail);
+            thumbnailPlaceHolder.setVisibility(View.GONE);
+        }
         if (model.arabicBrandName != null)
             arabicName.setText(model.arabicBrandName);
         if (model.englishBrandName != null)
             englishName.setText(model.englishBrandName);
+    }
+
+    private void setViews() {
+        if (business == null)
+            return;
+        model.cover = business.brandImageCover;
+        model.thumbnail = business.brandThumbnail;
+        model.arabicBrandName = business.nameAr;
+        model.englishBrandName = business.nameEn;
     }
 
     @Override

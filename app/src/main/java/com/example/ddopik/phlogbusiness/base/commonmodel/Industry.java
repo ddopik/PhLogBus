@@ -7,7 +7,9 @@ import com.example.ddopik.phlogbusiness.ui.setupbrand.fragment.stoptwo.SelectFro
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Industry implements Parcelable, SelectFromStringListDialogFragment.Model {
+import java.io.Serializable;
+
+public class Industry implements Parcelable, SelectFromStringListDialogFragment.Model, Serializable {
 
     @Expose
     public Integer id;

@@ -207,6 +207,12 @@
     <string name="title_activity_cart">CartActivity</string>
     <string name="check_out_now">Check out now</string>
     <string name="cart_is_empty">Your cart is empty</string>
+    <string name="buy_exclusive">Buy Exclusive</string>
+    <string name="cart_item_count">%1$d photos in cart</string>
+    <string name="price_value">%1$.1f $</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="remove_cart_item_confirmation">Are you sure?</string>
 
 
 </resources>

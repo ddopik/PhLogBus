@@ -86,7 +86,9 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
 
         });
         setupBrandBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getContext(), SetupBrandActivity.class));
+            Intent intent = new Intent(getContext(), SetupBrandActivity.class);
+            intent.putExtra("business", business);
+            startActivity(intent);
         });
         cartBtn.setOnClickListener(v -> {
             startActivity(new Intent(getContext(), CartActivity.class));
@@ -96,10 +98,12 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         });
     }
 
+    private Business business;
+
     @SuppressLint("CheckResult")
     @Override
     public void viewBrandProfileData(Business business) {
-
+        this.business = business;
 
         if (business.fullName != null)
             brandName.setText(business.fullName);
