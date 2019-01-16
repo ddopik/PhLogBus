@@ -95,9 +95,6 @@ public class BaseNetworkApi {
     private static final String GET_ALBUM_PREVIEW = BASE_URL +"/album/details";
     private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL +"/album/photos";
     private static final String GET_IMAGE_COMMENT = BASE_URL + "/comment/list";
-    private static final String GET_ALBUM_PREVIEW = BASE_URL + "/album/details";
-    private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL + "/album/photos";
-    private static final String GET_IMAGE_COMMENT = BASE_URL + "/image/comments";
     private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/image/comment/submit";
     private static final String LIKE_IMAGE = BASE_URL + "/photo/like";
     private static final String UN_LIKE_IMAGE = BASE_URL + "/photo/unlike";
@@ -185,7 +182,7 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<AlbumSearchResponse> getSearchAlbum(String key, String page) {
+    public static io.reactivex.Observable<AlbumSearchResponse> getSearchAlbum(String key, Map<String, String> filters, String page) {
         return Rx2AndroidNetworking.post(SEARCH_ALBUM)
                 .addQueryParameter(PAGER_PATH_PARAMETER, page)
                 .addBodyParameter("keyword", key)
