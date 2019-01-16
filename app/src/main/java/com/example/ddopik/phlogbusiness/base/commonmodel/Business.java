@@ -17,9 +17,9 @@ public class Business {
     @SerializedName("thumbnail")
     @Expose
     public String thumbnail;
-    @SerializedName("full_name")
-    @Expose
-    public String fullName;
+//    @SerializedName("full_name")
+//    @Expose
+//    public String fullName;
     @SerializedName("web_site")
     @Expose
     public String website;

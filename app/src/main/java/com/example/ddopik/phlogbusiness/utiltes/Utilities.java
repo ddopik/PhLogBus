@@ -20,7 +20,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import com.example.ddopik.phlogbusiness.R;
 
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -31,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by ddopik @_@....
@@ -304,5 +305,40 @@ public class Utilities {
         }
     }
 
+    private String getStringBetweenTwoChars(String input, String startChar, String endChar) {
+        try {
+            int start = input.indexOf(startChar);
+            if (start != -1) {
+                int end = input.indexOf(endChar, start + startChar.length());
+                if (end != -1) {
+                    return input.substring(start + startChar.length(), end);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        return input; // return null; || return "" ;
+    }
+
+
+    public static List<String> getMentionsList(String comment)
+
+    {
+        String regex = "@+([a-zA-Z0-9_]+)";
+        List<String> authorListId=new ArrayList<>();
+
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(comment);
+
+        while (matcher.find()) {
+            authorListId.add( matcher.group(1));
+        }
+
+        return authorListId;
+
+
+
+    }
 }

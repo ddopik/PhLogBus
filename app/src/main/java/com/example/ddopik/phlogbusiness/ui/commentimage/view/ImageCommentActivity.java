@@ -9,6 +9,7 @@ import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Mentions;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
@@ -34,6 +35,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     private FrameLayout addCommentProgress;
     private CustomRecyclerView commentsRv;
     private List<Comment> commentList = new ArrayList<>();
+    private Mentions mentions=new Mentions();
     private CommentsAdapter commentsAdapter;
     private PagingController pagingController;
     private ImageCommentActivityPresenter imageCommentActivityPresenter;
@@ -68,7 +70,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         commentList.add(userComment); /// acts As default for image Header
         commentList.add(userComment);/// acts As default for image Add comment
 
-        commentsAdapter = new CommentsAdapter(previewImage, commentList);
+        commentsAdapter = new CommentsAdapter(previewImage, commentList,mentions);
         commentsRv.setAdapter(commentsAdapter);
         imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), "0");
 
@@ -117,7 +119,14 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
 // (1) is A default value to view AddComment layout in case there is now Comments
         this.commentList.addAll(1, imageCommentsData.comments.commentList);
+
+        if(imageCommentsData.mentions.business !=null)
+        this.mentions.business.addAll(imageCommentsData.mentions.business);
+        if(imageCommentsData.mentions.photographers !=null)
+        this.mentions.photographers.addAll(imageCommentsData.mentions.photographers);
+
         commentsAdapter.notifyDataSetChanged();
+
     }
 
 
@@ -136,6 +145,12 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     public void viewOnImageCommented(Comment comment) {
         // (1) is A default value to view AddComment layout in case there is now Comments
         this.commentList.add(1, comment);
+
+//        if(imageCommentsData.mentions.business !=null)
+//            this.mentions.business.addAll(imageCommentsData.mentions.business);
+//        if(imageCommentsData.mentions.photographers !=null)
+//            this.mentions.photographers.addAll(imageCommentsData.mentions.photographers);
+
         commentsAdapter.notifyDataSetChanged();
 
     }

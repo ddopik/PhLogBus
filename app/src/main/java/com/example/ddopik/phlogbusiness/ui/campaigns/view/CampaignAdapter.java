@@ -64,7 +64,7 @@ public class CampaignAdapter  extends RecyclerView.Adapter<CampaignAdapter.Campa
                         campaignViewHolder.campaignImage.setBackground(resource);
                     }
                 });
-        campaignViewHolder.campaignBusinessName.setText(campaign.business.fullName);
+        campaignViewHolder.campaignBusinessName.setText(campaign.business.firstName +""+campaign.business.firstName);
         campaignViewHolder.campaignTitle.setText(campaign.titleEn);
         campaignViewHolder.campaignDayLeft.setText(campaign.daysLeft);
         campaignViewHolder.campaignDayLeft.append(" "+context.getResources().getString(R.string.days_left));

@@ -74,7 +74,7 @@
                             android:orientation="horizontal">
 
                         <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                                android:id="@+id/comment_preview_img_like_val"
+                                android:id="@+id/comment_preview_img_like_num"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/dp8"
@@ -82,7 +82,7 @@
                                 tools:text="10 like"/>
 
                         <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                                android:id="@+id/comment_preview_img_comment_val"
+                                android:id="@+id/comment_preview_img_comment_num"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/dp8"

@@ -13,6 +13,7 @@ public interface Constants {
 
 
 
+
     int QUERY_SEARCH_TIME_OUT=600;
 
 
@@ -62,6 +63,11 @@ public interface Constants {
     String BRAND_DISPLAY_TYPE_5 = "505";
 ///////////////////////////////
 
+
+   enum UserType{
+
+        USER_TYPE_BUSINESS,USER_TYPE_PHOTOGRAPHER;
+    }
 
 
 

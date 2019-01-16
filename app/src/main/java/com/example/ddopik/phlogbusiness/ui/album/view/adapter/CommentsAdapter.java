@@ -1,8 +1,14 @@
 package com.example.ddopik.phlogbusiness.ui.album.view.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +16,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Tag;
+import com.example.ddopik.phlogbusiness.base.commonmodel.*;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +31,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     private Context context;
     private List<Comment> commentList;
+    private Mentions mentions;
+
+
     private BaseImage previewImage;
     public CommentAdapterAction commentAdapterAction;
     private int HEAD = 0;
@@ -32,9 +41,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     private int ADD_COMMENT = 2;
 
 
-    public CommentsAdapter(BaseImage previewImage, List<Comment> commentList) {
+    public CommentsAdapter(BaseImage previewImage, List<Comment> commentList, Mentions mentions) {
         this.commentList = commentList;
         this.previewImage = previewImage;
+        this.mentions = mentions;
     }
 
     @NonNull
@@ -57,8 +67,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder commentViewHolder, int i) {
 
-        int x = getItemViewType(i);
-
         if (getItemViewType(i) == HEAD) {
 
             GlideApp.with(context)
@@ -75,12 +83,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 }
             commentViewHolder.commentPreviewImgTags.setText(tagS);
             if (previewImage.likesCount != null)
-                commentViewHolder.imgLikeVal.setText(new StringBuilder().append(previewImage.likesCount).append(" ").append(context.getResources().getString(R.string.like)).toString());
+                commentViewHolder.imgLikeNum.setText(new StringBuilder().append(previewImage.likesCount).append(" ").append(context.getResources().getString(R.string.like)).toString());
             if (previewImage.commentsCount != null)
-                commentViewHolder.imgCommentVal.setText(new StringBuilder().append(previewImage.commentsCount).append(" ").append(context.getResources().getString(R.string.comment)).toString());
+                commentViewHolder.imgCommentNum.setText(new StringBuilder().append(previewImage.commentsCount).append(" ").append(context.getResources().getString(R.string.comment)).toString());
             if (commentAdapterAction != null) {
                 commentViewHolder.imageCommentBtn.setOnClickListener(v -> {
-                    commentViewHolder.imgCommentVal.requestFocus();
+                    commentViewHolder.imgCommentNum.requestFocus();
                     InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
@@ -100,8 +108,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             }
 
         } else if (getItemViewType(i) == COMMENT) {
-
-
             if (commentList.get(i).business != null) {
 
                 if(commentList.get(i).business.thumbnail !=null)
@@ -127,8 +133,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentViewHolder.commentAuthorName.setText(commentList.get(i).photographer.fullName);
 
             }
-            commentViewHolder.commentVal.setText(commentList.get(i).comment);
-
+            handleCommentBody(commentViewHolder, commentList.get(i));
         } else if (getItemViewType(i) == ADD_COMMENT) {
             if (commentAdapterAction != null) {
                 commentViewHolder.sendCommentBtn.setOnClickListener(v -> {
@@ -137,6 +142,167 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 });
             }
         }
+    }
+
+
+    private void handleCommentBody(CommentViewHolder commentViewHolder, Comment comment) {
+
+
+        String commentFinalValue=comment.comment;
+
+
+        List<String> authorsId = Utilities.getMentionsList(comment.comment);
+        List<String> mentionsPhotoGrapherIdIdList = new ArrayList<>();
+        List<String> mentionBusinessIdList = new ArrayList<>();
+
+        if (authorsId.size()>0) {
+
+            for (String authorId : authorsId) {
+                String[] singleId = authorId.split("\\_");
+
+                if (singleId[0].equals("0")) {
+                    mentionsPhotoGrapherIdIdList.add(singleId[1]);
+                } else if (singleId[0].equals("1")) {
+                    mentionBusinessIdList.add(singleId[1]);
+                }
+            }
+
+///////////////////////////////////////////
+            for (String photoGrapherId : mentionsPhotoGrapherIdIdList) {
+
+                Photographer photographer = getMentionedPhotoGrapher(photoGrapherId);
+                /////////////////////////////////
+//            commentViewHolder.commentVal.setLinkTextColor(Color.BLUE); // default link color for clickable span, we can also set it in xml by android:textColorLink=""
+//            ClickableSpan normalLinkClickSpan = new ClickableSpan() {
+//                @Override
+//                public void onClick(View view) {
+//                    //Action here
+////                    Toast.makeText(getApplicationContext(), "Normal Link", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            };
+                if (photographer != null) {
+                    ClickableSpan noUnderLineClickSpan = new ClickableSpan() {
+                        @Override
+                        public void onClick(View view) {
+                            //Action here
+                            Toast.makeText(context, "NoUnderLine Link", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+
+                        @Override
+                        public void updateDrawState(TextPaint ds) {
+                            super.updateDrawState(ds);
+                            ds.setUnderlineText(false);
+                            ds.setColor(Color.BLUE); // specific color for this link
+                        }
+                    };
+                    commentFinalValue=commentFinalValue.replace("@0_" + photoGrapherId, photographer.fullName);
+
+                    commentViewHolder.commentVal.setText(commentFinalValue);
+
+                    makeLinks(commentViewHolder.commentVal, new String[]{
+                            photographer.fullName
+                    }, new ClickableSpan[]{
+                            noUnderLineClickSpan
+                    });
+
+                }
+
+            }
+///////////////////////////////////////////
+
+            for (String businessId : mentionBusinessIdList) {
+                if (getMentionedBusiness(businessId) != null) {
+                    Business business = getMentionedBusiness(businessId);
+
+                    /////////////////////////////////
+//            commentViewHolder.commentVal.setLinkTextColor(Color.BLUE); // default link color for clickable span, we can also set it in xml by android:textColorLink=""
+//            ClickableSpan normalLinkClickSpan = new ClickableSpan() {
+//                @Override
+//                public void onClick(View view) {
+//                    //Action here
+////                    Toast.makeText(getApplicationContext(), "Normal Link", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            };
+                    if (business != null) {
+                        ClickableSpan noUnderLineClickSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(View view) {
+                                //Action here
+                                Toast.makeText(context, "NoUnderLine Bussness Link", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+
+                            @Override
+                            public void updateDrawState(TextPaint ds) {
+                                super.updateDrawState(ds);
+                                ds.setUnderlineText(false);
+                                ds.setColor(Color.MAGENTA); // specific color for this link
+                            }
+                        };
+                        commentFinalValue= commentFinalValue.replace("@1_" + businessId, business.firstName + " " + business.lastName);
+                        commentViewHolder.commentVal.setText(commentFinalValue);
+
+                        makeLinks(commentViewHolder.commentVal, new String[]{
+                                business.firstName + " " + business.lastName
+                        }, new ClickableSpan[]{
+                                noUnderLineClickSpan
+                        });
+
+                    }
+
+
+                }
+
+
+            }
+        }
+        else {
+            commentViewHolder.commentVal.setText(commentFinalValue);
+        }
+
+    }
+
+
+    private void makeLinks(TextView textView, String[] links, ClickableSpan[] clickableSpans) {
+        SpannableString spannableString = new SpannableString(textView.getText());
+        for (int i = 0; i < links.length; i++) {
+            ClickableSpan clickableSpan = clickableSpans[i];
+            String link = links[i];
+
+            int startIndexOfLink = textView.getText().toString().indexOf(link);
+            spannableString.setSpan(clickableSpan, startIndexOfLink,
+                    startIndexOfLink + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        textView.setHighlightColor(
+                Color.TRANSPARENT); // prevent TextView change background when highlight
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+        textView.setText(spannableString, TextView.BufferType.SPANNABLE);
+    }
+
+    private Photographer getMentionedPhotoGrapher(String userId) {
+
+        if (mentions.photographers !=null)
+        for (Photographer photographer : mentions.photographers) {
+            if (photographer.id == Integer.parseInt(userId)) {
+                return photographer;
+            }
+        }
+
+        return null;
+    }
+
+    private Business getMentionedBusiness(String userId) {
+
+        if (mentions.business !=null)
+        for (Business business : mentions.business) {
+            if (business.id == Integer.parseInt(userId)) {
+                return business;
+            }
+        }
+        return null;
     }
 
 
@@ -159,7 +325,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
 
-        CustomTextView imgLikeVal, imgCommentVal, commentPreviewImgTags;
+        CustomTextView imgLikeNum, imgCommentNum, commentPreviewImgTags;
         ImageView commentImg;
         ImageButton imageLikeBtn, imageCommentBtn;
         ///Comment_value Cell
@@ -180,8 +346,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 imageLikeBtn = view.findViewById(R.id.comment_preview_img_like_btn);
                 imageCommentBtn = view.findViewById(R.id.comment_preview_img_comment_btn);
 
-                imgLikeVal = view.findViewById(R.id.comment_preview_img_like_val);
-                imgCommentVal = view.findViewById(R.id.comment_preview_img_comment_val);
+                imgLikeNum = view.findViewById(R.id.comment_preview_img_like_num);
+                imgCommentNum = view.findViewById(R.id.comment_preview_img_comment_num);
             } else if (type == COMMENT) {
                 commentVal = view.findViewById(R.id.comment_val);
                 commentAuthorImg = view.findViewById(R.id.commentAuthorImg);
@@ -197,7 +363,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     public interface CommentAdapterAction {
         void onImageLike(BaseImage baseImage);
-
 
         void onSubmitComment(String comment);
     }

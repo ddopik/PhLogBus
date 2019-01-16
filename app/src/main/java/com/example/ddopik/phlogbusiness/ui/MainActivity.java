@@ -9,17 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
-import com.example.ddopik.phlogbusiness.utiltes.Constants;
-import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.app.PhLogBusinessApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.campaigns.view.CampaignsFragment;
 import com.example.ddopik.phlogbusiness.ui.lightbox.view.BrandLightBoxFragment;
 import com.example.ddopik.phlogbusiness.ui.profile.view.BusinessProfileFragment;
 import com.example.ddopik.phlogbusiness.ui.social.view.SocialFragment;
 import com.example.ddopik.phlogbusiness.ui.uploadimage.view.GalleryImageFragment;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.*;
 

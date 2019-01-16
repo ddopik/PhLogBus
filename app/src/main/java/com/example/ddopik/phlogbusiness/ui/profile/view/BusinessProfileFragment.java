@@ -98,8 +98,8 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
     public void viewBrandProfileData(Business business) {
 
 
-        if (business.fullName != null)
-            brandName.setText(business.fullName);
+        if (business.firstName != null)
+            brandName.setText(business.firstName +""+business.firstName);
         if (business.website != null)
             brandWebSite.setText(business.website);
         if (business.industry != null)
