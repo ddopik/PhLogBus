@@ -1,6 +1,5 @@
 package com.example.ddopik.phlogbusiness.base.commonmodel;
 
-import com.example.ddopik.phlogbusiness.ui.album.model.ComentedUser;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -24,5 +23,18 @@ public class Comment {
     @Expose
     public Photographer photographer;
 
+
+    @SerializedName("parent_id")
+    @Expose
+    public String parentId;
+
+    @SerializedName("replies_count")
+    @Expose
+    public Integer repliesCount;
+
+
+    @SerializedName("business")
+    @Expose
+    public Object business;
 
 }

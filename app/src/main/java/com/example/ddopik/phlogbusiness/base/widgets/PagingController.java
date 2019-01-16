@@ -9,9 +9,12 @@ import android.support.v7.widget.RecyclerView;
 public abstract class PagingController {
 
     //    private val recyclerView: RecyclerView? = null
-// The total number of items in the dataset after the last load
+// The total number of items in the dataSet after the last load
     private int previousTotalItemCount = 0;
     private boolean loading = true;
+
+
+
     private int visibleThreshold = 9;
     private int firstVisibleItem = 0;
     private int visibleItemCount = 0;
@@ -21,6 +24,16 @@ public abstract class PagingController {
     private RecyclerView recyclerView;
 
     public PagingController(RecyclerView recyclerView) {
+        this.recyclerView=recyclerView;
+        initListener();
+    }
+
+    /**
+     *
+     * SpecialCase Initialization
+    */
+    public PagingController(RecyclerView recyclerView,int visibleThreshold) {
+        this.visibleThreshold=visibleThreshold;
         this.recyclerView=recyclerView;
         initListener();
     }
@@ -77,6 +90,9 @@ public abstract class PagingController {
     }
 
 
+    public void setVisibleThreshold(int visibleThreshold) {
+        this.visibleThreshold = visibleThreshold;
+    }
     public abstract void getPagingControllerCallBack(int page);
 
 

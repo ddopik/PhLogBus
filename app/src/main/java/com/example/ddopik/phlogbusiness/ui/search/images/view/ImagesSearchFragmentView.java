@@ -2,7 +2,6 @@ package com.example.ddopik.phlogbusiness.ui.search.images.view;
 
 
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.ui.search.album.model.Filter;
 
 import java.util.List;
 
@@ -11,8 +10,7 @@ import java.util.List;
  */
 public interface ImagesSearchFragmentView {
 
-    void viewImagesSearchItems(List<BaseImage> baseImageList);
-    void viewSearchFilters(List<Filter> filterList);
+    void viewImagesSearchImages(List<BaseImage> baseImageList);
     void viewImagesSearchProgress(boolean state);
     void showMessage(String msg);
 }

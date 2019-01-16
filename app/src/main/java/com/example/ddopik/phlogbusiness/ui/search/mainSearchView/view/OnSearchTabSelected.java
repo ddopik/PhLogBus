@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.search;
+package com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view;
 
 import android.widget.EditText;
 import android.widget.TextView;
@@ -8,9 +8,10 @@ import android.widget.TextView;
  */
 
 /**
- *  //this interface gets the query if exists through other taps
+ *  //this interface  pass SearchActivity CommonView
  * **/
 public interface OnSearchTabSelected {
     EditText getSearchView();
     TextView getSearchResultCount();
+
 }

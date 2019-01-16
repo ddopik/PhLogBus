@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.search.album.model;
+package com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

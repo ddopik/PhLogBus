@@ -7,8 +7,9 @@ import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.RemoveImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewImagesResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponse;
-import com.example.ddopik.phlogbusiness.ui.album.model.ImgCommentResponse;
-import com.example.ddopik.phlogbusiness.ui.album.model.LikeImageResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.LikeImageResponse;
 import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.SubmitCampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.CampaignInnerPhotosResponse;
@@ -26,12 +27,13 @@ import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
 import com.example.ddopik.phlogbusiness.ui.profile.model.BusinessProfileResponse;
 import com.example.ddopik.phlogbusiness.ui.search.album.model.AlbumSearchResponse;
-import com.example.ddopik.phlogbusiness.ui.search.album.model.SearchFiltersResponse;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.SearchFiltersResponse;
 import com.example.ddopik.phlogbusiness.ui.search.images.model.ImagesSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.DocumentsResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
+import com.example.ddopik.phlogbusiness.ui.signup.model.AllTagsResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.SignUpResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.UploadProfileImgResponse;
 import com.example.ddopik.phlogbusiness.ui.social.model.SocialResponse;
@@ -90,11 +92,15 @@ public class BaseNetworkApi {
     private static final String USER_PROFILE_PHOTOS = BASE_URL + "/image_photographer";
     private static final String PHOTOGRAPHER_FOLLOW_USER_URL = BASE_URL + "/follow";
     private static final String PHOTOGRAPHER_SEARCH_URL = BASE_URL + "/photographer/list";
+    private static final String GET_ALBUM_PREVIEW = BASE_URL +"/album/details";
+    private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL +"/album/photos";
+    private static final String GET_IMAGE_COMMENT = BASE_URL + "/comment/list";
     private static final String GET_ALBUM_PREVIEW = BASE_URL + "/album/details";
     private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL + "/album/photos";
     private static final String GET_IMAGE_COMMENT = BASE_URL + "/image/comments";
     private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/image/comment/submit";
     private static final String LIKE_IMAGE = BASE_URL + "/photo/like";
+    private static final String UN_LIKE_IMAGE = BASE_URL + "/photo/unlike";
     private static final String FOLLOW_CAMPAIGN_URL = BASE_URL + "/join_photographer_campaign";
     private static final String UPLOAD_PROFILE_IMG = BASE_URL + "/profile/upload";
     private static final String SUBMIT_CAMPAIGN_URL = BASE_URL + "/campaign/create";
@@ -155,6 +161,13 @@ public class BaseNetworkApi {
                 .getObjectObservable(AllIndustriesResponse.class);
     }
 
+    public static io.reactivex.Observable<AllTagsResponse> getAllTags() {
+        return Rx2AndroidNetworking.get(ALL_INDUSTRY)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(AllTagsResponse.class);
+    }
+
 
     public static io.reactivex.Observable<WelcomeScreenResponse> getWelcomeSlidesImages() {
         return Rx2AndroidNetworking.get(WELCOME_SLIDES_IMAGES)
@@ -175,18 +188,20 @@ public class BaseNetworkApi {
     public static io.reactivex.Observable<AlbumSearchResponse> getSearchAlbum(String key, String page) {
         return Rx2AndroidNetworking.post(SEARCH_ALBUM)
                 .addQueryParameter(PAGER_PATH_PARAMETER, page)
-                .addQueryParameter("keyword", key)
+                .addBodyParameter("keyword", key)
+                .addBodyParameter(filters)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(AlbumSearchResponse.class);
     }
 
 
-    public static io.reactivex.Observable<ImagesSearchResponse> getSearchImages(String key, String page) {
+    public static io.reactivex.Observable<ImagesSearchResponse> getSearchImages(String key,Map<String,String> filters ,String page) {
         return Rx2AndroidNetworking.post(SEARCH_IMAGES)
                 .addQueryParameter(PAGER_PATH_PARAMETER, page)
-                .addQueryParameter("keyword", key)
-                .setPriority(Priority.HIGH)
+                .addBodyParameter("keyword",key)
+                .addBodyParameter(filters)
+                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(ImagesSearchResponse.class);
     }
@@ -322,29 +337,38 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<ImgCommentResponse> getImageComments(String image_id, String page) {
+    public static io.reactivex.Observable<ImageCommentsResponse> getImageComments(String image_id, String page) {
         return Rx2AndroidNetworking.post(GET_IMAGE_COMMENT)
                 .addQueryParameter("image_id", image_id)
                 .addQueryParameter(PAGER_PATH_PARAMETER, page)
                 .getResponseOnlyFromNetwork()
                 .setPriority(Priority.HIGH)
                 .build()
-                .getObjectObservable(ImgCommentResponse.class);
+                .getObjectObservable(ImageCommentsResponse.class);
     }
 
-    public static io.reactivex.Observable<ImgCommentResponse> submitImageComment(String image_id, String imageComment) {
+    public static io.reactivex.Observable<SubmitImageCommentResponse> submitImageComment(String image_id, String imageComment) {
         return Rx2AndroidNetworking.post(SUBMIT_IMAGE_COMMENT)
                 .addQueryParameter("image_id", image_id)
                 .addQueryParameter("comment", imageComment)
                 .setPriority(Priority.HIGH)
                 .build()
-                .getObjectObservable(ImgCommentResponse.class);
+                .getObjectObservable(SubmitImageCommentResponse.class);
     }
 
 
     public static io.reactivex.Observable<LikeImageResponse> likeImage(String imageId) {
         return Rx2AndroidNetworking.post(LIKE_IMAGE)
-                .addBodyParameter("image_id", imageId)
+                .addBodyParameter("photo_id", imageId)
+                .getResponseOnlyFromNetwork()
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(LikeImageResponse.class);
+    }
+
+    public static io.reactivex.Observable<LikeImageResponse> unlikeImage(String imageId) {
+        return Rx2AndroidNetworking.post(UN_LIKE_IMAGE)
+                .addBodyParameter("photo_id", imageId)
                 .getResponseOnlyFromNetwork()
                 .setPriority(Priority.HIGH)
                 .build()

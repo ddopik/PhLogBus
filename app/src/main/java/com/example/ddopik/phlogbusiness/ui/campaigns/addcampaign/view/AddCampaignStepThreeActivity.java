@@ -19,8 +19,8 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.presenter.AddCa
 public class AddCampaignStepThreeActivity extends BaseActivity implements AddCampaignStepThreeActivityView {
 
     public static String CAMPAIGN_DATA = "campaign_data";
-    private TextInputLayout campaignStartDateInput, campaignEndDateInput;
-    private EditText campaignStartDate, campaignEndDate;
+    private TextInputLayout campaignStartDateInput, campaignEndDateInput,numberOfWinneresInput;
+    private EditText campaignStartDate, campaignEndDate,numberOfWinneres;
     private Button submitCampaignBtn, submitCampaignDraftBtn;
     private ProgressBar submitCampaignProgress;
     private AddCampaignRequestModel addCampaignRequestModel;
@@ -43,8 +43,10 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
     public void initView() {
         campaignStartDateInput = findViewById(R.id.campaign_start_date_input);
         campaignEndDateInput = findViewById(R.id.campaign_end_date_input);
+        numberOfWinneresInput = findViewById(R.id.number_of_winner_input);
         campaignStartDate = findViewById(R.id.campaign_start_date);
         campaignEndDate = findViewById(R.id.campaign_end_date);
+        numberOfWinneres = findViewById(R.id.number_of_winner);
         submitCampaignBtn = findViewById(R.id.add_campaign_step_three_next_btn);
         submitCampaignBtn = findViewById(R.id.add_campaign_step_three_next_btn);
         submitCampaignDraftBtn = findViewById(R.id.set_campaign_draft);
@@ -88,6 +90,7 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
 
                 addCampaignRequestModel.campaignStartDate=campaignStartDate.getText().toString();
                 addCampaignRequestModel.campaignEndDate =campaignEndDate.getText().toString();
+                addCampaignRequestModel.winnersNumber=numberOfWinneres.getText().toString();
                 addCampaignRequestModel.isDraft = "false";
                 addCampaignStepThreePresenter.submitCampaign(this,addCampaignRequestModel,getBaseContext());
             }
@@ -99,6 +102,7 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
 
                 addCampaignRequestModel.campaignStartDate = campaignStartDate.getText().toString();
                 addCampaignRequestModel.campaignEndDate = campaignEndDate.getText().toString();
+                addCampaignRequestModel.winnersNumber=numberOfWinneres.getText().toString();
                 addCampaignRequestModel.isDraft = "true";
                 addCampaignStepThreePresenter.submitCampaign(this, addCampaignRequestModel, getBaseContext());
             }
@@ -120,6 +124,12 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
             inputState = false;
         } else {
             campaignEndDateInput.setErrorEnabled(false);
+        }
+        if (numberOfWinneres.getText().length() == 0) {
+            numberOfWinneresInput.setError(getResources().getString(R.string.winners_number_required));
+            inputState = false;
+        } else {
+            numberOfWinneresInput.setErrorEnabled(false);
         }
 
         return inputState;

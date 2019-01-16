@@ -1,55 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <include
+            android:id="@+id/image_comment_app_bar"
+        layout="@layout/phlog_app_bar"/>
+    
     <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
         android:id="@+id/comment_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/image_comment_app_bar"
         app:orientation="vertical"/>
+ 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/gray800"
-        android:orientation="horizontal"
-        android:padding="@dimen/dp24">
+    <FrameLayout
+            android:id="@+id/add_comment_progress"
+            android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:visibility="gone"
+                 tools:visibility="visible">
+        <ProgressBar
 
-        <EditText
-            android:id="@+id/img_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:layout_weight="4"
-            android:textColor="@color/white"
-            android:background="@color/black"
-            android:hint="@string/your_comment"
-            android:padding="@dimen/widgets_padding"
-            android:textColorHint="@color/gray400" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                />
 
-        <Button
-            android:id="@+id/send_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:fontFamily="@font/arial_rounded_font"
-            android:text="@string/send"
-            android:textColor="@color/white" />
+    </FrameLayout>
 
 
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/add_comment_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
-</FrameLayout>
+</RelativeLayout>

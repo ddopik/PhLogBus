@@ -31,7 +31,9 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
     private Button registerCancel, register_signUp;
     private AutoCompleteTextView autoCompleteTextView;
     private ArrayAdapter<String> industryAdapter;
+    //Selected industry List  invoked in Selected IndustryList
     private ArrayList<Industry> industryListObj = new ArrayList<>();
+    //industry List invoked in AutoComplete Adapter
     private ArrayList<String> industryList = new ArrayList<>();
     private SignUpPresenter signUpPresenter;
 
@@ -95,7 +97,7 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
                 signUpData.put("email", mail.getText().toString());
                 signUpData.put("phone", mobile.getText().toString());
 
-                signUpData.put("industry_id", String.valueOf(getCountryID()));
+                signUpData.put("industry_id", String.valueOf(getIndustryId()));
 
 
                 signUpData.put("mobile_os", "Android");
@@ -156,7 +158,7 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
         }
 
 
-        if (getCountryID() == 0) {
+        if (getIndustryId() == 0) {
             industryInput.setError(getString(R.string.select_industry_not_exist));
             failedStates.add(5, false);
         } else {
@@ -200,7 +202,7 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
         startActivity(intent);
     }
 
-    private int getCountryID() {
+    private int getIndustryId() {
         //select industry id by value inserted  from callBack Array
         for (int i = 0; i < industryListObj.size(); i++) {
             if (industryListObj.get(i).nameEn.equals(autoCompleteTextView.getText().toString())) {

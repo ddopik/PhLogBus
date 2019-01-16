@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.search.album.view;
+package com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
-import com.example.ddopik.phlogbusiness.ui.search.album.model.FilterOption;
-import com.example.ddopik.phlogbusiness.ui.search.album.model.Filter;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.FilterOption;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 
 import java.util.List;
 

@@ -2,12 +2,12 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
-import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.AddCampaignRequestModel;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignStepThreeActivityView;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignStepTwoActivityView;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -16,14 +16,15 @@ import java.util.HashMap;
 public class AddCampaignPresenterImpl implements AddCampaignStepTwoPresenter, AddCampaignStepThreePresenter {
     public static String TAG = AddCampaignPresenterImpl.class.getSimpleName();
 
+    //todo waiting for Tags Api to get Ready
     @SuppressLint("CheckResult")
     @Override
-    public void getIndustries(AddCampaignStepTwoActivityView addCampaignStepTwoActivityView, Context context) {
-        BaseNetworkApi.getAllIndustries()
+    public void getTags(AddCampaignStepTwoActivityView addCampaignStepTwoActivityView, Context context, String Tag) {
+        BaseNetworkApi.getAllTags()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(allIndustriesResponse -> {
-                    addCampaignStepTwoActivityView.viewIndustries(allIndustriesResponse.industryList);
+                .subscribe(allTagsResponse -> {
+//                    addCampaignStepTwoActivityView.viewTags(allTagsResponse.industryList);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
@@ -41,10 +42,11 @@ public class AddCampaignPresenterImpl implements AddCampaignStepTwoPresenter, Ad
         data.put("prize",addCampaignRequestModel.campaignPrize);
         data.put("start_date",addCampaignRequestModel.campaignStartDate);
         data.put("end_date",addCampaignRequestModel.campaignEndDate);
+        data.put("winners_count",addCampaignRequestModel.winnersNumber);
         data.put("is_draft",addCampaignRequestModel.isDraft);
 
-        for(int i=0;i<addCampaignRequestModel.industryList.size();i++){
-            data.put("tags["+i+"]",addCampaignRequestModel.industryList.get(i).nameEn);
+        for (int i = 0; i < addCampaignRequestModel.tagList.size(); i++) {
+            data.put("tags[" + i + "]", addCampaignRequestModel.tagList.get(i).name);
         }
 
 

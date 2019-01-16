@@ -16,6 +16,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgActivityPresenter;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgActivityPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AllAlbumImgAdapter;
+import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 
 import java.util.ArrayList;
 import java.util.List;

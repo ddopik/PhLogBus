@@ -111,7 +111,7 @@
 								android:layout_marginStart="@dimen/dp16"
 								android:background="@color/transparent"
 								android:scaleType="centerCrop"
-								app:srcCompat="@drawable/ic_like"/>
+								app:srcCompat="@drawable/ic_like_off"/>
 						
 						<ImageButton
 								android:id="@+id/album_img_comment"
