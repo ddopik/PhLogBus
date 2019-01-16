@@ -182,6 +182,62 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 //
 //            };
                 if (photographer != null) {
+
+                    commentFinalValue=commentFinalValue.replace("@0_" + photoGrapherId, photographer.fullName);
+
+//                    commentViewHolder.commentVal.setText(commentFinalValue);
+//
+//                    makeLinks(commentViewHolder.commentVal, new String[]{
+//                            photographer.fullName
+//                    }, new ClickableSpan[]{
+//                            noUnderLineClickSpan
+//                    });
+
+                }
+
+            }
+
+
+///////////////////////////////////////////
+
+            //////////////////////////////////
+            for (String businessId : mentionBusinessIdList) {
+                if (getMentionedBusiness(businessId) != null) {
+                    Business business = getMentionedBusiness(businessId);
+
+                    /////////////////////////////////
+                    //            commentViewHolder.commentVal.setLinkTextColor(Color.BLUE); // default link color for clickable span, we can also set it in xml by android:textColorLink=""
+                    //            ClickableSpan normalLinkClickSpan = new ClickableSpan() {
+                    //                @Override
+                    //                public void onClick(View view) {
+                    //                    //Action here
+                    ////                    Toast.makeText(getApplicationContext(), "Normal Link", Toast.LENGTH_SHORT).show();
+                    //                }
+                    //
+                    //            };
+                    if (business != null) {
+
+                        commentFinalValue= commentFinalValue.replace("@1_" + businessId, business.firstName + " " + business.lastName);
+
+
+//                        makeLinks(commentViewHolder.commentVal, new String[]{
+//                                business.firstName + " " + business.lastName
+//                        }, new ClickableSpan[]{
+//                                noUnderLineClickSpan2
+//                        });
+
+                    }
+
+
+                }
+
+
+            }
+
+            commentViewHolder.commentVal.setText(commentFinalValue);
+
+            for (String photographerId : mentionsPhotoGrapherIdIdList){
+                if (getMentionedPhotoGrapher(photographerId )!=null ){
                     ClickableSpan noUnderLineClickSpan = new ClickableSpan() {
                         @Override
                         public void onClick(View view) {
@@ -197,67 +253,46 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                             ds.setColor(Color.BLUE); // specific color for this link
                         }
                     };
-                    commentFinalValue=commentFinalValue.replace("@0_" + photoGrapherId, photographer.fullName);
-
-                    commentViewHolder.commentVal.setText(commentFinalValue);
 
                     makeLinks(commentViewHolder.commentVal, new String[]{
-                            photographer.fullName
+                            getMentionedPhotoGrapher(photographerId ).fullName
                     }, new ClickableSpan[]{
                             noUnderLineClickSpan
                     });
 
                 }
-
             }
-///////////////////////////////////////////
 
-            for (String businessId : mentionBusinessIdList) {
-                if (getMentionedBusiness(businessId) != null) {
-                    Business business = getMentionedBusiness(businessId);
+            for (String businessId : mentionBusinessIdList){
+                if (getMentionedBusiness(businessId )!=null ){
+                    ClickableSpan noUnderLineClickSpan2 = new ClickableSpan() {
+                        @Override
+                        public void onClick(View view) {
+                            //Action here
+                            Toast.makeText(context, "NoUnderLine Link", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
 
-                    /////////////////////////////////
-//            commentViewHolder.commentVal.setLinkTextColor(Color.BLUE); // default link color for clickable span, we can also set it in xml by android:textColorLink=""
-//            ClickableSpan normalLinkClickSpan = new ClickableSpan() {
-//                @Override
-//                public void onClick(View view) {
-//                    //Action here
-////                    Toast.makeText(getApplicationContext(), "Normal Link", Toast.LENGTH_SHORT).show();
-//                }
-//
-//            };
-                    if (business != null) {
-                        ClickableSpan noUnderLineClickSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(View view) {
-                                //Action here
-                                Toast.makeText(context, "NoUnderLine Bussness Link", Toast.LENGTH_SHORT)
-                                        .show();
-                            }
+                        @Override
+                        public void updateDrawState(TextPaint ds) {
+                            super.updateDrawState(ds);
+                            ds.setUnderlineText(false);
+                            ds.setColor(Color.MAGENTA); // specific color for this link
+                        }
+                    };
 
-                            @Override
-                            public void updateDrawState(TextPaint ds) {
-                                super.updateDrawState(ds);
-                                ds.setUnderlineText(false);
-                                ds.setColor(Color.MAGENTA); // specific color for this link
-                            }
-                        };
-                        commentFinalValue= commentFinalValue.replace("@1_" + businessId, business.firstName + " " + business.lastName);
-                        commentViewHolder.commentVal.setText(commentFinalValue);
-
-                        makeLinks(commentViewHolder.commentVal, new String[]{
-                                business.firstName + " " + business.lastName
-                        }, new ClickableSpan[]{
-                                noUnderLineClickSpan
-                        });
-
-                    }
-
+                    makeLinks(commentViewHolder.commentVal, new String[]{
+                            getMentionedBusiness(businessId ).firstName + " " + getMentionedBusiness(businessId ).lastName
+                    }, new ClickableSpan[]{
+                            noUnderLineClickSpan2
+                    });
 
                 }
-
-
             }
+
+            //////////////////////////////////
+
+
         }
         else {
             commentViewHolder.commentVal.setText(commentFinalValue);
