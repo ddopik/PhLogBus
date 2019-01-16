@@ -84,6 +84,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
     private void initListeners() {
 
         accountDetailsBtn.setOnClickListener(v -> {
+            MainActivity.navigationManger.setMessageToFragment(business);
             MainActivity.navigationManger.navigate(ACCOUNT_DETAILS);
         });
         setupBrandBtn.setOnClickListener(v -> {

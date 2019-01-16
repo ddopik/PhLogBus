@@ -8,18 +8,31 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AccountDetailsFragment extends BaseFragment {
+public class AccountDetailsFragment extends BaseFragment implements AccountDetailsView {
 
+    private Business business;
+
+    public static final String TAG = AccountDetailsFragment.class.getSimpleName();
+
+    private ImageView profileImage, coverImage;
 
     public AccountDetailsFragment() {
         // Required empty public constructor
+    }
+
+    public static AccountDetailsFragment getInstance(Business messageToFragment) {
+        AccountDetailsFragment fragment = new AccountDetailsFragment();
+        fragment.business = messageToFragment;
+        return fragment;
     }
 
 
