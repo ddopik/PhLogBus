@@ -28,6 +28,7 @@ import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenter;
 import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenterImpl;
 
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.ACCOUNT_DETAILS;
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.LIGHT_BOX;
 
 /**
@@ -83,7 +84,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
     private void initListeners() {
 
         accountDetailsBtn.setOnClickListener(v -> {
-
+            MainActivity.navigationManger.navigate(ACCOUNT_DETAILS);
         });
         setupBrandBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), SetupBrandActivity.class);

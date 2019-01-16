@@ -227,6 +227,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                     break;
                 }
+                case ACCOUNT_DETAILS:
+//                    addFragment(R.id.view_container, BrandLightBoxFragment.getInstance(), BrandLightBoxFragment.class.getSimpleName(), true);
+                    break;
             }
 
         }

@@ -175,9 +175,9 @@
     <string name="images">Images</string>
     <string name="like">Like</string>
     <string name="comment">Commnet</string>
-	<string name="number_of_winners">Number of winners</string>
+    <string name="number_of_winners">Number of winners</string>
     <string name="winners_number_required">winners number required</string>
-	<string name="apply">Apply</string>
+    <string name="apply">Apply</string>
     <string name="setup_your_brand">Setup Your Brand</string>
 
     <!-- TODO: Remove or change this placeholder text -->

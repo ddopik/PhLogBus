@@ -48,9 +48,9 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
         if (doc.getSystemName() != null)
             holder.title.setText(doc.getSystemName());
         else holder.title.setText("");
-        if (doc.getUploadedFile() != null)
+        if (doc.getUploadedFile() != null && doc.getUploadedFile().getUrl() != null)
             Glide.with(context)
-                    .load(doc.getUploadedFile())
+                    .load(doc.getUploadedFile().getUrl())
                     .into(holder.image);
         else if (doc.path != null)
             Glide.with(context)

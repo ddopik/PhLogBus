@@ -17,7 +17,7 @@ public class Doc {
 	private int id;
 
 	@SerializedName("uploaded_file")
-	private Object uploadedFile;
+	private UploadedFile uploadedFile;
 
 	public int progress;
 
@@ -55,11 +55,11 @@ public class Doc {
 		return id;
 	}
 
-	public void setUploadedFile(Object uploadedFile){
-		this.uploadedFile = uploadedFile;
+	public UploadedFile getUploadedFile() {
+		return uploadedFile;
 	}
 
-	public Object getUploadedFile(){
-		return uploadedFile;
+	public void setUploadedFile(UploadedFile uploadedFile) {
+		this.uploadedFile = uploadedFile;
 	}
 }
