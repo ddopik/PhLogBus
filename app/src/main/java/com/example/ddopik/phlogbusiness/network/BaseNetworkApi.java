@@ -87,8 +87,8 @@ public class BaseNetworkApi {
     private static final String PHOTOGRAPHER_SEARCH_URL = BASE_URL + "/photographer/list";
     private static final String GET_ALBUM_PREVIEW = BASE_URL +"/album/details";
     private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL +"/album/photos";
-    private static final String GET_IMAGE_COMMENT = BASE_URL + "/comment/list";
-    private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/image/comment/submit";
+    private static final String GET_IMAGE_COMMENT = BASE_URL + "/photo/comment/list";
+    private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/photo/comment";
     private static final String LIKE_IMAGE = BASE_URL + "/photo/like";
     private static final String UN_LIKE_IMAGE = BASE_URL + "/photo/unlike";
     private static final String FOLLOW_CAMPAIGN_URL = BASE_URL + "/join_photographer_campaign";

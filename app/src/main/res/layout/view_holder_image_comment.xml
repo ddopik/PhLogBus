@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/dp8"
-    android:background="@color/white"
-    app:cardCornerRadius="@dimen/item_card_corner_radius"
-    app:cardElevation="@dimen/item_card_elevation">
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/dp8"
+                                    app:cardCornerRadius="@dimen/item_card_corner_radius"
+
+                                    app:cardElevation="@dimen/item_card_elevation">
 
 
 <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="horizontal">
 
 
 
@@ -36,14 +37,22 @@
             android:paddingTop="@dimen/widgets_padding">
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                android:id="@+id/comment_val"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/arial_rounded_font"
-                android:textColor="@color/black"
-                android:textSize="@dimen/font_normal"
-                android:layout_marginStart="@dimen/dp8"
-                tools:text="comment data here" />
+                    android:id="@+id/comment_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_medium_s"
+                    tools:text="Bussness Author"
+                    android:textColor="@color/colorlightg"
+            />
+
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                    android:id="@+id/comment_val"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_normal"
+                    android:layout_marginStart="@dimen/dp8"
+                    tools:text="comment data here" />
 
             <!--<TextView-->
             <!--android:id="@+id/notification_time"-->

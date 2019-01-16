@@ -3,7 +3,8 @@ package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.*;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
@@ -11,11 +12,11 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageRateResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityPresenter;
-import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         commentsAdapter = new CommentsAdapter(previewImage, commentList);
         commentsRv.setAdapter(commentsAdapter);
         imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), "0");
+
     }
 
     @Override
@@ -95,7 +97,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             }
 
             @Override
-            public void onCommentImageSubmit(String comment) {
+            public void onSubmitComment(String comment) {
 
                 if (comment.length() > 0) {
                     imageCommentActivityPresenter.submitComment(String.valueOf(previewImage.id), comment);
@@ -111,7 +113,10 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
     @Override
     public void viewPhotoComment(ImageCommentsData imageCommentsData) {
-        this.commentList.addAll(imageCommentsData.comments.commentList);
+
+
+// (1) is A default value to view AddComment layout in case there is now Comments
+        this.commentList.addAll(1, imageCommentsData.comments.commentList);
         commentsAdapter.notifyDataSetChanged();
     }
 
@@ -129,7 +134,8 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
     @Override
     public void viewOnImageCommented(Comment comment) {
-        this.commentList.add(comment);
+        // (1) is A default value to view AddComment layout in case there is now Comments
+        this.commentList.add(1, comment);
         commentsAdapter.notifyDataSetChanged();
 
     }

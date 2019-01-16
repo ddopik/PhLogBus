@@ -7,6 +7,11 @@ import com.google.gson.annotations.SerializedName;
  * Created by abdalla_maged On Nov,2018
  */
 public class Comment {
+
+
+    @SerializedName("id")
+    @Expose
+    public Integer id;
     @SerializedName("updated_at")
     @Expose
     public String updatedAt;
@@ -16,9 +21,7 @@ public class Comment {
     @SerializedName("comment")
     @Expose
     public String comment;
-    @SerializedName("id")
-    @Expose
-    public Integer id;
+
     @SerializedName("photographer")
     @Expose
     public Photographer photographer;
@@ -35,6 +38,6 @@ public class Comment {
 
     @SerializedName("business")
     @Expose
-    public Object business;
+    public Business business;
 
 }

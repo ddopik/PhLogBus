@@ -100,22 +100,40 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             }
 
         } else if (getItemViewType(i) == COMMENT) {
-            if (commentList.get(i).id != null) {
-                GlideApp.with(context)
-                        .load(commentList.get(i).photographer.imageProfile)
-                        .error(R.drawable.default_error_img)
-                        .placeholder(R.drawable.default_place_holder)
-                        .override(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(commentViewHolder.commentAuthorImg);
 
-                commentViewHolder.commentVal.setText(commentList.get(i).comment);
+
+            if (commentList.get(i).business != null) {
+
+                if(commentList.get(i).business.thumbnail !=null)
+                    GlideApp.with(context)
+                            .load(commentList.get(i).business.thumbnail)
+                            .error(R.drawable.default_error_img)
+                            .placeholder(R.drawable.default_place_holder)
+                            .override(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(commentViewHolder.commentAuthorImg);
+                commentViewHolder.commentAuthorName.setText(commentList.get(i).business.firstName +" "+commentList.get(i).business.lastName);
+
+
+            }else if (commentList.get(i).photographer != null){
+                if(commentList.get(i).photographer.imageProfile !=null)
+                    GlideApp.with(context)
+                            .load(commentList.get(i).photographer.imageProfile)
+                            .error(R.drawable.default_error_img)
+                            .placeholder(R.drawable.default_place_holder)
+                            .override(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(commentViewHolder.commentAuthorImg);
+                commentViewHolder.commentAuthorName.setText(commentList.get(i).photographer.fullName);
 
             }
+            commentViewHolder.commentVal.setText(commentList.get(i).comment);
+
         } else if (getItemViewType(i) == ADD_COMMENT) {
             if (commentAdapterAction != null) {
                 commentViewHolder.sendCommentBtn.setOnClickListener(v -> {
-                    commentAdapterAction.onCommentImageSubmit(commentViewHolder.sendCommentImgVal.getText().toString());
+                    commentAdapterAction.onSubmitComment(commentViewHolder.sendCommentImgVal.getText().toString());
+                    commentViewHolder.sendCommentImgVal.getText().clear();
                 });
             }
         }
@@ -146,6 +164,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         ImageButton imageLikeBtn, imageCommentBtn;
         ///Comment_value Cell
         TextView commentVal;
+        CustomTextView commentAuthorName;
         ImageView commentAuthorImg;
         //SendCommentCell
         EditText sendCommentImgVal;
@@ -166,6 +185,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             } else if (type == COMMENT) {
                 commentVal = view.findViewById(R.id.comment_val);
                 commentAuthorImg = view.findViewById(R.id.commentAuthorImg);
+                commentAuthorName = view.findViewById(R.id.comment_author);
             } else if (type == ADD_COMMENT) {
                 sendCommentImgVal = view.findViewById(R.id.img_send_comment_val);
                 sendCommentBtn = view.findViewById(R.id.send_comment_btn);
@@ -179,6 +199,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         void onImageLike(BaseImage baseImage);
 
 
-        void onCommentImageSubmit(String comment);
+        void onSubmitComment(String comment);
     }
 }
