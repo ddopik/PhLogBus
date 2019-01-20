@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
@@ -119,6 +120,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
 
         GlideApp.with(this)
                 .load(business.thumbnail)
+                .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.default_place_holder)
                 .error(R.drawable.default_error_img)
                 .into(brandImgIcon);
