@@ -25,6 +25,7 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
 
     private View mainDialogView;
     private AddNewLightBoxDialogFragment.OnDialogAdd onDialogAdd;
+    public OnLighBoxImageComplete onLighBoxImageComplete;
     private Button addToLightBoxBtn, cancelBtn;
     private CustomRecyclerView addToLightBoxRv;
     private AddToLightBoxAdapter addToLightBoxAdapter;
@@ -111,7 +112,7 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
                         break;
                     }
                     /**
-                     * No LightBox prefered try add newOne
+                     * No LightBox preferred try add newOne
                      * */
                     if(i==lightBoxList.size()-1){
                         AddNewLightBoxDialogFragment addNewLightBoxDialogFragment=AddNewLightBoxDialogFragment.getInstance();
@@ -141,6 +142,15 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
     }
 
     @Override
+    public void onImageAddedToLightBox(boolean state) {
+
+            if(onLighBoxImageComplete !=null){
+                onLighBoxImageComplete.onImageAdded(state);
+
+        }
+    }
+
+    @Override
     public void viewLightBoxProgress(Boolean state) {
         if (state){
             addImgToLightBoxProgress.setVisibility(View.VISIBLE);
@@ -154,4 +164,11 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
     public void viewMessage(String message) {
         Toast.makeText(getContext(),message,Toast.LENGTH_LONG).show();
     }
+
+
+
+    public interface OnLighBoxImageComplete{
+        void onImageAdded(boolean state);
+    }
+
 }

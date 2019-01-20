@@ -73,6 +73,26 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         if (getItemViewType(i) == HEAD) {
 
+            commentViewHolder.authorName.setText(previewImage.photographer.fullName);
+            commentViewHolder.authorUserName.setText(previewImage.photographer.userName);
+
+            GlideApp.with(context)
+                    .load(previewImage.photographer.imageProfile)
+                    .error(R.drawable.default_error_img)
+                    .placeholder(R.drawable.default_place_holder)
+                    .override(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+                    .into(commentViewHolder.commentAuthorIcon);
+
+
+            if (previewImage.isSaved){
+                commentViewHolder.addLightBoxBtn.setVisibility(View.GONE);
+            }else {
+                commentViewHolder.addLightBoxBtn.setVisibility(View.VISIBLE);
+                commentViewHolder.addLightBoxBtn.setOnClickListener(v->{
+                    commentAdapterAction.onAddToLightBox(previewImage);
+                });
+            }
+
             GlideApp.with(context)
                     .load(previewImage.url)
                     .error(R.drawable.default_error_img)
@@ -354,10 +374,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
-
-        CustomTextView imgLikeNum, imgCommentNum, commentPreviewImgTags;
-        ImageView commentImg;
-        ImageButton imageLikeBtn, imageCommentBtn;
+        //header cell
+        CustomTextView imgLikeNum, imgCommentNum, commentPreviewImgTags,authorName,authorUserName;
+        ImageView commentImg,commentAuthorIcon;
+        ImageButton imageLikeBtn, imageCommentBtn,addLightBoxBtn;
         ///Comment_value Cell
         TextView commentVal;
         CustomTextView commentAuthorName;
@@ -371,6 +391,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             super(view);
             if (type == HEAD) {
 
+                commentAuthorIcon=view.findViewById(R.id.comment_author_icon);
+                authorName=view.findViewById(R.id.author_name);
+                authorUserName=view.findViewById(R.id.author_user_name);
+                addLightBoxBtn=view.findViewById(R.id.add_to_light_box_btn);
                 commentImg = view.findViewById(R.id.comment_preview_img);
                 commentPreviewImgTags = view.findViewById(R.id.comment_preview_img_tag);
                 imageLikeBtn = view.findViewById(R.id.comment_preview_img_like_btn);
@@ -393,6 +417,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     public interface CommentAdapterAction {
         void onImageLike(BaseImage baseImage);
+
+        void onAddToLightBox(BaseImage baseImage);
+        void onAddToLightBoxComplete(boolean state);
 
         void onSubmitComment(String comment);
     }

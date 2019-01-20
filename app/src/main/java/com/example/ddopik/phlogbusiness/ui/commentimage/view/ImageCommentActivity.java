@@ -13,6 +13,8 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.Mentions;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.AddToLightBoxDialogFragment;
+import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageRateResponse;
@@ -107,6 +109,26 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
                     showToast(getResources().getString(R.string.comment_cant_not_be_null));
                 }
             }
+
+            @Override
+            public void onAddToLightBox(BaseImage baseImage) {
+                AddToLightBoxDialogFragment addToLightBoxDialogFragment=  AddToLightBoxDialogFragment.getInstance(baseImage);
+
+                addToLightBoxDialogFragment.onLighBoxImageComplete= state -> {
+                  if (state){
+                     previewImage.isSaved=true;
+                  } else {
+                      previewImage.isSaved=false;
+                  }
+                };
+                addToLightBoxDialogFragment.show(getSupportFragmentManager(), AllAlbumImgActivity.class.getSimpleName());
+            }
+
+            @Override
+            public void onAddToLightBoxComplete(boolean state) {
+                ///change "lightBox icon state" after image get Added
+                commentsAdapter.notifyDataSetChanged();
+            }
         };
 
 
@@ -184,4 +206,6 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     public void viewMessage(String msg) {
         showToast(msg);
     }
+
+
 }
