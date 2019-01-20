@@ -328,7 +328,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
                         if (selectedImage.id == albumGroup.albumGroupList.get(i).id) {
                             albumGroup.albumGroupList.get(i).isSaved=selectedImage.isSaved;
                             imageSearchAdapter.notifyDataSetChanged();
-//                            albumGroup.albumGroupList.add(i, selectedImage);
+                            albumGroup.albumGroupList.set(i, selectedImage);
                             return;
                         }
                     }

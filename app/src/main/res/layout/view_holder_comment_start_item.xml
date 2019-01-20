@@ -112,7 +112,8 @@
                             android:layout_marginStart="@dimen/dp16"
                             android:background="@color/transparent"
                             android:scaleType="centerCrop"
-                            app:srcCompat="@drawable/ic_comment"/>
+                            app:srcCompat="@drawable/ic_comment"
+                            android:visibility="invisible"/>
 
 
                 </LinearLayout>
