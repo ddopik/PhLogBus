@@ -84,7 +84,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (onSearchTabSelected.getSearchView() != null) {
+        if (onSearchTabSelected != null) {
             initPresenter();
             initViews();
             initListener();

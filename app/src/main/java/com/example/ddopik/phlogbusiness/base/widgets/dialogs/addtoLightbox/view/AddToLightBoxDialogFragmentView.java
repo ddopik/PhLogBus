@@ -10,5 +10,7 @@ public interface AddToLightBoxDialogFragmentView {
 
     void viewLightBoxProgress(Boolean state);
 
+    void onImageAddedToLightBox(boolean state);
+
     void viewMessage(String message);
 }

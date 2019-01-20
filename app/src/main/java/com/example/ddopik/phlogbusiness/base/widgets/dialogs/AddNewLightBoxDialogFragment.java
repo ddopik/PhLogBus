@@ -65,7 +65,10 @@ public class AddNewLightBoxDialogFragment extends DialogFragment {
 
     public interface OnDialogAdd {
         void onDialogAddBtn(String lightBoxName);
+
     }
+
+
 
 
 }

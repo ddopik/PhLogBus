@@ -8,7 +8,6 @@ import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import java.util.HashMap;
@@ -62,12 +61,13 @@ public class AddNewLightBoxDialogPresenterImpl implements AddNewLightBoxDialogPr
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(addToLightBoxResponse -> {
                     addToLightBoxDialogFragmentView.viewMessage(addToLightBoxResponse.msg);
+                    addToLightBoxDialogFragmentView.onImageAddedToLightBox(true);
                     addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
                     addToLightBoxDialogFragment.dismiss();
 
                 }, throwable -> {
-
                     CustomErrorUtil.Companion.setError(context,TAG,throwable);
+                    addToLightBoxDialogFragmentView.onImageAddedToLightBox(false);
                     addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
                 });
     }
