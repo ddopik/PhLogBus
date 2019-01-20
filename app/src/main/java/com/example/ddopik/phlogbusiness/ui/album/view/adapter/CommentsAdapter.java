@@ -419,7 +419,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         void onImageLike(BaseImage baseImage);
 
         void onAddToLightBox(BaseImage baseImage);
-        void onAddToLightBoxComplete(boolean state);
 
         void onSubmitComment(String comment);
     }

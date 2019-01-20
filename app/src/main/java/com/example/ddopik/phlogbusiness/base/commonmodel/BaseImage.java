@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,7 +46,7 @@ public class BaseImage implements Parcelable {
 
     @SerializedName("id")
     @Expose
-    public Integer id;
+    public int id;
     @SerializedName("photographer")
     @Expose
     public Photographer photographer;

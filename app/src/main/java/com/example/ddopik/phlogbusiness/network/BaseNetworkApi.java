@@ -7,9 +7,6 @@ import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.RemoveImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewImagesResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponse;
-import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsResponse;
-import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentResponse;
-import com.example.ddopik.phlogbusiness.ui.commentimage.model.LikeImageResponse;
 import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.SubmitCampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.CampaignInnerPhotosResponse;
@@ -19,6 +16,9 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowBrandResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowCampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.cart.model.CartResponse;
 import com.example.ddopik.phlogbusiness.ui.cart.model.RemoveItemResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.LikeImageResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.AddLighBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.BrandLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.DeleteLightBoxResponse;
@@ -27,8 +27,8 @@ import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
 import com.example.ddopik.phlogbusiness.ui.profile.model.BusinessProfileResponse;
 import com.example.ddopik.phlogbusiness.ui.search.album.model.AlbumSearchResponse;
-import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.SearchFiltersResponse;
 import com.example.ddopik.phlogbusiness.ui.search.images.model.ImagesSearchResponse;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.SearchFiltersResponse;
 import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.DocumentsResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
@@ -43,12 +43,11 @@ import com.example.ddopik.phlogbusiness.ui.userprofile.model.UserProfileResponse
 import com.example.ddopik.phlogbusiness.ui.welcome.model.WelcomeScreenResponse;
 import com.rx2androidnetworking.Rx2ANRequest;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
+import io.reactivex.Observable;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import io.reactivex.Observable;
 
 /**
  * Created by abdalla-maged on 3/29/18.
@@ -102,10 +101,10 @@ public class BaseNetworkApi {
     private static final String UPLOAD_PROFILE_IMG = BASE_URL + "/profile/upload";
     private static final String SUBMIT_CAMPAIGN_URL = BASE_URL + "/campaign/create";
     private static final String BRAND_PROFILE_URL = BASE_URL + "/profile";
-    private static final String BRAND_LIGHT_BOX_URL = BASE_URL + "/lightBox/ALL";
+    private static final String BRAND_LIGHT_BOX_URL = BASE_URL + "/lightBox/all";
     private static final String DELETE_LIGHT_BOX_URL = BASE_URL + "/lightBox/delete";
     private static final String ADD_LIGHT_BOX_URL = BASE_URL + "/lightBox/add";
-    private static final String GET_LIGHT_BOX_URL = BASE_URL + "/lightBox/ALL";
+    private static final String GET_LIGHT_BOX_URL = BASE_URL + "/lightBox/all";
     private static final String ADD_IMG_TO_LIGHT_BOX_URL = BASE_URL + "/lightBox/photo/save";
     private static final String REMOVE_IMG_TO_LIGHT_BOX_URL = BASE_URL + "/lightBox/photo/delete";
     private static final String SETUP_BRAND_URL = BASE_URL + "/brand/setup";

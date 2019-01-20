@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -30,6 +31,7 @@ import java.util.List;
 public class ImageCommentActivity extends BaseActivity implements ImageCommentActivityView {
 
     public static String IMAGE_DATA = "image_data";
+    public static final int ImageComment_REQUEST_CODE = 1396;
     private CustomTextView toolBarTitle;
     private ImageButton backBtn;
     private BaseImage previewImage;
@@ -113,26 +115,37 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             @Override
             public void onAddToLightBox(BaseImage baseImage) {
                 AddToLightBoxDialogFragment addToLightBoxDialogFragment=  AddToLightBoxDialogFragment.getInstance(baseImage);
-
+                ///change "lightBox icon state" after image get Added
                 addToLightBoxDialogFragment.onLighBoxImageComplete= state -> {
                   if (state){
                      previewImage.isSaved=true;
                   } else {
                       previewImage.isSaved=false;
                   }
+                    commentsAdapter.notifyDataSetChanged();
                 };
                 addToLightBoxDialogFragment.show(getSupportFragmentManager(), AllAlbumImgActivity.class.getSimpleName());
             }
 
-            @Override
-            public void onAddToLightBoxComplete(boolean state) {
-                ///change "lightBox icon state" after image get Added
-                commentsAdapter.notifyDataSetChanged();
-            }
+
         };
 
 
-        backBtn.setOnClickListener(v -> onBackPressed());
+        backBtn.setOnClickListener(v -> {
+            Intent intent =new Intent();
+            intent.putExtra(IMAGE_DATA, previewImage);
+            setResult(RESULT_OK, intent);
+            finish();
+
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(IMAGE_DATA, previewImage);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override
@@ -143,9 +156,9 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         this.commentList.addAll(1, imageCommentsData.comments.commentList);
 
         if(imageCommentsData.mentions.business !=null)
-        this.mentions.business.addAll(imageCommentsData.mentions.business);
+            this.mentions.business.addAll(imageCommentsData.mentions.business);
         if(imageCommentsData.mentions.photographers !=null)
-        this.mentions.photographers.addAll(imageCommentsData.mentions.photographers);
+            this.mentions.photographers.addAll(imageCommentsData.mentions.photographers);
 
         commentsAdapter.notifyDataSetChanged();
 
@@ -167,12 +180,6 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     public void viewOnImageCommented(Comment comment) {
         // (1) is A default value to view AddComment layout in case there is now Comments
         this.commentList.add(1, comment);
-
-//        if(imageCommentsData.mentions.business !=null)
-//            this.mentions.business.addAll(imageCommentsData.mentions.business);
-//        if(imageCommentsData.mentions.photographers !=null)
-//            this.mentions.photographers.addAll(imageCommentsData.mentions.photographers);
-
         commentsAdapter.notifyDataSetChanged();
 
     }
@@ -192,20 +199,18 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         }
     }
 
-//    @Override
-//    public void viewHeaderImageProgress(boolean state) {
-//
-//        if (state) {
-//            headerImageProgress.setVisibility(View.VISIBLE);
-//        } else {
-//            headerImageProgress.setVisibility(View.GONE);
-//        }
-//    }
+
 
     @Override
     public void viewMessage(String msg) {
         showToast(msg);
     }
-
+//
+//    public static void startActivity(Context context,BaseImage baseImage){
+//        Intent intent=new Intent(context,ImageCommentActivity.class);
+//        intent.putExtra(IMAGE_DATA,baseImage);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//
+//    }
 
 }
