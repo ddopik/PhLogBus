@@ -131,6 +131,18 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 });
             }
 
+
+            if (previewImage.isCart) {
+                commentViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.view_in_cart));
+            } else {
+                commentViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.add_to_cart));
+            }
+
+            commentViewHolder.addToCartbtn.setOnClickListener(v -> {
+                commentAdapterAction.onAddToCartClick(previewImage);
+            });
+
+
         } else if (getItemViewType(i) == COMMENT) {
             if (commentList.get(i).business != null) {
 
@@ -375,7 +387,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
         //header cell
-        CustomTextView imgLikeNum, imgCommentNum, commentPreviewImgTags,authorName,authorUserName;
+        FrameLayout addToCartbtn;
+        CustomTextView imgLikeNum, imgCommentNum, commentPreviewImgTags, authorName, authorUserName, albumImgAddToCartVal;
         ImageView commentImg,commentAuthorIcon;
         ImageButton imageLikeBtn, imageCommentBtn,addLightBoxBtn;
         ///Comment_value Cell
@@ -394,6 +407,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentAuthorIcon=view.findViewById(R.id.comment_author_icon);
                 authorName=view.findViewById(R.id.author_name);
                 authorUserName=view.findViewById(R.id.author_user_name);
+                addToCartbtn = view.findViewById(R.id.album_img_add_to_cart);
+                albumImgAddToCartVal = view.findViewById(R.id.album_img_add_to_cart_val);
                 addLightBoxBtn=view.findViewById(R.id.add_to_light_box_btn);
                 commentImg = view.findViewById(R.id.comment_preview_img);
                 commentPreviewImgTags = view.findViewById(R.id.comment_preview_img_tag);
@@ -419,6 +434,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         void onImageLike(BaseImage baseImage);
 
         void onAddToLightBox(BaseImage baseImage);
+
+        void onAddToCartClick(BaseImage baseImage);
 
         void onSubmitComment(String comment);
     }

@@ -216,6 +216,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="remove_cart_item_confirmation">Are you sure?</string>
+    <string name="view_in_cart">View in cart</string>
 
 
 </resources>

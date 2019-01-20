@@ -127,7 +127,15 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
                 addToLightBoxDialogFragment.show(getSupportFragmentManager(), AllAlbumImgActivity.class.getSimpleName());
             }
 
+            @Override
+            public void onAddToCartClick(BaseImage baseImage) {
+                if (baseImage.isCart){
+                    showToast("view in cart");
+                }else {
+                    imageCommentActivityPresenter.addImageToCart(previewImage.id);
+                }
 
+            }
         };
 
 
@@ -138,14 +146,6 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             finish();
 
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra(IMAGE_DATA, previewImage);
-        setResult(RESULT_OK, intent);
-        finish();
     }
 
     @Override
@@ -185,6 +185,15 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     }
 
     @Override
+    public void onImagedAddedToCart(boolean state) {
+
+        if (state) {
+            previewImage.isCart = true;
+        }
+        commentsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void viewImageRateStatus(ImageRateResponse imageRateResponse) {
 
     }
@@ -205,12 +214,15 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     public void viewMessage(String msg) {
         showToast(msg);
     }
-//
-//    public static void startActivity(Context context,BaseImage baseImage){
-//        Intent intent=new Intent(context,ImageCommentActivity.class);
-//        intent.putExtra(IMAGE_DATA,baseImage);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//
-//    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(IMAGE_DATA, previewImage);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
 
 }

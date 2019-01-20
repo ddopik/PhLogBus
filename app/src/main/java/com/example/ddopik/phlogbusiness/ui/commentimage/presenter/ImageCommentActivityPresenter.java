@@ -8,5 +8,6 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 public interface ImageCommentActivityPresenter {
     void getImageComments(String imageId, String page);
     void likePhoto(BaseImage baseImage);
+    void addImageToCart(int imageId);
     void submitComment(String imageId, String comment);
 }

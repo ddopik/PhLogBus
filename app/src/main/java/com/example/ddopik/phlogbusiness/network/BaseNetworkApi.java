@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.network;
 
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToCartResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.LightBoxListResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.RemoveImageToLightBoxResponse;
@@ -106,6 +107,7 @@ public class BaseNetworkApi {
     private static final String ADD_LIGHT_BOX_URL = BASE_URL + "/lightBox/add";
     private static final String GET_LIGHT_BOX_URL = BASE_URL + "/lightBox/all";
     private static final String ADD_IMG_TO_LIGHT_BOX_URL = BASE_URL + "/lightBox/photo/save";
+    private static final String ADD_IMG_TO_CART_URL = BASE_URL + "/cart/add";
     private static final String REMOVE_IMG_TO_LIGHT_BOX_URL = BASE_URL + "/lightBox/photo/delete";
     private static final String SETUP_BRAND_URL = BASE_URL + "/brand/setup";
     private static final String UPLOAD_DOCUMENT_URL = BASE_URL + "/brand/document/upload";
@@ -435,6 +437,15 @@ public class BaseNetworkApi {
                 .addBodyParameter(data)
                 .build()
                 .getObjectObservable(AddImageToLightBoxResponse.class);
+    }
+
+
+    public static io.reactivex.Observable<AddImageToCartResponse> addImageToCart(String imageID) {
+        return Rx2AndroidNetworking.post(ADD_IMG_TO_CART_URL)
+                .setPriority(Priority.HIGH)
+                .addBodyParameter("photo_id",imageID)
+                .build()
+                .getObjectObservable(AddImageToCartResponse.class);
     }
 
     public static io.reactivex.Observable<RemoveImageToLightBoxResponse> removeLightBoxImage(Map<String, String> data) {

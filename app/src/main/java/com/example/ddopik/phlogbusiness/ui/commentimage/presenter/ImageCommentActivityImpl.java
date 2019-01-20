@@ -91,4 +91,22 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
         }
 
     }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void addImageToCart(int imageId) {
+        imageCommentActivityView.viewImageProgress(true);
+        BaseNetworkApi.addImageToCart(String.valueOf(imageId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(addImageToCartResponse -> {
+                    imageCommentActivityView.onImagedAddedToCart(true);
+                    imageCommentActivityView.viewImageProgress(false);
+                }, throwable -> {
+                    imageCommentActivityView.onImagedAddedToCart(true);
+                    imageCommentActivityView.viewImageProgress(false);
+                });
+
+
+    }
 }
