@@ -89,9 +89,9 @@ public class BaseNetworkApi {
     private static final String ALL_DRAFT_CAMPAIGN_URL = BASE_URL + "/campaign/draft";
     private static final String CAMPAIGN_PHOTOS_URL = BASE_URL + "/get_photos_campaign";
     private static final String CAMPAIGN_DETAILS_URL = BASE_URL + "/detail_one_campaign";
-    private static final String USER_PROFILE_URL = BASE_URL + "/get_info_photographer";
-    private static final String USER_PROFILE_PHOTOS = BASE_URL + "/image_photographer";
-    private static final String PHOTOGRAPHER_FOLLOW_USER_URL = BASE_URL + "/follow";
+    private static final String USER_PROFILE_URL = BASE_URL + "/photographer/details";
+    private static final String USER_PROFILE_PHOTOS = BASE_URL + "/photographer/photos";
+    private static final String PHOTOGRAPHER_FOLLOW_USER_URL = BASE_URL + "/photographer/follow";
     private static final String PHOTOGRAPHER_SEARCH_URL = BASE_URL + "/photographer/list";
     private static final String GET_ALBUM_PREVIEW = BASE_URL +"/album/details";
     private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL +"/album/photos";

@@ -30,7 +30,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     private String userID;
     private TextView userProfileLevel, userProfileUserName, userProfileFullName, userProfilePhotosCount, userProfileFolloweresCount, userProfileFollowingCount;
     private RatingBar userProfileRating;
-    private ImageView userProfileImg;
+    private ImageView userProfileImg, userCoverImg;
     private CustomRecyclerView userProfilePhotosRv;
     private UserProfilePhotosAdapter userProfilePhotosAdapter;
     private UserProfilePresenter userProfilePresenter;
@@ -79,7 +79,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
             userProfilePresenter.getUserProfileData(userID); //todo static call here
             userProfilePresenter.getUserPhotos(userID,0);
 
-
+            userCoverImg = findViewById(R.id.user_cover_img);
 
     }
 
@@ -108,7 +108,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     }
 
     @Override
-    public void viewUserProfileRating(int userRating) {
+    public void viewUserProfileRating(float userRating) {
         userProfileRating.setRating(userRating);
 
     }

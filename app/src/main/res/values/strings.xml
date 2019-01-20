@@ -45,7 +45,7 @@
     <string name="camera_and_location_rationale">Need camera and storage permation</string>
     <string name="email_missing">Email is missing</string>
     <string name="saved">saved</string>
-    <string name="following">following</string>
+    <string name="following">Following</string>
     <string name="campaigns">campaigns</string>
     <string name="error_login">Error login</string>
     <string name="upload_your_profile_image">Upload profile picture</string>
@@ -223,6 +223,7 @@
     <string name="profile_update_success">Saved successfully</string>
     <string name="profile_update_error">Error</string>
     <string name="coming_soon">Coming Soon</string>
+    <string name="error_missing_desc">Provide a description</string>
 
 
 </resources>
