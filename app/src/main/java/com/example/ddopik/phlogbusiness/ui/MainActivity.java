@@ -9,9 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.app.PhLogBusinessApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
-import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.campaigns.view.CampaignsFragment;
 import com.example.ddopik.phlogbusiness.ui.lightbox.view.BrandLightBoxFragment;
@@ -123,6 +127,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public class  NavigationManger {
         private Constants.NavigationHelper currentTab;
 
+        private Object messageToFragment;
+
+        public void setMessageToFragment(Object messageToFragment) {
+            this.messageToFragment = messageToFragment;
+        }
+
         private void clearSelected() {
 
             int homeBrnImg_off = R.drawable.ic_tab_home_off;
@@ -227,6 +237,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                     break;
                 }
+                case ACCOUNT_DETAILS:
+                    addFragment(R.id.view_container, AccountDetailsFragment.getInstance((Business) messageToFragment), AccountDetailsFragment.TAG, true);
+                    break;
             }
 
         }

@@ -47,7 +47,7 @@ public class AddToLightBoxAdapter extends RecyclerView.Adapter<AddToLightBoxAdap
 
 
         if (onAddToLightBoxClicked != null) {
-            //case all container pressed
+            //case ALL container pressed
             addToLightBoxViewHolder.addToLightBoxContainer.setOnClickListener(v -> {
                 onAddToLightBoxClicked.onAddToLightBoxItemClicked(lightBoxList.get(i),i);
                 if(addToLightBoxViewHolder.addImgToLightBoxRadioBtn.isChecked()){

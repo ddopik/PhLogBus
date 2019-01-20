@@ -35,6 +35,8 @@ public abstract class PrefUtils {
     private static final String IS_BRAND_TEXT = "is_brand_text";
 
 
+    private static final String UPLOADING = "uploading";
+
     private static String PREF_FILE_NAME;
 
     public PrefUtils() {
@@ -206,6 +208,14 @@ public abstract class PrefUtils {
 
     public static boolean isFirstTimeAskingPermission(Context context, String permission) {
         return context.getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE).getBoolean(permission, true);
+    }
+
+    public static boolean getIsUploading(Context context) {
+        return context.getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE).getBoolean(UPLOADING, false);
+    }
+
+    public static void setIsUploading(Context context, boolean uploading) {
+        context.getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE).edit().putBoolean(UPLOADING, uploading).apply();
     }
 
 

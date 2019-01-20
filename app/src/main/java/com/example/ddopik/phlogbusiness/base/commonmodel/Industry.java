@@ -2,10 +2,14 @@ package com.example.ddopik.phlogbusiness.base.commonmodel;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.example.ddopik.phlogbusiness.ui.setupbrand.fragment.stoptwo.SelectFromStringListDialogFragment;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Industry implements Parcelable {
+import java.io.Serializable;
+
+public class Industry implements Parcelable, SelectFromStringListDialogFragment.Model, Serializable {
 
     @Expose
     public Integer id;
@@ -64,4 +68,9 @@ public class Industry implements Parcelable {
             return new Industry[size];
         }
     };
+
+    @Override
+    public String getStringForShowingInList() {
+        return nameEn;
+    }
 }

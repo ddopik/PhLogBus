@@ -5,7 +5,7 @@ package com.example.ddopik.phlogbusiness.base;
  */
 
 /**
- * this Class  should have common method that all Presenter interface should have
+ * this Class  should have common method that ALL Presenter interface should have
  **/
 public abstract class BasePresenter<T extends BaseView> {
 

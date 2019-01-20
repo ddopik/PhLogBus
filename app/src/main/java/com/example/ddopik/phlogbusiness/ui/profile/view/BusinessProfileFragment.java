@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.profile.view;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +19,8 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
+import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
@@ -25,6 +28,7 @@ import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenter;
 import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenterImpl;
 
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.ACCOUNT_DETAILS;
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.LIGHT_BOX;
 
 /**
@@ -80,23 +84,28 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
     private void initListeners() {
 
         accountDetailsBtn.setOnClickListener(v -> {
-
+            MainActivity.navigationManger.setMessageToFragment(business);
+            MainActivity.navigationManger.navigate(ACCOUNT_DETAILS);
         });
         setupBrandBtn.setOnClickListener(v -> {
-
+            Intent intent = new Intent(getContext(), SetupBrandActivity.class);
+            intent.putExtra("business", business);
+            startActivity(intent);
         });
         cartBtn.setOnClickListener(v -> {
-
+            startActivity(new Intent(getContext(), CartActivity.class));
         });
         myLightBoxBtn.setOnClickListener(v -> {
             MainActivity.navigationManger.navigate(LIGHT_BOX);
         });
     }
 
+    private Business business;
+
     @SuppressLint("CheckResult")
     @Override
     public void viewBrandProfileData(Business business) {
-
+        this.business = business;
 
         if (business.firstName != null)
             brandName.setText(business.firstName +""+business.firstName);

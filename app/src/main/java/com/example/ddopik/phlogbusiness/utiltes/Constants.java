@@ -20,6 +20,7 @@ public interface Constants {
     //////NavigationMangerConst
      enum NavigationHelper{
       CAMPAIGN,PROFILE,HOME,NOTIFICATION, CALL_SUPPORT, EARNING_LIST,LIGHT_BOX,EDIT_PROFILE
+        , ACCOUNT_DETAILS
     }
 
 
@@ -71,5 +72,8 @@ public interface Constants {
 
 
 
-
+    interface UploadPermanentNotificationConfig {
+        String NOTIFICATION_ID = "2001";
+        String NOTIFICATION_TITLE = "Uploading";
+    }
 }

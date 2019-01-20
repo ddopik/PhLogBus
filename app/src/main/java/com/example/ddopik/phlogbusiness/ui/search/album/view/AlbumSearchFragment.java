@@ -120,7 +120,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         albumSearchRv.setAdapter(albumSearchAdapter);
         filterExpListView.setAdapter(expandableListAdapter);
 
-        //////// setting ExpandableList indicator to right
+        //////// setting ExpandableList indicator to RIGHT
         Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
         filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(),50), width - Utilities.GetPixelFromDips(getContext(),10));
