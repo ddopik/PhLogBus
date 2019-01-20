@@ -25,6 +25,8 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
 
 
     public static String USER_ID="user_id";
+    public static String USER_TYPE="user_type";
+
     private String userID;
     private TextView userProfileLevel, userProfileUserName, userProfileFullName, userProfilePhotosCount, userProfileFolloweresCount, userProfileFollowingCount;
     private RatingBar userProfileRating;

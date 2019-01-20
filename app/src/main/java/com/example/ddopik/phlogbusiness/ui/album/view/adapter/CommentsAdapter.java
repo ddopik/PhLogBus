@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.album.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -18,11 +19,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -40,6 +42,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     private int HEAD = 0;
     private int COMMENT = 1;
     private int ADD_COMMENT = 2;
+    private final String USER_MENTION_IDENTIFIER = "%";
 
 
     public CommentsAdapter(BaseImage previewImage, List<Comment> commentList, Mentions mentions) {
@@ -148,12 +151,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     private void handleCommentBody(CommentViewHolder commentViewHolder, Comment comment) {
 
-
         String commentFinalValue = comment.comment;
         List<String> authorsId = Utilities.getMentionsList(comment.comment);
         List<String> mentionsPhotoGrapherIdIdList = new ArrayList<>();
         List<String> mentionBusinessIdList = new ArrayList<>();
-
+        List<MentionRange> mentionsPoint = new ArrayList<MentionRange>();
+        List<ClickableSpan> clickableSpanList = new ArrayList<>();
 
         //
 
@@ -170,43 +173,41 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             }
 
 
-///////////////////////////////////////////
-            for (String photoGrapherId : mentionsPhotoGrapherIdIdList) { ///Replacing All Occurrence of photoGrapherId with actualValue
+            /// Append unique identifier to mentioned user to get highLighted later
+            /// And Replacing All Occurrence of photoGrapherId with actualValue
+            for (String photoGrapherId : mentionsPhotoGrapherIdIdList) {
                 Photographer photographer = getMentionedPhotoGrapher(photoGrapherId);
-
                 if (photographer != null) {
 
-                    commentFinalValue = commentFinalValue.replace("@0_" + photoGrapherId, photographer.fullName + "_");
+                    commentFinalValue = commentFinalValue.replace("@0_" + photoGrapherId, photographer.fullName + USER_MENTION_IDENTIFIER);
                     commentViewHolder.commentVal.setText(commentFinalValue);
                 }
             }
-///////////////////////////////////////////
 
-
-            for (String businessId : mentionBusinessIdList) {///Replacing All Occurrence of businessId with actualValue
+            /// Append unique identifier to mentioned user to get highLighted later
+            /// And Replacing All Occurrence of businessId with actualValue
+            for (String businessId : mentionBusinessIdList) {
                 if (getMentionedBusiness(businessId) != null) {
                     Business business = getMentionedBusiness(businessId);
                     if (business != null) {
-                        commentFinalValue = commentFinalValue.replace("@1_" + businessId, business.firstName + " " + business.lastName + "_");
+                        commentFinalValue = commentFinalValue.replace("@1_" + businessId, business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER);
                         commentViewHolder.commentVal.setText(commentFinalValue);
                     }
                 }
             }
 
-////////////////////////////////////////////////////////////////
-
 
             for (String photographerId : mentionsPhotoGrapherIdIdList) {
-
-
                 if (getMentionedPhotoGrapher(photographerId) != null) {
                     Photographer photographer = getMentionedPhotoGrapher(photographerId);
+                    ///////PhotoGrapher CallBack
                     ClickableSpan noUnderLineClickSpan = new ClickableSpan() {
                         @Override
                         public void onClick(View view) {
-                            //Action here
-                            Toast.makeText(context, photographer.id.toString(), Toast.LENGTH_SHORT)
-                                    .show();
+                            Intent intent = new Intent(context, UserProfileActivity.class);
+                            intent.putExtra(UserProfileActivity.USER_ID, photographerId);
+                            intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
+                            context.startActivity(intent);
                         }
 
                         @Override
@@ -218,21 +219,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     };
 
 
-////////////////////////////////////////////////
-                    String replacement = photographer.fullName + "_";
+                    String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
                     int replacementStart=commentFinalValue.indexOf(replacement)-1;
                     int replacementEnd=replacementStart+replacement.length();
-
+                    MentionRange mentionRange = new MentionRange();
+                    mentionRange.startPoint = replacementStart;
+                    mentionRange.endPoint = replacementEnd;
+                    mentionsPoint.add(mentionRange);
+                    clickableSpanList.add(noUnderLineClickSpan);
                     commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
-
-                    spannableString=new SpannableString(commentFinalValue);
-
-                    makeLinks(commentViewHolder.commentVal, replacement,replacementStart ,replacementEnd,noUnderLineClickSpan, spannableString);
-
-
-
-
-//                    makeLinks(commentViewHolder.commentVal, photographer.fullName + "_", noUnderLineClickSpan );
                 }
             }
 
@@ -242,12 +237,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             for (String businessId : mentionBusinessIdList) {
                 if (getMentionedBusiness(businessId) != null) {
                     Business business = getMentionedBusiness(businessId);
+                    //////business CallBack
                     ClickableSpan noUnderLineClickSpan2 = new ClickableSpan() {
                         @Override
                         public void onClick(View view) {
-                            //Action here
-                            Toast.makeText(context, business.id.toString(), Toast.LENGTH_SHORT)
-                                    .show();
+                            Intent intent = new Intent(context, UserProfileActivity.class);
+                            intent.putExtra(UserProfileActivity.USER_ID, businessId);
+                            intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_BUSINESS);
+                            context.startActivity(intent);
                         }
 
                         @Override
@@ -257,83 +254,43 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                             ds.setColor(Color.MAGENTA); // specific color for this link
                         }
                     };
-
-
-
-                    String replacement = business.firstName + " " + business.lastName + "_";
+                    String replacement = business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER;
                     int replacementStart=commentFinalValue.indexOf(replacement)-1;
                     int replacementEnd=replacementStart+replacement.length();
-
-//                    commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
-//
-//                    spannableString=new SpannableString(commentFinalValue);
-//
-//                    makeLinks(commentViewHolder.commentVal, replacement,replacementStart ,replacementEnd,noUnderLineClickSpan2, spannableString);
-
-
-//                    String target = business.firstName + " " + business.lastName + "_";
-//                    commentFinalValue = commentFinalValue.replace(target, target.substring(0, target.length() - 1));
-//                    makeLinks(commentViewHolder.commentVal, target, noUnderLineClickSpan2, spannableString);
-
-
-//                    makeLinks(commentViewHolder.commentVal, new String[]{
-//                            getMentionedBusiness(businessId).firstName + " " + getMentionedBusiness(businessId).lastName + "_"
-//                    }, new ClickableSpan[]{
-//                            noUnderLineClickSpan2
-//                    });
-
-
-//                    makeLinks(commentViewHolder.commentVal,
-//
-//                            business.firstName + " " + business.lastName + "_"
-//                    ,
-//                            noUnderLineClickSpan2
-//                     );
-//
-
+                    MentionRange mentionRange = new MentionRange();
+                    mentionRange.startPoint = replacementStart;
+                    mentionRange.endPoint = replacementEnd;
+                    mentionsPoint.add(mentionRange);
+                    clickableSpanList.add(noUnderLineClickSpan2);
+                    commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
                 }
-
-
             }
+            makeLinks(commentViewHolder.commentVal, mentionsPoint, clickableSpanList, commentFinalValue);
         } else {
             commentViewHolder.commentVal.setText(commentFinalValue);
         }
+
+
     }
 
 
     /**
      * @param viewHolder      --->view holder contain comment value
-     * @param replacement         --->replacment user_value will be replaced (?*_)
-     * @param clickableSpan   --->link CallBack
+     * @param mentionsList         --->replacement user_value flaged with (?*_)
+     * @param clickableSpanList   --->link CallBack
      * @param commentFinalValue --->all text value insideViewHolder
      */
-    private void makeLinks(TextView viewHolder, String replacement, List<HashMap<Integer,Integer>> photoGrapherRangeReplacement, int endIndexOfLink, ClickableSpan clickableSpan, String commentFinalValue) {
-
-
-
-
+    private void makeLinks(TextView viewHolder, List<MentionRange> mentionsList, List<ClickableSpan> clickableSpanList, String commentFinalValue) {
         SpannableString spannableString = new SpannableString(commentFinalValue);
-
-
-
-        spannableString.setSpan(clickableSpan, startIndexOfLink + 1, endIndexOfLink, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-
-
-
+        for (int i = 0; i < mentionsList.size(); i++) {
+            spannableString.setSpan(clickableSpanList.get(i), mentionsList.get(i).startPoint + 1, mentionsList.get(i).endPoint, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        viewHolder.setLinksClickable(true);
+        viewHolder.setClickable(true);
+        viewHolder.setMovementMethod(LinkMovementMethod.getInstance());
 
         viewHolder.setText(spannableString);
 
-
-//        int startIndexOfLink = viewHolder.getText().toString().indexOf(replacment);
-//        int endIndexOfLink = startIndexOfLink + replacment.length() - 2;
-//        // set replacment Span at
-//        spannableString.setSpan(clickableSpan, startIndexOfLink + 1, endIndexOfLink, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//
-//
-//        viewHolder.setHighlightColor(Color.TRANSPARENT); // prevent TextView change background when highlight
-//        viewHolder.setMovementMethod(LinkMovementMethod.getInstance());
-//        viewHolder.setText(spannableString, TextView.BufferType.SPANNABLE);
     }
 
 
@@ -438,5 +395,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         void onImageLike(BaseImage baseImage);
 
         void onSubmitComment(String comment);
+    }
+
+
+    private class MentionRange {
+        int startPoint;
+        int endPoint;
     }
 }
