@@ -68,6 +68,8 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
             actionListener.accept(ActionListener.Type.SELECT, consumer, doc);
         });
         holder.upload.setOnClickListener(v -> {
+            holder.upload.setVisibility(View.GONE);
+            holder.check.setVisibility(View.GONE);
             actionListener.accept(ActionListener.Type.UPLOAD, doc);
         });
 //        if (doc.progress == 100) {

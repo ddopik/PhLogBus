@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserProfileActivityView {
 
     void viewUserProfileLevel(String userLevel); //
-    void viewUserProfileRating(int userRating); //
+    void viewUserProfileRating(float userRating); //
     void viewUserProfileProfileImg(String userImg); //
     void viewUserProfileFullName(String fullName); //
     void viewUserProfileUserName(String userName); //

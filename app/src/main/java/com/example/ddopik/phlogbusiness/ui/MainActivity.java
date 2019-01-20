@@ -13,6 +13,9 @@ import com.example.ddopik.phlogbusiness.app.PhLogBusinessApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.ui.accountdetails.view.AccountDetailsFragment;
+import com.example.ddopik.phlogbusiness.ui.customersupport.view.CustomerSupportFragment;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.view.AccountDetailsFragment;
 import com.example.ddopik.phlogbusiness.ui.campaigns.view.CampaignsFragment;
@@ -201,7 +204,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                    break;
 //                }
                 case CALL_SUPPORT: {
-                    addFragment(R.id.view_container, new GalleryImageFragment(), GalleryImageFragment.class.getSimpleName(), false);
+                    addFragment(R.id.view_container, new CustomerSupportFragment(), CustomerSupportFragment.class.getSimpleName(), false);
                     callSupportBtn.setVisibility(View.VISIBLE);
                     callSupportBtn.setTextColor(getResources().getColor(R.color.text_input_color));
                     callSupportFloatBtn.setImageResource(R.drawable.btn_call_support_selected);
@@ -237,6 +240,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 case ACCOUNT_DETAILS:
                     addFragment(R.id.view_container, AccountDetailsFragment.getInstance((Business) messageToFragment), AccountDetailsFragment.TAG, true);
+                    currentTab = ACCOUNT_DETAILS;
                     break;
             }
 
@@ -270,6 +274,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
             case CALL_SUPPORT: {
                 navigationManger.navigate(HOME);
+                break;
+            }
+            case ACCOUNT_DETAILS: {
+                navigationManger.navigate(PROFILE);
                 break;
             }
             default: {

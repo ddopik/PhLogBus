@@ -29,6 +29,9 @@ public class Industry implements Parcelable, SelectFromStringListDialogFragment.
     @Expose
     public String deletedAt;
 
+    @SerializedName("name")
+    public String name;
+
 
     @Override
     public int describeContents() {
@@ -43,6 +46,7 @@ public class Industry implements Parcelable, SelectFromStringListDialogFragment.
         dest.writeString(this.createdAt);
         dest.writeString(this.updatedAt);
         dest.writeString(this.deletedAt);
+        dest.writeString(this.name);
     }
 
     public Industry() {
@@ -55,6 +59,7 @@ public class Industry implements Parcelable, SelectFromStringListDialogFragment.
         this.createdAt = in.readString();
         this.updatedAt = in.readString();
         this.deletedAt = in.readString();
+        this.name = in.readString();
     }
 
     public static final Parcelable.Creator<Industry> CREATOR = new Parcelable.Creator<Industry>() {
@@ -71,6 +76,6 @@ public class Industry implements Parcelable, SelectFromStringListDialogFragment.
 
     @Override
     public String getStringForShowingInList() {
-        return nameEn;
+        return name;
     }
 }

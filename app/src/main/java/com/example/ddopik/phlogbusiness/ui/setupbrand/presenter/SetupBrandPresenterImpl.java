@@ -63,6 +63,8 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
                     return new ValidationResult(false, R.string.error_missing_website);
                 else if (!Utilities.isWebsiteValid(model.webSite))
                     return new ValidationResult(false, R.string.error_invalid_website);
+                else if (model.desc == null || model.desc.isEmpty())
+                    return new ValidationResult(false, R.string.error_missing_desc);
                 else
                     return new ValidationResult(true, 0);
             case 3:

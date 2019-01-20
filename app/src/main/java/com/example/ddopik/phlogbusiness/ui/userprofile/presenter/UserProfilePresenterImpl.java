@@ -32,14 +32,15 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
                 .subscribe(userProfileResponse -> {
 
                         UserProfileData userProfileData = userProfileResponse.data;
-                        userProfileActivityView.viewUserProfileUserName(userProfileData.userName);
-                        userProfileActivityView.viewUserProfileFullName(userProfileData.fullName);
-                        userProfileActivityView.viewUserProfileRating(userProfileData.rate);
+                        userProfileActivityView.viewUserProfileUserName(userProfileData.getUserName());
+                        userProfileActivityView.viewUserProfileFullName(userProfileData.getFullName());
+                        userProfileActivityView.viewUserProfileRating(userProfileData.getRate());
                         userProfileActivityView.viewUserProfileLevel("000");
-                        userProfileActivityView.viewUserProfileProfileImg(userProfileData.imageProfile);
-                        userProfileActivityView.viewUserProfileFollowersCount(userProfileData.followerCount);
-                        userProfileActivityView.viewUserProfileFollowingCount(userProfileData.followingCount);
-                        userProfileActivityView.viewUserProfilePhotosCount(userProfileData.imagePhotographerCount);
+                        userProfileActivityView.viewUserProfileProfileImg(userProfileData.getImageProfile());
+//                        userProfileActivityView.setUserCoverImg(userProfileData.) // TODO: where's the user cover image??
+                        userProfileActivityView.viewUserProfileFollowersCount(""+userProfileData.getFollowersCount());
+                        userProfileActivityView.viewUserProfileFollowingCount(""+userProfileData.getFollowingsCount());
+                        userProfileActivityView.viewUserProfilePhotosCount(""+userProfileData.getPhotosCount());
 
 
                 }, throwable -> {

@@ -6,6 +6,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.LightBoxListResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.RemoveImageToLightBoxResponse;
+import com.example.ddopik.phlogbusiness.ui.accountdetails.model.AccountDetailsModel;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewImagesResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponse;
 import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerResponse;
@@ -88,9 +89,9 @@ public class BaseNetworkApi {
     private static final String ALL_DRAFT_CAMPAIGN_URL = BASE_URL + "/campaign/draft";
     private static final String CAMPAIGN_PHOTOS_URL = BASE_URL + "/get_photos_campaign";
     private static final String CAMPAIGN_DETAILS_URL = BASE_URL + "/detail_one_campaign";
-    private static final String USER_PROFILE_URL = BASE_URL + "/get_info_photographer";
-    private static final String USER_PROFILE_PHOTOS = BASE_URL + "/image_photographer";
-    private static final String PHOTOGRAPHER_FOLLOW_USER_URL = BASE_URL + "/follow";
+    private static final String USER_PROFILE_URL = BASE_URL + "/photographer/details";
+    private static final String USER_PROFILE_PHOTOS = BASE_URL + "/photographer/photos";
+    private static final String PHOTOGRAPHER_FOLLOW_USER_URL = BASE_URL + "/photographer/follow";
     private static final String PHOTOGRAPHER_SEARCH_URL = BASE_URL + "/photographer/list";
     private static final String GET_ALBUM_PREVIEW = BASE_URL +"/album/details";
     private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL +"/album/photos";
@@ -114,6 +115,9 @@ public class BaseNetworkApi {
     private static final String GET_DOCUMENTS_URL = BASE_URL + "/brand/document/list";
     private static final String GET_CART_ITEMS_URL = BASE_URL + "/cart/list";
     private static final String REMOVE_FROM_CART_URL = BASE_URL + "/cart/remove";
+
+
+    private static final String UPDATE_PROFILE_URL = BASE_URL + "/profile/update";
 
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
@@ -528,6 +532,26 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(RemoveItemResponse.class);
+    }
+
+    public static Observable<String> updateProfile(String token, AccountDetailsModel model) {
+        Rx2ANRequest.MultiPartBuilder builder = Rx2AndroidNetworking.upload(UPDATE_PROFILE_URL)
+                .addHeaders("x-auth-token", token)
+                .addHeaders("x-user-type", DEFAULT_USER_TYPE)
+                .addHeaders("x-lang-code", "en-us");
+        if (model.isCoverImageChanged())
+            builder.addMultipartFile("image_cover", new File(model.getCoverImage()));
+        if (model.isProfileImageChanged())
+            builder.addMultipartFile("thumbnail", new File(model.getProfileImage()));
+        builder.addMultipartParameter("first_name", model.getFirstName());
+        builder.addMultipartParameter("last_name", model.getLastName());
+        builder.addMultipartParameter("phone", model.getPhone());
+        builder.addMultipartParameter("email", model.getEmail());
+        builder.addMultipartParameter("password", model.getPassword());
+        return builder
+                .setPriority(Priority.HIGH)
+                .build()
+                .getStringObservable();
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){
