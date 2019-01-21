@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,12 +41,17 @@ public class BaseImage implements Parcelable {
     public String albumName;
 
 
-
+    @SerializedName("is_rated")
+    @Expose
+    public Boolean isRated;
+    @SerializedName("is_cart")
+    @Expose
+    public Boolean isCart;
 
 
     @SerializedName("id")
     @Expose
-    public Integer id;
+    public int id;
     @SerializedName("photographer")
     @Expose
     public Photographer photographer;
@@ -66,9 +70,7 @@ public class BaseImage implements Parcelable {
     public String filters;
 
 
-    @SerializedName("is_rated")
-    @Expose
-    public Boolean isRated;
+
     @SerializedName("comments_count")
     @Expose
     public Integer commentsCount;
@@ -80,7 +82,7 @@ public class BaseImage implements Parcelable {
     public Integer likesCount;
     @SerializedName("rate")
     @Expose
-    public String rate;
+    public float rate;
 
     @Override
     public int describeContents() {
@@ -96,9 +98,9 @@ public class BaseImage implements Parcelable {
         dest.writeString(this.thumbnailUrl);
         dest.writeString(this.url);
         dest.writeString(this.albumName);
-
-
-        dest.writeValue(this.id);
+        dest.writeValue(this.isRated);
+        dest.writeValue(this.isCart);
+        dest.writeInt(this.id);
         dest.writeParcelable(this.photographer, flags);
         dest.writeValue(this.isSaved);
         dest.writeValue(this.isLiked);
@@ -108,7 +110,7 @@ public class BaseImage implements Parcelable {
         dest.writeValue(this.commentsCount);
         dest.writeValue(this.savesCount);
         dest.writeValue(this.likesCount);
-        dest.writeValue(this.rate);
+        dest.writeFloat(this.rate);
     }
 
     protected BaseImage(Parcel in) {
@@ -119,9 +121,9 @@ public class BaseImage implements Parcelable {
         this.thumbnailUrl = in.readString();
         this.url = in.readString();
         this.albumName = in.readString();
-
-
-        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.isRated = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.isCart = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.id = in.readInt();
         this.photographer = in.readParcelable(Photographer.class.getClassLoader());
         this.isSaved = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.isLiked = (Boolean) in.readValue(Boolean.class.getClassLoader());
@@ -131,7 +133,7 @@ public class BaseImage implements Parcelable {
         this.commentsCount = (Integer) in.readValue(Integer.class.getClassLoader());
         this.savesCount = (Integer) in.readValue(Integer.class.getClassLoader());
         this.likesCount = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.rate = (String) in.readValue(Integer.class.getClassLoader());
+        this.rate = in.readFloat();
     }
 
     public static final Creator<BaseImage> CREATOR = new Creator<BaseImage>() {

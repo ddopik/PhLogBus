@@ -112,7 +112,8 @@
                             android:layout_marginStart="@dimen/dp16"
                             android:background="@color/transparent"
                             android:scaleType="centerCrop"
-                            app:srcCompat="@drawable/ic_comment"/>
+                            app:srcCompat="@drawable/ic_comment"
+                            android:visibility="invisible"/>
 
 
                 </LinearLayout>
@@ -173,6 +174,7 @@
                         android:layout_marginEnd="@dimen/dp16"
                         android:background="@drawable/rounded_blue_btn">
                     <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                            android:id="@+id/album_img_add_to_cart_val"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/widgets_padding"
@@ -189,14 +191,15 @@
                                android:scaleType="centerInside"
                     />
                 </FrameLayout>
-
+                <!--style="?android:attr/ratingBarStyleSmall"-->
                 <RatingBar
-                        android:id="@+id/photo_rating"
                         style="?android:attr/ratingBarStyleSmall"
+                        android:id="@+id/photo_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:stepSize="1"
                         android:layout_margin="@dimen/dp14"
-                        android:rating="5"
+                        android:isIndicator="false"
                         tools:rating="3"/>
 
             </LinearLayout>

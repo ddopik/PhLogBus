@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -9,8 +10,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
-import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.ui.search.album.view.AlbumSearchFragment;
 import com.example.ddopik.phlogbusiness.ui.search.images.view.ImagesSearchFragment;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.presenter.SearchActivityPresenter;

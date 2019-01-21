@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -30,6 +31,7 @@ import java.util.List;
 public class ImageCommentActivity extends BaseActivity implements ImageCommentActivityView {
 
     public static String IMAGE_DATA = "image_data";
+    public static final int ImageComment_REQUEST_CODE = 1396;
     private CustomTextView toolBarTitle;
     private ImageButton backBtn;
     private BaseImage previewImage;
@@ -37,7 +39,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     private FrameLayout addCommentProgress;
     private CustomRecyclerView commentsRv;
     private List<Comment> commentList = new ArrayList<>();
-    private Mentions mentions=new Mentions();
+    private Mentions mentions = new Mentions();
     private CommentsAdapter commentsAdapter;
     private PagingController pagingController;
     private ImageCommentActivityPresenter imageCommentActivityPresenter;
@@ -72,7 +74,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         commentList.add(userComment); /// acts As default for image Header
         commentList.add(userComment);/// acts As default for image Add comment
 
-        commentsAdapter = new CommentsAdapter(previewImage, commentList,mentions);
+        commentsAdapter = new CommentsAdapter(previewImage, commentList, mentions);
         commentsRv.setAdapter(commentsAdapter);
         imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), "0");
 
@@ -112,27 +114,49 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
             @Override
             public void onAddToLightBox(BaseImage baseImage) {
-                AddToLightBoxDialogFragment addToLightBoxDialogFragment=  AddToLightBoxDialogFragment.getInstance(baseImage);
-
-                addToLightBoxDialogFragment.onLighBoxImageComplete= state -> {
-                  if (state){
-                     previewImage.isSaved=true;
-                  } else {
-                      previewImage.isSaved=false;
-                  }
+                AddToLightBoxDialogFragment addToLightBoxDialogFragment = AddToLightBoxDialogFragment.getInstance(baseImage);
+                ///change "lightBox icon state" after image get Added
+                addToLightBoxDialogFragment.onLighBoxImageComplete = state -> {
+                    if (state) {
+                        previewImage.isSaved = true;
+                    } else {
+                        previewImage.isSaved = false;
+                    }
+                    commentsAdapter.notifyDataSetChanged();
                 };
                 addToLightBoxDialogFragment.show(getSupportFragmentManager(), AllAlbumImgActivity.class.getSimpleName());
             }
 
             @Override
-            public void onAddToLightBoxComplete(boolean state) {
-                ///change "lightBox icon state" after image get Added
-                commentsAdapter.notifyDataSetChanged();
+            public void onAddToCartClick(BaseImage baseImage) {
+                if (baseImage.isCart) {
+                    showToast("view in cart");
+                } else {
+                    imageCommentActivityPresenter.addImageToCart(previewImage.id);
+                }
+
+            }
+
+            @Override
+            public void onImageRateClick(BaseImage baseImage, float rating) {
+
+                if (!previewImage.isRated) {
+                    imageCommentActivityPresenter.rateImage(baseImage, rating);
+                } else {
+                    showToast(getResources().getString(R.string.image_already_rated));
+                }
+
             }
         };
 
 
-        backBtn.setOnClickListener(v -> onBackPressed());
+        backBtn.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.putExtra(IMAGE_DATA, previewImage);
+            setResult(RESULT_OK, intent);
+            finish();
+
+        });
     }
 
     @Override
@@ -142,10 +166,10 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 // (1) is A default value to view AddComment layout in case there is now Comments
         this.commentList.addAll(1, imageCommentsData.comments.commentList);
 
-        if(imageCommentsData.mentions.business !=null)
-        this.mentions.business.addAll(imageCommentsData.mentions.business);
-        if(imageCommentsData.mentions.photographers !=null)
-        this.mentions.photographers.addAll(imageCommentsData.mentions.photographers);
+        if (imageCommentsData.mentions.business != null)
+            this.mentions.business.addAll(imageCommentsData.mentions.business);
+        if (imageCommentsData.mentions.photographers != null)
+            this.mentions.photographers.addAll(imageCommentsData.mentions.photographers);
 
         commentsAdapter.notifyDataSetChanged();
 
@@ -167,18 +191,26 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     public void viewOnImageCommented(Comment comment) {
         // (1) is A default value to view AddComment layout in case there is now Comments
         this.commentList.add(1, comment);
-
-//        if(imageCommentsData.mentions.business !=null)
-//            this.mentions.business.addAll(imageCommentsData.mentions.business);
-//        if(imageCommentsData.mentions.photographers !=null)
-//            this.mentions.photographers.addAll(imageCommentsData.mentions.photographers);
-
         commentsAdapter.notifyDataSetChanged();
 
     }
 
     @Override
-    public void viewImageRateStatus(ImageRateResponse imageRateResponse) {
+    public void onImagedAddedToCart(boolean state) {
+
+        if (state) {
+            previewImage.isCart = true;
+        }
+        commentsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onImageRate(BaseImage baseImage) {
+        if (baseImage != null) {
+            previewImage.rate=baseImage.rate;
+            previewImage.isRated=baseImage.isRated;
+            commentsAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -192,19 +224,19 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         }
     }
 
-//    @Override
-//    public void viewHeaderImageProgress(boolean state) {
-//
-//        if (state) {
-//            headerImageProgress.setVisibility(View.VISIBLE);
-//        } else {
-//            headerImageProgress.setVisibility(View.GONE);
-//        }
-//    }
 
     @Override
     public void viewMessage(String msg) {
         showToast(msg);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(IMAGE_DATA, previewImage);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 

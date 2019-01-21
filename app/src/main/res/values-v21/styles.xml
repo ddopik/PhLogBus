@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PhlogRatingBarThem" parent="android:Widget.Holo.RatingBar.Small">
+        <item name="android:colorPrimary">@color/cyan1DA1F2</item>
+        <item name="android:colorPrimaryDark">@color/text_input_color</item>
+        <item name="android:colorAccent">@color/text_input_color</item>
+    </style>
+
+
+</resources>

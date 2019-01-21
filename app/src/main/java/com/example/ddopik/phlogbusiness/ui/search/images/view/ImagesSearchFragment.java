@@ -22,12 +22,12 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumGroup;
-import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AlbumAdapter;
-import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.FilterOption;
-import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.ExpandableListAdapter;
+import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.ui.search.images.presenter.ImagesSearchFragmentPresenter;
 import com.example.ddopik.phlogbusiness.ui.search.images.presenter.ImagesSearchFragmentPresenterImpl;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.FilterOption;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.ExpandableListAdapter;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.OnSearchTabSelected;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.SearchActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -178,10 +180,10 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         };
 
         imageSearchAdapter.onAlbumImageClicked = imageSearch -> {
-            Intent intent = new Intent(getContext(), ImageCommentActivity.class);
+            Intent intent = new Intent(getActivity(), ImageCommentActivity.class);
             intent.putExtra(ImageCommentActivity.IMAGE_DATA,imageSearch);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
+            startActivityForResult(intent, ImageCommentActivity.ImageComment_REQUEST_CODE);
         };
     }
 
@@ -312,4 +314,31 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             return 0;
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == ImageCommentActivity.ImageComment_REQUEST_CODE && resultCode == RESULT_OK) {
+                BaseImage selectedImage = data.getParcelableExtra(ImageCommentActivity.IMAGE_DATA);
+
+                for (int x=0;x<albumGroupList.size();x++) {
+                    for (int i = 0; i < albumGroupList.get(x).albumGroupList.size(); i++) {
+                        AlbumGroup albumGroup=albumGroupList.get(x);
+                        if (selectedImage.id == albumGroup.albumGroupList.get(i).id) {
+                            albumGroup.albumGroupList.get(i).isSaved=selectedImage.isSaved;
+                            imageSearchAdapter.notifyDataSetChanged();
+                            albumGroup.albumGroupList.set(i, selectedImage);
+                            return;
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+
+        }
+
+    }
+
+
 }

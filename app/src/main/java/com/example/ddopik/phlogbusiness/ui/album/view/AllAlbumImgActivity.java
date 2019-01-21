@@ -152,7 +152,7 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
         allAlbumImgAdapter.notifyDataSetChanged();
 
         for (int i = 0; i < albumImgList.size(); i++) {
-            if (albumImgList.get(i).id.equals(selectedImageId)) {
+            if (albumImgList.get(i).id == selectedImageId) {
                 allAlbumImgRv.getLayoutManager().scrollToPosition(i);
                 break;
             }

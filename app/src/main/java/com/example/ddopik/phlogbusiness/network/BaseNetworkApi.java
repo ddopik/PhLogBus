@@ -2,15 +2,13 @@ package com.example.ddopik.phlogbusiness.network;
 
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToCartResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.LightBoxListResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.RemoveImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.model.AccountDetailsModel;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewImagesResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponse;
-import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsResponse;
-import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentResponse;
-import com.example.ddopik.phlogbusiness.ui.commentimage.model.LikeImageResponse;
 import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.SubmitCampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.CampaignInnerPhotosResponse;
@@ -21,6 +19,10 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowCampaignRespons
 import com.example.ddopik.phlogbusiness.ui.cart.model.CartResponse;
 import com.example.ddopik.phlogbusiness.ui.cart.model.RemoveItemResponse;
 import com.example.ddopik.phlogbusiness.ui.downloads.model.Response;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageRateResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.LikeImageResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.AddLighBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.BrandLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.DeleteLightBoxResponse;
@@ -29,8 +31,8 @@ import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
 import com.example.ddopik.phlogbusiness.ui.profile.model.BusinessProfileResponse;
 import com.example.ddopik.phlogbusiness.ui.search.album.model.AlbumSearchResponse;
-import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.SearchFiltersResponse;
 import com.example.ddopik.phlogbusiness.ui.search.images.model.ImagesSearchResponse;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.SearchFiltersResponse;
 import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.DocumentsResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
@@ -45,12 +47,11 @@ import com.example.ddopik.phlogbusiness.ui.userprofile.model.UserProfileResponse
 import com.example.ddopik.phlogbusiness.ui.welcome.model.WelcomeScreenResponse;
 import com.rx2androidnetworking.Rx2ANRequest;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
+import io.reactivex.Observable;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import io.reactivex.Observable;
 
 /**
  * Created by abdalla-maged on 3/29/18.
@@ -78,6 +79,7 @@ public class BaseNetworkApi {
     private static final String SEARCH_ALBUM = BASE_URL + "/album/search";
     private static final String SEARCH_IMAGES = BASE_URL + "/photo/search";
     private static final String ALL_INDUSTRY = BASE_URL_COMMON + "/industries/list";
+    private static final String ALL_TAGS_URL = BASE_URL_COMMON + "/industries/list";
     private static final String SIGN_UP_USER = BASE_URL + "/auth/signup";
     private static final String NORMAL_LOGIN = BASE_URL + "/auth/login";
     private static final String FACEBOOK_LOGIN_URL = BASE_URL + "/signup_facebook";
@@ -100,15 +102,17 @@ public class BaseNetworkApi {
     private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/photo/comment";
     private static final String LIKE_IMAGE = BASE_URL + "/photo/like";
     private static final String UN_LIKE_IMAGE = BASE_URL + "/photo/unlike";
+    private static final String RATE_IMAGE = BASE_URL + "/photo/rate";
     private static final String FOLLOW_CAMPAIGN_URL = BASE_URL + "/join_photographer_campaign";
     private static final String UPLOAD_PROFILE_IMG = BASE_URL + "/profile/upload";
     private static final String SUBMIT_CAMPAIGN_URL = BASE_URL + "/campaign/create";
     private static final String BRAND_PROFILE_URL = BASE_URL + "/profile";
-    private static final String BRAND_LIGHT_BOX_URL = BASE_URL + "/lightBox/ALL";
+    private static final String BRAND_LIGHT_BOX_URL = BASE_URL + "/lightBox/all";
     private static final String DELETE_LIGHT_BOX_URL = BASE_URL + "/lightBox/delete";
     private static final String ADD_LIGHT_BOX_URL = BASE_URL + "/lightBox/add";
-    private static final String GET_LIGHT_BOX_URL = BASE_URL + "/lightBox/ALL";
+    private static final String GET_LIGHT_BOX_URL = BASE_URL + "/lightBox/all";
     private static final String ADD_IMG_TO_LIGHT_BOX_URL = BASE_URL + "/lightBox/photo/save";
+    private static final String ADD_IMG_TO_CART_URL = BASE_URL + "/cart/add";
     private static final String REMOVE_IMG_TO_LIGHT_BOX_URL = BASE_URL + "/lightBox/photo/delete";
     private static final String SETUP_BRAND_URL = BASE_URL + "/brand/setup";
     private static final String UPLOAD_DOCUMENT_URL = BASE_URL + "/brand/document/upload";
@@ -378,6 +382,15 @@ public class BaseNetworkApi {
                 .build()
                 .getObjectObservable(LikeImageResponse.class);
     }
+    public static io.reactivex.Observable<ImageRateResponse> rateImage(String imageId, String rate) {
+        return Rx2AndroidNetworking.post(RATE_IMAGE)
+                .addBodyParameter("photo_id", imageId)
+                .addBodyParameter("rate_value", rate)
+                .getResponseOnlyFromNetwork()
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(ImageRateResponse.class);
+    }
 
     public static io.reactivex.Observable<BrandInnerResponse> getBrandInnerData(String token, String brandId) {
         return Rx2AndroidNetworking.post(INNER_BRAND_URL)
@@ -443,6 +456,15 @@ public class BaseNetworkApi {
                 .addBodyParameter(data)
                 .build()
                 .getObjectObservable(AddImageToLightBoxResponse.class);
+    }
+
+
+    public static io.reactivex.Observable<AddImageToCartResponse> addImageToCart(String imageID) {
+        return Rx2AndroidNetworking.post(ADD_IMG_TO_CART_URL)
+                .setPriority(Priority.HIGH)
+                .addBodyParameter("photo_id",imageID)
+                .build()
+                .getObjectObservable(AddImageToCartResponse.class);
     }
 
     public static io.reactivex.Observable<RemoveImageToLightBoxResponse> removeLightBoxImage(Map<String, String> data) {

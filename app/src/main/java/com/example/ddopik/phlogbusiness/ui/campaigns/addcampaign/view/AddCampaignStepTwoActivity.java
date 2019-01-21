@@ -160,7 +160,7 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
 
 
         if (tagList.size() == 0) {
-            autoCompleteTextView.setError(getResources().getString(R.string.please_add_more_industry));
+            autoCompleteTextView.setError(getResources().getString(R.string.please_add_more_tags));
             inputStates = false;
 
         }
