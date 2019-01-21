@@ -8,9 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Mentions;
+import com.example.ddopik.phlogbusiness.base.commonmodel.*;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
@@ -18,7 +16,6 @@ import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.
 import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
-import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageRateResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityPresenter;
 
@@ -35,6 +32,8 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     private CustomTextView toolBarTitle;
     private ImageButton backBtn;
     private BaseImage previewImage;
+    private List<Photographer> photographerList = new ArrayList<Photographer>();
+    private List<Business> businessList = new ArrayList<Business>();
 
     private FrameLayout addCommentProgress;
     private CustomRecyclerView commentsRv;

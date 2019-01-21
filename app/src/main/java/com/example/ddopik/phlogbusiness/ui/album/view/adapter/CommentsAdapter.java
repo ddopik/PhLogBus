@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.ui.commentimage.view.MentionsAutoCompleteAdapter;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
@@ -35,7 +36,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     private Context context;
     private List<Comment> commentList;
     private Mentions mentions;
-
+    private List<Photographer> photographerList ;
+    private List<Business> businessList;
+    private MentionsAutoCompleteAdapter mentionsAutoCompleteAdapter;
 
     private BaseImage previewImage;
     public CommentAdapterAction commentAdapterAction;

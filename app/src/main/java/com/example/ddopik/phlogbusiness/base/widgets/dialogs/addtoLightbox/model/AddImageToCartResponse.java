@@ -1,4 +1,6 @@
 package com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model;
 
-public class AddImageToCartResponse {
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseResponse;
+
+public class AddImageToCartResponse extends BaseResponse {
 }
