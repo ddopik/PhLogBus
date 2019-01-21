@@ -94,7 +94,7 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
     @Override
     public void rateImage(BaseImage baseImage, float rate) {
         imageCommentActivityView.viewImageProgress(true);
-        BaseNetworkApi.rateImage(String.valueOf(baseImage.id), String.valueOf(Math.round(rate)))
+        BaseNetworkApi.rateImage(String.valueOf(baseImage.id), String.valueOf((int) Math.round(rate)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(imageRateResponse -> {

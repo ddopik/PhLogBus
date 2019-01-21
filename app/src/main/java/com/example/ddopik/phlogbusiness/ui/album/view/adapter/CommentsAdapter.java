@@ -85,13 +85,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
 
 
-            commentViewHolder.photoRating.setRating(Math.round(previewImage.rate));
-            commentViewHolder.photoRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    commentAdapterAction.onImageRate(previewImage,rating);
-                }
-            });
+            int rate3=Math.round(previewImage.rate);
+            commentViewHolder.photoRating.setRating(rate3 );
+
+            if (previewImage.isRated){
+                commentViewHolder.photoRating.setIsIndicator(true);
+            }
+            commentViewHolder.photoRating.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> commentAdapterAction.onImageRateClick(previewImage,rating));
 
 
             if (previewImage.isSaved) {
@@ -443,7 +443,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     public interface CommentAdapterAction {
         void onImageLike(BaseImage baseImage);
-        void onImageRate(BaseImage baseImage,float rating);
+        void onImageRateClick(BaseImage baseImage, float rating);
 
         void onAddToLightBox(BaseImage baseImage);
 
