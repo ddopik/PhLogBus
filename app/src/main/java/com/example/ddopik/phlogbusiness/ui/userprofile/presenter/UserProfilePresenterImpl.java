@@ -3,12 +3,12 @@ package com.example.ddopik.phlogbusiness.ui.userprofile.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.userprofile.model.UserProfileData;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivityView;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -41,10 +41,10 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
                         userProfileActivityView.viewUserProfileFollowersCount(""+userProfileData.getFollowersCount());
                         userProfileActivityView.viewUserProfileFollowingCount(""+userProfileData.getFollowingsCount());
                         userProfileActivityView.viewUserProfilePhotosCount(""+userProfileData.getPhotosCount());
-
+                        userProfileActivityView.setIsFollowing(userProfileResponse.data.isFollow());
 
                 }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 
@@ -64,23 +64,21 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
 
                 }, throwable -> {
                     userProfileActivityView.viewUserPhotosProgress(false);
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
 
     }
 
     @SuppressLint("CheckResult")
     @Override
-    public void followUser(String userId) {
-        BaseNetworkApi.followUser(PrefUtils.getBrandToken(context), userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(followUserResponse -> {
+    public Observable<UserProfileData> followUser(String userId) {
+        return BaseNetworkApi.followUser(PrefUtils.getBrandToken(context), userId)
+                .map(response -> response.data);
+    }
 
-                        userProfileActivityView.showMessage(context.getResources().getString(R.string.following_state) +" "+ followUserResponse.data);
-
-                }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
-                });
+    @Override
+    public Observable<UserProfileData> unfollow(String userID) {
+        return BaseNetworkApi.unfollowUser(userID)
+                .map(response -> response.data);
     }
 }

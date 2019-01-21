@@ -8,11 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.view.AccountDetailsFragment;
 import com.example.ddopik.phlogbusiness.ui.customersupport.view.CustomerSupportFragment;
+import com.example.ddopik.phlogbusiness.ui.downloads.view.DownloadsFragment;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
@@ -34,9 +37,10 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelpe
  */
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-    private CustomTextView toolBarTitle, callSupportBtn;
+    private CustomTextView toolBarTitle;
+    private TextView callSupportBtn;
     private BottomAppBar bottomNavigation;
-    private Button homeBrn, campaignBtn, myProfileBtn;
+    private Button homeBrn, campaignBtn, myProfileBtn, downloadsBtn;
     private FloatingActionButton callSupportFloatBtn;
     private Toolbar toolbar;
     private ImageButton backBtn;
@@ -66,6 +70,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         campaignBtn = findViewById(R.id.navigation_missions);
         myProfileBtn = findViewById(R.id.navigation_profile);
 
+        downloadsBtn = findViewById(R.id.navigation_downloads);
         callSupportFloatBtn = findViewById(R.id.btn_call_support);
         callSupportBtn = findViewById(R.id.navigation_call_support);
 
@@ -81,6 +86,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         myProfileBtn.setOnClickListener(this);
 
         callSupportFloatBtn.setOnClickListener(this);
+        downloadsBtn.setOnClickListener(this);
     }
 
     private void initListener() {
@@ -115,6 +121,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_call_support:
                 navigationManger.navigate(CALL_SUPPORT);
+                break;
+            case R.id.navigation_downloads:
+                navigationManger.navigate(DOWNLOADS);
                 break;
             default:
         }
@@ -163,6 +172,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             callSupportBtn.setCompoundDrawablePadding(8);
 
 
+            downloadsBtn.setTextColor(getResources().getColor(R.color.gray677078));
         }
 
        public void navigate(Constants.NavigationHelper navigationHelper) {
@@ -242,6 +252,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case ACCOUNT_DETAILS:
                     addFragment(R.id.view_container, AccountDetailsFragment.getInstance((Business) messageToFragment), AccountDetailsFragment.TAG, true);
                     currentTab = ACCOUNT_DETAILS;
+                    break;
+                case DOWNLOADS:
+                    addFragment(R.id.view_container, new DownloadsFragment(), AccountDetailsFragment.TAG, true);
+                    downloadsBtn.setTextColor(getResources().getColor(R.color.text_input_color));
                     break;
             }
 

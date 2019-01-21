@@ -10,12 +10,12 @@ import java.util.List;
  * Created by abdalla_maged on 12/25/2018.
  */
 public class CampaignData {
-    @SerializedName("current_page")
-    @Expose
-    public Integer currentPage;
     @SerializedName("data")
     @Expose
     public List<Campaign> data = null;
+    @SerializedName("current_page")
+    @Expose
+    public Integer currentPage;
     @SerializedName("first_page_url")
     @Expose
     public String firstPageUrl;

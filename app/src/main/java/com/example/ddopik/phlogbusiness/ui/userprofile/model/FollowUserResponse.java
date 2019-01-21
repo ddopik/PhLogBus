@@ -12,5 +12,5 @@ public class FollowUserResponse extends BaseApiResponse {
 
     @SerializedName("data")
     @Expose
-    public String data;
+    public UserProfileData data;
 }

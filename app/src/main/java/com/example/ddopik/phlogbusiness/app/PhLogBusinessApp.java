@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 
 import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.example.ddopik.phlogbusiness.network.BasicAuthInterceptor;
 import com.example.ddopik.phlogbusiness.realm.RealmConfigFile;
 import com.example.ddopik.phlogbusiness.realm.RealmDbMigration;
@@ -149,12 +150,18 @@ public class PhLogBusinessApp extends Application {
  * initializing block to add authentication to your Header Request
  * **/
         if (userToken != null) {
+
+            // enable this for request logging
+//            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+//            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
             BasicAuthInterceptor basicAuthInterceptor = new BasicAuthInterceptor(context);
             basicAuthInterceptor.setUserToken(userToken);
             basicAuthInterceptor.setUserType(userType);
             basicAuthInterceptor.setLang(lang);
             OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
                     .addNetworkInterceptor(basicAuthInterceptor)
+//                    .addInterceptor(loggingInterceptor)
                     .build();
             AndroidNetworking.initialize(context, okHttpClient);
         } else {

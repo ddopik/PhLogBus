@@ -3,6 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
@@ -12,6 +13,7 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.draft.view.DraftCampaignsFr
 import com.example.ddopik.phlogbusiness.ui.campaigns.draft.presenter.DraftCampaignsPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.running.presenter.RunningCampaignPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.running.view.RunningCampaignFragmentView;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -78,6 +80,7 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
     @Override
     public void getRunningCampaign(int page,RunningCampaignFragmentView runningCampaignFragmentView) {
         runningCampaignFragmentView.showAllCampaignProgress(true);
+        Log.e("Omar", PrefUtils.getBrandToken(context));
         BaseNetworkApi.getAllRunningCampaign(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
