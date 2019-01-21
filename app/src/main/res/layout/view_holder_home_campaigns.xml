@@ -45,7 +45,8 @@
             <ImageView
                 android:id="@+id/campaign_img"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
                 tools:background="@drawable/splash_screen_background"/>
 
             <ImageView

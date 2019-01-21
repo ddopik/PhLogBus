@@ -48,12 +48,9 @@ public class RunningCampaignsAdapter extends RecyclerView.Adapter<RunningCampaig
     public void onBindViewHolder(@NonNull CampaignViewHolder campaignViewHolder, int i) {
 
         Campaign homeCampaign = homeCampaignList.get(i);
-        campaignViewHolder.campaignImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (campaignLister != null) {
-                    campaignLister.onCampaignClicked(homeCampaign.id.toString());
-                }
+        campaignViewHolder.campaignImage.setOnClickListener(v -> {
+            if (campaignLister != null) {
+                campaignLister.onCampaignClicked(homeCampaign.id.toString());
             }
         });
 
