@@ -117,7 +117,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp45"
-
                         android:hint="@string/add_new_tag"
                         android:imeActionLabel="Done"
                         android:imeOptions="actionDone"

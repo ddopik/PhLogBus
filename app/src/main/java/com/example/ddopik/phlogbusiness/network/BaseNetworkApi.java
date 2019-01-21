@@ -78,6 +78,7 @@ public class BaseNetworkApi {
     private static final String SEARCH_ALBUM = BASE_URL + "/album/search";
     private static final String SEARCH_IMAGES = BASE_URL + "/photo/search";
     private static final String ALL_INDUSTRY = BASE_URL_COMMON + "/industries/list";
+    private static final String ALL_TAGS_URL = BASE_URL_COMMON + "/industries/list";
     private static final String SIGN_UP_USER = BASE_URL + "/auth/signup";
     private static final String NORMAL_LOGIN = BASE_URL + "/auth/login";
     private static final String FACEBOOK_LOGIN_URL = BASE_URL + "/signup_facebook";
