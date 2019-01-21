@@ -5,13 +5,11 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Filter;
-import android.widget.TextView;
+import android.widget.*;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
-import com.example.ddopik.phlogbusiness.ui.commentimage.model.SocialUser;
+import com.example.ddopik.phlogbusiness.base.commonmodel.SocialUser;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +23,7 @@ public class MentionsAutoCompleteAdapter extends ArrayAdapter {
     private ListFilter listFilter = new ListFilter();
     private List<SocialUser> socialUsers;
 
+    public OnUserClicked onUserClicked;
 
     public MentionsAutoCompleteAdapter(Context context, int resource, List<SocialUser> socialUsers) {
         super(context, resource, socialUsers);
@@ -48,12 +47,29 @@ public class MentionsAutoCompleteAdapter extends ArrayAdapter {
     public View getView(int position, View view, @NonNull ViewGroup parent) {
 
         if (view == null) {
-            view = LayoutInflater.from(parent.getContext())
-                    .inflate(itemLayout, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(itemLayout, parent, false);
         }
 
-        TextView strName = (TextView) view.findViewById(R.id.textView);
-//        strName.setText(getItem(position));
+
+        ImageView mentionedUserImg = view.findViewById(R.id.mention_profile_img);
+        TextView mentionedUserName = view.findViewById(R.id.mentioned_profile_user_name);
+
+        GlideApp.with(mContext)
+                .load(getItem(position).mentionedImage)
+                .error(R.drawable.default_error_img)
+                .placeholder(R.drawable.default_place_holder)
+                .override(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+                .apply(RequestOptions.circleCropTransform())
+                .into(mentionedUserImg);
+
+        mentionedUserName.setText(getItem(position).mentionedUserName);
+
+        if (onUserClicked !=null){
+            view.setOnClickListener(v->{
+                onUserClicked.onUserSelected(getItem(position));
+            });
+        }
+
         return view;
     }
 
@@ -83,12 +99,11 @@ public class MentionsAutoCompleteAdapter extends ArrayAdapter {
             } else {
                 final String searchStrLowerCase = prefix.toString().toLowerCase();
 
-                ArrayList<String> matchValues = new ArrayList<String>();
-
+                ArrayList<SocialUser> matchValues = new ArrayList<SocialUser>();
                 for (SocialUser socialUser : socialUsers) {
-//                    if (socialUser.toLowerCase().startsWith(searchStrLowerCase)) {
-//                        matchValues.add(dataItem);
-//                    }
+                    if (socialUser.mentionedUserName.startsWith(searchStrLowerCase)) {
+                        matchValues.add(socialUser);
+                    }
                 }
 
                 results.values = matchValues;
@@ -116,8 +131,7 @@ public class MentionsAutoCompleteAdapter extends ArrayAdapter {
 
 
     public interface OnUserClicked {
-        void onPhotoGrapgerSelected(Photographer photographer);
+        void onUserSelected(SocialUser socialUser);
 
-        void onBusinessSelected(Business business);
     }
 }

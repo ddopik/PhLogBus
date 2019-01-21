@@ -38,6 +38,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     private Mentions mentions;
     private List<Photographer> photographerList ;
     private List<Business> businessList;
+    private List<SocialUser> socialUserList;
     private MentionsAutoCompleteAdapter mentionsAutoCompleteAdapter;
 
     private BaseImage previewImage;
@@ -190,6 +191,20 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     commentViewHolder.sendCommentImgVal.getText().clear();
                 });
             }
+
+
+
+            MentionsAutoCompleteAdapter mentionsAutoCompleteAdapter = new MentionsAutoCompleteAdapter(context, R.layout.view_holder_mentioned_user, socialUserList);
+            commentViewHolder.sendCommentImgVal.setAdapter(mentionsAutoCompleteAdapter);
+            commentViewHolder.sendCommentImgVal.setThreshold(0);
+            mentionsAutoCompleteAdapter.setNotifyOnChange(true);
+            mentionsAutoCompleteAdapter.notifyDataSetChanged();
+            mentionsAutoCompleteAdapter.onUserClicked = socialUser -> {
+                    Toast.makeText(context,socialUser.mentionedUserId+" ",Toast.LENGTH_SHORT).show();
+            };
+
+
+
         }
     }
 
@@ -410,7 +425,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         CustomTextView commentAuthorName;
         ImageView commentAuthorImg;
         //SendCommentCell
-        EditText sendCommentImgVal;
+        AutoCompleteTextView sendCommentImgVal;
         ImageButton sendCommentBtn;
 
 
