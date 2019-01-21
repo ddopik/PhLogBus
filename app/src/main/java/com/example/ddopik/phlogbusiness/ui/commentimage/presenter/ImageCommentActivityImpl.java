@@ -40,7 +40,6 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
     }
 
 
-
     @SuppressLint("CheckResult")
     @Override
     public void submitComment(String imageId, String comment) {
@@ -65,30 +64,49 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
         imageCommentActivityView.viewImageProgress(true);
 
 
-        if (baseImage.isLiked)
-        {
+        if (baseImage.isLiked) {
             BaseNetworkApi.unlikeImage(String.valueOf(baseImage.id))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(baseStateResponse -> {
                         imageCommentActivityView.viewImageProgress(false);
                         imageCommentActivityView.viewImageLikedStatus(false);
-                    },throwable -> {
+                    }, throwable -> {
                         imageCommentActivityView.viewImageProgress(false);
                         CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     });
-        }else {
+        } else {
             BaseNetworkApi.likeImage(String.valueOf(baseImage.id))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(baseStateResponse -> {
                         imageCommentActivityView.viewImageProgress(false);
                         imageCommentActivityView.viewImageLikedStatus(true);
-                    },throwable -> {
+                    }, throwable -> {
                         imageCommentActivityView.viewImageProgress(false);
                         CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     });
         }
+
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void rateImage(BaseImage baseImage, float rate) {
+        imageCommentActivityView.viewImageProgress(true);
+        BaseNetworkApi.rateImage(String.valueOf(baseImage.id), String.valueOf(Math.round(rate)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(imageRateResponse -> {
+                            imageCommentActivityView.onImageRate(imageRateResponse.baseImage);
+                            imageCommentActivityView.viewImageProgress(false);
+                        }
+                        , throwable -> {
+
+                            imageCommentActivityView.viewImageProgress(false);
+                            CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                        });
+
 
     }
 

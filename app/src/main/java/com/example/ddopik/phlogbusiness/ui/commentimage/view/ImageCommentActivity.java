@@ -136,6 +136,11 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
                 }
 
             }
+
+            @Override
+            public void onImageRate(BaseImage baseImage, float rating) {
+                   imageCommentActivityPresenter.rateImage( baseImage, rating);
+            }
         };
 
 
@@ -194,7 +199,11 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     }
 
     @Override
-    public void viewImageRateStatus(ImageRateResponse imageRateResponse) {
+    public void onImageRate(BaseImage baseImage) {
+        if (baseImage !=null){
+            previewImage=baseImage;
+            commentsAdapter.notifyDataSetChanged();
+        }
 
     }
 

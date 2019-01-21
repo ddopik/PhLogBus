@@ -19,6 +19,7 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowCampaignRespons
 import com.example.ddopik.phlogbusiness.ui.cart.model.CartResponse;
 import com.example.ddopik.phlogbusiness.ui.cart.model.RemoveItemResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageRateResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.LikeImageResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.AddLighBoxResponse;
@@ -99,6 +100,7 @@ public class BaseNetworkApi {
     private static final String SUBMIT_IMAGE_COMMENT = BASE_URL + "/photo/comment";
     private static final String LIKE_IMAGE = BASE_URL + "/photo/like";
     private static final String UN_LIKE_IMAGE = BASE_URL + "/photo/unlike";
+    private static final String RATE_IMAGE = BASE_URL + "/photo/rate";
     private static final String FOLLOW_CAMPAIGN_URL = BASE_URL + "/join_photographer_campaign";
     private static final String UPLOAD_PROFILE_IMG = BASE_URL + "/profile/upload";
     private static final String SUBMIT_CAMPAIGN_URL = BASE_URL + "/campaign/create";
@@ -375,6 +377,15 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(LikeImageResponse.class);
+    }
+    public static io.reactivex.Observable<ImageRateResponse> rateImage(String imageId, String rate) {
+        return Rx2AndroidNetworking.post(RATE_IMAGE)
+                .addBodyParameter("photo_id", imageId)
+                .addBodyParameter("rate_value", rate)
+                .getResponseOnlyFromNetwork()
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(ImageRateResponse.class);
     }
 
     public static io.reactivex.Observable<BrandInnerResponse> getBrandInnerData(String token, String brandId) {

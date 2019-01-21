@@ -191,14 +191,15 @@
                                android:scaleType="centerInside"
                     />
                 </FrameLayout>
-
+                <!--style="?android:attr/ratingBarStyleSmall"-->
                 <RatingBar
-                        android:id="@+id/photo_rating"
                         style="?android:attr/ratingBarStyleSmall"
+                        android:id="@+id/photo_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:stepSize="1"
                         android:layout_margin="@dimen/dp14"
-                        android:rating="5"
+                        android:isIndicator="false"
                         tools:rating="3"/>
 
             </LinearLayout>

@@ -82,7 +82,7 @@ public class BaseImage implements Parcelable {
     public Integer likesCount;
     @SerializedName("rate")
     @Expose
-    public String rate;
+    public float rate;
 
     @Override
     public int describeContents() {
@@ -110,7 +110,7 @@ public class BaseImage implements Parcelable {
         dest.writeValue(this.commentsCount);
         dest.writeValue(this.savesCount);
         dest.writeValue(this.likesCount);
-        dest.writeString(this.rate);
+        dest.writeFloat(this.rate);
     }
 
     protected BaseImage(Parcel in) {
@@ -133,7 +133,7 @@ public class BaseImage implements Parcelable {
         this.commentsCount = (Integer) in.readValue(Integer.class.getClassLoader());
         this.savesCount = (Integer) in.readValue(Integer.class.getClassLoader());
         this.likesCount = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.rate = in.readString();
+        this.rate = in.readFloat();
     }
 
     public static final Creator<BaseImage> CREATOR = new Creator<BaseImage>() {

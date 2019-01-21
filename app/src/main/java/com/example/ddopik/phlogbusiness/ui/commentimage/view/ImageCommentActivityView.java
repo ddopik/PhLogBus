@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 
 
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageRateResponse;
@@ -19,7 +20,7 @@ public interface ImageCommentActivityView {
 
     void onImagedAddedToCart(boolean state);
 
-    void viewImageRateStatus(ImageRateResponse imageRateResponse);
+    void onImageRate(BaseImage baseImage);
 
     void viewMessage(String msg);
 }
