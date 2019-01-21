@@ -18,6 +18,11 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowBrandResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowCampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.cart.model.CartResponse;
 import com.example.ddopik.phlogbusiness.ui.cart.model.RemoveItemResponse;
+import com.example.ddopik.phlogbusiness.ui.downloads.model.Response;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageRateResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.LikeImageResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.*;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.AddLighBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.BrandLightBoxResponse;
@@ -84,7 +89,7 @@ public class BaseNetworkApi {
     private static final String SOCIAL_DATA_URL = BASE_URL + "/social";
     private static final String GET_ALL_NOTIFICATION = BASE_URL + "/notification";
     private static final String ALL_COMPLETED_CAMPAIGN_URL = BASE_URL + "/campaign/old";
-    private static final String ALL_RUING_CAMPAIGN_URL = BASE_URL + "/campaign/draft";
+    private static final String ALL_RUNNING_CAMPAIGN_URL = BASE_URL + "/campaign/running";
     private static final String ALL_DRAFT_CAMPAIGN_URL = BASE_URL + "/campaign/draft";
     private static final String CAMPAIGN_PHOTOS_URL = BASE_URL + "/get_photos_campaign";
     private static final String CAMPAIGN_DETAILS_URL = BASE_URL + "/detail_one_campaign";
@@ -119,6 +124,8 @@ public class BaseNetworkApi {
 
 
     private static final String UPDATE_PROFILE_URL = BASE_URL + "/profile/update";
+    private static final String UNFOLLOW_USER_URL = BASE_URL + "/photographer/unfollow";
+    private static final String DOWNLOADS_URL = BASE_URL + "/campaign/photos";
 
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
@@ -265,7 +272,7 @@ public class BaseNetworkApi {
     }
 
     public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(int page) {
-        return Rx2AndroidNetworking.post(ALL_RUING_CAMPAIGN_URL)
+        return Rx2AndroidNetworking.post(ALL_RUNNING_CAMPAIGN_URL)
                 .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
                 .setPriority(Priority.HIGH)
                 .build()
@@ -315,7 +322,7 @@ public class BaseNetworkApi {
     public static io.reactivex.Observable<FollowUserResponse> followUser(String token, String userID) {
         return Rx2AndroidNetworking.post(PHOTOGRAPHER_FOLLOW_USER_URL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
-                .addBodyParameter("user_names_id_to", userID)
+                .addBodyParameter("photographer_id", userID)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(FollowUserResponse.class);
@@ -571,6 +578,24 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getStringObservable();
+    }
+
+    public static Observable<FollowUserResponse> unfollowUser(String userID) {
+        return Rx2AndroidNetworking.post(UNFOLLOW_USER_URL)
+                .addBodyParameter("photographer_id", userID)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(FollowUserResponse.class);
+    }
+
+    public static Observable<Response> getDownloads(String token) {
+        return Rx2AndroidNetworking.post(DOWNLOADS_URL)
+                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
+                .addBodyParameter("campaign_id", "269")
+                .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(0))
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(Response.class);
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.*;
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
@@ -15,6 +16,10 @@ import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.userprofile.presenter.UserProfilePresenter;
 import com.example.ddopik.phlogbusiness.ui.userprofile.presenter.UserProfilePresenterImpl;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 import java.util.ArrayList;
@@ -23,6 +28,8 @@ import java.util.List;
 
 public class UserProfileActivity extends BaseActivity implements UserProfileActivityView {
 
+
+    private static final String TAG = UserProfileActivity.class.getSimpleName();
 
     public static String USER_ID="user_id";
     public static String USER_TYPE="user_type";
@@ -39,6 +46,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     private Button followUser;
     private PagingController pagingController;
 
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +84,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
             followUser=findViewById(R.id.follow_user);
             userProfilePhotosAdapter = new UserProfilePhotosAdapter(this, userPhotoList);
             userProfilePhotosRv.setAdapter(userProfilePhotosAdapter);
-            userProfilePresenter.getUserProfileData(userID); //todo static call here
+            userProfilePresenter.getUserProfileData(userID);
             userProfilePresenter.getUserPhotos(userID,0);
 
             userCoverImg = findViewById(R.id.user_cover_img);
@@ -92,8 +100,37 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
             }
         };
         followUser.setOnClickListener(v -> {
-            if(userID !=null)
-            userProfilePresenter.followUser(userID);
+            if(userID ==null)
+                return;
+            if (following) {
+                Disposable disposable = userProfilePresenter.unfollow(userID)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(userProfileData -> {
+                            following = userProfileData.isFollow();
+                            if (!userProfileData.isFollow()) {
+                                followUser.setText(R.string.follow);
+                                userProfileFolloweresCount.setText("" + userProfileData.getFollowersCount());
+                            }
+                        }, throwable -> {
+                            CustomErrorUtil.Companion.setError(this, TAG, throwable);
+                        });
+                disposables.add(disposable);
+            } else {
+                Disposable disposable = userProfilePresenter.followUser(userID)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(userProfileData -> {
+                            following = userProfileData.isFollow();
+                            if (userProfileData.isFollow()) {
+                                followUser.setText(R.string.unfollow);
+                                userProfileFolloweresCount.setText("" + userProfileData.getFollowersCount());
+                            }
+                        }, throwable -> {
+                            CustomErrorUtil.Companion.setError(this, TAG, throwable);
+                        });
+                disposables.add(disposable);
+            }
         });
     }
 
@@ -166,5 +203,22 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     @Override
     public void showMessage(String msg) {
         super.showToast(msg);
+    }
+
+    private boolean following;
+    @Override
+    public void setIsFollowing(boolean follow) {
+        following = follow;
+        if (following) {
+            followUser.setText(R.string.unfollow);
+        } else {
+            followUser.setText(R.string.follow);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        disposables.dispose();
+        super.onDestroy();
     }
 }

@@ -192,7 +192,7 @@ public class StepTwoFragment extends BaseFragment {
                     SelectFromStringListDialogFragment fragment = SelectFromStringListDialogFragment.newInstance(industries);
                     fragment.setConsumer(model -> {
                         selectedIndustry = (Industry) model;
-                        industryET.setText(selectedIndustry.nameEn);
+                        industryET.setText(selectedIndustry.name);
                         phone.requestFocus();
                         consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(ActionType.INDUSTRY, selectedIndustry));
                         fragment.dismiss();
@@ -229,7 +229,7 @@ public class StepTwoFragment extends BaseFragment {
             for (Industry industry : industries) {
                 if (industry.id.equals(selectedIndustry.id)) {
                     selectedIndustry = industry;
-                    if (selectedIndustry.nameEn != null)
+                    if (selectedIndustry.name != null)
                         industryET.setText(selectedIndustry.nameEn);
                     break;
                 }

@@ -78,7 +78,7 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
         pagingController = new PagingController(draftCampaignsRv) {
             @Override
             public void getPagingControllerCallBack(int page) {
-                draftCampaignsPresenter.getDraftCampaign(page, DraftCampaignsFragment.this);
+//                draftCampaignsPresenter.getDraftCampaign(page, DraftCampaignsFragment.this);
             }
         };
         draftCampaignsAdapter.campaignLister = campaignID -> {

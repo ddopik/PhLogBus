@@ -17,4 +17,6 @@ public interface UserProfileActivityView {
     void viewUserPhotos(List<BaseImage> userPhotoList);
     void viewUserPhotosProgress(boolean state);
     void showMessage(String msg);
+
+    void setIsFollowing(boolean follow);
 }

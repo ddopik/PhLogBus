@@ -7,12 +7,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
@@ -29,6 +34,8 @@ import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenter;
 import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenterImpl;
 
+import org.w3c.dom.Text;
+
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.ACCOUNT_DETAILS;
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.LIGHT_BOX;
 
@@ -37,13 +44,15 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelpe
  * <p>
  * Fragment of brand profile (Personal)
  */
-public class BusinessProfileFragment extends BaseFragment implements BrandProfileFragmentView {
+public class BusinessProfileFragment extends BaseFragment implements BrandProfileFragmentView, PopupMenu.OnMenuItemClickListener {
     private View mainView;
-    private CustomTextView brandName, brandWebSite, brandIndustry;
+    private TextView brandName, brandWebSite, brandIndustry;
     private ImageView brandImgIcon;
-    private FrameLayout bramdProfileCoverImg;
+    private ImageView bramdProfileCoverImg;
     private LinearLayout accountDetailsBtn, setupBrandBtn, cartBtn, myLightBoxBtn;
     private ProgressBar brandProfileProgress;
+    private ImageButton menuButton;
+
     private BrandProfilePresenter brandProfilePresenter;
 
     @Nullable
@@ -80,6 +89,8 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         myLightBoxBtn = mainView.findViewById(R.id.light_box_btn);
 
         brandProfileProgress = mainView.findViewById(R.id.brand_profile_progress);
+
+        menuButton = mainView.findViewById(R.id.menu_button);
     }
 
     private void initListeners() {
@@ -99,6 +110,13 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         myLightBoxBtn.setOnClickListener(v -> {
             MainActivity.navigationManger.navigate(LIGHT_BOX);
         });
+        menuButton.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(getContext(), v);
+            // This activity implements OnMenuItemClickListener
+            popup.setOnMenuItemClickListener(this);
+            popup.inflate(R.menu.profile_fragment_menu);
+            popup.show();
+        });
     }
 
     private Business business;
@@ -113,9 +131,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         if (business.website != null)
             brandWebSite.setText(business.website);
         if (business.industry != null)
-            brandIndustry.setText(business.industry.nameEn);
-
-
+            brandIndustry.setText(business.industry.name);
 
 
         GlideApp.with(this)
@@ -127,19 +143,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
 
         GlideApp.with(this)
                 .load(business.imageCover)
-                .placeholder(R.drawable.default_place_holder)
-                .error(R.drawable.default_error_img)
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        // log exception
-                        bramdProfileCoverImg.setBackground(getResources().getDrawable(R.drawable.default_error_img));
-                        return false; // important to return false so the error placeholder can be placed
-                    }
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        bramdProfileCoverImg.setBackground(resource);
-                        return false; }});
+                .into(bramdProfileCoverImg);
 
     }
 
@@ -155,5 +159,17 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         } else {
             brandProfileProgress.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_edit:
+                accountDetailsBtn.performClick();
+                return true;
+            case R.id.item_logout:
+                return true;
+        }
+        return false;
     }
 }

@@ -227,6 +227,10 @@
     <string name="error_missing_desc">Provide a description</string>
     <string name="image_already_rated">Image already rated</string>
     <string name="please_add_more_tags">Please add at least one tag</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="logout">LOGOUT</string>
+    <string name="downloads">Downloads</string>
+    <string name="download">Download</string>
 
 
 </resources>
