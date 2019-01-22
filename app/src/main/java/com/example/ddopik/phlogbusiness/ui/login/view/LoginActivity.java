@@ -94,7 +94,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
                             showToast(getString(R.string.check_your_mail));
                         else showToast(getString(R.string.error_occured));
                     }, throwable -> {
-                        showToast(getString(R.string.error_occured));
+                         showToast(getString(R.string.error_occured));
                     });
             disposables.add(disposable);
         });

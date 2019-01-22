@@ -27,6 +27,7 @@ import com.example.ddopik.phlogbusiness.ui.commentimage.model.*;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.AddLighBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.BrandLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.DeleteLightBoxResponse;
+import com.example.ddopik.phlogbusiness.ui.lightboxphotos.model.LightboxPhotosResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.LoginResponse;
 import com.example.ddopik.phlogbusiness.ui.login.model.SocialLoginResponse;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationResponse;
@@ -127,6 +128,7 @@ public class BaseNetworkApi {
     private static final String UNFOLLOW_USER_URL = BASE_URL + "/photographer/unfollow";
     private static final String DOWNLOADS_URL = BASE_URL + "/campaign/photos";
     private static final String FORGOT_PASSWORD_URL = BASE_URL + "/auth/forgot_password";
+    private static final String LIGHT_BOX_PHOTOS_URL = BASE_URL + "/lightBox/photos";
 
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
@@ -606,6 +608,15 @@ public class BaseNetworkApi {
                 .addBodyParameter("email", email)
                 .build()
                 .getStringObservable();
+    }
+
+    public static Observable<LightboxPhotosResponse> getLigtboxPhotos(int lightBoxId, int page) {
+        return Rx2AndroidNetworking.post(LIGHT_BOX_PHOTOS_URL)
+                .setPriority(Priority.HIGH)
+                .addBodyParameter("lightbox_id", String.valueOf(lightBoxId))
+                .addQueryParameter("page", String.valueOf(page))
+                .build()
+                .getObjectObservable(LightboxPhotosResponse.class);
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){
