@@ -113,5 +113,7 @@ public class LightBoxPhotosFragment extends BaseFragment implements LightboxPhot
 
     @Override
     public void addPhotos(List<BaseImage> data) {
+        images.addAll(data);
+        adapter.notifyDataSetChanged();
     }
 }

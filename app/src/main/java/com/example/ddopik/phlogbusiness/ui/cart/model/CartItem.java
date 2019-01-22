@@ -36,7 +36,7 @@ public class CartItem {
 	private String updatedAt;
 
 	@SerializedName("rate")
-	private int rate;
+	private float rate;
 
 	@SerializedName("comments_count")
 	private int commentsCount;
@@ -122,11 +122,11 @@ public class CartItem {
 		return updatedAt;
 	}
 
-	public void setRate(int rate){
+	public void setRate(float rate){
 		this.rate = rate;
 	}
 
-	public int getRate(){
+	public float getRate(){
 		return rate;
 	}
 
