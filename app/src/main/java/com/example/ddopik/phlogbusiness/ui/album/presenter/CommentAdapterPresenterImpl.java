@@ -34,24 +34,29 @@ public class CommentAdapterPresenterImpl implements CommentAdapterPresenter {
                 .subscribe(socialAutoCompleteResponse -> {
 
                     List<MentionedUser> mentionedUserList = new ArrayList<>();
-                    for (Photographer photographer : socialAutoCompleteResponse.data.photographers) {
-                        MentionedUser mentionedUser = new MentionedUser();
+                    if (socialAutoCompleteResponse.data.photographers != null) {
 
-                        mentionedUser.mentionedUserId = photographer.id;
-                        mentionedUser.mentionedUserName = photographer.fullName;
-                        mentionedUser.mentionedImage = photographer.imageProfile;
-                        mentionedUser.mentionedType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
-                        mentionedUserList.add(mentionedUser);
-                    }
-                    for (Business business : socialAutoCompleteResponse.data.businesses) {
-                        MentionedUser mentionedUser = new MentionedUser();
-                        mentionedUser.mentionedUserId = business.id;
-                        mentionedUser.mentionedUserName = business.userName + " " + business.lastName;
-                        mentionedUser.mentionedImage = business.thumbnail;
-                        mentionedUser.mentionedType = Constants.UserType.USER_TYPE_BUSINESS;
-                        mentionedUserList.add(mentionedUser);
-                    }
 
+                        for (Photographer photographer : socialAutoCompleteResponse.data.photographers) {
+                            MentionedUser mentionedUser = new MentionedUser();
+
+                            mentionedUser.mentionedUserId = photographer.id;
+                            mentionedUser.mentionedUserName = photographer.fullName;
+                            mentionedUser.mentionedImage = photographer.imageProfile;
+                            mentionedUser.mentionedType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
+                            mentionedUserList.add(mentionedUser);
+                        }
+                    }
+                    if (socialAutoCompleteResponse.data.businesses != null) {
+                        for (Business business : socialAutoCompleteResponse.data.businesses) {
+                            MentionedUser mentionedUser = new MentionedUser();
+                            mentionedUser.mentionedUserId = business.id;
+                            mentionedUser.mentionedUserName = business.userName + " " + business.lastName;
+                            mentionedUser.mentionedImage = business.thumbnail;
+                            mentionedUser.mentionedType = Constants.UserType.USER_TYPE_BUSINESS;
+                            mentionedUserList.add(mentionedUser);
+                        }
+                    }
                     commentsAdapterView.viewMentionedUsers(mentionedUserList);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);

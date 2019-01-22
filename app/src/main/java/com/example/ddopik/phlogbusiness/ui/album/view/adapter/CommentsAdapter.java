@@ -246,12 +246,32 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 // user cleared search get default
                 Log.e(TAG, "search string: " + autoCompleteTextView.getText().toString().trim());
                 int cursorPosition = autoCompleteTextView.getSelectionStart();
-                String currentSelectedChar = Character.toString(autoCompleteTextView.getText().toString().charAt(cursorPosition - 1));
 
-                Toast.makeText(context, currentSelectedChar, Toast.LENGTH_SHORT).show();
-                if (currentSelectedChar.equals("@")) {
-                    commentAdapterPresenter.getMentionedUser(autoCompleteTextView.getText().toString().trim());
+                ///getting String value before cursor
+                if (cursorPosition > 0) {
+                    String currentSelectedChar = Character.toString(autoCompleteTextView.getText().toString().charAt(cursorPosition - 1));
+                    int selectedPosition = autoCompleteTextView.getText().toString().indexOf(currentSelectedChar);
+                    String mentionedTemp[] = autoCompleteTextView.getText().toString().split(" ");
+                    int sizeo=mentionedTemp.length;
+                    if ((selectedPosition + 1) < mentionedTemp.length) {
+                        if (mentionedTemp[selectedPosition].equals("@")) {
+                            Toast.makeText(context, "mention is =  " + mentionedTemp[selectedPosition+1], Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+
+
+//                    String currentSelectedCharPosition = mentionedTemp[selectedPosition + 1];
                 }
+//
+//
+//                String mentionedTemp[]= autoCompleteTextView.getText().toString().split(" ");
+//                Toast.makeText(context, "mentionedPosition ="+mentioned_AT_Position , Toast.LENGTH_SHORT).show();
+//                if ( mentionedTemp[mentioned_AT_Position].equals("@") && mentionedTemp[mentioned_AT_Position+1]!=null) {
+//
+//                    Toast.makeText(context, "key = "+mentionedTemp[mentioned_AT_Position+1], Toast.LENGTH_SHORT).show();
+////                    commentAdapterPresenter.getMentionedUser(autoCompleteTextView.getText().toString().trim());
+//                }
 
 
             }
