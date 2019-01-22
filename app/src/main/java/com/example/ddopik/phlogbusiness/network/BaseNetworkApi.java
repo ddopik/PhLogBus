@@ -23,6 +23,7 @@ import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsRespo
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageRateResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.LikeImageResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentResponse;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.*;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.AddLighBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.BrandLightBoxResponse;
 import com.example.ddopik.phlogbusiness.ui.lightbox.model.DeleteLightBoxResponse;
@@ -119,6 +120,7 @@ public class BaseNetworkApi {
     private static final String GET_DOCUMENTS_URL = BASE_URL + "/brand/document/list";
     private static final String GET_CART_ITEMS_URL = BASE_URL + "/cart/list";
     private static final String REMOVE_FROM_CART_URL = BASE_URL + "/cart/remove";
+    private static final String SOCIAL_AUTO_COMPLETE = BASE_URL_COMMON + "/social/search";
 
 
     private static final String UPDATE_PROFILE_URL = BASE_URL + "/profile/update";
@@ -547,6 +549,15 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(RemoveItemResponse.class);
+    }
+
+
+    public static Observable<SocialAutoCompleteResponse> getSocialAutoComplete(String keyword) {
+        return Rx2AndroidNetworking.post(SOCIAL_AUTO_COMPLETE)
+                .addBodyParameter("keyword",keyword)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(SocialAutoCompleteResponse.class);
     }
 
     public static Observable<String> updateProfile(String token, AccountDetailsModel model) {

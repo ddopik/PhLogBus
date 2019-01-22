@@ -23,8 +23,8 @@ public class AutoCompleteTagsMenuAdapter extends ArrayAdapter<Tag> {
 
     private int resourceLayout;
     private Context mContext;
-    public List<Tag> tagList;
-    private List<Tag> allTagsList;
+    private List<Tag> tagList; ///FilteredTag
+    private List<Tag> allTagsList; // all tags
     public OnMenuItemClicked onMenuItemClicked;
 
     public AutoCompleteTagsMenuAdapter(Context context, int resource, List<Tag> tags) {

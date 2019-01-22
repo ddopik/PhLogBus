@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/dp8"
+                                    android:background="@color/white"
+                                    app:cardCornerRadius="@dimen/item_card_corner_radius"
+                                    app:cardElevation="@dimen/item_card_elevation">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/profile_container"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="match_parent"
+                  android:layout_height="@dimen/following_card_height"
+                  android:orientation="horizontal">
+
+        <ImageView
+                android:id="@+id/mention_profile_img"
+                android:layout_width="@dimen/icon_view_holder_size_m"
+                android:layout_height="@dimen/icon_view_holder_size_m"
+                android:layout_marginStart="@dimen/dp12"
+                android:layout_marginEnd="@dimen/dp12"
+                android:layout_gravity="center"
+                android:src="@drawable/phlog_logo" />
+
+        <LinearLayout
+
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:gravity="center|start">
+
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                    android:id="@+id/mentioned_profile_user_name"
+                    android:fontFamily="@font/arial_rounded_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_medium_s"
+                    tools:text="full name here" />
+
+            <!--<com.example.ddopik.phlogbusiness.base.widgets.CustomTextView-->
+                    <!--android:id="@+id/mentioned_profile_user_name"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="@dimen/font_normal"-->
+                    <!--android:layout_marginTop="@dimen/dp4"-->
+                    <!--android:layout_marginBottom="@dimen/dp4"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--tools:text="user name here" />-->
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

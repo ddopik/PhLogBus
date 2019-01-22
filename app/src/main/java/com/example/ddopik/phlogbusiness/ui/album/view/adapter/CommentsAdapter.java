@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.ui.commentimage.view.MentionsAutoCompleteAdapter;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
@@ -35,7 +36,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     private Context context;
     private List<Comment> commentList;
     private Mentions mentions;
-
+    private List<Photographer> photographerList ;
+    private List<Business> businessList;
+    private List<SocialUser> socialUserList;
+    private MentionsAutoCompleteAdapter mentionsAutoCompleteAdapter;
 
     private BaseImage previewImage;
     public CommentAdapterAction commentAdapterAction;
@@ -187,6 +191,20 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     commentViewHolder.sendCommentImgVal.getText().clear();
                 });
             }
+
+
+
+            MentionsAutoCompleteAdapter mentionsAutoCompleteAdapter = new MentionsAutoCompleteAdapter(context, R.layout.view_holder_mentioned_user, socialUserList);
+            commentViewHolder.sendCommentImgVal.setAdapter(mentionsAutoCompleteAdapter);
+            commentViewHolder.sendCommentImgVal.setThreshold(0);
+            mentionsAutoCompleteAdapter.setNotifyOnChange(true);
+            mentionsAutoCompleteAdapter.notifyDataSetChanged();
+            mentionsAutoCompleteAdapter.onUserClicked = socialUser -> {
+                    Toast.makeText(context,socialUser.mentionedUserId+" ",Toast.LENGTH_SHORT).show();
+            };
+
+
+
         }
     }
 
@@ -407,7 +425,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         CustomTextView commentAuthorName;
         ImageView commentAuthorImg;
         //SendCommentCell
-        EditText sendCommentImgVal;
+        AutoCompleteTextView sendCommentImgVal;
         ImageButton sendCommentBtn;
 
 
