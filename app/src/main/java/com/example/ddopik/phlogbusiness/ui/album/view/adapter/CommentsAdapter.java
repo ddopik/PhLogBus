@@ -10,6 +10,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,40 +20,53 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.ui.album.presenter.CommentAdapterPresenter;
+import com.example.ddopik.phlogbusiness.ui.album.presenter.CommentAdapterPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.MentionsAutoCompleteAdapter;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
+import com.jakewharton.rxbinding3.widget.RxTextView;
+import com.jakewharton.rxbinding3.widget.TextViewTextChangeEvent;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by abdalla_maged On Nov,2018
  */
-public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> {
+public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> implements CommentsAdapterView {
 
+    private String TAG = CommentsAdapter.class.getSimpleName();
     private Context context;
     private List<Comment> commentList;
     private Mentions mentions;
-    private List<Photographer> photographerList ;
-    private List<Business> businessList;
-    private List<SocialUser> socialUserList;
+    private List<Photographer> photographerList = new ArrayList<>();
+    private List<Business> businessList = new ArrayList<>();
+    private List<MentionedUser> mentionedUserList = new ArrayList<>();
     private MentionsAutoCompleteAdapter mentionsAutoCompleteAdapter;
-
+    private CommentAdapterPresenter commentAdapterPresenter;
+    private CompositeDisposable disposable = new CompositeDisposable();
     private BaseImage previewImage;
     public CommentAdapterAction commentAdapterAction;
     private int HEAD = 0;
     private int COMMENT = 1;
     private int ADD_COMMENT = 2;
     private final String USER_MENTION_IDENTIFIER = "%";
+    private DisposableObserver<TextViewTextChangeEvent> searchQuery;
 
 
     public CommentsAdapter(BaseImage previewImage, List<Comment> commentList, Mentions mentions) {
         this.commentList = commentList;
         this.previewImage = previewImage;
         this.mentions = mentions;
+
     }
 
     @NonNull
@@ -60,7 +74,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         this.context = viewGroup.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-
+        commentAdapterPresenter = new CommentAdapterPresenterImpl(context, this);
 
         if (i == HEAD) {
             return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_comment_start_item, viewGroup, false), HEAD);
@@ -74,6 +88,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder commentViewHolder, int i) {
+//////////////////////////////////////HEAD/////////////////////////////////////////
 
         if (getItemViewType(i) == HEAD) {
 
@@ -88,14 +103,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     .into(commentViewHolder.commentAuthorIcon);
 
 
+            int rate3 = Math.round(previewImage.rate);
+            commentViewHolder.photoRating.setRating(rate3);
 
-            int rate3=Math.round(previewImage.rate);
-            commentViewHolder.photoRating.setRating(rate3 );
-
-            if (previewImage.isRated){
+            if (previewImage.isRated) {
                 commentViewHolder.photoRating.setIsIndicator(true);
             }
-            commentViewHolder.photoRating.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> commentAdapterAction.onImageRateClick(previewImage,rating));
+            commentViewHolder.photoRating.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> commentAdapterAction.onImageRateClick(previewImage, rating));
 
 
             if (previewImage.isSaved) {
@@ -134,7 +148,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
 
                 if (!previewImage.isLiked) {
-                    commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_off);
+                    commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_off_white);
                 } else {
                     commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_on);
                 }
@@ -156,7 +170,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentAdapterAction.onAddToCartClick(previewImage);
             });
 
-
+//////////////////////////////////////COMMENT/////////////////////////////////////////
         } else if (getItemViewType(i) == COMMENT) {
             if (commentList.get(i).business != null) {
 
@@ -184,7 +198,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
             }
             handleCommentBody(commentViewHolder, commentList.get(i));
+            ////////////////////////////////ADD_COMMENT///////////////////////////////////////////////
         } else if (getItemViewType(i) == ADD_COMMENT) {
+
+
             if (commentAdapterAction != null) {
                 commentViewHolder.sendCommentBtn.setOnClickListener(v -> {
                     commentAdapterAction.onSubmitComment(commentViewHolder.sendCommentImgVal.getText().toString());
@@ -193,21 +210,63 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             }
 
 
-
-            MentionsAutoCompleteAdapter mentionsAutoCompleteAdapter = new MentionsAutoCompleteAdapter(context, R.layout.view_holder_mentioned_user, socialUserList);
+            mentionsAutoCompleteAdapter = new MentionsAutoCompleteAdapter(context, R.layout.view_holder_mentioned_user, mentionedUserList);
+            mentionsAutoCompleteAdapter.setNotifyOnChange(true);
             commentViewHolder.sendCommentImgVal.setAdapter(mentionsAutoCompleteAdapter);
             commentViewHolder.sendCommentImgVal.setThreshold(0);
-            mentionsAutoCompleteAdapter.setNotifyOnChange(true);
-            mentionsAutoCompleteAdapter.notifyDataSetChanged();
-            mentionsAutoCompleteAdapter.onUserClicked = socialUser -> {
-                    Toast.makeText(context,socialUser.mentionedUserId+" ",Toast.LENGTH_SHORT).show();
-            };
 
+
+            if (searchQuery == null) {
+                searchQuery = getSearchTagQuery(commentViewHolder.sendCommentImgVal);
+                disposable.add(
+
+                        RxTextView.textChangeEvents(commentViewHolder.sendCommentImgVal)
+                                .skipInitialValue()
+                                .debounce(900, TimeUnit.MILLISECONDS)
+                                .distinctUntilChanged()
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeWith(searchQuery)
+                );
+            }
+
+
+            mentionsAutoCompleteAdapter.onUserClicked = socialUser -> {
+                Toast.makeText(context, socialUser.mentionedUserId + " ", Toast.LENGTH_SHORT).show();
+            };
 
 
         }
     }
 
+    private DisposableObserver<TextViewTextChangeEvent> getSearchTagQuery(AutoCompleteTextView autoCompleteTextView) {
+        return new DisposableObserver<TextViewTextChangeEvent>() {
+            @Override
+            public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
+                // user cleared search get default
+                Log.e(TAG, "search string: " + autoCompleteTextView.getText().toString().trim());
+                int cursorPosition = autoCompleteTextView.getSelectionStart();
+                String currentSelectedChar = Character.toString(autoCompleteTextView.getText().toString().charAt(cursorPosition - 1));
+
+                Toast.makeText(context, currentSelectedChar, Toast.LENGTH_SHORT).show();
+                if (currentSelectedChar.equals("@")) {
+                    commentAdapterPresenter.getMentionedUser(autoCompleteTextView.getText().toString().trim());
+                }
+
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+    }
 
     private void handleCommentBody(CommentViewHolder commentViewHolder, Comment comment) {
 
@@ -461,6 +520,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     public interface CommentAdapterAction {
         void onImageLike(BaseImage baseImage);
+
         void onImageRateClick(BaseImage baseImage, float rating);
 
         void onAddToLightBox(BaseImage baseImage);
@@ -470,6 +530,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         void onSubmitComment(String comment);
     }
 
+    @Override
+    public void viewMentionedUsers(List<MentionedUser> mentionedUserList) {
+        this.mentionedUserList.clear();
+        this.mentionedUserList.addAll(mentionedUserList);
+        mentionsAutoCompleteAdapter.notifyDataSetChanged();
+    }
 
     private class MentionRange {
         int startPoint;

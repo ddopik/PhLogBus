@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by abdalla_maged On Nov,2018
  */
-public class Photographer extends SocialUser implements  Parcelable  {
+public class Photographer extends MentionedUser implements  Parcelable  {
 
     @SerializedName("is_phone_verified")
     @Expose

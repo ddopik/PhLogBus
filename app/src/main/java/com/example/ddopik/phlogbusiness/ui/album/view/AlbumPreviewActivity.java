@@ -161,15 +161,17 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
 
     }
 
+
+
     @Override
     public void viewAlbumPreviewProgress(boolean state) {
         if (state) {
             albumPreviewProgress.setVisibility(View.VISIBLE);
-
         } else {
             albumPreviewProgress.setVisibility(View.GONE);
 
         }
-
     }
+
+
 }

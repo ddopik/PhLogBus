@@ -102,7 +102,7 @@
                             android:layout_height="@dimen/ic_size"
                             android:background="@color/transparent"
                             android:scaleType="centerCrop"
-                            app:srcCompat="@drawable/ic_like_off"/>
+                            app:srcCompat="@drawable/ic_like_off_white"/>
 
 
                     <ImageButton
@@ -112,7 +112,7 @@
                             android:layout_marginStart="@dimen/dp16"
                             android:background="@color/transparent"
                             android:scaleType="centerCrop"
-                            app:srcCompat="@drawable/ic_comment"
+                            app:srcCompat="@drawable/ic_comment_white"
                             android:visibility="invisible"/>
 
 

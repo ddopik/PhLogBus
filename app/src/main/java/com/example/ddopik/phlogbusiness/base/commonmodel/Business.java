@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by abdalla_maged on 12/25/2018.
  */
-public class Business  extends SocialUser implements Parcelable {
+public class Business  extends MentionedUser implements Parcelable {
 
     @SerializedName("id")
     @Expose
