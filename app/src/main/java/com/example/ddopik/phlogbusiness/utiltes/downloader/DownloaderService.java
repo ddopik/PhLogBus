@@ -38,7 +38,6 @@ public class DownloaderService extends Service {
     public static final int DOWNLOAD_FILE = 0;
 
     private NotificationFactory notificationFactory = new NotificationFactory();
-    private List<SetupBrandView.Communicator> communicators = new ArrayList<>();
     private int downloading;
 
     private Messenger messenger = new Messenger(new Handler(message -> {
@@ -79,11 +78,6 @@ public class DownloaderService extends Service {
             stopForeground(false);
             stopSelf();
         }
-    }
-
-    private void notifyCommunicators(Doc doc, SetupBrandView.Communicator.Type type) {
-        for (SetupBrandView.Communicator communicator : communicators)
-            communicator.handle(type, doc);
     }
 
     private int bound = 0;
