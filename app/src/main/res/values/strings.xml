@@ -231,6 +231,11 @@
     <string name="logout">LOGOUT</string>
     <string name="downloads">Downloads</string>
     <string name="download">Download</string>
+    <string name="purchase_count">%1$d purchased photos</string>
+    <string name="phlog_downloading">Downloading...</string>
+    <string name="external_storage_write_permission_rationale">We need permission to write to your storage to be able to
+        download.
+    </string>
 
 
 </resources>

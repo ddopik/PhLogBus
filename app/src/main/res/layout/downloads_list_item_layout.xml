@@ -1,6 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <Space
+        android:id="@+id/top_space"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:.015"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent=".95"
+        app:layout_constraintDimensionRatio="1:.35"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_space">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/cart_item_image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@color/gray200" />
+
+            <ImageView
+                android:id="@+id/by_who_image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView8"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".15"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toEndOf="@+id/cart_item_image"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_photographer" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/rating"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="@+id/by_who_image"
+                app:layout_constraintHeight_percent=".15"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/by_who_image"
+                app:layout_constraintTop_toBottomOf="@+id/by_who_image"
+                app:srcCompat="@drawable/ic_fav" />
+
+            <TextView
+                android:id="@+id/cart_item_by_who"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:lines="1"
+                android:textColor="@color/black"
+                app:autoSizeMinTextSize="1sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toBottomOf="@+id/by_who_image"
+                app:layout_constraintDimensionRatio="1:.175"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".15"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toEndOf="@+id/by_who_image"
+                app:layout_constraintTop_toTopOf="@+id/by_who_image"
+                tools:text="TextView" />
+
+            <TextView
+                android:id="@+id/cart_item_likes"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:textColor="@color/black"
+                app:autoSizeMinTextSize="1sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintDimensionRatio="1:.175"
+                app:layout_constraintHeight_percent=".15"
+                app:layout_constraintStart_toStartOf="@+id/cart_item_by_who"
+                app:layout_constraintTop_toTopOf="@+id/imageView8"
+                tools:text="TextView" />
+
+            <ImageView
+                android:id="@+id/price_tri"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".45"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:srcCompat="@drawable/right_tri_green" />
+
+            <ImageView
+                android:id="@+id/exclusive_icon"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="@+id/cart_item_image"
+                app:layout_constraintHeight_percent=".5"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/cart_item_image"
+                app:layout_constraintVertical_bias="0"
+                app:srcCompat="@drawable/ic_exclusive" />
+
+            <TextView
+                    android:id="@+id/cart_item_price"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:textColor="@color/white"
+                    app:autoSizeMinTextSize="1sp"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="@+id/price_tri"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent=".15"
+                    app:layout_constraintHorizontal_bias="0.9"
+                    app:layout_constraintStart_toStartOf="@+id/price_tri"
+                    app:layout_constraintTop_toTopOf="@+id/price_tri"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintWidth_percent=".1"
+                    tools:text="TextView"/>
+
+            <RatingBar
+                android:id="@+id/rating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                app:layout_constraintBottom_toTopOf="@+id/download_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".15"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/imageView8"
+                app:layout_constraintTop_toBottomOf="@+id/imageView8"
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintWidth_percent=".4" />
+
+            <Button
+                android:id="@+id/download_button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/text_input_color"
+                android:text="@string/download"
+                android:textColor="@color/ef_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".25"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/cart_item_image" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+    <Space
+        android:id="@+id/bottom_space"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/card_view"
+        app:layout_constraintDimensionRatio="1:.015"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

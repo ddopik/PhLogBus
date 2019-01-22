@@ -52,27 +52,15 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case GRID:
                 GridViewHolder __holder = (GridViewHolder) viewHolder;
                 __holder.date.setText(item.getHummanDate());
-                adapter.setType(ItemAdapter.Type.LIST);
+                adapter.setType(ItemAdapter.Type.GRID);
                 __holder.recyclerView.setAdapter(adapter);
                 break;
         }
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-//        switch (type) {
-//            case LIST:
-//                return Type.LIST.ordinal();
-//            case GRID:
-//                return Type.GRID.ordinal();
-//            default:
-//                return super.getItemViewType(position);
-//        }
-//    }
-
     @Override
     public int getItemCount() {
-        return 0;
+        return items.size();
     }
 
     class ListViewHolder extends RecyclerView.ViewHolder {
