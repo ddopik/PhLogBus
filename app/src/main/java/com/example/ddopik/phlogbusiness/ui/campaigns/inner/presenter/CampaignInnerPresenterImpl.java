@@ -3,9 +3,11 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
+
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerActivityView;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -33,18 +35,19 @@ public class CampaignInnerPresenterImpl implements CampaignInnerPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(campaignInnerResponse -> {
-                            if (campaignInnerResponse.state.equals(BaseNetworkApi.STATUS_OK)) {
+                            if (campaignInnerResponse == null)
+                                return;
+                            if (campaignInnerResponse.campaign != null) {
                                 campaignInnerActivityView.viewCampaignTitle(campaignInnerResponse.campaign.titleEn);
-                                campaignInnerActivityView.viewCampaignLeftDays(campaignInnerResponse.campaign.leftDays);
+                                campaignInnerActivityView.viewCampaignLeftDays("" + campaignInnerResponse.campaign.daysLeft);
                                 campaignInnerActivityView.viewCampaignHeaderImg(campaignInnerResponse.campaign.imageCover);
-                                campaignInnerActivityView.viewCampaignHostedBy(campaignInnerResponse.business.userName);
-                                campaignInnerActivityView .viewCampaignMissionDescription(campaignInnerResponse.campaign.descrptionEn,campaignInnerResponse.campaign.numberImages);
+                                campaignInnerActivityView.viewCampaignHostedBy(campaignInnerResponse.campaign.business.userName);
+//                                campaignInnerActivityView.viewCampaignMissionDescription(campaignInnerResponse.campaign.descrptionEn, -1);
+                                campaignInnerActivityView.setCampaign(campaignInnerResponse.campaign);
                             }
                         },
                         throwable -> Log.e(TAG, "getCampaignDetails() --->Error " + throwable.getMessage()));
     }
-
-
 
 
 }

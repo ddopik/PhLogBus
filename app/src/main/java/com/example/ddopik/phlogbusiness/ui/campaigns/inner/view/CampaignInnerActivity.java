@@ -10,9 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPresenter;
@@ -29,13 +31,12 @@ public class CampaignInnerActivity extends BaseActivity implements CampaignInner
 
 
     private final String TAG = CampaignInnerActivity.class.getSimpleName();
-    public static String CAMPAIGN_ID="campaign_id";
+    public static String CAMPAIGN_ID = "campaign_id";
     private FrameLayout campaignImg;
     private TextView campaignTitle, campaignHostedBy, campaignDayLeft;
     private TabLayout campaignTabs;
     private ViewPager campaignViewPager;
     private CampaignInnerPresenter campaignInnerPresenter;
-    private OnMissionCampaignDataRecived onMissionCampaignDataRecived;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,8 +56,9 @@ public class CampaignInnerActivity extends BaseActivity implements CampaignInner
         campaignDayLeft = findViewById(R.id.campaign_day_left);
         campaignTabs = findViewById(R.id.inner_campaign_tabs);
         campaignViewPager = findViewById(R.id.inner_campaign_viewpager);
-        if (getIntent().getStringExtra(CAMPAIGN_ID) !=null)
-            campaignInnerPresenter.getCampaignDetails( getIntent().getStringExtra(CAMPAIGN_ID));
+        campaignTabs.setupWithViewPager(campaignViewPager);
+        if (getIntent().getStringExtra(CAMPAIGN_ID) != null)
+            campaignInnerPresenter.getCampaignDetails(getIntent().getStringExtra(CAMPAIGN_ID));
     }
 
     @Override
@@ -97,39 +99,40 @@ public class CampaignInnerActivity extends BaseActivity implements CampaignInner
 
     @Override
     public void viewCampaignHostedBy(String hostName) {
+        if (hostName == null || hostName.isEmpty())
+            return;
         campaignHostedBy.setText(getResources().getString(R.string.hosted_by));
         campaignHostedBy.append(hostName);
 
     }
 
     @Override
-    public void viewCampaignMissionDescription(String missionDesc,int photosCount) {
-
-         InnerCampaignFragmentPagerAdapter innerCampaignFragmentPagerAdapter = new InnerCampaignFragmentPagerAdapter(getSupportFragmentManager(), getFragmentPagerFragment(), getFragmentTitles(photosCount));
-        if (onMissionCampaignDataRecived != null && missionDesc != null) {
-            campaignViewPager.setAdapter(innerCampaignFragmentPagerAdapter);
-            campaignTabs.setupWithViewPager(campaignViewPager);
-            onMissionCampaignDataRecived.onCampaignDescription(missionDesc);
-
-        }
+    public void viewCampaignMissionDescription(String missionDesc, int photosCount) {
+//        InnerCampaignFragmentPagerAdapter innerCampaignFragmentPagerAdapter = new InnerCampaignFragmentPagerAdapter(getSupportFragmentManager(), getFragmentPagerFragment(campaign), getFragmentTitles(photosCount));
+//        campaignViewPager.setAdapter(innerCampaignFragmentPagerAdapter);
+//        campaignTabs.setupWithViewPager(campaignViewPager);
     }
 
-    private List<Fragment> getFragmentPagerFragment() {
-        List<Fragment> fragmentList = new ArrayList<Fragment>();
-        CampaignInnerSettingFragment campaignInnerSettingFragment = CampaignInnerSettingFragment.getInstance();
-         fragmentList.add(campaignInnerSettingFragment);
-        fragmentList.add(CampaignInnerPhotosFragment.getInstance("1"));
+    private List<Fragment> getFragmentPagerFragment(Campaign campaign) {
+        List<Fragment> fragmentList = new ArrayList<>();
+        CampaignInnerSettingFragment campaignInnerSettingFragment = CampaignInnerSettingFragment.getInstance(campaign);
+        fragmentList.add(campaignInnerSettingFragment);
+        fragmentList.add(CampaignInnerPhotosFragment.getInstance(String.valueOf(campaign.id)));
         return fragmentList;
     }
 
     private List<String> getFragmentTitles(int photosCount) {
         List<String> fragmentList = new ArrayList<String>();
         fragmentList.add(getResources().getString(R.string.tab_mission));
-        fragmentList.add(photosCount+" " + getResources().getString(R.string.tab_photos));
+        fragmentList.add(photosCount + " " + getResources().getString(R.string.tab_photos));
         return fragmentList;
     }
 
-    public interface OnMissionCampaignDataRecived {
-        void onCampaignDescription(String desc);
+    @Override
+    public void setCampaign(Campaign campaign) {
+        InnerCampaignFragmentPagerAdapter adapter = new InnerCampaignFragmentPagerAdapter(getSupportFragmentManager()
+                , getFragmentPagerFragment(campaign)
+                , getFragmentTitles(-1));
+        campaignViewPager.setAdapter(adapter);
     }
 }

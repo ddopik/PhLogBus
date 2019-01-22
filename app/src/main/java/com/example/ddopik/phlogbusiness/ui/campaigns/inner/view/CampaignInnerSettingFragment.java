@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 
 import org.w3c.dom.Text;
 
@@ -23,7 +24,7 @@ public class CampaignInnerSettingFragment extends BaseFragment {
     private View mainView;
     private Text campaignStatus,campaignPrize,campaignStartDate,campaignEndDate;
 
-    public static CampaignInnerSettingFragment getInstance() {
+    public static CampaignInnerSettingFragment getInstance(Campaign campaign) {
 
         return new CampaignInnerSettingFragment();
     }
