@@ -38,7 +38,6 @@ public class DownloaderService extends Service {
     public static final int DOWNLOAD_FILE = 0;
 
     private NotificationFactory notificationFactory = new NotificationFactory();
-    private CompositeDisposable disposables = new CompositeDisposable();
     private List<SetupBrandView.Communicator> communicators = new ArrayList<>();
     private int downloading;
 
@@ -121,11 +120,5 @@ public class DownloaderService extends Service {
                 , getString(R.string.phlog_downloading)
                 , null, false, null);
         startForeground(Integer.valueOf(getString(R.string.permanent_notification_id)), notification);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        disposables.dispose();
     }
 }
