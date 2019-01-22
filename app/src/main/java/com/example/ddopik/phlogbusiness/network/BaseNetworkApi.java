@@ -126,6 +126,7 @@ public class BaseNetworkApi {
     private static final String UPDATE_PROFILE_URL = BASE_URL + "/profile/update";
     private static final String UNFOLLOW_USER_URL = BASE_URL + "/photographer/unfollow";
     private static final String DOWNLOADS_URL = BASE_URL + "/campaign/photos";
+    private static final String FORGOT_PASSWORD_URL = BASE_URL + "/auth/forgot_password";
 
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
@@ -589,6 +590,7 @@ public class BaseNetworkApi {
     }
 
     public static Observable<Response> getDownloads(String token) {
+        // TODO: edit when API is ready
         return Rx2AndroidNetworking.post(DOWNLOADS_URL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
                 .addBodyParameter("campaign_id", "269")
@@ -596,6 +598,14 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(Response.class);
+    }
+
+    public static Observable<String> forgotPassword(String email) {
+        return Rx2AndroidNetworking.post(FORGOT_PASSWORD_URL)
+                .setPriority(Priority.HIGH)
+                .addBodyParameter("email", email)
+                .build()
+                .getStringObservable();
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

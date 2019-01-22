@@ -236,6 +236,8 @@
     <string name="external_storage_write_permission_rationale">We need permission to write to your storage to be able to
         download.
     </string>
+    <string name="error_occured">An error occured</string>
+    <string name="check_your_mail">Check your mail</string>
 
 
 </resources>

@@ -17,6 +17,10 @@ import com.example.ddopik.phlogbusiness.ui.login.presenter.LoginPresenter;
 import com.example.ddopik.phlogbusiness.ui.login.presenter.LoginPresenterImp;
 import com.example.ddopik.phlogbusiness.ui.signup.view.SignUpActivity;
 import com.example.ddopik.phlogbusiness.ui.signup.view.UploadSignUpPhotoActivity;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import java.util.HashMap;
 
@@ -24,11 +28,12 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
     private Button signUpBtn;
-    private TextView mail, passWord, signUpTxt;
+    private TextView mail, passWord, signUpTxt, forgotPasswordTV;
     private TextInputLayout mailInput, passwordInput;
     private LoginPresenter loginPresenter;
     private ProgressBar loginProgress;
 
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +58,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
         mailInput = findViewById(R.id.mail_login_input);
         passwordInput = findViewById(R.id.login_password_input);
         loginProgress = findViewById(R.id.login_progress);
-
+        forgotPasswordTV = findViewById(R.id.forgot_password);
     }
 
     @Override
@@ -74,6 +79,24 @@ public class LoginActivity extends BaseActivity implements LoginView {
                 normalLoginData.put("password", passWord.getText().toString());
                 loginPresenter.signInNormal(normalLoginData);
             }
+        });
+
+        forgotPasswordTV.setOnClickListener(v -> {
+            if (mail.getText().toString().isEmpty()) {
+                mailInput.setError(getResources().getString(R.string.email_missing));
+                return;
+            }
+            Disposable disposable = loginPresenter.forgotPassword(getBaseContext(), mail.getText().toString())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(success -> {
+                        if (success)
+                            showToast(getString(R.string.check_your_mail));
+                        else showToast(getString(R.string.error_occured));
+                    }, throwable -> {
+                        showToast(getString(R.string.error_occured));
+                    });
+            disposables.add(disposable);
         });
     }
 
@@ -130,6 +153,12 @@ public class LoginActivity extends BaseActivity implements LoginView {
         } else {
             loginProgress.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposables.dispose();
     }
 }
 

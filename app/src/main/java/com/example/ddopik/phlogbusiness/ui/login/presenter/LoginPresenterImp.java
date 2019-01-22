@@ -14,6 +14,7 @@ import com.example.ddopik.phlogbusiness.ui.login.view.LoginView;
 import com.jaychang.sa.AuthCallback;
 import com.jaychang.sa.SocialUser;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -156,5 +157,15 @@ public class LoginPresenterImp implements LoginPresenter {
         PrefUtils.setBrandText(context, loginData.isBrandText);
 
 
+    }
+
+    @Override
+    public Observable<Boolean> forgotPassword(Context context, String email) {
+        return BaseNetworkApi.forgotPassword(email)
+                .map(response -> {
+                    if (response != null)
+                        return true;
+                    return false;
+                });
     }
 }
