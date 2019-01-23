@@ -27,7 +27,7 @@ public class MentionsAutoCompleteAdapter extends ArrayAdapter {
 
     public MentionsAutoCompleteAdapter(Context context, int resource, List<SocialUser> socialUsers) {
         super(context, resource, socialUsers);
-        socialUsersFiltered = socialUsers;
+        socialUsersFiltered = socialUsers != null ? socialUsers : new ArrayList<>();
         mContext = context;
         itemLayout = resource;
     }
