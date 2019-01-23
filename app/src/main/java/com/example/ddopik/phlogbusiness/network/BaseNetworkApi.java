@@ -131,6 +131,7 @@ public class BaseNetworkApi {
     private static final String FORGOT_PASSWORD_URL = BASE_URL + "/auth/forgot_password";
     private static final String LIGHT_BOX_PHOTOS_URL = BASE_URL + "/lightBox/photos";
     private static final String CHANGE_CAMPAIGN_END_DATE_URL = BASE_URL + "/campaign/extend";
+    private static final String DUMMY_SOCIAL = "http://178.128.162.10/public/api/photographer/social/dummy";
 
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
@@ -232,7 +233,8 @@ public class BaseNetworkApi {
     }
 
     public static io.reactivex.Observable<SocialResponse> getSocialData(String token) {
-        return Rx2AndroidNetworking.post(SOCIAL_DATA_URL)
+//        return Rx2AndroidNetworking.post(SOCIAL_DATA_URL)
+        return Rx2AndroidNetworking.post(DUMMY_SOCIAL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
                 .setPriority(Priority.HIGH)
                 .build()
