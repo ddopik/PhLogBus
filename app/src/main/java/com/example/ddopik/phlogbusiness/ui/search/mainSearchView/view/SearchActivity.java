@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
@@ -39,6 +40,7 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
     private OnSearchTabSelected onSearchTabSelected;
 
     private SearchActivityPresenter searchActivityPresenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +58,7 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
 
     @Override
     public void initView() {
-        backBtn=findViewById(R.id.back_btn);
+        backBtn = findViewById(R.id.back_btn);
         toolBarTitle = findViewById(R.id.toolbar_title);
         toolBarTitle.setText(getResources().getString(R.string.search));
         searchView = findViewById(R.id.search_view);
@@ -72,7 +74,7 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
 
     @Override
     public void initPresenter() {
-        searchActivityPresenter=new SearchActivityPresenterImp(this,this);
+        searchActivityPresenter = new SearchActivityPresenterImp(this, this);
     }
 
     private void initListener() {
@@ -97,7 +99,7 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
 
         });
         profileTab.setOnClickListener((view) -> {
-
+            setTapSelected(R.id.tab_profile);
 
         });
 
@@ -107,7 +109,7 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
         });
 
 
-        backBtn.setOnClickListener(v->      {
+        backBtn.setOnClickListener(v -> {
             Utilities.hideKeyboard(this);
             onBackPressed();
         });
@@ -147,7 +149,7 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
                 profileTab.setTextColor(getResources().getColor(R.color.white));
                 profileTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange_fill));
 
-                setTapSelected(R.id.tab_profile);
+//                setTapSelected(R.id.tab_profile);
                 ProfileSearchFragment profileSearchFragment = ProfileSearchFragment.getInstance();
                 profileSearchFragment.setOnSearchProfile(onSearchTabSelected);
                 addFragment(R.id.search_container, profileSearchFragment, ProfileSearchFragment.class.getSimpleName(), false);

@@ -32,7 +32,7 @@ public class ProfileSearchPresenterImpl implements ProfileSearchPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(profileSearchResponse -> {
                     profileSearchFragmentView.viewProfileSearchProgress(false);
-                    profileSearchFragmentView.viewProfileSearchItems(profileSearchResponse.data);
+                    profileSearchFragmentView.viewProfileSearchItems(profileSearchResponse.data.data);
                 }, throwable -> {
                     profileSearchFragmentView.viewProfileSearchProgress(false);
                     CustomErrorUtil.Companion.setError(context,TAG,throwable);
