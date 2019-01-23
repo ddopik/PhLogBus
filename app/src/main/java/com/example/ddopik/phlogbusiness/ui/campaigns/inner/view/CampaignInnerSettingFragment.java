@@ -17,6 +17,11 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInn
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Locale;
+
 
 /**
  * Created by abdalla_maged on 10/8/2018.
@@ -93,7 +98,10 @@ public class CampaignInnerSettingFragment extends BaseFragment implements Campai
             pickDateDialog.setOnDateSet((year, month, day) -> {
                 String dateString = year + "-" + (month + 1) + "-" + day;
                 campaignEndDate.setText(dateString);
-                presenter.setEndDate(getContext(), campaign.id, dateString);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, day);
+                String s = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(calendar.getTime());
+                presenter.setEndDate(getContext(), campaign.id, s);
             });
             pickDateDialog.show(getChildFragmentManager(), PickDateDialog.class.getSimpleName());
         });
