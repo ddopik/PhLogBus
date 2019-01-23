@@ -115,8 +115,7 @@ public class CampaignInnerActivity extends BaseActivity implements CampaignInner
 
     private List<Fragment> getFragmentPagerFragment(Campaign campaign) {
         List<Fragment> fragmentList = new ArrayList<>();
-        CampaignInnerSettingFragment campaignInnerSettingFragment = CampaignInnerSettingFragment.getInstance(campaign);
-        fragmentList.add(campaignInnerSettingFragment);
+        fragmentList.add(CampaignInnerSettingFragment.getInstance(campaign));
         fragmentList.add(CampaignInnerPhotosFragment.getInstance(String.valueOf(campaign.id)));
         return fragmentList;
     }
@@ -131,7 +130,7 @@ public class CampaignInnerActivity extends BaseActivity implements CampaignInner
     @Override
     public void setCampaign(Campaign campaign) {
         InnerCampaignFragmentPagerAdapter adapter = new InnerCampaignFragmentPagerAdapter(getSupportFragmentManager()
-                , getFragmentPagerFragment(campaign)
+                , campaign
                 , getFragmentTitles(-1));
         campaignViewPager.setAdapter(adapter);
     }

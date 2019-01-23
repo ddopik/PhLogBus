@@ -22,11 +22,16 @@ public class CampaignInnerSettingFragment extends BaseFragment {
 
 
     private View mainView;
-    private Text campaignStatus,campaignPrize,campaignStartDate,campaignEndDate;
+    private TextView campaignStatus, campaignPrize,campaignStartDate,campaignEndDate, campaignPhotosNumber;
+    private Campaign campaign;
+
+    public CampaignInnerSettingFragment() {
+    }
 
     public static CampaignInnerSettingFragment getInstance(Campaign campaign) {
-
-        return new CampaignInnerSettingFragment();
+        CampaignInnerSettingFragment fragment = new CampaignInnerSettingFragment();
+        fragment.campaign = campaign;
+        return fragment;
     }
 
     @Nullable
@@ -61,6 +66,17 @@ public class CampaignInnerSettingFragment extends BaseFragment {
         campaignPrize = mainView.findViewById(R.id.campaign_prize);
         campaignStartDate = mainView.findViewById(R.id.campaign_start_date);
         campaignEndDate = mainView.findViewById(R.id.campaign_end_date);
+        campaignPhotosNumber = mainView.findViewById(R.id.campaign_number_photos);
+
+        setCampaignViews();
+    }
+
+    private void setCampaignViews() {
+        campaignStatus.setText("" + campaign.status);
+        campaignEndDate.setText(campaign.endDate);
+        campaignStartDate.setText(campaign.startDate);
+        campaignPrize.setText(campaign.prize);
+        campaignPhotosNumber.setText("" + -1);
     }
 
 

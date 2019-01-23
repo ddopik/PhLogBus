@@ -1,5 +1,5 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.inner.view;
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
+import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.DataItem;
 
 import java.util.List;
 
@@ -8,6 +8,6 @@ import java.util.List;
  */
 public interface CampaignInnerPhotosFragmentView {
 
-    void getInnerCampaignPhotos(List<BaseImage> campaignInnerPhotoList);
+    void addPhotos(List<DataItem> data);
     void viewCampaignInnerPhotosProgress(boolean state);
 }

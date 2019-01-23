@@ -92,7 +92,7 @@ public class BaseNetworkApi {
     private static final String ALL_COMPLETED_CAMPAIGN_URL = BASE_URL + "/campaign/old";
     private static final String ALL_RUNNING_CAMPAIGN_URL = BASE_URL + "/campaign/running";
     private static final String ALL_DRAFT_CAMPAIGN_URL = BASE_URL + "/campaign/draft";
-    private static final String CAMPAIGN_PHOTOS_URL = BASE_URL + "/get_photos_campaign";
+    private static final String CAMPAIGN_PHOTOS_URL = BASE_URL + "/campaign/photos";
     private static final String CAMPAIGN_DETAILS_URL = BASE_URL + "/campaign/details";
     private static final String USER_PROFILE_URL = BASE_URL + "/photographer/details";
     private static final String USER_PROFILE_PHOTOS = BASE_URL + "/photographer/photos";
@@ -285,7 +285,7 @@ public class BaseNetworkApi {
     public static io.reactivex.Observable<CampaignInnerPhotosResponse> getCampaignInnerPhotos(String token, String campaignID, int page) {
         return Rx2AndroidNetworking.post(CAMPAIGN_PHOTOS_URL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
-                .addBodyParameter("join_campaign_id", campaignID)
+                .addBodyParameter("campaign_id", campaignID)
                 .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
                 .setPriority(Priority.HIGH)
                 .build()

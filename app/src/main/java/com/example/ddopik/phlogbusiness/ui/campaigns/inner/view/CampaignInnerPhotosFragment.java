@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.inner.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,13 +10,15 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ProgressBar;
+
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.DataItem;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPhotosFragmentPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPhotosFragmentPresenterImpl;
+import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +32,8 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
     private View mainView;
     private CustomRecyclerView campaignInnerRv;
     private ProgressBar campaignInnerProgressBar;
-    private List<BaseImage> photoGrapherPhotoList = new ArrayList<BaseImage>();
-    private CampaignInnerPhotosAdapter campaignInnerPhotosAdapter;
+    private List<DataItem> photoGrapherPhotoList = new ArrayList<>();
+    private GroupAdapter groupAdapter;
     private PagingController pagingController;
     private CampaignInnerPhotosFragmentPresenter campaignInnerPhotosFragmentPresenter;
 
@@ -62,8 +65,10 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
         campaignInnerRv = mainView.findViewById(R.id.campaign_inner_rv);
         campaignInnerProgressBar = mainView.findViewById(R.id.campaign_inner_progress_bar);
 
-        campaignInnerPhotosAdapter = new CampaignInnerPhotosAdapter(getContext(), photoGrapherPhotoList);
-        campaignInnerRv.setAdapter(campaignInnerPhotosAdapter);
+        groupAdapter = new com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.GroupAdapter(photoGrapherPhotoList, null);
+        groupAdapter.setType(GroupAdapter.Type.GRID);
+        groupAdapter.setPhotoAction(action);
+        campaignInnerRv.setAdapter(groupAdapter);
         campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, 0);
     }
 
@@ -101,9 +106,9 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
     }
 
     @Override
-    public void getInnerCampaignPhotos(List<BaseImage> campaignInnerPhotoList) {
-        photoGrapherPhotoList.addAll(campaignInnerPhotoList);
-        campaignInnerPhotosAdapter.notifyDataSetChanged();
+    public void addPhotos(List<DataItem> data) {
+        photoGrapherPhotoList.addAll(data);
+        groupAdapter.notifyDataSetChanged();
 
     }
 
@@ -118,5 +123,10 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
 
     }
 
-
+    private CampaignInnerPhotosAdapter.PhotoAction action = baseImage -> {
+        Intent intent = new Intent(getContext(), ImageCommentActivity.class);
+        intent.putExtra(ImageCommentActivity.IMAGE_DATA, baseImage);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    };
 }

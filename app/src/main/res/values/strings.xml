@@ -62,7 +62,7 @@
     <string name="filters">Filters</string>
     <string name="remind_me">REMIND ME</string>
     <string name="join">JOIN</string>
-    <string name="tab_mission">Mission</string>
+    <string name="tab_mission">Settings</string>
     <string name="tab_photos">Photos</string>
     <string name="days_left">Days Left</string>
     <string name="hosted_by">Hosted By</string>
@@ -238,6 +238,7 @@
     </string>
     <string name="error_occured">An error occured</string>
     <string name="check_your_mail">Check your mail</string>
+    <string name="number_of_photos">Number of photos</string>
 
 
 </resources>

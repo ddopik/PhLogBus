@@ -3,7 +3,9 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.inner.view;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,12 +13,13 @@ import java.util.List;
  */
 public class InnerCampaignFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
-    private List<Fragment> mFragmentList;
+    private List<Fragment> mFragmentList = new ArrayList<>();
     private List<String> mFragmentTitleList;
 
-    public InnerCampaignFragmentPagerAdapter(FragmentManager manager, List<Fragment> mFragmentList, List<String> mFragmentTitleList) {
+    public InnerCampaignFragmentPagerAdapter(FragmentManager manager, Campaign campaign, List<String> mFragmentTitleList) {
         super(manager);
-        this.mFragmentList = mFragmentList;
+        mFragmentList.add(CampaignInnerSettingFragment.getInstance(campaign));
+        mFragmentList.add(CampaignInnerPhotosFragment.getInstance(String.valueOf(campaign.id)));
         this.mFragmentTitleList = mFragmentTitleList;
     }
 
