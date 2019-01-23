@@ -177,6 +177,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
 
         albumSearchAdapter.setOnAlbumPreview(albumSearch -> {
             Intent intent = new Intent(getActivity(), AlbumPreviewActivity.class);
+            intent.putExtra(ALBUM_PREVIEW_ID, albumSearch.getId());
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });
