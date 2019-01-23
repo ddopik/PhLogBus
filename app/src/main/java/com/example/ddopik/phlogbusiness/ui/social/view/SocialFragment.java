@@ -79,6 +79,9 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView {
     }
 
     private void initListener(){
+        mainView.setOnTouchListener((v, event) -> {
+            return false;
+        });
         homeSearch.setOnClickListener((v)->{
             Intent intent=new Intent(getActivity(), SearchActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

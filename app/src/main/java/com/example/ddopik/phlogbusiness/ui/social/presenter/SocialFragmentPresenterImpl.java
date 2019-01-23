@@ -67,7 +67,7 @@ public class SocialFragmentPresenterImpl implements SocialFragmentPresenter {
                 .subscribe(followCampaignResponse -> {
                     socialFragmentView.showMessage(context.getResources().getString(R.string.campaign_followed));
                 }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 
@@ -80,7 +80,7 @@ public class SocialFragmentPresenterImpl implements SocialFragmentPresenter {
                 .subscribe(followBrandResponse -> {
                     socialFragmentView.showMessage(context.getResources().getString(R.string.brand_followed));
                 }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable.getMessage());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 }
