@@ -13,6 +13,7 @@ import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.SubmitCampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.CampaignInnerPhotosResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.CampaignInnerResponse;
+import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.ChangeCampaignDateResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.CampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowBrandResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowCampaignResponse;
@@ -129,6 +130,7 @@ public class BaseNetworkApi {
     private static final String DOWNLOADS_URL = BASE_URL + "/campaign/photos";
     private static final String FORGOT_PASSWORD_URL = BASE_URL + "/auth/forgot_password";
     private static final String LIGHT_BOX_PHOTOS_URL = BASE_URL + "/lightBox/photos";
+    private static final String CHANGE_CAMPAIGN_END_DATE_URL = BASE_URL + "/campaign/extend";
 
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
@@ -617,6 +619,15 @@ public class BaseNetworkApi {
                 .addQueryParameter("page", String.valueOf(page))
                 .build()
                 .getObjectObservable(LightboxPhotosResponse.class);
+    }
+
+    public static Observable<ChangeCampaignDateResponse> changeCampaignEndDate(Integer id, String dateString) {
+        return Rx2AndroidNetworking.post(CHANGE_CAMPAIGN_END_DATE_URL)
+                .setPriority(Priority.HIGH)
+                .addBodyParameter("campaign_id", id.toString())
+                .addBodyParameter("end_date", dateString)
+                .build()
+                .getObjectObservable(ChangeCampaignDateResponse.class);
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

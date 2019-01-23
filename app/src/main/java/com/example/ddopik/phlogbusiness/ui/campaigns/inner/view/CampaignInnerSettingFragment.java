@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
+import com.example.ddopik.phlogbusiness.base.widgets.PickDateDialog;
+import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerSettingPresenter;
+import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerSettingPresenterImpl;
 
 import org.w3c.dom.Text;
 
@@ -18,12 +21,14 @@ import org.w3c.dom.Text;
 /**
  * Created by abdalla_maged on 10/8/2018.
  */
-public class CampaignInnerSettingFragment extends BaseFragment {
+public class CampaignInnerSettingFragment extends BaseFragment implements CampaignInnerSettingsView {
 
 
     private View mainView;
     private TextView campaignStatus, campaignPrize,campaignStartDate,campaignEndDate, campaignPhotosNumber;
     private Campaign campaign;
+
+    private CampaignInnerSettingPresenter presenter;
 
     public CampaignInnerSettingFragment() {
     }
@@ -47,6 +52,8 @@ public class CampaignInnerSettingFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews();
+        initListeners();
+        initPresenter();
     }
 
     @Override
@@ -56,7 +63,8 @@ public class CampaignInnerSettingFragment extends BaseFragment {
 
     @Override
     protected void initPresenter() {
-
+        presenter = new CampaignInnerSettingPresenterImpl();
+        presenter.setView(this);
     }
 
     @Override
@@ -79,5 +87,20 @@ public class CampaignInnerSettingFragment extends BaseFragment {
         campaignPhotosNumber.setText("" + -1);
     }
 
+    private void initListeners() {
+        campaignEndDate.setOnClickListener(v -> {
+            PickDateDialog pickDateDialog = new PickDateDialog();
+            pickDateDialog.setOnDateSet((year, month, day) -> {
+                String dateString = year + "-" + (month + 1) + "-" + day;
+                campaignEndDate.setText(dateString);
+                presenter.setEndDate(getContext(), campaign.id, dateString);
+            });
+            pickDateDialog.show(getChildFragmentManager(), PickDateDialog.class.getSimpleName());
+        });
+    }
 
+    @Override
+    public void showMessage(int res) {
+        showToast(getString(res));
+    }
 }

@@ -239,6 +239,8 @@
     <string name="error_occured">An error occured</string>
     <string name="check_your_mail">Check your mail</string>
     <string name="number_of_photos">Number of photos</string>
+    <string name="campaign_extended">Campaign extended successfully</string>
+    <string name="campaign_extended_fail">Failed to extend campaign</string>
 
 
 </resources>
