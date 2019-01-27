@@ -249,30 +249,26 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
                 ///getting String value before cursor
                 if (cursorPosition > 0) {
-                    String currentSelectedChar = Character.toString(autoCompleteTextView.getText().toString().charAt(cursorPosition - 1));
-                    int selectedPosition = autoCompleteTextView.getText().toString().indexOf(currentSelectedChar);
-                    String mentionedTemp[] = autoCompleteTextView.getText().toString().split(" ");
-                    int sizeo=mentionedTemp.length;
-                    if ((selectedPosition + 1) < mentionedTemp.length) {
-                        if (mentionedTemp[selectedPosition].equals("@")) {
-                            Toast.makeText(context, "mention is =  " + mentionedTemp[selectedPosition+1], Toast.LENGTH_SHORT).show();
 
-                        }
+                    ///check first after "@"
+                    int mentionIdentifierCharPosition = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 2);
+                    if ((mentionIdentifierCharPosition + 1) < autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition != -1) {
+                         commentAdapterPresenter.getMentionedUser(String.valueOf(autoCompleteTextView.getText().charAt(mentionIdentifierCharPosition + 1)).trim());
                     }
 
+                    ///check second letter after "@"
+                    int mentionIdentifierCharPosition2 = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 3);
+                    if ((mentionIdentifierCharPosition2 + 3) <= autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition2 != -1) {
+                        commentAdapterPresenter.getMentionedUser(String.valueOf(  autoCompleteTextView.getText().subSequence( mentionIdentifierCharPosition2 ,mentionIdentifierCharPosition2 + 3)   ).trim());
+                    }
 
-//                    String currentSelectedCharPosition = mentionedTemp[selectedPosition + 1];
+                    ///check third letter after "@"
+                    int mentionIdentifierCharPosition3 = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 4);
+                    if ((mentionIdentifierCharPosition3 + 4) <= autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition3 != -1) {
+                        commentAdapterPresenter.getMentionedUser(String.valueOf(  autoCompleteTextView.getText().subSequence( mentionIdentifierCharPosition3 ,mentionIdentifierCharPosition3 + 4)   ).trim());
+                    }
+
                 }
-//
-//
-//                String mentionedTemp[]= autoCompleteTextView.getText().toString().split(" ");
-//                Toast.makeText(context, "mentionedPosition ="+mentioned_AT_Position , Toast.LENGTH_SHORT).show();
-//                if ( mentionedTemp[mentioned_AT_Position].equals("@") && mentionedTemp[mentioned_AT_Position+1]!=null) {
-//
-//                    Toast.makeText(context, "key = "+mentionedTemp[mentioned_AT_Position+1], Toast.LENGTH_SHORT).show();
-////                    commentAdapterPresenter.getMentionedUser(autoCompleteTextView.getText().toString().trim());
-//                }
-
 
             }
 
