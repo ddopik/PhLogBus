@@ -13,6 +13,10 @@ import java.util.List;
  */
 public class Photographer extends MentionedUser implements  Parcelable  {
 
+    public Photographer(){
+
+    }
+
     @SerializedName("is_phone_verified")
     @Expose
     public Boolean isPhoneVerified;
