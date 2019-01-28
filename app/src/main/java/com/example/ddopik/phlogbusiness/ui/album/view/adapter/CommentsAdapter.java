@@ -37,8 +37,6 @@ import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by abdalla_maged On Nov,2018
@@ -218,61 +216,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             commentViewHolder.sendCommentImgVal.setThreshold(0);
 
 
-
             commentViewHolder.sendCommentImgVal.setOnItemClickListener((parent, view, position, id) -> {
-                ////
-                boolean isContainImojis = Utilities.isContainImojis(commentViewHolder.sendCommentImgVal.getText().toString());
-                int cursorPosition;
-                if (isContainImojis) {
-                    cursorPosition = commentViewHolder.sendCommentImgVal.getSelectionEnd();
-                } else {
-                    cursorPosition = commentViewHolder.sendCommentImgVal.getSelectionEnd() + 1;
-                }
-                String currentCommentValue[] = commentViewHolder.sendCommentImgVal.getText().toString().split("");
-                SpannableString spannableString=(SpannableString)commentViewHolder.sendCommentImgVal.getText(); ///-->
-                //////////
 
+                commentViewHolder.sendCommentImgVal.handleMentionedCommentBody(position, mentionedUserList);
 
-                // in case "First" char after "@" symbol
-                String commentSymbol = currentCommentValue[cursorPosition - 2];
-//                String commentSymbol = spannableString.get ;///-->
-                if (commentSymbol.equals("@")) {
-
-                    List<Photographer> currentMentionedPhotoGrapherList = new ArrayList<>();
-                    List<Business> currentMentionedBusiness = new ArrayList<>();
-
-                    String replacement = "";
-                    if (mentionedUserList.get(position).mentionedType == Constants.UserType.USER_TYPE_PHOTOGRAPHER) {
-                        replacement = ("@" + "0" + "_" + mentionedUserList.get(position).mentionedUserId);
-                        Photographer photographer = new Photographer();
-                        photographer.id = mentionedUserList.get(position).mentionedUserId;
-                        photographer.fullName = mentionedUserList.get(position).mentionedUserName;
-                        photographer.mentionedImage = mentionedUserList.get(position).mentionedImage;
-                        currentMentionedPhotoGrapherList.add(photographer);
-                    } else if (mentionedUserList.get(position).mentionedType == Constants.UserType.USER_TYPE_BUSINESS) {
-                        replacement = ("@" + "1" + "_" + mentionedUserList.get(position).mentionedUserId);
-                        Business business = new Business();
-                        business.id = mentionedUserList.get(position).mentionedUserId;
-                        business.userName = mentionedUserList.get(position).mentionedUserName;
-                        business.mentionedImage = mentionedUserList.get(position).mentionedImage;
-                        currentMentionedBusiness.add(business);
-                    }
-
-
-                    ///Replacing "@" with userId_identifier_symbol ex{ @0_18 ,@1_236}
-                    currentCommentValue[cursorPosition - 2] = replacement;
-                    currentCommentValue[cursorPosition - 1] = " ";
-
-                    StringBuffer newCommentVal = new StringBuffer();
-                    for (int y = 0; y < currentCommentValue.length; y++) {
-                        newCommentVal.append(currentCommentValue[y]);
-                    }
-                    String newComment = newCommentVal.toString();
-                    commentViewHolder.sendCommentImgVal.setTag(newComment);
-                    handleCommentBody(commentViewHolder.sendCommentImgVal, newComment, currentMentionedPhotoGrapherList, currentMentionedBusiness);
-//                    commentViewHolder.sendCommentImgVal.setText(newComment);
-                }
-                commentViewHolder.sendCommentImgVal.dismissDropDown();
             });
 
 
@@ -467,6 +414,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     }
 
+    private void changeMentionedUserFlags(){
+
+    }
     private void handleCommentBody(CustomAutoCompleteTextView customAutoCompleteTextView, String commentFinalValue, List<Photographer> mentionsPhotoGrapherIdIdList, List<Business> mentionBusinessIdList) {
 
 
