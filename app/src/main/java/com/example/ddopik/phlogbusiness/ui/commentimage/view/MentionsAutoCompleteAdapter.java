@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.base.commonmodel.SocialUser;
+import com.example.ddopik.phlogbusiness.base.commonmodel.MentionedUser;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Mentions;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 
 import java.util.ArrayList;
@@ -16,43 +17,51 @@ import java.util.List;
 
 public class MentionsAutoCompleteAdapter extends ArrayAdapter {
 
-    private List<SocialUser> socialUsersFiltered;
+
     private Context mContext;
     private int itemLayout;
-
-    private ListFilter listFilter = new ListFilter();
-    private List<SocialUser> socialUsers;
+    private List<MentionedUser> mentionedUsersAll;
 
     public OnUserClicked onUserClicked;
 
-    public MentionsAutoCompleteAdapter(Context context, int resource, List<SocialUser> socialUsers) {
-        super(context, resource, socialUsers);
-        socialUsersFiltered = socialUsers != null ? socialUsers : new ArrayList<>();
+    public MentionsAutoCompleteAdapter(Context context, int resource, List<MentionedUser> mentionedUsers) {
+        super(context, resource, mentionedUsers);
+        mentionedUsersAll = mentionedUsers;
         mContext = context;
         itemLayout = resource;
     }
 
     @Override
     public int getCount() {
-        return socialUsersFiltered.size();
+        return mentionedUsersAll.size();
     }
 
     @Override
-    public SocialUser getItem(int position) {
+    public MentionedUser getItem(int position) {
 
-        return socialUsersFiltered.get(position);
+        return mentionedUsersAll.get(position);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View view, @NonNull ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
-        if (view == null) {
-            view = LayoutInflater.from(parent.getContext()).inflate(itemLayout, parent, false);
+
+        MentionedUserViewHolder mentionedUserViewHolder=new MentionedUserViewHolder();
+
+
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            convertView = inflater.inflate(R.layout.view_holder_mentioned_user, null);
+            mentionedUserViewHolder.mentionedUserImg=convertView.findViewById(R.id.mention_profile_img);
+            mentionedUserViewHolder.mentionedUserName=convertView.findViewById(R.id.mentioned_profile_user_name);
+            convertView.setTag(mentionedUserViewHolder);
+        }else {
+            mentionedUserViewHolder=(MentionedUserViewHolder) convertView.getTag();
         }
 
 
-        ImageView mentionedUserImg = view.findViewById(R.id.mention_profile_img);
-        TextView mentionedUserName = view.findViewById(R.id.mentioned_profile_user_name);
+
 
         GlideApp.with(mContext)
                 .load(getItem(position).mentionedImage)
@@ -60,78 +69,75 @@ public class MentionsAutoCompleteAdapter extends ArrayAdapter {
                 .placeholder(R.drawable.default_place_holder)
                 .override(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
                 .apply(RequestOptions.circleCropTransform())
-                .into(mentionedUserImg);
+                .into(mentionedUserViewHolder.mentionedUserImg);
 
-        mentionedUserName.setText(getItem(position).mentionedUserName);
+        mentionedUserViewHolder.mentionedUserName.setText(getItem(position).mentionedUserName);
 
         if (onUserClicked !=null){
-            view.setOnClickListener(v->{
+            mentionedUserViewHolder.mentionedUserImg.setOnClickListener(v->{
                 onUserClicked.onUserSelected(getItem(position));
             });
         }
 
-        return view;
+        return convertView;
     }
 
-    @NonNull
-    @Override
-    public Filter getFilter() {
-        return listFilter;
-    }
 
-    public class ListFilter extends Filter {
-        private Object lock = new Object();
-
+    private Filter mFilter =new Filter() {
         @Override
-        protected FilterResults performFiltering(CharSequence prefix) {
+        protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            if (socialUsers == null) {
-                synchronized (lock) {
-                    socialUsers = new ArrayList<SocialUser>(socialUsersFiltered);
-                }
-            }
 
-            if (prefix == null || prefix.length() == 0) {
-                synchronized (lock) {
-                    results.values = socialUsers;
-                    results.count = socialUsers.size();
-                }
-            } else {
-                final String searchStrLowerCase = prefix.toString().toLowerCase();
-
-                ArrayList<SocialUser> matchValues = new ArrayList<SocialUser>();
-                for (SocialUser socialUser : socialUsers) {
-                    if (socialUser.mentionedUserName.startsWith(searchStrLowerCase)) {
-                        matchValues.add(socialUser);
+            if (constraint != null) {
+                ArrayList<MentionedUser> suggestions = new ArrayList<MentionedUser>();
+                for (MentionedUser mentionsUser : mentionedUsersAll) {
+                    // Note: change the "contains" to "startsWith" if you only want starting matches
+                    if (mentionsUser.mentionedUserName.startsWith(constraint.toString().toLowerCase())) {
+                        suggestions.add(mentionsUser);
+//                    }
                     }
-                }
 
-                results.values = matchValues;
-                results.count = matchValues.size();
+                    results.values = suggestions;
+                    results.count = suggestions.size();
+                }
             }
 
-            return results;
+                return results;
+
         }
+
+
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             if (results.values != null) {
-                socialUsersFiltered = (ArrayList<SocialUser>) results.values;
+                addAll((ArrayList<MentionedUser>) results.values);
             } else {
-                socialUsersFiltered = null;
+
+             addAll(mentionedUsersAll);
             }
-            if (results.count > 0) {
-                notifyDataSetChanged();
-            } else {
-                notifyDataSetInvalidated();
-            }
+
+            notifyDataSetChanged();
+
+
         }
 
+
+
+    };
+    @NonNull
+    @Override
+    public Filter getFilter() {
+        return mFilter;
     }
 
 
+    class MentionedUserViewHolder{
+        ImageView mentionedUserImg ;
+        TextView mentionedUserName ;
+    }
     public interface OnUserClicked {
-        void onUserSelected(SocialUser socialUser);
+        void onUserSelected(MentionedUser mentionedUser);
 
     }
 }

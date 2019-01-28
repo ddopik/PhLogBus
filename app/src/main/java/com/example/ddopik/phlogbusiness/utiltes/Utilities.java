@@ -364,4 +364,18 @@ public class Utilities {
         Pattern pattern = Pattern.compile("^(https?:\\\\/\\\\/)?(www\\.)?([\\\\w\\\\Q$-_+!*'(),%\\\\E]+\\\\.)+[\u200C\u200B\\\\w]{2,63}\\\\/?$");
         return pattern.matcher(webSite).matches() || true;
     }
+    public static boolean isContainImojis(String input) {
+
+
+        for (int i = 0; i < input.length(); i++) {
+            if (i < (input.length() - 1)) { // Emojis are two characters long in java, e.g. a rocket emoji is "\uD83D\uDE80";
+                if (Character.isSurrogatePair(input.charAt(i), input.charAt(i + 1))) {
+                   return true;
+                }
+            }
+
+        }
+
+        return false;
+    }
 }

@@ -31,10 +31,11 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
     public static String ALBUM_NAME = "album_name";
     public static String SELECTED_IMG_ID = "selected_img_id";
     public static String CURRENT_PAGE = "current_page";
+    public static String SELECTED_IMAGE_DATA = "selected_img_data";
     private int albumId;
     private int selectedImageId;
     private int currentPage;
-     private ImageButton backBtn;
+    private ImageButton backBtn;
     private CustomTextView toolBarTitle;
     private CustomRecyclerView allAlbumImgRv;
     private AllAlbumImgAdapter allAlbumImgAdapter;
@@ -66,7 +67,7 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
         this.selectedImageId = getIntent().getIntExtra(SELECTED_IMG_ID, 0);
         this.currentPage = getIntent().getIntExtra(CURRENT_PAGE, 0);
 
-        backBtn=findViewById(R.id.back_btn);
+        backBtn = findViewById(R.id.back_btn);
         allAlbumImgAdapter = new AllAlbumImgAdapter(albumImgList);
         albumImgProgress = findViewById(R.id.album_img_list_progress_bar);
         allAlbumImgRv = findViewById(R.id.album_img_list_rv);
@@ -94,37 +95,57 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
             @Override
             public void onAlbumImgClick(BaseImage albumImg) {
                 Intent intent = new Intent(getBaseContext(), ImageCommentActivity.class);
-                intent.putExtra(ImageCommentActivity.IMAGE_DATA,albumImg);
+                intent.putExtra(ImageCommentActivity.IMAGE_DATA, albumImg);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            }
+
+
+            @Override
+            public void onAlbumImgCommentClick(BaseImage albumImg) {
+                Intent intent = new Intent(getBaseContext(), ImageCommentActivity.class);
+                intent.putExtra(ImageCommentActivity.IMAGE_DATA, albumImg);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
 
             @Override
             public void onAlbumImgLikeClick(BaseImage albumImg) {
-                 allAlbumImgActivityPresenter.likeImage(albumImg.id);
-            }
+                if (albumImg.isLiked) {
+                    allAlbumImgActivityPresenter.unLikeImage(albumImg.id);
+                } else {
+                    allAlbumImgActivityPresenter.likeImage(albumImg.id);
+                }
 
-            @Override
-            public void onAlbumImgCommentClick(BaseImage albumImg) {
-                Intent intent = new Intent(getBaseContext(), ImageCommentActivity.class);
-                intent.putExtra(ImageCommentActivity.IMAGE_DATA,albumImg);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
             }
 
             @Override
             public void onAlbumImgAddLightBoxClick(BaseImage albumImg) {
-                AddToLightBoxDialogFragment.getInstance(albumImg).show(getSupportFragmentManager(),AllAlbumImgActivity.class.getSimpleName());
+                AddToLightBoxDialogFragment addToLightBoxDialogFragment = AddToLightBoxDialogFragment.getInstance(albumImg);
+                addToLightBoxDialogFragment.onLighBoxImageComplete = state -> {
+                    if (state) {
+                        for (int i = 0; i < albumImgList.size(); i++) {
+                            if (albumImgList.get(i).id == albumImg.id) {
+                                albumImgList.get(i).isSaved = state;
+                            }
+                        }
+                    }
+                    allAlbumImgAdapter.notifyDataSetChanged();
+                };
+                addToLightBoxDialogFragment.show(getSupportFragmentManager(),AllAlbumImgActivity.class.getSimpleName());
             }
 
             @Override
             public void onAlbumImgToCartClick(BaseImage albumImg) {
-
+                if (albumImg.isCart) {
+                    showToast("view in cart");
+                } else {
+                    allAlbumImgActivityPresenter.addImageToCart(albumImg.id);
+                }
             }
 
             @Override
             public void onAlbumImgLightBoxRemoveClick(BaseImage albumImg) {
-//                allAlbumImgActivityPresenter.removeLightBoxImage(albumImg);
             }
         };
 
@@ -139,7 +160,7 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
             }
         };
 
-        backBtn.setOnClickListener(v-> onBackPressed());
+        backBtn.setOnClickListener(v -> onBackPressed());
 
 
     }
@@ -158,8 +179,28 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
             }
 
         }
+    }
 
+    @Override
+    public void onImagedAddedToCart(boolean state, int imageId) {
+        for (int i = 0; i < albumImgList.size(); i++) {
+            if (albumImgList.get(i).id == imageId) {
+                albumImgList.get(i).isCart = state;
+                break;
+            }
+        }
+        allAlbumImgAdapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void onImageLiked(BaseImage baseImage) {
+        for (int i = 0; i < albumImgList.size(); i++) {
+            if (albumImgList.get(i).id == baseImage.id) {
+                albumImgList.set(i, baseImage);
+                break;
+            }
+        }
+        allAlbumImgAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -177,7 +218,6 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
     public void viewMessage(String msg) {
         showToast(msg);
     }
-
 
 
 }

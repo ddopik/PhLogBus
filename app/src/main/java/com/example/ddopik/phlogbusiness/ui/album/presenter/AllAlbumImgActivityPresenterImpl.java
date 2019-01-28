@@ -14,14 +14,14 @@ import java.util.Map;
 
 public class AllAlbumImgActivityPresenterImpl implements AllAlbumImgActivityPresenter {
 
-    public static String TAG=AllAlbumImgActivityPresenterImpl.class.getSimpleName();
+    public static String TAG = AllAlbumImgActivityPresenterImpl.class.getSimpleName();
 
     private AllAlbumImgActivityView allAlbumImgActivityView;
     private Context context;
 
-    public AllAlbumImgActivityPresenterImpl(AllAlbumImgActivityView allAlbumImgActivityView,Context context){
-        this.context=context;
-        this.allAlbumImgActivityView=allAlbumImgActivityView;
+    public AllAlbumImgActivityPresenterImpl(AllAlbumImgActivityView allAlbumImgActivityView, Context context) {
+        this.context = context;
+        this.allAlbumImgActivityView = allAlbumImgActivityView;
 
     }
 
@@ -29,7 +29,7 @@ public class AllAlbumImgActivityPresenterImpl implements AllAlbumImgActivityPres
     @Override
     public void getAlbumImages(int albumId, int pageNum) {
         allAlbumImgActivityView.viewAlbumImageListProgress(true);
-        BaseNetworkApi.getAlbumImagesPreview( String.valueOf(albumId),String.valueOf( pageNum))
+        BaseNetworkApi.getAlbumImagesPreview(String.valueOf(albumId), String.valueOf(pageNum))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(albumPreviewImagesResponse -> {
@@ -45,12 +45,12 @@ public class AllAlbumImgActivityPresenterImpl implements AllAlbumImgActivityPres
     @Override
     public void likeImage(int imageId) {
 
-          allAlbumImgActivityView.viewAlbumImageListProgress(true);
+        allAlbumImgActivityView.viewAlbumImageListProgress(true);
         BaseNetworkApi.likeImage(String.valueOf(imageId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(likeImageResponse -> {
-                    allAlbumImgActivityView.viewMessage(likeImageResponse.msg);
+                    allAlbumImgActivityView.onImageLiked(likeImageResponse.data);
                     allAlbumImgActivityView.viewAlbumImageListProgress(false);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());
@@ -58,22 +58,36 @@ public class AllAlbumImgActivityPresenterImpl implements AllAlbumImgActivityPres
                 });
     }
 
-    //    @SuppressLint("CheckResult")
-//    @Override
-//    public void removeLightBoxImage(BaseImage baseImage) {
-//
-//
-//
-//        allAlbumImgActivityView.viewAlbumImageListProgress(true);
-//        BaseNetworkApi.removeLightBoxImage()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(albumPreviewImagesResponse -> {
-//                    allAlbumImgActivityView.viewMessage(albumPreviewImagesResponse.msg);
-//                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-//                }, throwable -> {
-//                    CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());
-//                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-//                });
-//    }
+    @SuppressLint("CheckResult")
+    @Override
+    public void unLikeImage(int imageId) {
+        BaseNetworkApi.unlikeImage(String.valueOf(imageId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(likeImageResponse -> {
+                    allAlbumImgActivityView.onImageLiked(likeImageResponse.data);
+                     allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());
+                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                });
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void addImageToCart(int imageId) {
+        allAlbumImgActivityView.viewAlbumImageListProgress(true);
+        BaseNetworkApi.addImageToCart(String.valueOf(imageId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(addImageToCartResponse -> {
+                    allAlbumImgActivityView.onImagedAddedToCart(true,imageId);
+                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(context,TAG,throwable);
+                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                });
+
+
+    }
 }

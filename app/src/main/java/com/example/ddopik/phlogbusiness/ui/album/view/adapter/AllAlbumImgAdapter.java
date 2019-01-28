@@ -71,12 +71,28 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         if(albumImgList.get(i).commentsCount !=null)
             albumImgViewHolder.albumImgCommentVal.setText(new StringBuilder().append(albumImgList.get(i).commentsCount).append(" Comments").toString());
 
+
+        if (albumImgList.get(i).isLiked){
+            albumImgViewHolder.albumImgLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_like_on));
+        }else {
+            albumImgViewHolder.albumImgLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_like_off_gray));
+        }
+
+
         /**
          * view remove icon when image is already saved to lightBox to at least on LightBox
          * view AddToLightBox icon when image not Saved to ant LightBox
          * **/
-        if(albumImgList.get(i).isSaved){
-            albumImgViewHolder.addLightBoxImgBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_img_remove_light_box));
+        if(!albumImgList.get(i).isSaved){
+            albumImgViewHolder.addLightBoxImgBtn.setVisibility(View.VISIBLE);
+//            albumImgViewHolder.addLightBoxImgBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_img_remove_light_box));
+        }else {
+            albumImgViewHolder.addLightBoxImgBtn.setVisibility(View.GONE);
+        }
+        if (albumImgList.get(i).isCart) {
+            albumImgViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.view_in_cart));
+        } else {
+            albumImgViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.add_to_cart));
         }
 
         if (onAlbumImgClicked != null) {
@@ -100,7 +116,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 
         ImageView albumIcon, albumImg;
         ImageView addLightBoxImgBtn;
-        CustomTextView albumName, albumAuthor, albumImgLikeVal, albumImgCommentVal;
+        CustomTextView albumName, albumAuthor, albumImgLikeVal, albumImgCommentVal,albumImgAddToCartVal;
         ImageButton albumImgLike, albumImgComment;
         FrameLayout albumImgAddToCartBtn;
 
@@ -116,6 +132,8 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
             albumImgLike = view.findViewById(R.id.album_img_like_btn);
             albumImgComment = view.findViewById(R.id.album_img_comment);
             albumImgAddToCartBtn = view.findViewById(R.id.album_img_add_to_cart);
+            albumImgAddToCartVal = view.findViewById(R.id.album_img_add_to_cart_val);
+
         }
     }
 

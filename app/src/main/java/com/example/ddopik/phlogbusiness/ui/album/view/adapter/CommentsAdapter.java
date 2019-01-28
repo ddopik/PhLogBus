@@ -10,6 +10,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,40 +20,53 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.ui.album.presenter.CommentAdapterPresenter;
+import com.example.ddopik.phlogbusiness.ui.album.presenter.CommentAdapterPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.MentionsAutoCompleteAdapter;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
+import com.jakewharton.rxbinding3.widget.RxTextView;
+import com.jakewharton.rxbinding3.widget.TextViewTextChangeEvent;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by abdalla_maged On Nov,2018
  */
-public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> {
+public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> implements CommentsAdapterView {
 
+    private String TAG = CommentsAdapter.class.getSimpleName();
     private Context context;
     private List<Comment> commentList;
     private Mentions mentions;
-    private List<Photographer> photographerList ;
-    private List<Business> businessList;
-    private List<SocialUser> socialUserList;
+    private List<Photographer> photographerList = new ArrayList<>();
+    private List<Business> businessList = new ArrayList<>();
+    private List<MentionedUser> mentionedUserList = new ArrayList<>();
     private MentionsAutoCompleteAdapter mentionsAutoCompleteAdapter;
-
+    private CommentAdapterPresenter commentAdapterPresenter;
+    private CompositeDisposable disposable = new CompositeDisposable();
     private BaseImage previewImage;
     public CommentAdapterAction commentAdapterAction;
     private int HEAD = 0;
     private int COMMENT = 1;
     private int ADD_COMMENT = 2;
     private final String USER_MENTION_IDENTIFIER = "%";
+    private DisposableObserver<TextViewTextChangeEvent> searchQuery;
 
 
     public CommentsAdapter(BaseImage previewImage, List<Comment> commentList, Mentions mentions) {
         this.commentList = commentList;
         this.previewImage = previewImage;
         this.mentions = mentions;
+
     }
 
     @NonNull
@@ -60,7 +74,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         this.context = viewGroup.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-
+        commentAdapterPresenter = new CommentAdapterPresenterImpl(context, this);
 
         if (i == HEAD) {
             return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_comment_start_item, viewGroup, false), HEAD);
@@ -74,6 +88,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder commentViewHolder, int i) {
+//////////////////////////////////////HEAD/////////////////////////////////////////
 
         if (getItemViewType(i) == HEAD) {
 
@@ -88,14 +103,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     .into(commentViewHolder.commentAuthorIcon);
 
 
+            int rate3 = Math.round(previewImage.rate);
+            commentViewHolder.photoRating.setRating(rate3);
 
-            int rate3=Math.round(previewImage.rate);
-            commentViewHolder.photoRating.setRating(rate3 );
-
-            if (previewImage.isRated){
+            if (previewImage.isRated) {
                 commentViewHolder.photoRating.setIsIndicator(true);
             }
-            commentViewHolder.photoRating.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> commentAdapterAction.onImageRateClick(previewImage,rating));
+            commentViewHolder.photoRating.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> commentAdapterAction.onImageRateClick(previewImage, rating));
 
 
             if (previewImage.isSaved) {
@@ -134,7 +148,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
 
                 if (!previewImage.isLiked) {
-                    commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_off);
+                    commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_off_white);
                 } else {
                     commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_on);
                 }
@@ -152,11 +166,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.add_to_cart));
             }
 
-            commentViewHolder.addToCartbtn.setOnClickListener(v -> {
+            commentViewHolder.addToCartBtn.setOnClickListener(v -> {
                 commentAdapterAction.onAddToCartClick(previewImage);
             });
 
-
+//////////////////////////////////////COMMENT/////////////////////////////////////////
         } else if (getItemViewType(i) == COMMENT) {
             if (commentList.get(i).business != null) {
 
@@ -183,8 +197,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentViewHolder.commentAuthorName.setText(commentList.get(i).photographer.fullName);
 
             }
-            handleCommentBody(commentViewHolder, commentList.get(i));
+            handleCommentBody(commentViewHolder.commentVal, commentList.get(i).comment);
+            ////////////////////////////////ADD_COMMENT///////////////////////////////////////////////
         } else if (getItemViewType(i) == ADD_COMMENT) {
+
+
             if (commentAdapterAction != null) {
                 commentViewHolder.sendCommentBtn.setOnClickListener(v -> {
                     commentAdapterAction.onSubmitComment(commentViewHolder.sendCommentImgVal.getText().toString());
@@ -193,31 +210,95 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             }
 
 
-
-            MentionsAutoCompleteAdapter mentionsAutoCompleteAdapter = new MentionsAutoCompleteAdapter(context, R.layout.view_holder_mentioned_user, socialUserList);
+            mentionsAutoCompleteAdapter = new MentionsAutoCompleteAdapter(context, R.layout.view_holder_mentioned_user, mentionedUserList);
+            mentionsAutoCompleteAdapter.setNotifyOnChange(true);
             commentViewHolder.sendCommentImgVal.setAdapter(mentionsAutoCompleteAdapter);
             commentViewHolder.sendCommentImgVal.setThreshold(0);
-            mentionsAutoCompleteAdapter.setNotifyOnChange(true);
-            mentionsAutoCompleteAdapter.notifyDataSetChanged();
-            mentionsAutoCompleteAdapter.onUserClicked = socialUser -> {
-                    Toast.makeText(context,socialUser.mentionedUserId+" ",Toast.LENGTH_SHORT).show();
-            };
 
+
+            commentViewHolder.sendCommentImgVal.setOnItemClickListener((parent, view, position, id) -> {
+
+                commentViewHolder.sendCommentImgVal.handleMentionedCommentBody(position, mentionedUserList);
+
+            });
+
+
+            if (searchQuery == null) {
+                searchQuery = getSearchTagQuery(commentViewHolder.sendCommentImgVal);
+                disposable.add(
+
+                        RxTextView.textChangeEvents(commentViewHolder.sendCommentImgVal)
+                                .skipInitialValue()
+                                .debounce(900, TimeUnit.MILLISECONDS)
+                                .distinctUntilChanged()
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeWith(searchQuery)
+                );
+            }
+
+
+            mentionsAutoCompleteAdapter.onUserClicked = socialUser -> {
+            };
 
 
         }
     }
 
 
-    private void handleCommentBody(CommentViewHolder commentViewHolder, Comment comment) {
+    private DisposableObserver<TextViewTextChangeEvent> getSearchTagQuery(AutoCompleteTextView autoCompleteTextView) {
+        return new DisposableObserver<TextViewTextChangeEvent>() {
+            @Override
+            public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
+                // user cleared search get default
+                Log.e(TAG, "search string: " + autoCompleteTextView.getText().toString().trim());
+                int cursorPosition = autoCompleteTextView.getSelectionStart();
 
-        String commentFinalValue = comment.comment;
-        List<String> authorsId = Utilities.getMentionsList(comment.comment);
+                ///getting String value before cursor
+                if (cursorPosition > 0) {
+
+                    ///check first after "@"
+                    int mentionIdentifierCharPosition = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 2);
+                    if ((mentionIdentifierCharPosition + 1) < autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition != -1) {
+                        commentAdapterPresenter.getMentionedUser(String.valueOf(autoCompleteTextView.getText().charAt(mentionIdentifierCharPosition + 1)).trim());
+                    }
+
+                    ///check second letter after "@"
+                    int mentionIdentifierCharPosition2 = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 3);
+                    if ((mentionIdentifierCharPosition2 + 3) <= autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition2 != -1) {
+                        commentAdapterPresenter.getMentionedUser(String.valueOf(autoCompleteTextView.getText().subSequence(mentionIdentifierCharPosition2, mentionIdentifierCharPosition2 + 3)).trim());
+                    }
+
+                    ///check third letter after "@"
+                    int mentionIdentifierCharPosition3 = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 4);
+                    if ((mentionIdentifierCharPosition3 + 4) <= autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition3 != -1) {
+                        commentAdapterPresenter.getMentionedUser(String.valueOf(autoCompleteTextView.getText().subSequence(mentionIdentifierCharPosition3, mentionIdentifierCharPosition3 + 4)).trim());
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+    }
+
+    private void handleCommentBody(TextView commentView, String commentFinalValue) {
+
+
+        List<String> authorsId = Utilities.getMentionsList(commentFinalValue);
         List<String> mentionsPhotoGrapherIdIdList = new ArrayList<>();
         List<String> mentionBusinessIdList = new ArrayList<>();
         List<MentionRange> mentionsPoint = new ArrayList<MentionRange>();
         List<ClickableSpan> clickableSpanList = new ArrayList<>();
-
         //
 
         if (authorsId.size() > 0) {
@@ -240,7 +321,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 if (photographer != null) {
 
                     commentFinalValue = commentFinalValue.replace("@0_" + photoGrapherId, photographer.fullName + USER_MENTION_IDENTIFIER);
-                    commentViewHolder.commentVal.setText(commentFinalValue);
+                    commentView.setText(commentFinalValue);
                 }
             }
 
@@ -251,7 +332,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     Business business = getMentionedBusiness(businessId);
                     if (business != null) {
                         commentFinalValue = commentFinalValue.replace("@1_" + businessId, business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER);
-                        commentViewHolder.commentVal.setText(commentFinalValue);
+                        commentView.setText(commentFinalValue);
                     }
                 }
             }
@@ -325,9 +406,120 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
                 }
             }
-            makeLinks(commentViewHolder.commentVal, mentionsPoint, clickableSpanList, commentFinalValue);
+            makeLinks(commentView, mentionsPoint, clickableSpanList, commentFinalValue);
         } else {
-            commentViewHolder.commentVal.setText(commentFinalValue);
+            commentView.setText(commentFinalValue);
+        }
+
+
+    }
+
+    private void changeMentionedUserFlags(){
+
+    }
+    private void handleCommentBody(CustomAutoCompleteTextView customAutoCompleteTextView, String commentFinalValue, List<Photographer> mentionsPhotoGrapherIdIdList, List<Business> mentionBusinessIdList) {
+
+
+        List<MentionRange> mentionsPoint = new ArrayList<MentionRange>();
+        List<ClickableSpan> clickableSpanList = new ArrayList<>();
+
+        //
+
+        if (mentionsPhotoGrapherIdIdList.size() > 0 || mentionBusinessIdList.size() > 0) {
+
+
+            /// Append unique identifier to mentioned user to get highLighted later
+            /// And Replacing All Occurrence of photoGrapherId with actualValue
+            for (Photographer photographer : mentionsPhotoGrapherIdIdList) {
+
+
+                commentFinalValue = commentFinalValue.replace("@0_" + photographer.id, photographer.fullName + USER_MENTION_IDENTIFIER);
+                customAutoCompleteTextView.setText(commentFinalValue);
+
+            }
+
+            /// Append unique identifier to mentioned user to get highLighted later
+            /// And Replacing All Occurrence of businessId with actualValue
+            for (Business business : mentionBusinessIdList) {
+
+                if (business != null) {
+                    commentFinalValue = commentFinalValue.replace("@1_" + business.id, business.userName + USER_MENTION_IDENTIFIER);
+                    customAutoCompleteTextView.setText(commentFinalValue);
+                }
+
+            }
+
+
+            for (Photographer photographer : mentionsPhotoGrapherIdIdList) {
+
+
+                ///////PhotoGrapher CallBack
+                ClickableSpan noUnderLineClickSpan = new ClickableSpan() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, UserProfileActivity.class);
+                        intent.putExtra(UserProfileActivity.USER_ID, photographer.id);
+                        intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setUnderlineText(false);
+                        ds.setColor(Color.BLUE); // specific color for this link
+                    }
+                };
+
+
+                String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
+                int replacementStart = commentFinalValue.indexOf(replacement) - 1;
+                int replacementEnd = replacementStart + replacement.length();
+                MentionRange mentionRange = new MentionRange();
+                mentionRange.startPoint = replacementStart;
+                mentionRange.endPoint = replacementEnd;
+                mentionsPoint.add(mentionRange);
+                clickableSpanList.add(noUnderLineClickSpan);
+                commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
+
+            }
+
+
+            //////////////////////////////////////////////////////////
+
+            for (Business business : mentionBusinessIdList) {
+
+                //////business CallBack
+                ClickableSpan noUnderLineClickSpan2 = new ClickableSpan() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, UserProfileActivity.class);
+                        intent.putExtra(UserProfileActivity.USER_ID, business.id);
+                        intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_BUSINESS);
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setUnderlineText(false);
+                        ds.setColor(Color.MAGENTA); // specific color for this link
+                    }
+                };
+                String replacement = business.userName + USER_MENTION_IDENTIFIER;
+                int replacementStart = commentFinalValue.indexOf(replacement) - 1;
+                int replacementEnd = replacementStart + replacement.length();
+                MentionRange mentionRange = new MentionRange();
+                mentionRange.startPoint = replacementStart;
+                mentionRange.endPoint = replacementEnd;
+                mentionsPoint.add(mentionRange);
+                clickableSpanList.add(noUnderLineClickSpan2);
+                commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
+
+            }
+            makeLinks(customAutoCompleteTextView, mentionsPoint, clickableSpanList, commentFinalValue);
+        } else {
+            customAutoCompleteTextView.setText(commentFinalValue);
         }
 
 
@@ -413,9 +605,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         return commentList.size();
     }
 
-    class CommentViewHolder extends RecyclerView.ViewHolder {
+    public class CommentViewHolder extends RecyclerView.ViewHolder {
         //header cell
-        FrameLayout addToCartbtn;
+        FrameLayout addToCartBtn;
         CustomTextView imgLikeNum, imgCommentNum, commentPreviewImgTags, authorName, authorUserName, albumImgAddToCartVal;
         ImageView commentImg, commentAuthorIcon;
         ImageButton imageLikeBtn, imageCommentBtn, addLightBoxBtn;
@@ -425,7 +617,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         CustomTextView commentAuthorName;
         ImageView commentAuthorImg;
         //SendCommentCell
-        AutoCompleteTextView sendCommentImgVal;
+        CustomAutoCompleteTextView sendCommentImgVal;
         ImageButton sendCommentBtn;
 
 
@@ -436,7 +628,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentAuthorIcon = view.findViewById(R.id.comment_author_icon);
                 authorName = view.findViewById(R.id.author_name);
                 authorUserName = view.findViewById(R.id.author_user_name);
-                addToCartbtn = view.findViewById(R.id.album_img_add_to_cart);
+                addToCartBtn = view.findViewById(R.id.album_img_add_to_cart);
                 albumImgAddToCartVal = view.findViewById(R.id.album_img_add_to_cart_val);
                 addLightBoxBtn = view.findViewById(R.id.add_to_light_box_btn);
                 commentImg = view.findViewById(R.id.comment_preview_img);
@@ -461,6 +653,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     public interface CommentAdapterAction {
         void onImageLike(BaseImage baseImage);
+
         void onImageRateClick(BaseImage baseImage, float rating);
 
         void onAddToLightBox(BaseImage baseImage);
@@ -470,6 +663,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         void onSubmitComment(String comment);
     }
 
+    @Override
+    public void viewMentionedUsers(List<MentionedUser> mentionedUserList) {
+        this.mentionedUserList.clear();
+        this.mentionedUserList.addAll(mentionedUserList);
+        mentionsAutoCompleteAdapter.notifyDataSetChanged();
+    }
 
     private class MentionRange {
         int startPoint;

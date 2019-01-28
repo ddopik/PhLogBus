@@ -10,5 +10,8 @@ import java.util.List;
 public interface AllAlbumImgActivityView  {
     void viewAlbumImageList(List<BaseImage> albumImgList);
     void viewAlbumImageListProgress(boolean state);
+    void onImagedAddedToCart(boolean state,int imageId);
+    void onImageLiked( BaseImage baseImage);
+
     void viewMessage(String msg);
 }

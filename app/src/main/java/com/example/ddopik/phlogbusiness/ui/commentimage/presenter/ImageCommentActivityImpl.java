@@ -49,7 +49,7 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(submitImageCommentResponse -> {
                     imageCommentActivityView.viewMessage("Comment Submitted");
-                    imageCommentActivityView.viewOnImageCommented(submitImageCommentResponse.data.comment);
+                    imageCommentActivityView.onImageCommented(submitImageCommentResponse.data.comment);
                     imageCommentActivityView.viewImageProgress(false);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
@@ -64,30 +64,34 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
         imageCommentActivityView.viewImageProgress(true);
 
 
-        if (baseImage.isLiked) {
-            BaseNetworkApi.unlikeImage(String.valueOf(baseImage.id))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(baseStateResponse -> {
-                        imageCommentActivityView.viewImageProgress(false);
-                        imageCommentActivityView.viewImageLikedStatus(false);
-                    }, throwable -> {
-                        imageCommentActivityView.viewImageProgress(false);
-                        CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                    });
-        } else {
+
             BaseNetworkApi.likeImage(String.valueOf(baseImage.id))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(baseStateResponse -> {
+                    .subscribe(likeImageResponse -> {
+                        imageCommentActivityView.onImageLiked(likeImageResponse.data);
                         imageCommentActivityView.viewImageProgress(false);
-                        imageCommentActivityView.viewImageLikedStatus(true);
                     }, throwable -> {
                         imageCommentActivityView.viewImageProgress(false);
                         CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     });
-        }
 
+
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void unLikePhoto(BaseImage baseImage) {
+        BaseNetworkApi.unlikeImage(String.valueOf(baseImage.id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(likeImageResponse -> {
+                    imageCommentActivityView.onImageLiked(baseImage);
+                    imageCommentActivityView.onImageLiked(likeImageResponse.data);
+                }, throwable -> {
+                    imageCommentActivityView.viewImageProgress(false);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                });
     }
 
     @SuppressLint("CheckResult")

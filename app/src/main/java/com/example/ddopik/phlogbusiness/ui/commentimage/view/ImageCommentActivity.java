@@ -98,7 +98,11 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         commentsAdapter.commentAdapterAction = new CommentsAdapter.CommentAdapterAction() {
             @Override
             public void onImageLike(BaseImage baseImage) {
-                imageCommentActivityPresenter.likePhoto(baseImage);
+                if (baseImage.isLiked) {
+                    imageCommentActivityPresenter.unLikePhoto(baseImage);
+                } else {
+                    imageCommentActivityPresenter.likePhoto(baseImage);
+                }
             }
 
             @Override
@@ -176,18 +180,13 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
 
     @Override
-    public void viewImageLikedStatus(boolean state) {
-        previewImage.isLiked = state;
-        if (state) {
-            previewImage.likesCount++;
-        } else {
-            previewImage.likesCount--;
-        }
+    public void onImageLiked(BaseImage baseImage) {
+        previewImage = baseImage;
         commentsAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void viewOnImageCommented(Comment comment) {
+    public void onImageCommented(Comment comment) {
         // (1) is A default value to view AddComment layout in case there is now Comments
         this.commentList.add(1, comment);
         commentsAdapter.notifyDataSetChanged();
@@ -206,8 +205,8 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     @Override
     public void onImageRate(BaseImage baseImage) {
         if (baseImage != null) {
-            previewImage.rate=baseImage.rate;
-            previewImage.isRated=baseImage.isRated;
+            previewImage.rate = baseImage.rate;
+            previewImage.isRated = baseImage.isRated;
             commentsAdapter.notifyDataSetChanged();
         }
 

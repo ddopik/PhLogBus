@@ -11,12 +11,13 @@ import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageRateResponse;
  */
 public interface ImageCommentActivityView {
     void viewImageProgress(Boolean state);
+
     void viewPhotoComment(ImageCommentsData imageCommentsData);
-//    void viewHeaderImageProgress(boolean state);
 
-    void viewImageLikedStatus(boolean state);
+    //    void viewHeaderImageProgress(boolean state);
+    void onImageCommented(Comment comment);
 
-    void viewOnImageCommented(Comment comment);
+    void onImageLiked(BaseImage baseImage);
 
     void onImagedAddedToCart(boolean state);
 
