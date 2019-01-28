@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SetupBrandPresenterImpl implements SetupBrandPresenter {
 
-    private CompositeDisposable DISPOSABLES = new CompositeDisposable();
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     public static final String TAG = SetupBrandPresenterImpl.class.getSimpleName();
 
@@ -83,12 +83,12 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
-        DISPOSABLES.add(disposable);
+        disposables.add(disposable);
     }
 
     @Override
     public void terminate() {
-        DISPOSABLES.dispose();
+        disposables.dispose();
     }
 
     @Override
@@ -105,7 +105,7 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
                     consumer.accept(false);
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
-        DISPOSABLES.add(disposable);
+        disposables.add(disposable);
     }
 
     @Override
@@ -122,11 +122,22 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
                     view.setLoading(false);
                     Log.e(TAG, throwable.getMessage());
                 });
-        DISPOSABLES.add(disposable);
+        disposables.add(disposable);
     }
 
     @Override
     public void verify() {
+        view.setLoading(true);
+        Disposable disposable = BaseNetworkApi.requestVerificationBrand()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
 
+                    view.setLoading(false);
+                }, throwable -> {
+                    view.setLoading(false);
+                    Log.e(TAG, throwable.getMessage());
+                });
+        disposables.add(disposable);
     }
 }

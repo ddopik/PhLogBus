@@ -132,6 +132,7 @@ public class BaseNetworkApi {
     private static final String LIGHT_BOX_PHOTOS_URL = BASE_URL + "/lightBox/photos";
     private static final String CHANGE_CAMPAIGN_END_DATE_URL = BASE_URL + "/campaign/extend";
     private static final String DUMMY_SOCIAL = "http://178.128.162.10/public/api/photographer/social/dummy";
+    private static final String REQUEST_VERIFICATION_BRAND_URL = BASE_URL + "/campaign/extend";
 
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
@@ -630,6 +631,13 @@ public class BaseNetworkApi {
                 .addBodyParameter("end_date", dateString)
                 .build()
                 .getObjectObservable(ChangeCampaignDateResponse.class);
+    }
+
+    public static Observable<String> requestVerificationBrand() {
+        return Rx2AndroidNetworking.post(REQUEST_VERIFICATION_BRAND_URL)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getStringObservable();
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

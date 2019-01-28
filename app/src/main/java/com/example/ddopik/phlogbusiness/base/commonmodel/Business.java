@@ -22,7 +22,7 @@ public class Business  extends SocialUser implements Parcelable {
 //    @SerializedName("full_name")
 //    @Expose
 //    public String fullName;
-    @SerializedName("web_site")
+    @SerializedName("website")
     @Expose
     public String website;
     @SerializedName("industry")

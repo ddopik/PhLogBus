@@ -88,7 +88,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
     private Business business;
 
     private void handleIntent() {
-        business = (Business) getIntent().getSerializableExtra("business");
+        business = getIntent().getParcelableExtra("business");
         if (business == null)
             return;
         model.cover = business.brandImageCover;
@@ -132,16 +132,33 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                         showErrorMessage(result);
                     break;
                 case 2:
-                    if (result.shouldProceed)
-                        presenter.setupBrand(model, this, aBoolean -> {
-                            if (aBoolean)
-                                viewPager.setCurrentItem(2);
-                        });
-                    else
-                        showErrorMessage(result);
+                    if (changed) {
+                        if (result.shouldProceed)
+                            presenter.setupBrand(model, this, aBoolean -> {
+                                if (aBoolean)
+                                    viewPager.setCurrentItem(2);
+                            });
+                        else
+                            showErrorMessage(result);
+                    } else
+                        viewPager.setCurrentItem(2);
                     break;
                 case 3:
-                    presenter.verify();
+                    if (docs == null || docs.isEmpty())
+                        break;
+                    presenter.loadDocs(docs -> {
+                        boolean allDocsUploaded = true;
+                        for (Doc doc : docs) {
+                            if (doc.getUploadedFile() == null || doc.getUploadedFile().getUrl() == null || doc.getUploadedFile().getUrl().isEmpty()) {
+                                allDocsUploaded = false;
+                                break;
+                            }
+                        }
+                        if (allDocsUploaded)
+                            presenter.verify();
+                        else
+                            showToast(getString(R.string.upload_all_docs));
+                    }, getBaseContext());
                     break;
             }
         });
@@ -192,24 +209,31 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                 actionButton.setText(R.string.next);
                 break;
             case 3:
-                actionButton.setText(R.string.submit);
+                actionButton.setText(R.string.request_verification);
                 break;
         }
     }
 
+    private boolean changed = false;
+
+    private List<Doc> docs;
     private SubViewActionConsumer subViewActionConsumer = action -> {
         switch (action.action) {
             case ARABIC_NAME:
+                changed = true;
                 model.arabicBrandName = (String) action.object;
                 break;
             case ENGLISH_NAME:
+                changed = true;
                 model.englishBrandName = (String) action.object;
                 break;
             case COVER_PHOTO:
+                changed = true;
                 model.cover = (String) action.object;
                 model.coverChanged = true;
                 break;
             case THUMBNAIL_PHOTO:
+                changed = true;
                 model.thumbnail = (String) action.object;
                 model.thumbnailChanged = true;
                 break;
@@ -219,29 +243,48 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                 }
                 break;
             case INDUSTRY:
+                changed = true;
                 model.industryId = ((Industry) action.object).id;
                 break;
             case PHONE:
+                changed = true;
                 model.phone = (String) action.object;
                 break;
             case ADDRESS:
+                changed = true;
                 model.address = (String) action.object;
                 break;
             case EMAIL:
+                changed = true;
                 model.email = (String) action.object;
                 break;
             case WEBSITE:
+                changed = true;
                 model.webSite = (String) action.object;
                 break;
             case GET_DOCUMENT_LIST:
                 if (action.object instanceof Consumer) {
-                    presenter.loadDocs((Consumer<List<Doc>>) action.object, getBaseContext());
+                    presenter.loadDocs(docs -> {
+                        this.docs = docs;
+                        ((Consumer<List<Doc>>) action.object).accept(docs);
+                    }, getBaseContext());
                     break;
                 }
                 break;
 
             case DESC:
+                changed = true;
                 model.desc = (String) action.object;
+                break;
+            case DOC_UPLOADED:
+                Doc doc = (Doc) action.object;
+                if (docs != null) {
+                    for (Doc d : docs) {
+                        if (d.getId() == doc.getId()) {
+                            break;
+                        }
+                    }
+                }
                 break;
         }
         validate();
@@ -252,7 +295,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
         void accept(SubViewAction action);
 
         enum ActionType {
-            THUMBNAIL_PHOTO, COVER_PHOTO, ARABIC_NAME, LOAD_INDUSTRIES, INDUSTRY, PHONE, ADDRESS, EMAIL, WEBSITE, ENGLISH_NAME, COMMERCIAL_RECORD, DESC, GET_DOCUMENT_LIST, TAXES_RECORD
+            THUMBNAIL_PHOTO, COVER_PHOTO, ARABIC_NAME, LOAD_INDUSTRIES, INDUSTRY, PHONE, ADDRESS, EMAIL, WEBSITE, ENGLISH_NAME, COMMERCIAL_RECORD, DESC, GET_DOCUMENT_LIST, DOC_UPLOADED, TAXES_RECORD
         }
 
         class SubViewAction {

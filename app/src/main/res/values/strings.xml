@@ -241,6 +241,9 @@
     <string name="number_of_photos">Number of photos</string>
     <string name="campaign_extended">Campaign extended successfully</string>
     <string name="campaign_extended_fail">Failed to extend campaign</string>
+    <string name="done">Done</string>
+    <string name="request_verification">Request Verfication</string>
+    <string name="upload_all_docs">Upload all documnets first</string>
 
 
 </resources>
