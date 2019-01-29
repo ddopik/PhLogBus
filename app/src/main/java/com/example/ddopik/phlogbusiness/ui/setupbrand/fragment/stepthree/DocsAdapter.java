@@ -48,53 +48,60 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
         if (doc.getSystemName() != null)
             holder.title.setText(doc.getSystemName());
         else holder.title.setText("");
-        if (doc.getUploadedFile() != null && doc.getUploadedFile().getUrl() != null)
+        if (doc.getUploadedFile() != null && doc.getUploadedFile().getUrl() != null) {
             Glide.with(context)
                     .load(doc.getUploadedFile().getUrl())
                     .into(holder.image);
+            holder.upload.setEnabled(false);
+            holder.upload.setText(R.string.done);
+            holder.upload.setTextColor(context.getResources().getColor(R.color.gray400));
+            holder.upload.setBackgroundResource(R.drawable.button_border_gray);
+        }
         else if (doc.path != null)
             Glide.with(context)
                     .load(doc.path)
                     .into(holder.image);
-        holder.upload.setVisibility(View.GONE);
-        holder.check.setVisibility(View.GONE);
         Consumer<String> consumer = s -> {
             Glide.with(context)
                     .load(s)
                     .into(holder.image);
             holder.upload.setVisibility(View.VISIBLE);
+            holder.upload.setEnabled(true);
+            holder.upload.setText(R.string.upload);
+            holder.upload.setTextColor(context.getResources().getColor(R.color.text_input_color));
+            holder.upload.setBackgroundResource(R.drawable.button_border_blue);
         };
         holder.itemView.setOnClickListener(v -> {
             actionListener.accept(ActionListener.Type.SELECT, consumer, doc);
         });
         holder.upload.setOnClickListener(v -> {
+            if (doc.path != null)
             holder.upload.setVisibility(View.GONE);
-            holder.check.setVisibility(View.GONE);
             actionListener.accept(ActionListener.Type.UPLOAD, doc);
         });
-//        if (doc.progress == 100) {
-//            holder.upload.setVisibility(View.GONE);
-//            holder.check.setVisibility(View.VISIBLE);
-//        } else if (doc.progress > 0) {
-//            holder.upload.setVisibility(View.GONE);
-//            holder.check.setVisibility(View.GONE);
-//        }
-//        holder.progress.setProgress(doc.progress);
         BiConsumer<Doc, Communicator.Type> biConsumer = (d, type) -> {
             doc.path = d.path;
             doc.progress = d.progress;
+            holder.upload.setText(R.string.upload);
+            holder.upload.setTextColor(context.getResources().getColor(R.color.text_input_color));
+            holder.upload.setBackgroundResource(R.drawable.button_border_blue);
             Glide.with(context)
                     .load(doc.path)
                     .into(holder.image);
             switch (type) {
                 case ERROR:
                     holder.upload.setVisibility(View.VISIBLE);
+                    holder.upload.setEnabled(true);
                     break;
                 case PROGRESS:
                     holder.progress.setProgress(doc.progress);
                     break;
                 case DONE:
-                    holder.check.setVisibility(View.VISIBLE);
+                    holder.upload.setEnabled(false);
+                    holder.upload.setVisibility(View.VISIBLE);
+                    holder.upload.setText(R.string.done);
+                    holder.upload.setTextColor(context.getResources().getColor(R.color.gray400));
+                    holder.upload.setBackgroundResource(R.drawable.button_border_gray);
                     break;
             }
         };
@@ -143,7 +150,7 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
 
     public class ViewHolderX extends RecyclerView.ViewHolder {
         TextView title;
-        ImageView image, check;
+        ImageView image;
         Button upload;
         ProgressBar progress;
 
@@ -151,7 +158,6 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
             super(itemView);
             title = itemView.findViewById(R.id.name);
             image = itemView.findViewById(R.id.image);
-            check = itemView.findViewById(R.id.check);
             upload = itemView.findViewById(R.id.upload);
             progress = itemView.findViewById(R.id.progress);
         }

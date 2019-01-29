@@ -70,8 +70,8 @@ public class StepTwoFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (selectedIndustry != null ) {
-            industryET.setText(selectedIndustry.nameEn);
+        if (selectedIndustry != null) {
+            industryET.setText(selectedIndustry.name);
         }
         if (model.phone != null)
             phone.setText(model.phone);
@@ -81,6 +81,9 @@ public class StepTwoFragment extends BaseFragment {
             email.setText(model.email);
         if (model.webSite != null)
             website.setText(model.webSite);
+        if (model.desc != null)
+            descET.setText(model.desc);
+        descET.requestFocus();
     }
 
     @Override
@@ -91,6 +94,7 @@ public class StepTwoFragment extends BaseFragment {
     @Override
     protected void initViews() {
         industryET = mainView.findViewById(R.id.industry_edit_text);
+        industryET.setFocusable(false);
         consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(ActionType.LOAD_INDUSTRIES, listConsumer));
         phone = mainView.findViewById(R.id.phone_edit_text);
         address = mainView.findViewById(R.id.address_edit_text);
@@ -103,8 +107,9 @@ public class StepTwoFragment extends BaseFragment {
         if (business == null)
             return;
         selectedIndustry = business.industry;
-        if (selectedIndustry != null)
+        if (selectedIndustry != null) {
             model.industryId = selectedIndustry.id;
+        }
         model.phone = business.brandPhone;
         model.address = business.brandAddress;
         model.email = business.email;
@@ -230,7 +235,7 @@ public class StepTwoFragment extends BaseFragment {
                 if (industry.id.equals(selectedIndustry.id)) {
                     selectedIndustry = industry;
                     if (selectedIndustry.name != null)
-                        industryET.setText(selectedIndustry.nameEn);
+                        industryET.setText(selectedIndustry.name);
                     break;
                 }
             }

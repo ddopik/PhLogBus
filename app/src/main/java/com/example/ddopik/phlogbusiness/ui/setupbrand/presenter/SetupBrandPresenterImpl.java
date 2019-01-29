@@ -23,9 +23,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SetupBrandPresenterImpl implements SetupBrandPresenter {
 
-    private CompositeDisposable DISPOSABLES = new CompositeDisposable();
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     public static final String TAG = SetupBrandPresenterImpl.class.getSimpleName();
+
+    public static final String SAVED = "Saved";
 
     private SetupBrandView view;
 
@@ -83,12 +85,12 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
-        DISPOSABLES.add(disposable);
+        disposables.add(disposable);
     }
 
     @Override
     public void terminate() {
-        DISPOSABLES.dispose();
+        disposables.dispose();
     }
 
     @Override
@@ -105,7 +107,7 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
                     consumer.accept(false);
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
-        DISPOSABLES.add(disposable);
+        disposables.add(disposable);
     }
 
     @Override
@@ -122,11 +124,27 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
                     view.setLoading(false);
                     Log.e(TAG, throwable.getMessage());
                 });
-        DISPOSABLES.add(disposable);
+        disposables.add(disposable);
     }
 
     @Override
-    public void verify() {
-
+    public void verify(Context context) {
+        view.setLoading(true);
+        Disposable disposable = BaseNetworkApi.requestVerificationBrand()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    view.setLoading(false);
+                    if (response.getMsg() != null && response.getMsg().equals(SAVED)) {
+                        view.setVerificationRequestSuccess(true);
+                    } else {
+                        view.setVerificationRequestSuccess(false);
+                    }
+                }, throwable -> {
+                    view.setLoading(false);
+                    view.setVerificationRequestSuccess(false);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                });
+        disposables.add(disposable);
     }
 }

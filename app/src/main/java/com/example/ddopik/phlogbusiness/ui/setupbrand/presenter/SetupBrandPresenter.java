@@ -25,7 +25,7 @@ public interface SetupBrandPresenter {
 
     void loadDocs(Consumer<List<Doc>> object, Context baseContext);
 
-    void verify();
+    void verify(Context context);
 
     class ValidationResult {
         public final boolean shouldProceed;

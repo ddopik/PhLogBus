@@ -130,7 +130,6 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
         imagesTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange));
         profileTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange));
         albumTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange));
-        filterTab.setVisibility(View.GONE);
 
         switch (tabId) {
             case R.id.tab_images:
@@ -150,6 +149,7 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
                 profileTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange_fill));
 
 //                setTapSelected(R.id.tab_profile);
+                filterTab.setVisibility(View.GONE);
                 ProfileSearchFragment profileSearchFragment = ProfileSearchFragment.getInstance();
                 profileSearchFragment.setOnSearchProfile(onSearchTabSelected);
                 addFragment(R.id.search_container, profileSearchFragment, ProfileSearchFragment.class.getSimpleName(), false);

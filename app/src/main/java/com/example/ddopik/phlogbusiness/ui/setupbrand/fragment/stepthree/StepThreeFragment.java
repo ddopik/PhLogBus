@@ -86,12 +86,21 @@ public class StepThreeFragment extends BaseFragment {
     private SetupBrandView.Communicator communicator = (type, objects) -> {
         switch (type) {
             case PROGRESS:
+                if (objects != null && objects.length != 0) {
+                    if (objects[0] instanceof Doc) {
+                        Doc doc = (Doc) objects[0];
+                        if (docsRecyclerView.getAdapter() != null)
+                            ((DocsAdapter) docsRecyclerView.getAdapter()).updateView(doc, type);
+                    }
+                }
+                break;
             case DONE:
                 if (objects != null && objects.length != 0) {
                     if (objects[0] instanceof Doc) {
                         Doc doc = (Doc) objects[0];
                         if (docsRecyclerView.getAdapter() != null)
                             ((DocsAdapter) docsRecyclerView.getAdapter()).updateView(doc, type);
+//                        consumer.accept(new SubViewAction(ActionType.DOC_UPLOADED, doc));
                     }
                 }
                 break;
@@ -122,6 +131,9 @@ public class StepThreeFragment extends BaseFragment {
         switch (type) {
             case UPLOAD:if (objects != null && objects.length != 0) {
                 if (objects[0] instanceof Doc) {
+                    Doc doc = (Doc) objects[0];
+                    if (doc.path == null)
+                        break;
                     Message message = new Message();
                     message.what = UploaderService.UPLOAD_FILE;
                     message.obj = objects[0];
