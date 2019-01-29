@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
+import android.text.*;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
@@ -225,6 +223,27 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
             if (searchQuery == null) {
                 searchQuery = getSearchTagQuery(commentViewHolder.sendCommentImgVal);
+                commentViewHolder.sendCommentImgVal.addTextChangedListener(new TextWatcher() {
+                    int cursorPosition = commentViewHolder.sendCommentImgVal.getSelectionStart();
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        int mentionIdentifierCharPosition =  commentViewHolder.sendCommentImgVal.getText().toString().indexOf("@", cursorPosition - 2);
+                        if ((mentionIdentifierCharPosition + 1) >= commentViewHolder.sendCommentImgVal.getText().toString().length() || mentionIdentifierCharPosition == -1) {
+                           mentionedUserList.clear();
+                           mentionsAutoCompleteAdapter.notifyDataSetChanged();
+                       }
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
                 disposable.add(
 
                         RxTextView.textChangeEvents(commentViewHolder.sendCommentImgVal)
@@ -263,17 +282,17 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                         commentAdapterPresenter.getMentionedUser(String.valueOf(autoCompleteTextView.getText().charAt(mentionIdentifierCharPosition + 1)).trim());
                     }
 
-                    ///check second letter after "@"
-                    int mentionIdentifierCharPosition2 = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 3);
-                    if ((mentionIdentifierCharPosition2 + 3) <= autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition2 != -1) {
-                        commentAdapterPresenter.getMentionedUser(String.valueOf(autoCompleteTextView.getText().subSequence(mentionIdentifierCharPosition2, mentionIdentifierCharPosition2 + 3)).trim());
-                    }
-
-                    ///check third letter after "@"
-                    int mentionIdentifierCharPosition3 = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 4);
-                    if ((mentionIdentifierCharPosition3 + 4) <= autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition3 != -1) {
-                        commentAdapterPresenter.getMentionedUser(String.valueOf(autoCompleteTextView.getText().subSequence(mentionIdentifierCharPosition3, mentionIdentifierCharPosition3 + 4)).trim());
-                    }
+//                    ///check second letter after "@"
+//                    int mentionIdentifierCharPosition2 = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 3);
+//                    if ((mentionIdentifierCharPosition2 + 3) <= autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition2 != -1) {
+//                        commentAdapterPresenter.getMentionedUser(String.valueOf(autoCompleteTextView.getText().subSequence(mentionIdentifierCharPosition2, mentionIdentifierCharPosition2 + 3)).trim());
+//                    }
+//
+//                    ///check third letter after "@"
+//                    int mentionIdentifierCharPosition3 = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 4);
+//                    if ((mentionIdentifierCharPosition3 + 4) <= autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition3 != -1) {
+//                        commentAdapterPresenter.getMentionedUser(String.valueOf(autoCompleteTextView.getText().subSequence(mentionIdentifierCharPosition3, mentionIdentifierCharPosition3 + 4)).trim());
+//                    }
 
                 }
 
@@ -414,116 +433,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     }
 
-    private void changeMentionedUserFlags(){
 
-    }
-    private void handleCommentBody(CustomAutoCompleteTextView customAutoCompleteTextView, String commentFinalValue, List<Photographer> mentionsPhotoGrapherIdIdList, List<Business> mentionBusinessIdList) {
-
-
-        List<MentionRange> mentionsPoint = new ArrayList<MentionRange>();
-        List<ClickableSpan> clickableSpanList = new ArrayList<>();
-
-        //
-
-        if (mentionsPhotoGrapherIdIdList.size() > 0 || mentionBusinessIdList.size() > 0) {
-
-
-            /// Append unique identifier to mentioned user to get highLighted later
-            /// And Replacing All Occurrence of photoGrapherId with actualValue
-            for (Photographer photographer : mentionsPhotoGrapherIdIdList) {
-
-
-                commentFinalValue = commentFinalValue.replace("@0_" + photographer.id, photographer.fullName + USER_MENTION_IDENTIFIER);
-                customAutoCompleteTextView.setText(commentFinalValue);
-
-            }
-
-            /// Append unique identifier to mentioned user to get highLighted later
-            /// And Replacing All Occurrence of businessId with actualValue
-            for (Business business : mentionBusinessIdList) {
-
-                if (business != null) {
-                    commentFinalValue = commentFinalValue.replace("@1_" + business.id, business.userName + USER_MENTION_IDENTIFIER);
-                    customAutoCompleteTextView.setText(commentFinalValue);
-                }
-
-            }
-
-
-            for (Photographer photographer : mentionsPhotoGrapherIdIdList) {
-
-
-                ///////PhotoGrapher CallBack
-                ClickableSpan noUnderLineClickSpan = new ClickableSpan() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(context, UserProfileActivity.class);
-                        intent.putExtra(UserProfileActivity.USER_ID, photographer.id);
-                        intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
-                        context.startActivity(intent);
-                    }
-
-                    @Override
-                    public void updateDrawState(TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setUnderlineText(false);
-                        ds.setColor(Color.BLUE); // specific color for this link
-                    }
-                };
-
-
-                String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
-                int replacementStart = commentFinalValue.indexOf(replacement) - 1;
-                int replacementEnd = replacementStart + replacement.length();
-                MentionRange mentionRange = new MentionRange();
-                mentionRange.startPoint = replacementStart;
-                mentionRange.endPoint = replacementEnd;
-                mentionsPoint.add(mentionRange);
-                clickableSpanList.add(noUnderLineClickSpan);
-                commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
-
-            }
-
-
-            //////////////////////////////////////////////////////////
-
-            for (Business business : mentionBusinessIdList) {
-
-                //////business CallBack
-                ClickableSpan noUnderLineClickSpan2 = new ClickableSpan() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(context, UserProfileActivity.class);
-                        intent.putExtra(UserProfileActivity.USER_ID, business.id);
-                        intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_BUSINESS);
-                        context.startActivity(intent);
-                    }
-
-                    @Override
-                    public void updateDrawState(TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setUnderlineText(false);
-                        ds.setColor(Color.MAGENTA); // specific color for this link
-                    }
-                };
-                String replacement = business.userName + USER_MENTION_IDENTIFIER;
-                int replacementStart = commentFinalValue.indexOf(replacement) - 1;
-                int replacementEnd = replacementStart + replacement.length();
-                MentionRange mentionRange = new MentionRange();
-                mentionRange.startPoint = replacementStart;
-                mentionRange.endPoint = replacementEnd;
-                mentionsPoint.add(mentionRange);
-                clickableSpanList.add(noUnderLineClickSpan2);
-                commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
-
-            }
-            makeLinks(customAutoCompleteTextView, mentionsPoint, clickableSpanList, commentFinalValue);
-        } else {
-            customAutoCompleteTextView.setText(commentFinalValue);
-        }
-
-
-    }
 
 
     /**
@@ -546,23 +456,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
 
-    /**
-     * use this method to Span multiple Links in one row
-     */
-    private void makeLinks(TextView textView, String[] links, ClickableSpan[] clickableSpans) {
-        SpannableString spannableString = new SpannableString(textView.getText());
-        for (int i = 0; i < links.length; i++) {
-            ClickableSpan clickableSpan = clickableSpans[i];
 
-            String link = links[i];
-            int startIndexOfLink = textView.getText().toString().indexOf(link);
-            spannableString.setSpan(clickableSpan, startIndexOfLink, startIndexOfLink + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        textView.setHighlightColor(
-                Color.TRANSPARENT); // prevent TextView change background when highlight
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
-        textView.setText(spannableString, TextView.BufferType.SPANNABLE);
-    }
 
     private Photographer getMentionedPhotoGrapher(String userId) {
 
