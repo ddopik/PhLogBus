@@ -34,7 +34,7 @@ public class LightBoxPhotosFragment extends BaseFragment implements LightboxPhot
     private View mainView;
     private RecyclerView recyclerView;
     private PagingController pagingController;
-    private AllAlbumImgAdapter adapter;
+    private LightboxPhotosAdapter adapter;
 
     public LightBoxPhotosFragment() {
         // Required empty public constructor
@@ -71,7 +71,7 @@ public class LightBoxPhotosFragment extends BaseFragment implements LightboxPhot
                 presenter.getLightboxPhotos(getContext(), lightBoxId, page);
             }
         };
-        adapter = new AllAlbumImgAdapter(images == null? new ArrayList<>() : images);
+        adapter = new LightboxPhotosAdapter(images == null? images = new ArrayList<>() : images);
         recyclerView.setAdapter(adapter);
     }
 
@@ -79,7 +79,7 @@ public class LightBoxPhotosFragment extends BaseFragment implements LightboxPhot
         adapter.onAlbumImgClicked = onAlbumImgClicked;
     }
 
-    private AllAlbumImgAdapter.OnAlbumImgClicked onAlbumImgClicked = new AllAlbumImgAdapter.OnAlbumImgClicked() {
+    private LightboxPhotosAdapter.OnAlbumImgClicked onAlbumImgClicked = new LightboxPhotosAdapter.OnAlbumImgClicked() {
         @Override
         public void onAlbumImgClick(BaseImage albumImg) {
 

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Space
+            android:id="@+id/space2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".04"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/photographer_avatar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/default_user_pic"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@+id/cardView3"
+            app:layout_constraintHeight_percent=".09"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="@+id/cardView3"
+            app:layout_constraintTop_toBottomOf="@+id/space2" />
+
+        <TextView
+            android:id="@+id/photographer_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="start"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            android:lines="1"
+            app:autoSizeMinTextSize="1sp"
+            tools:text="asdasdasdasd"
+            android:textSize="@dimen/text_medium_s"
+            app:layout_constraintEnd_toStartOf="@+id/button2"
+            app:layout_constraintHeight_percent=".05"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toEndOf="@+id/photographer_avatar"
+            app:layout_constraintTop_toTopOf="@+id/photographer_avatar"
+            app:layout_constraintWidth_percent=".4" />
+
+        <TextView
+            android:id="@+id/photographer_username"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="start"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="1sp"
+            android:lines="1"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/photographer_avatar"
+            app:layout_constraintEnd_toEndOf="@+id/photographer_name"
+            app:layout_constraintHeight_percent=".03"
+            app:layout_constraintStart_toStartOf="@+id/photographer_name"
+            app:layout_constraintTop_toBottomOf="@+id/photographer_name"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/rounded_blue_btn"
+            android:padding="@dimen/widgets_padding"
+            android:text="@string/follow"
+            android:textColor="@color/white"
+            app:autoSizeMinTextSize="1sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@+id/photographer_avatar"
+            app:layout_constraintEnd_toEndOf="@+id/cardView3"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="@+id/cardView3"
+            app:layout_constraintTop_toTopOf="@+id/photographer_avatar"
+            app:layout_constraintWidth_percent=".25" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1:.85"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/photographer_username"
+            app:layout_constraintWidth_percent=".875">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/default_user_profile"
+                    app:layout_constraintWidth_percent=".925"
+                    app:layout_constraintVertical_bias=".125"
+                    app:layout_constraintHeight_percent=".65"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageButton
+                    android:id="@+id/img_like_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/transparent"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="@+id/image"
+                    app:layout_constraintHeight_percent=".075"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="@+id/image"
+                    app:layout_constraintTop_toBottomOf="@+id/image"
+                    app:layout_constraintVertical_bias="0.26"
+                    app:srcCompat="@drawable/ic_like_off_gray" />
+
+                <ImageButton
+                    android:id="@+id/img_comment_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/transparent"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_like_btn"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="@+id/image"
+                    app:layout_constraintHeight_percent=".075"
+                    app:layout_constraintHorizontal_bias="0.05"
+                    app:layout_constraintStart_toEndOf="@+id/img_like_btn"
+                    app:layout_constraintTop_toTopOf="@+id/img_like_btn"
+                    app:srcCompat="@drawable/ic_comment_gray" />
+
+                <TextView
+                    android:id="@+id/img_likes_count"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:text="asdasdasdasdsadas"
+                    app:autoSizeMinTextSize="1sp"
+                    app:autoSizeTextType="uniform"
+                    android:lines="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHeight_percent=".06"
+                    app:layout_constraintStart_toStartOf="@+id/image"
+                    app:layout_constraintTop_toBottomOf="@+id/img_like_btn" />
+
+                <Space
+                    android:id="@+id/space3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_likes_count"
+                    app:layout_constraintStart_toEndOf="@+id/img_likes_count"
+                    app:layout_constraintTop_toTopOf="@+id/img_likes_count"
+                    app:layout_constraintWidth_percent=".03" />
+
+                <TextView
+                    android:id="@+id/img_comments_count"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    app:autoSizeMinTextSize="1sp"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/image"
+                    app:layout_constraintHeight_percent=".06"
+                    app:layout_constraintHorizontal_bias="0.05"
+                    app:layout_constraintStart_toEndOf="@+id/space3"
+                    app:layout_constraintTop_toBottomOf="@+id/img_like_btn"
+                    tools:text="asdasdasdasdsadas" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>
