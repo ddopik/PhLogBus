@@ -38,6 +38,7 @@ import com.example.ddopik.phlogbusiness.ui.search.images.model.ImagesSearchRespo
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.SearchFiltersResponse;
 import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.DocumentsResponse;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.model.RequestVerificationResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllTagsResponse;
@@ -51,6 +52,7 @@ import com.example.ddopik.phlogbusiness.ui.welcome.model.WelcomeScreenResponse;
 import com.rx2androidnetworking.Rx2ANRequest;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 import java.io.File;
 import java.util.HashMap;
@@ -132,7 +134,7 @@ public class BaseNetworkApi {
     private static final String LIGHT_BOX_PHOTOS_URL = BASE_URL + "/lightBox/photos";
     private static final String CHANGE_CAMPAIGN_END_DATE_URL = BASE_URL + "/campaign/extend";
     private static final String DUMMY_SOCIAL = "http://178.128.162.10/public/api/photographer/social/dummy";
-    private static final String REQUEST_VERIFICATION_BRAND_URL = BASE_URL + "/campaign/extend";
+    private static final String REQUEST_VERIFICATION_BRAND_URL = BASE_URL + "/brand/request_verify";
 
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
@@ -633,11 +635,12 @@ public class BaseNetworkApi {
                 .getObjectObservable(ChangeCampaignDateResponse.class);
     }
 
-    public static Observable<String> requestVerificationBrand() {
+    public static Single<RequestVerificationResponse> requestVerificationBrand() {
         return Rx2AndroidNetworking.post(REQUEST_VERIFICATION_BRAND_URL)
                 .setPriority(Priority.HIGH)
                 .build()
-                .getStringObservable();
+//                .getStringObservable();
+        .getObjectSingle(RequestVerificationResponse.class);
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

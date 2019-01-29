@@ -52,6 +52,7 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
             Glide.with(context)
                     .load(doc.getUploadedFile().getUrl())
                     .into(holder.image);
+            holder.upload.setEnabled(false);
             holder.upload.setText(R.string.done);
             holder.upload.setTextColor(context.getResources().getColor(R.color.gray400));
             holder.upload.setBackgroundResource(R.drawable.button_border_gray);
@@ -65,6 +66,7 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
                     .load(s)
                     .into(holder.image);
             holder.upload.setVisibility(View.VISIBLE);
+            holder.upload.setEnabled(true);
             holder.upload.setText(R.string.upload);
             holder.upload.setTextColor(context.getResources().getColor(R.color.text_input_color));
             holder.upload.setBackgroundResource(R.drawable.button_border_blue);
@@ -73,17 +75,10 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
             actionListener.accept(ActionListener.Type.SELECT, consumer, doc);
         });
         holder.upload.setOnClickListener(v -> {
+            if (doc.path != null)
             holder.upload.setVisibility(View.GONE);
             actionListener.accept(ActionListener.Type.UPLOAD, doc);
         });
-//        if (doc.progress == 100) {
-//            holder.upload.setVisibility(View.GONE);
-//            holder.check.setVisibility(View.VISIBLE);
-//        } else if (doc.progress > 0) {
-//            holder.upload.setVisibility(View.GONE);
-//            holder.check.setVisibility(View.GONE);
-//        }
-//        holder.progress.setProgress(doc.progress);
         BiConsumer<Doc, Communicator.Type> biConsumer = (d, type) -> {
             doc.path = d.path;
             doc.progress = d.progress;
@@ -96,11 +91,13 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
             switch (type) {
                 case ERROR:
                     holder.upload.setVisibility(View.VISIBLE);
+                    holder.upload.setEnabled(true);
                     break;
                 case PROGRESS:
                     holder.progress.setProgress(doc.progress);
                     break;
                 case DONE:
+                    holder.upload.setEnabled(false);
                     holder.upload.setVisibility(View.VISIBLE);
                     holder.upload.setText(R.string.done);
                     holder.upload.setTextColor(context.getResources().getColor(R.color.gray400));

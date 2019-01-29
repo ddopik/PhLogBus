@@ -36,7 +36,7 @@
                 android:id="@+id/name"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
+                android:gravity="start|center"
                 android:lines="1"
                 android:textColor="@color/gray400"
                 android:textStyle="bold"
@@ -51,22 +51,23 @@
                 tools:text="sadasd" />
 
             <Button
-                android:id="@+id/upload"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/button_border_blue"
-                android:padding="@dimen/widgets_padding_s"
-                android:text="@string/upload"
-                android:textColor="@color/text_input_color"
-                app:autoSizeMinTextSize="1sp"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:.4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent=".2"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/name"
-                app:layout_constraintTop_toTopOf="parent" />
+                    android:id="@+id/upload"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/button_border_blue"
+                    android:padding="@dimen/widgets_padding_s"
+                    android:text="@string/upload"
+                    android:gravity="center"
+                    android:textColor="@color/text_input_color"
+                    app:autoSizeMinTextSize="1sp"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="@+id/name"
+                    app:layout_constraintDimensionRatio="1:.4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent=".2"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/name"
+                    app:layout_constraintTop_toTopOf="@+id/name"/>
 
             <ProgressBar
                 android:id="@+id/progress"

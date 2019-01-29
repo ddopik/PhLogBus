@@ -155,7 +155,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                             }
                         }
                         if (allDocsUploaded)
-                            presenter.verify();
+                            presenter.verify(getBaseContext());
                         else
                             showToast(getString(R.string.upload_all_docs));
                     }, getBaseContext());
@@ -220,10 +220,14 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
     private SubViewActionConsumer subViewActionConsumer = action -> {
         switch (action.action) {
             case ARABIC_NAME:
+                if (model.arabicBrandName.equals(action.object))
+                    break;
                 changed = true;
                 model.arabicBrandName = (String) action.object;
                 break;
             case ENGLISH_NAME:
+                if (model.englishBrandName.equals(action.object))
+                    break;
                 changed = true;
                 model.englishBrandName = (String) action.object;
                 break;
@@ -247,18 +251,26 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                 model.industryId = ((Industry) action.object).id;
                 break;
             case PHONE:
+                if (model.phone.equals(action.object))
+                    break;
                 changed = true;
                 model.phone = (String) action.object;
                 break;
             case ADDRESS:
+                if (model.address.equals(action.object))
+                    break;
                 changed = true;
                 model.address = (String) action.object;
                 break;
             case EMAIL:
+                if (model.email.equals(action.object))
+                    break;
                 changed = true;
                 model.email = (String) action.object;
                 break;
             case WEBSITE:
+                if (model.webSite.equals(action.object))
+                    break;
                 changed = true;
                 model.webSite = (String) action.object;
                 break;
@@ -271,8 +283,9 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                     break;
                 }
                 break;
-
             case DESC:
+                if (model.desc.equals(action.object))
+                    break;
                 changed = true;
                 model.desc = (String) action.object;
                 break;
@@ -289,6 +302,15 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
         }
         validate();
     };
+
+    @Override
+    public void setVerificationRequestSuccess(boolean success) {
+        if (success) {
+            showToast(getString(R.string.verfication_request_sent));
+        } else {
+            showToast(getString(R.string.verfication_request_error));
+        }
+    }
 
     public interface SubViewActionConsumer {
 
