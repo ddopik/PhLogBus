@@ -71,8 +71,10 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
      * get old mentioned Segments and append new mentioned user to it
      **/
     private void setOldMentionsOffset() {
+        // make sure to clear mentionsPoint As previous mentions may changed
         mentionsPoint.clear();
         allCommentClickableSpanList.clear();
+        ///
         UserClickableSpan[] clickableSpansList = getText().getSpans(0, getText().length(), UserClickableSpan.class);
 
         for (UserClickableSpan userClickableSpan : clickableSpansList) {
@@ -98,7 +100,9 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                         ds.setColor(Color.BLUE); // specific color for this link
                     }
                 };
-                allCommentClickableSpanList.add(photoGrapherClickableSpan);
+                photoGrapherClickableSpan.userId = userClickableSpan.userId;
+                photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
+                this.allCommentClickableSpanList.add(photoGrapherClickableSpan);
                 this.mentionsPoint.add(mentionRange);
 
             } else if (userClickableSpan.userType.equals(Constants.UserType.USER_TYPE_BUSINESS)) {
@@ -118,7 +122,9 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                         ds.setColor(Color.BLUE); // specific color for this link
                     }
                 };
-                allCommentClickableSpanList.add(businessClickableSpan);
+                businessClickableSpan.userId = userClickableSpan.userId;
+                businessClickableSpan.userType = Constants.UserType.USER_TYPE_BUSINESS;
+                this.allCommentClickableSpanList.add(businessClickableSpan);
                 this.mentionsPoint.add(mentionRange);
             }
         }
@@ -135,9 +141,13 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
         String currentCommentArrVal[] = getText().toString().split("");
         String commentSymbol = getCommentSymbol(currentCommentArrVal, cursorPosition);
 
-        //check if selected position meant for mention
-        if (commentSymbol.equals("@")) {
 
+        ///Extracting (PhotoGrapher && Business) From Server_MentionsList and build Detailed list for each type
+        /**
+         * User has selected "Mentioned user" from mentionList After writing The "@" symbol
+         * now we convert this selection to the predefined scheme in order to send it through Api
+        * **/
+        if (commentSymbol.equals("@")) {
             String replacement = "";
             if (mentionedUserList.get(mentionedUserPosition).mentionedType == Constants.UserType.USER_TYPE_PHOTOGRAPHER) {
                 replacement = ("@" + "0" + "_" + mentionedUserList.get(mentionedUserPosition).mentionedUserId);
@@ -156,7 +166,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             }
 
 
-            ///Replacing "@" with userId_identifier_symbol ex{ @0_18 ,@1_236}
+//            set mentionReplacement
             currentCommentArrVal[cursorPosition - 2] = replacement;
             currentCommentArrVal[cursorPosition - 1] = " ";
 
@@ -170,12 +180,16 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 
 
         String commentFinalValue = newCommentStringBuilder.toString();
-        //Extract mentioned value from Comment_Text
+        //Extract All  mentioned users from Comment_Text
         List<String> mentionedUsersId = Utilities.getMentionsList(commentFinalValue);
+        //
         List<String> mentionsPhotoGrapherIdIdList = new ArrayList<>();
         List<String> mentionBusinessIdList = new ArrayList<>();
 
-
+        /**
+         *Separate All mentioned users from Comment_Text
+         *and convert mentionsTags to standard ID
+         **/
         if (mentionedUsersId.size() > 0) {
             for (String authorId : mentionedUsersId) {
                 String[] singleId = authorId.split("\\_");
@@ -191,111 +205,16 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             commentFinalValue = replaceMentionedPhotoGrapherFlag(mentionsPhotoGrapherIdIdList, commentFinalValue);
             commentFinalValue = replaceMentionedBusinessFlag(mentionBusinessIdList, commentFinalValue);
             /////
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//todo separate this block latter
-//            if (setPhotoGrapherMentionSpan(mentionsPhotoGrapherIdIdList, commentFinalValue, mentionsPoint).size() > 0) {
-//                allCommentClickableSpanList.addAll(setPhotoGrapherMentionSpan(mentionsPhotoGrapherIdIdList, commentFinalValue, mentionsPoint));
-//            }
-
-
-            for (String photographerId : mentionsPhotoGrapherIdIdList) {
-                if (getMentionedPhotoGrapher(photographerId) != null) {
-                    Photographer photographer = getMentionedPhotoGrapher(photographerId);
-                    ///////PhotoGrapher CallBack
-                    UserClickableSpan photoGrapherClickableSpan = new UserClickableSpan() {
-
-
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(getContext(), UserProfileActivity.class);
-                            intent.putExtra(UserProfileActivity.USER_ID, photographerId);
-                            intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
-                            getContext().startActivity(intent);
-                        }
-
-                        @Override
-                        public void updateDrawState(TextPaint ds) {
-                            super.updateDrawState(ds);
-                            ds.setUnderlineText(false);
-                            ds.setColor(Color.BLUE); // specific color for this link
-                        }
-                    };
-                    photoGrapherClickableSpan.userId = photographerId;
-                    photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
-
-                    String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
-                    int replacementStart = commentFinalValue.indexOf(replacement) - 1;
-                    int replacementEnd = replacementStart + replacement.length();
-                    MentionRange mentionRange = new MentionRange();
-                    mentionRange.startPoint = replacementStart;
-                    mentionRange.endPoint = replacementEnd;
-                    mentionsPoint.add(mentionRange);
-
-                    commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
-                    allCommentClickableSpanList.add(photoGrapherClickableSpan);
-                }
-            }
-
-
-            for (String businessId : mentionBusinessIdList) {
-                if (getMentionedBusiness(businessId) != null) {
-                    Business business = getMentionedBusiness(businessId);
-                    //////business CallBack
-                    UserClickableSpan noUnderLineClickSpan2 = new UserClickableSpan() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(getContext(), UserProfileActivity.class);
-                            intent.putExtra(UserProfileActivity.USER_ID, businessId);
-                            intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_BUSINESS);
-                            getContext().startActivity(intent);
-                        }
-
-                        @Override
-                        public void updateDrawState(TextPaint ds) {
-                            super.updateDrawState(ds);
-                            ds.setUnderlineText(false);
-                            ds.setColor(Color.MAGENTA); // specific color for this link
-                        }
-                    };
-                    noUnderLineClickSpan2.userId = businessId;
-                    noUnderLineClickSpan2.userType = Constants.UserType.USER_TYPE_BUSINESS;
-
-                    String replacement = business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER;
-                    int replacementStart = commentFinalValue.indexOf(replacement) - 1;
-                    int replacementEnd = replacementStart + replacement.length();
-                    MentionRange mentionRange = new MentionRange();
-                    mentionRange.startPoint = replacementStart;
-                    mentionRange.endPoint = replacementEnd;
-                    mentionsPoint.add(mentionRange);
-
-                    commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
-                    allCommentClickableSpanList.add(noUnderLineClickSpan2);
-                }
-            }
-
-
-//            if (setBusinessMentionSpan(mentionBusinessIdList, commentFinalValue, mentionsPoint).size() > 0) {
-//                allCommentClickableSpanList.addAll(setBusinessMentionSpan(mentionBusinessIdList, commentFinalValue, mentionsPoint));
-//            }
-            //todo separate this block latter
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+            commentFinalValue = setPhotoGrapherMentionSpan(mentionsPhotoGrapherIdIdList, commentFinalValue);
+            commentFinalValue = setBusinessMentionSpan(mentionBusinessIdList, commentFinalValue);
+            ////
             makeSpannableLinks(this, mentionsPoint, allCommentClickableSpanList, commentFinalValue);
-
         } else {
             setText(commentFinalValue);
         }
 
-        //////////////
 
-        setSelection(mentionsPoint.get((mentionsPoint.size()-1)).endPoint );
+        setSelection(mentionsPoint.get((mentionsPoint.size() - 1)).endPoint);
         dismissDropDown();
     }
 
@@ -336,48 +255,89 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 
     }
 
-//    private List<ClickableSpan> setPhotoGrapherMentionSpan(List<String> mentionsPhotoGrapherIdIdList, String commentFinalValue, List<MentionRange> mentionsPoint) {
-//
-//
-//        return allCommentClickableSpanList;
-//    }
+    private String setPhotoGrapherMentionSpan(List<String> mentionsPhotoGrapherIdIdList, String commentFinalValue) {
 
-//    private List<ClickableSpan> setBusinessMentionSpan(List<String> mentionBusinessIdList, String commentFinalValue, List<MentionRange> mentionsPoint) {
-//        List<ClickableSpan> allCommentClickableSpanList = new ArrayList<>();
-//        for (String businessId : mentionBusinessIdList) {
-//            if (getMentionedBusiness(businessId) != null) {
-//                Business business = getMentionedBusiness(businessId);
-//                //////business CallBack
-//                ClickableSpan noUnderLineClickSpan2 = new ClickableSpan() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Intent intent = new Intent(getContext(), UserProfileActivity.class);
-//                        intent.putExtra(UserProfileActivity.USER_ID, businessId);
-//                        intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_BUSINESS);
-//                        getContext().startActivity(intent);
-//                    }
-//
-//                    @Override
-//                    public void updateDrawState(TextPaint ds) {
-//                        super.updateDrawState(ds);
-//                        ds.setUnderlineText(false);
-//                        ds.setColor(Color.MAGENTA); // specific color for this link
-//                    }
-//                };
-//                String replacement = business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER;
-//                int replacementStart = commentFinalValue.indexOf(replacement) - 1;
-//                int replacementEnd = replacementStart + replacement.length();
-//                MentionRange mentionRange = new MentionRange();
-//                mentionRange.startPoint = replacementStart;
-//                mentionRange.endPoint = replacementEnd;
-//                mentionsPoint.add(mentionRange);
-//
-//                commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
-//                allCommentClickableSpanList.add(noUnderLineClickSpan2);
-//            }
-//        }
-//        return allCommentClickableSpanList;
-//    }
+        for (String photographerId : mentionsPhotoGrapherIdIdList) {
+            if (getMentionedPhotoGrapher(photographerId) != null) {
+                Photographer photographer = getMentionedPhotoGrapher(photographerId);
+                ///////PhotoGrapher CallBack
+                UserClickableSpan photoGrapherClickableSpan = new UserClickableSpan() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getContext(), UserProfileActivity.class);
+                        intent.putExtra(UserProfileActivity.USER_ID, photographerId);
+                        intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
+                        getContext().startActivity(intent);
+                    }
+
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setUnderlineText(false);
+                        ds.setColor(Color.BLUE); // specific color for this link
+                    }
+                };
+                photoGrapherClickableSpan.userId = photographerId;
+                photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
+
+                String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
+                int replacementStart = commentFinalValue.indexOf(replacement) - 1;
+                int replacementEnd = replacementStart + replacement.length();
+                MentionRange mentionRange = new MentionRange();
+                mentionRange.startPoint = replacementStart;
+                mentionRange.endPoint = replacementEnd;
+
+                this.mentionsPoint.add(mentionRange);
+                this.allCommentClickableSpanList.add(photoGrapherClickableSpan);
+
+                commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
+
+            }
+        }
+        return commentFinalValue;
+
+    }
+
+    private String setBusinessMentionSpan(List<String> mentionBusinessIdList, String commentFinalValue) {
+
+        for (String businessId : mentionBusinessIdList) {
+            if (getMentionedBusiness(businessId) != null) {
+                Business business = getMentionedBusiness(businessId);
+                //////business CallBack
+                UserClickableSpan businessClickableSpan = new UserClickableSpan() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getContext(), UserProfileActivity.class);
+                        intent.putExtra(UserProfileActivity.USER_ID, businessId);
+                        intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_BUSINESS);
+                        getContext().startActivity(intent);
+                    }
+
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setUnderlineText(false);
+                        ds.setColor(Color.MAGENTA); // specific color for this link
+                    }
+                };
+                businessClickableSpan.userId = businessId;
+                businessClickableSpan.userType = Constants.UserType.USER_TYPE_BUSINESS;
+
+                String replacement = business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER;
+                int replacementStart = commentFinalValue.indexOf(replacement) - 1;
+                int replacementEnd = replacementStart + replacement.length();
+                MentionRange mentionRange = new MentionRange();
+                mentionRange.startPoint = replacementStart;
+                mentionRange.endPoint = replacementEnd;
+                mentionsPoint.add(mentionRange);
+                this.allCommentClickableSpanList.add(businessClickableSpan);
+                commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
+            }
+        }
+        return commentFinalValue;
+    }
 
 
     /**
@@ -422,20 +382,15 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 
 
     private Photographer getMentionedPhotoGrapher(String userId) {
-
-
         for (Photographer photographer : currentMentionedPhotoGrapherList) {
             if (photographer.id == Integer.parseInt(userId)) {
                 return photographer;
             }
         }
-
         return null;
     }
 
     private Business getMentionedBusiness(String userId) {
-
-
         for (Business business : currentMentionedBusiness) {
             if (business.id == Integer.parseInt(userId)) {
                 return business;
