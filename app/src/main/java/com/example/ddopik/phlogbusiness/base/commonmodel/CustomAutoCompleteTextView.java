@@ -3,9 +3,7 @@ package com.example.ddopik.phlogbusiness.base.commonmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
+import android.text.*;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
@@ -19,13 +17,14 @@ import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCompatAutoCompleteTextView {
+public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCompatAutoCompleteTextView implements TextWatcher {
 
     public List<Photographer> currentMentionedPhotoGrapherList = new ArrayList<>();
     public List<Business> currentMentionedBusiness = new ArrayList<>();
     private final String USER_MENTION_IDENTIFIER = "%";
     private List<MentionRange> mentionsPoint = new ArrayList<>();
     List<ClickableSpan> allCommentClickableSpanList = new ArrayList<>();
+
 
     public CustomAutoCompleteTextView(Context context) {
         super(context);
@@ -34,6 +33,8 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 
     public CustomAutoCompleteTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        addTextChangedListener(this);
+
     }
 
     public CustomAutoCompleteTextView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -52,7 +53,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
     }
 
     private int getCursorPosition() {
-        int cursorPosition = getSelectionStart();        ////
+        int cursorPosition = getSelectionStart();
         boolean isContainImojis = Utilities.isContainImojis(getText().toString());
         if (!isContainImojis) {
             cursorPosition = cursorPosition + 1;
@@ -67,43 +68,59 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
     /**
      * get old mentioned Segments and append new mentioned user to it
      **/
-    private void setOldMentionsOffset() {
-        // make sure to clear mentionsPoint As previous mentions may changed
-        mentionsPoint.clear();
-        allCommentClickableSpanList.clear();
-        ///
+    private void trackOldMentionsOffset() {
+
         UserClickableSpan[] clickableSpansList = getText().getSpans(0, getText().length(), UserClickableSpan.class);
+        String updateComment = getText().toString();
+
 
         for (UserClickableSpan userClickableSpan : clickableSpansList) {
             MentionRange mentionRange = new MentionRange();
-            mentionRange.startPoint = getText().getSpanStart(userClickableSpan);
+            mentionRange.startPoint = getText().getSpanStart(userClickableSpan) - 1;
             mentionRange.endPoint = getText().getSpanEnd(userClickableSpan);
 
 
             if (userClickableSpan.userType.equals(Constants.UserType.USER_TYPE_PHOTOGRAPHER)) {
-                UserClickableSpan photoGrapherClickableSpan = new UserClickableSpan() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getContext(), UserProfileActivity.class);
-                        intent.putExtra(UserProfileActivity.USER_ID, userClickableSpan.userId);
-                        intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
-                        getContext().startActivity(intent);
-                    }
 
-                    @Override
-                    public void updateDrawState(TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setUnderlineText(false);
-                        ds.setColor(Color.BLUE); // specific color for this link
-                    }
-                };
-                photoGrapherClickableSpan.userId = userClickableSpan.userId;
-                photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
-                this.allCommentClickableSpanList.add(photoGrapherClickableSpan);
-                this.mentionsPoint.add(mentionRange);
+
+//                UserClickableSpan photoGrapherClickableSpan = new UserClickableSpan() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Intent intent = new Intent(getContext(), UserProfileActivity.class);
+//                        intent.putExtra(UserProfileActivity.USER_ID, userClickableSpan.userId);
+//                        intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
+//                        getContext().startActivity(intent);
+//                    }
+//
+//                    @Override
+//                    public void updateDrawState(TextPaint ds) {
+//                        super.updateDrawState(ds);
+//                        ds.setUnderlineText(false);
+//                        ds.setColor(Color.BLUE); // specific color for this link
+//                    }
+//                };
+//                photoGrapherClickableSpan.userId = userClickableSpan.userId;
+//                photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
+//                this.allCommentClickableSpanList.add(photoGrapherClickableSpan);
+//                this.mentionsPoint.add(mentionRange);
 
             } else if (userClickableSpan.userType.equals(Constants.UserType.USER_TYPE_BUSINESS)) {
                 UserClickableSpan businessClickableSpan = new UserClickableSpan() {
@@ -129,24 +146,56 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             }
         }
 
+        // make sure to clear mentionsPoint As previous mentions may changed
+//        if (mentionsPoint.size() > 0)
+//            this.mentionsPoint.clear();
+//        if (allCommentClickableSpanList.size() > 0)
+//            this.allCommentClickableSpanList.clear();
+//        ///
 
     }
 
     public void handleMentionedCommentBody(int mentionedUserPosition, List<MentionedUser> mentionedUserList) {
 
 
-        setOldMentionsOffset();
+        List<MentionedUser> mentionedUserListTemp = new ArrayList<>();
+        mentionedUserListTemp.addAll(mentionedUserList);
 
         int cursorPosition = getCursorPosition();
+        // we must convert our getText() value to char in seek of to find the "@" symbol
         String currentCommentArrVal[] = getText().toString().split("");
         String commentSymbol = getCommentSymbol(currentCommentArrVal, cursorPosition);
+
+
+        //get between comment Symbol and current cursor
+        int commentSymbolPosition = 0;
+        String mentionSearchKey;
+        for (int i = cursorPosition - 1; i >= 0; i--) {
+            if (currentCommentArrVal[i].equals("@")) {
+                commentSymbolPosition = i;
+
+                break;
+            }
+        }
+
+
+        if (commentSymbolPosition == currentCommentArrVal.length) {
+            mentionSearchKey = getText().toString().substring(commentSymbolPosition - 1, cursorPosition);
+        }
+// else if (commentSymbolPosition < 0) {
+//            //comment End or comment mid
+//            mentionSearchKey = getText().toString().substring(commentSymbolPosition - 1, cursorPosition-1);
+//        } else {
+//            //comment start
+//            mentionSearchKey = getText().toString().substring(0, cursorPosition);
+//        }
 
 
         ///Extracting (PhotoGrapher && Business) From Server_MentionsList and build Detailed list for each type
         /**
          * User has selected "Mentioned user" from mentionList After writing The "@" symbol
          * now we convert this selection to the predefined scheme in order to send it through Api
-        * **/
+         * **/
         if (commentSymbol.equals("@")) {
             String replacement = "";
             if (mentionedUserList.get(mentionedUserPosition).mentionedType == Constants.UserType.USER_TYPE_PHOTOGRAPHER) {
@@ -200,6 +249,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                     mentionBusinessIdList.add(singleId[1]);
                 }
             }
+////////////////////////
 
 
             commentFinalValue = replaceMentionedPhotoGrapherFlag(mentionsPhotoGrapherIdIdList, commentFinalValue);
@@ -208,19 +258,22 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             commentFinalValue = setPhotoGrapherMentionSpan(mentionsPhotoGrapherIdIdList, commentFinalValue);
             commentFinalValue = setBusinessMentionSpan(mentionBusinessIdList, commentFinalValue);
             ////
-            makeSpannableLinks(this, mentionsPoint, allCommentClickableSpanList, commentFinalValue);
+            makeSpannableLinks(this, this.mentionsPoint, this.allCommentClickableSpanList, commentFinalValue);
         } else {
             setText(commentFinalValue);
         }
 
 
-        setSelection(mentionsPoint.get((mentionsPoint.size() - 1)).endPoint);
+//        int finalCursorPosition=cursorPosition+mentionedUserListTemp.get(mentionedUserPosition).mentionedUserName.length();
+//        setSelection(finalCursorPosition);
         dismissDropDown();
+
+
     }
 
 
     /**
-     * Replaces PhotoGrapher flag_id with matched PhotoGrapher  appended with predefined flag for later processing
+     * Replaces PhotoGrapher @0_user__id with matched PhotoGrapherName  appended with predefined flag for later processing
      */
     private String replaceMentionedPhotoGrapherFlag(List<String> mentionsPhotoGrapherIdIdList, String commentFinalValue) {
         /// Append unique identifier to mentioned user to get highLighted later
@@ -237,7 +290,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
     }
 
     /**
-     * Replaces Business flag_id with matched Business name appended with predefined flag for later processing
+     * Replaces Business @1_user__id with matched BusinessName appended with predefined flag for later processing
      */
     private String replaceMentionedBusinessFlag(List<String> mentionBusinessIdList, String commentFinalValue) {
         /// Append unique identifier to mentioned user to get highLighted later
@@ -283,17 +336,17 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                 photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
 
                 String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
-                int replacementStart = commentFinalValue.indexOf(replacement) - 1;
-                int replacementEnd = replacementStart + replacement.length();
+
+
                 MentionRange mentionRange = new MentionRange();
-                mentionRange.startPoint = replacementStart;
-                mentionRange.endPoint = replacementEnd;
+                mentionRange.startPoint = commentFinalValue.indexOf(replacement);
+                mentionRange.endPoint = replacement.length() - 1;
 
                 this.mentionsPoint.add(mentionRange);
                 this.allCommentClickableSpanList.add(photoGrapherClickableSpan);
 
-                commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
 
+                commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
             }
         }
         return commentFinalValue;
@@ -326,13 +379,18 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                 businessClickableSpan.userType = Constants.UserType.USER_TYPE_BUSINESS;
 
                 String replacement = business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER;
-                int replacementStart = commentFinalValue.indexOf(replacement) - 1;
-                int replacementEnd = replacementStart + replacement.length();
+
                 MentionRange mentionRange = new MentionRange();
-                mentionRange.startPoint = replacementStart;
-                mentionRange.endPoint = replacementEnd;
+                mentionRange.startPoint = commentFinalValue.indexOf(replacement);
+                mentionRange.endPoint = replacement.length() - 1;
+
                 mentionsPoint.add(mentionRange);
                 this.allCommentClickableSpanList.add(businessClickableSpan);
+
+                int tempStart = (replacement.length()) - commentFinalValue.indexOf(replacement);
+                int tempEnd = commentFinalValue.indexOf(replacement);
+                getText().replace(tempStart, tempEnd, replacement);
+
                 commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
             }
         }
@@ -356,6 +414,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
         viewHolder.setLinksClickable(true);
         viewHolder.setClickable(true);
         viewHolder.setMovementMethod(LinkMovementMethod.getInstance());
+
 
         viewHolder.setText(spannableString);
 

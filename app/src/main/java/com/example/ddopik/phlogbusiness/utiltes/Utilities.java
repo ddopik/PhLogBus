@@ -378,4 +378,35 @@ public class Utilities {
 
         return false;
     }
+    public static String getWord(String textOfTextView, int offsetPosition)
+    {
+        int endpositionofword = 0;
+        int startpositionofword = 0;
+        for (int i = offsetPosition; i<textOfTextView.length();i++)
+        {
+            if (i==textOfTextView.length()-1) {
+                endpositionofword = i;
+                break;
+            }
+            if (textOfTextView.charAt(i)==' ') {
+                endpositionofword = i;
+                break;
+            }
+
+        }
+        for (int i = offsetPosition; i>=0;i--)
+        {
+            if (i==0) {
+                startpositionofword = i;
+                break;
+            }
+            if (textOfTextView.charAt(i)==' ') {
+                startpositionofword = i;
+                break;
+            }
+
+        }
+        return textOfTextView.substring(startpositionofword,endpositionofword);
+
+    }
 }
