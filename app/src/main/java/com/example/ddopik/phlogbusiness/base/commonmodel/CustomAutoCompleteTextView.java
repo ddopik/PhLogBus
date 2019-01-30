@@ -61,12 +61,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
         return cursorPosition;
     }
 
-    private String getCommentSymbol(String[] currentCommentValue, int cursorPosition) {
 
-        // in case "First" char after "@" symbol
-        return currentCommentValue[cursorPosition - 2];
-
-    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -99,6 +94,8 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 
 
             if (userClickableSpan.userType.equals(Constants.UserType.USER_TYPE_PHOTOGRAPHER)) {
+
+                setText(getText().replace(mentionRange.startPoint,mentionRange.endPoint,"@0_"+userClickableSpan.userId ));
 
 
 //                UserClickableSpan photoGrapherClickableSpan = new UserClickableSpan() {
@@ -158,45 +155,22 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
     public void handleMentionedCommentBody(int mentionedUserPosition, List<MentionedUser> mentionedUserList) {
 
 
+        trackOldMentionsOffset();
+
         List<MentionedUser> mentionedUserListTemp = new ArrayList<>();
         mentionedUserListTemp.addAll(mentionedUserList);
 
         int cursorPosition = getCursorPosition();
         // we must convert our getText() value to char in seek of to find the "@" symbol
-        String currentCommentArrVal[] = getText().toString().split("");
-        String commentSymbol = getCommentSymbol(currentCommentArrVal, cursorPosition);
-
-
-        //get between comment Symbol and current cursor
-        int commentSymbolPosition = 0;
-        String mentionSearchKey;
-        for (int i = cursorPosition - 1; i >= 0; i--) {
-            if (currentCommentArrVal[i].equals("@")) {
-                commentSymbolPosition = i;
-
-                break;
-            }
-        }
-
-
-        if (commentSymbolPosition == currentCommentArrVal.length) {
-            mentionSearchKey = getText().toString().substring(commentSymbolPosition - 1, cursorPosition);
-        }
-// else if (commentSymbolPosition < 0) {
-//            //comment End or comment mid
-//            mentionSearchKey = getText().toString().substring(commentSymbolPosition - 1, cursorPosition-1);
-//        } else {
-//            //comment start
-//            mentionSearchKey = getText().toString().substring(0, cursorPosition);
-//        }
-
+//        String currentCommentArrVal[] = getText().toString().split("");
+        int searKeyPosition = getText().toString().lastIndexOf("@", getSelectionStart());
 
         ///Extracting (PhotoGrapher && Business) From Server_MentionsList and build Detailed list for each type
         /**
          * User has selected "Mentioned user" from mentionList After writing The "@" symbol
          * now we convert this selection to the predefined scheme in order to send it through Api
          * **/
-        if (commentSymbol.equals("@")) {
+        if (searKeyPosition >= 0) {
             String replacement = "";
             if (mentionedUserList.get(mentionedUserPosition).mentionedType == Constants.UserType.USER_TYPE_PHOTOGRAPHER) {
                 replacement = ("@" + "0" + "_" + mentionedUserList.get(mentionedUserPosition).mentionedUserId);
@@ -216,21 +190,18 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 
 
 //            set mentionReplacement
-            currentCommentArrVal[cursorPosition - 2] = replacement;
-            currentCommentArrVal[cursorPosition - 1] = " ";
+            getText().replace(searKeyPosition, cursorPosition - 1, replacement);
 
 
         }
 
-        StringBuilder newCommentStringBuilder = new StringBuilder();
-        for (String aCurrentCommentArrVal : currentCommentArrVal) {
-            newCommentStringBuilder.append(aCurrentCommentArrVal);
-        }
 
 
-        String commentFinalValue = newCommentStringBuilder.toString();
+//        String commentFinalValue = newCommentStringBuilder.toString();
         //Extract All  mentioned users from Comment_Text
-        List<String> mentionedUsersId = Utilities.getMentionsList(commentFinalValue);
+        //todo second mention not included start
+        String temp=getText().toString();
+        List<String> mentionedUsersId = Utilities.getMentionsList(getText().toString());
         //
         List<String> mentionsPhotoGrapherIdIdList = new ArrayList<>();
         List<String> mentionBusinessIdList = new ArrayList<>();
@@ -252,15 +223,16 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 ////////////////////////
 
 
-            commentFinalValue = replaceMentionedPhotoGrapherFlag(mentionsPhotoGrapherIdIdList, commentFinalValue);
-            commentFinalValue = replaceMentionedBusinessFlag(mentionBusinessIdList, commentFinalValue);
-            /////
-            commentFinalValue = setPhotoGrapherMentionSpan(mentionsPhotoGrapherIdIdList, commentFinalValue);
-            commentFinalValue = setBusinessMentionSpan(mentionBusinessIdList, commentFinalValue);
+            replaceMentionedPhotoGrapherFlag(mentionsPhotoGrapherIdIdList);
+            setPhotoGrapherMentionSpan(mentionsPhotoGrapherIdIdList);
+
+
+//            commentFinalValue = replaceMentionedBusinessFlag(mentionBusinessIdList, commentFinalValue);
+//            commentFinalValue = setBusinessMentionSpan(mentionBusinessIdList, commentFinalValue);
             ////
-            makeSpannableLinks(this, this.mentionsPoint, this.allCommentClickableSpanList, commentFinalValue);
+            makeSpannableLinks(this, this.mentionsPoint, this.allCommentClickableSpanList);
         } else {
-            setText(commentFinalValue);
+            setText(getText());
         }
 
 
@@ -268,25 +240,28 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 //        setSelection(finalCursorPosition);
         dismissDropDown();
 
-
+//         make sure to clear mentionsPoint As previous mentions may changed
+        if (mentionsPoint.size() > 0)
+            this.mentionsPoint.clear();
+        if (allCommentClickableSpanList.size() > 0)
+            this.allCommentClickableSpanList.clear();
+        ///
     }
 
 
     /**
      * Replaces PhotoGrapher @0_user__id with matched PhotoGrapherName  appended with predefined flag for later processing
      */
-    private String replaceMentionedPhotoGrapherFlag(List<String> mentionsPhotoGrapherIdIdList, String commentFinalValue) {
+    private void replaceMentionedPhotoGrapherFlag(List<String> mentionsPhotoGrapherIdIdList) {
         /// Append unique identifier to mentioned user to get highLighted later
         /// And Replacing All Occurrence of photoGrapherId with actualValue
         for (String photoGrapherId : mentionsPhotoGrapherIdIdList) {
             Photographer photographer = getMentionedPhotoGrapher(photoGrapherId);
             if (photographer != null) {
-                commentFinalValue = commentFinalValue.replace("@0_" + photoGrapherId, photographer.fullName + USER_MENTION_IDENTIFIER);
-                setText(commentFinalValue);
+               setText( getText().toString().replace("@0_" + photoGrapherId, " " + photographer.fullName + USER_MENTION_IDENTIFIER));
+
             }
         }
-        return commentFinalValue;
-
     }
 
     /**
@@ -308,7 +283,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 
     }
 
-    private String setPhotoGrapherMentionSpan(List<String> mentionsPhotoGrapherIdIdList, String commentFinalValue) {
+    private void setPhotoGrapherMentionSpan(List<String> mentionsPhotoGrapherIdIdList) {
 
         for (String photographerId : mentionsPhotoGrapherIdIdList) {
             if (getMentionedPhotoGrapher(photographerId) != null) {
@@ -339,17 +314,17 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 
 
                 MentionRange mentionRange = new MentionRange();
-                mentionRange.startPoint = commentFinalValue.indexOf(replacement);
-                mentionRange.endPoint = replacement.length() - 1;
+                mentionRange.startPoint = getText().toString().indexOf(replacement) - 1;
+                mentionRange.endPoint = getText().toString().indexOf(replacement) + replacement.length() - 1;
 
                 this.mentionsPoint.add(mentionRange);
                 this.allCommentClickableSpanList.add(photoGrapherClickableSpan);
 
 
-                commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
+                setText(getText().toString().replace(replacement, replacement.substring(0, replacement.length() - 1)));
             }
         }
-        return commentFinalValue;
+
 
     }
 
@@ -402,12 +377,11 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
      * @param viewHolder        --->view holder contain comment value
      * @param mentionsList      --->replacement user_value flaged with (?*_)
      * @param clickableSpanList --->link CallBack
-     * @param commentFinalValue --->all text value insideViewHolder
-     */
-    private void makeSpannableLinks(TextView viewHolder, List<MentionRange> mentionsList, List<ClickableSpan> clickableSpanList, String commentFinalValue) {
+      */
+    private void makeSpannableLinks(TextView viewHolder, List<MentionRange> mentionsList, List<ClickableSpan> clickableSpanList) {
 
 
-        SpannableString spannableString = new SpannableString(commentFinalValue);
+        SpannableString spannableString = new SpannableString(getText());
         for (int i = 0; i < mentionsList.size(); i++) {
             spannableString.setSpan(clickableSpanList.get(i), mentionsList.get(i).startPoint + 1, mentionsList.get(i).endPoint, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
@@ -433,8 +407,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             int startIndexOfLink = textView.getText().toString().indexOf(link);
             spannableString.setSpan(clickableSpan, startIndexOfLink, startIndexOfLink + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        textView.setHighlightColor(
-                Color.TRANSPARENT); // prevent TextView change background when highlight
+        textView.setHighlightColor(Color.TRANSPARENT); // prevent TextView change background when highlight
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         textView.setText(spannableString, TextView.BufferType.SPANNABLE);
     }
