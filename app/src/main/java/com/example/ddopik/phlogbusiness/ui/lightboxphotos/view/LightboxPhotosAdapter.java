@@ -6,14 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import android.widget.TextView;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.ui.lightboxphotos.view.LightboxPhotosAdapter.PhotoActionListener.ActionType;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 
 import java.util.List;
@@ -23,12 +23,12 @@ import java.util.List;
  */
 public class LightboxPhotosAdapter extends RecyclerView.Adapter<LightboxPhotosAdapter.AlbumImgViewHolder> {
 
-    private List<BaseImage> albumImgList;
+    private List<BaseImage> list;
     private Context context;
-    public OnAlbumImgClicked onAlbumImgClicked;
+    public PhotoActionListener photoActionListener;
 
-    public LightboxPhotosAdapter(List<BaseImage> albumImgList) {
-        this.albumImgList = albumImgList;
+    public LightboxPhotosAdapter(List<BaseImage> list) {
+        this.list = list;
     }
 
 
@@ -42,114 +42,87 @@ public class LightboxPhotosAdapter extends RecyclerView.Adapter<LightboxPhotosAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AlbumImgViewHolder albumImgViewHolder, int i) {
-
+    public void onBindViewHolder(@NonNull AlbumImgViewHolder holder, int i) {
+        Context context = holder.itemView.getContext();
+        BaseImage image = list.get(i);
         GlideApp.with(context)
-                .load(albumImgList.get(i).thumbnailUrl)
-                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                .load(image.photographer.imageProfile)
+                .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.default_place_holder)
                 .error(R.drawable.default_error_img)
-                .into(albumImgViewHolder.albumIcon);
-
-
+                .into(holder.photographerAvatar);
         GlideApp.with(context)
-                .load(albumImgList.get(i).url)
+                .load(image.url)
                 .centerCrop()
                 .error(R.drawable.default_error_img)
                 .placeholder(R.drawable.default_place_holder)
-                .into(albumImgViewHolder.albumImg);
-
-
-
-
-        if(albumImgList.get(i).thumbnailUrl !=null)
-            albumImgViewHolder.albumName.setText(albumImgList.get(i).thumbnailUrl);
-        if(albumImgList.get(i).photographer !=null)
-            albumImgViewHolder.albumAuthor.setText(albumImgList.get(i).photographer.fullName);
-        if(albumImgList.get(i).likesCount !=null)
-            albumImgViewHolder.albumImgLikeVal.setText(new StringBuilder().append(albumImgList.get(i).likesCount).append(" Likes").toString());
-        if(albumImgList.get(i).commentsCount !=null)
-            albumImgViewHolder.albumImgCommentVal.setText(new StringBuilder().append(albumImgList.get(i).commentsCount).append(" Comments").toString());
-
-
-        if (albumImgList.get(i).isLiked){
-            albumImgViewHolder.albumImgLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_like_on));
-        }else {
-            albumImgViewHolder.albumImgLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_like_off_gray));
+                .into(holder.photo);
+        if (image.photographer != null) {
+            if (image.photographer.fullName != null)
+                holder.photographerName.setText(image.photographer.fullName);
+            if (image.photographer.userName != null)
+                holder.photographerUsername.setText(String.format("@%1$s", image.photographer.userName));
+            if (image.photographer.isFollow)
+                holder.followButton.setText(R.string.unfollow);
+            else holder.followButton.setText(R.string.follow);
         }
-
-
-        /**
-         * view remove icon when image is already saved to lightBox to at least on LightBox
-         * view AddToLightBox icon when image not Saved to ant LightBox
-         * **/
-        if(!albumImgList.get(i).isSaved){
-            albumImgViewHolder.addLightBoxImgBtn.setVisibility(View.VISIBLE);
-//            albumImgViewHolder.addLightBoxImgBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_img_remove_light_box));
-        }else {
-            albumImgViewHolder.addLightBoxImgBtn.setVisibility(View.GONE);
-        }
-        if (albumImgList.get(i).isCart) {
-            albumImgViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.view_in_cart));
+        if (image.likesCount != null)
+            holder.imgLikeVal.setText(context.getString(R.string.likes_count, image.likesCount));
+        if (image.commentsCount != null)
+            holder.imgCommentVal.setText(context.getString(R.string.comments_count, image.likesCount));
+        if (image.isLiked) {
+            holder.likeButton.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_like_on));
         } else {
-            albumImgViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.add_to_cart));
+            holder.likeButton.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_like_off_gray));
         }
-
-        if (onAlbumImgClicked != null) {
-            albumImgViewHolder.albumImg.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgClick(albumImgList.get(i)));
-            albumImgViewHolder.albumImgLike.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgLikeClick(albumImgList.get(i)));
-            albumImgViewHolder.albumImgComment.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgCommentClick(albumImgList.get(i)));
-            albumImgViewHolder.addLightBoxImgBtn.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgAddLightBoxClick(albumImgList.get(i)));
-            albumImgViewHolder.albumImgAddToCartBtn.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgToCartClick(albumImgList.get(i)));
-            albumImgViewHolder.albumImgLikeVal.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgLikeClick(albumImgList.get(i)));
-            albumImgViewHolder.albumImgCommentVal.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgCommentClick(albumImgList.get(i)));
+        if (photoActionListener != null) {
+            holder.photo.setOnClickListener(v -> photoActionListener.onAction(ActionType.VIEW, image));
+            holder.likeButton.setOnClickListener(v -> photoActionListener.onAction(ActionType.LIKE, image));
+            holder.commentButton.setOnClickListener(v -> photoActionListener.onAction(ActionType.COMMENT, image));
+            holder.followButton.setOnClickListener(v -> photoActionListener.onAction(ActionType.FOLLOW, image));
+            holder.deleteButton.setOnClickListener(v -> photoActionListener.onAction(ActionType.DELETE, image));
+            holder.addToCartButton.setOnClickListener(v -> photoActionListener.onAction(ActionType.ADD_TO_CART, image));
         }
-
+        if (image.isCart)
+            holder.addToCartButton.setVisibility(View.GONE);
+        else holder.addToCartButton.setVisibility(View.VISIBLE);
     }
 
     @Override
     public int getItemCount() {
-        return albumImgList.size();
+        return list.size();
     }
 
     public class AlbumImgViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView albumIcon, albumImg;
-        ImageView addLightBoxImgBtn;
-        CustomTextView albumName, albumAuthor, albumImgLikeVal, albumImgCommentVal,albumImgAddToCartVal;
-        ImageButton albumImgLike, albumImgComment;
-        FrameLayout albumImgAddToCartBtn;
+        ImageView photographerAvatar, photo;
+        TextView photographerName, photographerUsername, imgLikeVal, imgCommentVal;
+        ImageButton likeButton, commentButton, deleteButton;
+        Button followButton;
+        View addToCartButton;
 
         AlbumImgViewHolder(View view) {
             super(view);
-            albumIcon = view.findViewById(R.id.album_icon);
-            albumImg = view.findViewById(R.id.album_img);
-            addLightBoxImgBtn=view.findViewById(R.id.add_lightBox_img_btn);
-            albumName = view.findViewById(R.id.album_name);
-             albumAuthor = view.findViewById(R.id.album_author);
-            albumImgLikeVal = view.findViewById(R.id.album_img_like_count);
-            albumImgCommentVal = view.findViewById(R.id.album_img_comment_count);
-            albumImgLike = view.findViewById(R.id.album_img_like_btn);
-            albumImgComment = view.findViewById(R.id.album_img_comment);
-            albumImgAddToCartBtn = view.findViewById(R.id.album_img_add_to_cart);
-            albumImgAddToCartVal = view.findViewById(R.id.album_img_add_to_cart_val);
-
+            photographerAvatar = view.findViewById(R.id.photographer_avatar);
+            photo = view.findViewById(R.id.image);
+            photographerName = view.findViewById(R.id.photographer_name);
+            photographerUsername = view.findViewById(R.id.photographer_username);
+            imgLikeVal = view.findViewById(R.id.img_likes_count);
+            imgCommentVal = view.findViewById(R.id.img_comments_count);
+            likeButton = view.findViewById(R.id.img_like_btn);
+            commentButton = view.findViewById(R.id.img_comment_btn);
+            deleteButton = view.findViewById(R.id.delete_button);
+            followButton = view.findViewById(R.id.follow_button);
+            addToCartButton = view.findViewById(R.id.img_add_to_cart);
         }
     }
 
-    public interface OnAlbumImgClicked {
-        void onAlbumImgClick(BaseImage albumImg);
+    public interface PhotoActionListener {
 
-        void onAlbumImgLikeClick(BaseImage albumImg);
+        void onAction(ActionType type, BaseImage image);
 
-        void onAlbumImgCommentClick(BaseImage albumImg);
-
-        void onAlbumImgAddLightBoxClick(BaseImage albumImg);
-
-        void onAlbumImgToCartClick(BaseImage albumImg);
-
-        void onAlbumImgLightBoxRemoveClick(BaseImage albumImg);
-
-
+        enum ActionType {
+            FOLLOW, VIEW, COMMENT, LIKE, ADD_TO_CART, DELETE
+        }
     }
 }

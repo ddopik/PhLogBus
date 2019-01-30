@@ -246,6 +246,8 @@
     <string name="upload_all_docs">Upload all documnets first</string>
     <string name="verfication_request_sent">Verification request\'s been sent</string>
     <string name="verfication_request_error">Verification request failed</string>
+    <string name="likes_count">%1$d Likes</string>
+    <string name="comments_count">%1$d Comment</string>
 
 
 </resources>

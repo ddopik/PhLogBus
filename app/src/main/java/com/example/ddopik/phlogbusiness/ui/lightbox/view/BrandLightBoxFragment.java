@@ -14,9 +14,11 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.AddNewLightBoxDialogFragment;
+import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.lightbox.presenter.BrandLightBoxPresenter;
 import com.example.ddopik.phlogbusiness.ui.lightbox.presenter.BrandLightBoxPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.lightbox.view.adapter.LightBoxAdapter;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +87,8 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
         lightBoxAdapter.onLightBoxClickListener=new LightBoxAdapter.OnLightBoxClickListener() {
             @Override
             public void onLightBoxClick(LightBox lightBox) {
+                MainActivity.navigationManger.setMessageToFragment(lightBox);
+                MainActivity.navigationManger.navigate(Constants.NavigationHelper.LIGHT_BOX_PHOTOS);
             }
 
             @Override
