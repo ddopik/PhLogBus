@@ -184,6 +184,7 @@
 
 
     <dimen name="comment_header_photo_h">300dp</dimen>
+    <dimen name="search_bar_radius">10dp</dimen>
 
 
 </resources>

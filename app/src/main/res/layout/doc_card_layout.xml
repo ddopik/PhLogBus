@@ -41,6 +41,7 @@
                 android:textColor="@color/gray400"
                 android:textStyle="bold"
                 app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="1sp"
                 app:layout_constraintBottom_toBottomOf="@+id/image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent=".25"

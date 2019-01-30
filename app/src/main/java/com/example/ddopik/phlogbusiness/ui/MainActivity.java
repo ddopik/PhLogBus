@@ -262,7 +262,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     LightBox lightBox = (LightBox) messageToFragment;
                     addFragment(R.id.view_container, LightBoxPhotosFragment.getInstance(lightBox), LightBoxPhotosFragment.TAG, true);
                     toolbar.setVisibility(View.VISIBLE);
-                    toolbar.setTitle(lightBox.name);
+                    toolBarTitle.setText(lightBox.name);
                     break;
             }
 
