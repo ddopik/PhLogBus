@@ -479,10 +479,11 @@ public class BaseNetworkApi {
                 .getObjectObservable(AddImageToCartResponse.class);
     }
 
-    public static io.reactivex.Observable<RemoveImageToLightBoxResponse> removeLightBoxImage(Map<String, String> data) {
+    public static io.reactivex.Observable<RemoveImageToLightBoxResponse> removeLightBoxImage(String lightBoxId, String imageId) {
         return Rx2AndroidNetworking.post(REMOVE_IMG_TO_LIGHT_BOX_URL)
                 .setPriority(Priority.HIGH)
-                .addBodyParameter(data)
+                .addBodyParameter("photo_id", imageId)
+                .addBodyParameter("lightbox_id", lightBoxId)
                 .build()
                 .getObjectObservable(RemoveImageToLightBoxResponse.class);
     }

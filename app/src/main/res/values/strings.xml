@@ -172,7 +172,7 @@
     <string name="save">Save</string>
     <string name="add_to_light_box">Add to lightBox</string>
     <string name="add_new_light_box">Add new LightBox</string>
-    <string name="images">Images</string>
+    <string name="images">Image</string>
     <string name="like">Like</string>
     <string name="comment">Commnet</string>
     <string name="number_of_winners">Number of winners</string>
@@ -246,6 +246,8 @@
     <string name="upload_all_docs">Upload all documnets first</string>
     <string name="verfication_request_sent">Verification request\'s been sent</string>
     <string name="verfication_request_error">Verification request failed</string>
+    <string name="likes_count">%1$d Likes</string>
+    <string name="comments_count">%1$d Comment</string>
 
 
 </resources>

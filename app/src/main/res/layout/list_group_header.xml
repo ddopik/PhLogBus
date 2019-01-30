@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/tab_background"
-    android:orientation="vertical"
-    android:padding="@dimen/dp18">
+    android:background="@color/tab_background">
 
+    <Space
+        android:id="@+id/top_space"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:.02"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
         android:id="@+id/lblListHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_gravity="center"
-        android:paddingStart="@dimen/dp20"
         android:textColor="@color/text_input_color"
-        android:textSize="@dimen/text_medium"
+        app:layout_constraintDimensionRatio="1:.1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.32"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_space"
+        app:layout_constraintWidth_percent=".7"
         tools:text="Format" />
-
 
     <!--<ImageView-->
         <!--android:id="@+id/header_item_down_btn"-->
@@ -28,4 +37,4 @@
         <!--android:background="@color/transparent"-->
         <!--app:srcCompat="@drawable/down_arrow" />-->
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

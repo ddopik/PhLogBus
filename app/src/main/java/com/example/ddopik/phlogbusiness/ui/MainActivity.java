@@ -14,10 +14,12 @@ import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.app.PhLogBusinessApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
+import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.view.AccountDetailsFragment;
 import com.example.ddopik.phlogbusiness.ui.customersupport.view.CustomerSupportFragment;
 import com.example.ddopik.phlogbusiness.ui.downloads.view.DownloadsFragment;
+import com.example.ddopik.phlogbusiness.ui.lightboxphotos.view.LightBoxPhotosFragment;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.view.AccountDetailsFragment;
@@ -255,6 +257,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case DOWNLOADS:
                     addFragment(R.id.view_container, new DownloadsFragment(), AccountDetailsFragment.TAG, true);
                     downloadsBtn.setTextColor(getResources().getColor(R.color.text_input_color));
+                    break;
+                case LIGHT_BOX_PHOTOS:
+                    LightBox lightBox = (LightBox) messageToFragment;
+                    addFragment(R.id.view_container, LightBoxPhotosFragment.getInstance(lightBox), LightBoxPhotosFragment.TAG, true);
+                    toolbar.setVisibility(View.VISIBLE);
+                    toolBarTitle.setText(lightBox.name);
                     break;
             }
 
