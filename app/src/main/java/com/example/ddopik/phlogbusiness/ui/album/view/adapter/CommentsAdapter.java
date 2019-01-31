@@ -225,13 +225,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 searchQuery = getSearchTagQuery(commentViewHolder.sendCommentImgVal);
                 commentViewHolder.sendCommentImgVal.addTextChangedListener(new TextWatcher() {
                     int cursorPosition = commentViewHolder.sendCommentImgVal.getSelectionStart();
+
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                        int mentionIdentifierCharPosition =  commentViewHolder.sendCommentImgVal.getText().toString().indexOf("@", cursorPosition - 2);
+                        int mentionIdentifierCharPosition = commentViewHolder.sendCommentImgVal.getText().toString().indexOf("@", cursorPosition - 2);
                         if ((mentionIdentifierCharPosition + 1) >= commentViewHolder.sendCommentImgVal.getText().toString().length() || mentionIdentifierCharPosition == -1) {
-                           mentionedUserList.clear();
-                           mentionsAutoCompleteAdapter.notifyDataSetChanged();
-                       }
+                            mentionedUserList.clear();
+                            mentionsAutoCompleteAdapter.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
@@ -275,24 +276,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
                 ///getting String value before cursor
                 if (cursorPosition > 0) {
-
-                    ///check first after "@"
-                    int mentionIdentifierCharPosition = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 2);
-                    if ((mentionIdentifierCharPosition + 1) < autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition != -1) {
-                        commentAdapterPresenter.getMentionedUser(String.valueOf(autoCompleteTextView.getText().charAt(mentionIdentifierCharPosition + 1)).trim());
+                    int searKeyPosition = autoCompleteTextView.getText().toString().lastIndexOf("@", cursorPosition);
+                    if (searKeyPosition >= 0) {
+                        commentAdapterPresenter.getMentionedUser(autoCompleteTextView.getText().toString().substring(searKeyPosition + 1, autoCompleteTextView.getSelectionStart()));
                     }
-
-//                    ///check second letter after "@"
-//                    int mentionIdentifierCharPosition2 = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 3);
-//                    if ((mentionIdentifierCharPosition2 + 3) <= autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition2 != -1) {
-//                        commentAdapterPresenter.getMentionedUser(String.valueOf(autoCompleteTextView.getText().subSequence(mentionIdentifierCharPosition2, mentionIdentifierCharPosition2 + 3)).trim());
-//                    }
-//
-//                    ///check third letter after "@"
-//                    int mentionIdentifierCharPosition3 = autoCompleteTextView.getText().toString().indexOf("@", cursorPosition - 4);
-//                    if ((mentionIdentifierCharPosition3 + 4) <= autoCompleteTextView.getText().toString().length() && mentionIdentifierCharPosition3 != -1) {
-//                        commentAdapterPresenter.getMentionedUser(String.valueOf(autoCompleteTextView.getText().subSequence(mentionIdentifierCharPosition3, mentionIdentifierCharPosition3 + 4)).trim());
-//                    }
 
                 }
 
@@ -434,8 +421,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
 
-
-
     /**
      * @param viewHolder        --->view holder contain comment value
      * @param mentionsList      --->replacement user_value flaged with (?*_)
@@ -454,8 +439,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         viewHolder.setText(spannableString);
 
     }
-
-
 
 
     private Photographer getMentionedPhotoGrapher(String userId) {
