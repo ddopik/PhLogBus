@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include layout="@layout/phlog_app_bar" />
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/black"
         android:padding="@dimen/activity_padding">
 
         <EditText
@@ -77,22 +79,24 @@
 
         </LinearLayout>
 
-        <FrameLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-             android:paddingStart="@dimen/dp12"
-            android:paddingEnd="@dimen/dp12">
+            android:orientation="horizontal">
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/search_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp14"
-                tools:text="0 result(s)"
+                app:layout_constraintHorizontal_bias=".1"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_normal"
                 android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="0 result(s)"
                 tools:visibility="visible" />
 
 
@@ -100,16 +104,34 @@
                 android:id="@+id/filter_ic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/dp14"
                 android:text="@string/filters"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_normal"
                 android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias=".85"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
 
+            <ImageView
+                android:id="@+id/filter_icon"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent=".5"
+                app:layout_constraintHorizontal_bias=".3"
+                android:scaleType="centerInside"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/filter_ic"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/filter_ic"
+                app:layout_constraintTop_toTopOf="@+id/filter_ic"
+                app:srcCompat="@drawable/ic_filter"
+                tools:visibility="visible" />
 
-        </FrameLayout>
+        </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
 

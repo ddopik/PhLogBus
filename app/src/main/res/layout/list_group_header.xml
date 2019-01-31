@@ -10,31 +10,48 @@
         android:id="@+id/top_space"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:.02"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintDimensionRatio="1:.04"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
         android:id="@+id/lblListHeader"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="@color/text_input_color"
-        app:layout_constraintDimensionRatio="1:.1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.32"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@color/white"
+        android:textSize="@dimen/ef_font_medium"
+        app:layout_constraintEnd_toStartOf="@+id/header_item_down_btn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_space"
-        app:layout_constraintWidth_percent=".7"
+        app:layout_constraintWidth_percent=".8"
         tools:text="Format" />
 
-    <!--<ImageView-->
-        <!--android:id="@+id/header_item_down_btn"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="end"-->
-        <!--android:background="@color/transparent"-->
-        <!--app:srcCompat="@drawable/down_arrow" />-->
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:.04"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblListHeader" />
+
+    <ImageView
+        android:id="@+id/header_item_down_btn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/lblListHeader"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/lblListHeader"
+        app:layout_constraintTop_toTopOf="@+id/lblListHeader" />
 
 </android.support.constraint.ConstraintLayout>
