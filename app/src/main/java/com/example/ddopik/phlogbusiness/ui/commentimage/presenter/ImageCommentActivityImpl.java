@@ -102,7 +102,7 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(imageRateResponse -> {
-                            imageCommentActivityView.onImageRate(imageRateResponse.baseImage);
+                            imageCommentActivityView.viewOnImageRate(imageRateResponse.baseImage);
                             imageCommentActivityView.viewImageProgress(false);
                         }
                         , throwable -> {
@@ -122,10 +122,10 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(addImageToCartResponse -> {
-                    imageCommentActivityView.onImagedAddedToCart(true);
+                    imageCommentActivityView.viewOnImagedAddedToCart(true);
                     imageCommentActivityView.viewImageProgress(false);
                 }, throwable -> {
-                    imageCommentActivityView.onImagedAddedToCart(true);
+                    imageCommentActivityView.viewOnImagedAddedToCart(true);
                     imageCommentActivityView.viewImageProgress(false);
                 });
 
