@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandView;
@@ -51,6 +54,7 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
         if (doc.getUploadedFile() != null && doc.getUploadedFile().getUrl() != null) {
             Glide.with(context)
                     .load(doc.getUploadedFile().getUrl())
+                    .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(16)))
                     .into(holder.image);
             holder.upload.setEnabled(false);
             holder.upload.setText(R.string.done);
@@ -64,6 +68,7 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
         Consumer<String> consumer = s -> {
             Glide.with(context)
                     .load(s)
+                    .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(16)))
                     .into(holder.image);
             holder.upload.setVisibility(View.VISIBLE);
             holder.upload.setEnabled(true);
@@ -87,6 +92,7 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
             holder.upload.setBackgroundResource(R.drawable.button_border_blue);
             Glide.with(context)
                     .load(doc.path)
+                    .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(16)))
                     .into(holder.image);
             switch (type) {
                 case ERROR:

@@ -218,6 +218,8 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         /**
          * Replacing (Apply) in case Expandable was previously visible
          * */
+        searchResultCount.setVisibility(View.VISIBLE);
+        searchResultCount.setTextColor(getResources().getColor(R.color.white));
         searchResultCount.setText(new StringBuilder().append(this.albumSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
         Utilities.hideKeyboard(getActivity());
@@ -267,6 +269,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
 
 
         searchResultCount.setText(getActivity().getResources().getString(R.string.apply));
+        searchResultCount.setVisibility(View.VISIBLE);
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.text_input_color));
         searchResultCount.setOnClickListener(v -> {
             albumSearchList.clear();

@@ -244,6 +244,8 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         filterExpListView.setVisibility(View.GONE);
         searchImageRv.setVisibility(View.VISIBLE);
         imageSearchAdapter.notifyDataSetChanged();
+        searchResultCount.setVisibility(View.VISIBLE);
+        searchResultCount.setTextColor(getResources().getColor(R.color.white));
         searchResultCount.setText(new StringBuilder().append(getAlbumImagesCount()).append(" ").append(getResources().getString(R.string.result)).toString());
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
         Utilities.hideKeyboard(getActivity());
@@ -291,6 +293,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
 
 
         searchResultCount.setText(getActivity().getResources().getString(R.string.apply));
+        searchResultCount.setVisibility(View.VISIBLE);
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.text_input_color));
         searchResultCount.setOnClickListener(v -> {
             albumGroupList.clear();
