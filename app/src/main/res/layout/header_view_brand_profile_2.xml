@@ -15,15 +15,28 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/bramd_profile_cover_img"
+            android:id="@+id/brand_profile_cover_img"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            android:alpha=".2"
             android:layout_centerInParent="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:scaleType="centerCrop"/>
+
         <ImageView
             android:id="@+id/brand_profile_img_ic"
             android:layout_width="0dp"
@@ -32,11 +45,23 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias=".3"
-            app:layout_constraintHeight_percent=".45"
+            app:layout_constraintVertical_bias="0.2"
             tools:src="@drawable/phlog_logo" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:backgroundTint="@color/white"
+            android:background="@drawable/ring"
+            app:layout_constraintBottom_toBottomOf="@+id/brand_profile_img_ic"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".44"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/brand_profile_img_ic" />
 
         <ImageButton
             android:id="@+id/menu_button"
@@ -47,10 +72,9 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".1"
-            app:layout_constraintHorizontal_bias="0.98"
+            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4"
             app:srcCompat="@drawable/ic_menu_dots" />
 
         <android.support.v7.widget.AppCompatTextView
@@ -65,7 +89,7 @@
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toTopOf="@+id/header_profile_brand_website"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".06"
+            app:layout_constraintHeight_percent=".09"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/brand_profile_img_ic"
@@ -77,7 +101,7 @@
             android:layout_height="0dp"
             android:gravity="center"
             android:lines="1"
-            android:textColor="@color/user_profile_text_header_color"
+            android:textColor="@color/white"
             app:autoSizeMinTextSize="1sp"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toTopOf="@+id/brand_profile_industry"
@@ -89,7 +113,7 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/brand_profile_industry"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:background="@color/white"

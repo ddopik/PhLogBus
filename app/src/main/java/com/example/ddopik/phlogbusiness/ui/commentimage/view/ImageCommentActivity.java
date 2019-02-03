@@ -15,6 +15,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.AddToLightBoxDialogFragment;
 import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
+import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityPresenter;
@@ -133,7 +134,8 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             @Override
             public void onAddToCartClick(BaseImage baseImage) {
                 if (baseImage.isCart) {
-                    showToast("view in cart");
+                    Intent intent = new Intent(ImageCommentActivity.this, CartActivity.class);
+                    startActivity(intent);
                 } else {
                     imageCommentActivityPresenter.addImageToCart(previewImage.id);
                 }
