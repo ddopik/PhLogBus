@@ -25,7 +25,6 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
     public List<Business> currentMentionedBusiness = new ArrayList<>();
     private final String USER_MENTION_IDENTIFIER = "%";
     private List<MentionRange> mentionsPoint = new ArrayList<>();
-    List<ClickableSpan> allCommentClickableSpanList = new ArrayList<>();
 
 
     public CustomAutoCompleteTextView(Context context) {
@@ -62,7 +61,6 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
         }
         return cursorPosition;
     }
-
 
 
     @Override
@@ -105,7 +103,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
     private void trackOldMentionsOffset() {
 
         UserClickableSpan[] clickableSpansList = getText().getSpans(0, getText().length(), UserClickableSpan.class);
-
+        mentionsPoint.clear();
 
         for (UserClickableSpan userClickableSpan : clickableSpansList) {
             MentionRange mentionRangeNew = new MentionRange();
@@ -114,24 +112,67 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             mentionRangeNew.endPoint = getText().getSpanEnd(userClickableSpan);
             mentionsPoint.add(mentionRangeNew);
 
-            sortMentionListRanges();
+//            sortMentionListRanges();
 //            if (userClickableSpan.userType.equals(Constants.UserType.USER_TYPE_PHOTOGRAPHER)) {
 //
 //            } else if (userClickableSpan.userType.equals(Constants.UserType.USER_TYPE_BUSINESS)) {
 //            }
         }
-
-
-
-
     }
+
+
+    private String mergeOldMentionsTag(int newSelectionPoint) {
+
+
+
+        String oldCommentText = getText().toString();
+
+        for (MentionRange mentionRange : mentionsPoint) {
+
+            String start = "";
+            String end = "";
+            String mid = "";
+            if (mentionRange.startPoint == newSelectionPoint) {
+                int newInsertIndex = oldCommentText.lastIndexOf("@", getCursorPosition());
+                if (newInsertIndex == 0) {
+                    start = oldCommentText.substring(0, 1);
+                } else {
+                    start = oldCommentText.substring(0, newInsertIndex - 1);
+                }
+                mid = "@0_" + mentionRange.userClickableSpan.userId+ " ";
+
+                if (oldCommentText.length() - 1 >= getCursorPosition()) {
+                    end = oldCommentText.substring(getCursorPosition()) ;
+                }
+
+                oldCommentText = start + mid + end;
+            } else {
+
+
+                start = oldCommentText.substring(0, mentionRange.startPoint);
+
+                mid = "@0_" + mentionRange.userClickableSpan.userId+" ";
+
+                end = oldCommentText.substring(mentionRange.startPoint+mid.length());
+            }
+            oldCommentText = start + mid + end;
+
+        }
+
+
+
+
+
+        return oldCommentText;
+
+
+}
 
     public void handleMentionedCommentBody(int mentionedUserPosition, List<MentionedUser> mentionedUserList) {
 
+
+        ///initialize mentionPointArray with old spans range if existed
         trackOldMentionsOffset();
-
-
-
         int searKeyPosition = getText().toString().lastIndexOf("@", getSelectionStart());
 
         /**
@@ -148,7 +189,17 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                 photographer.fullName = mentionedUserList.get(mentionedUserPosition).mentionedUserName;
                 photographer.mentionedImage = mentionedUserList.get(mentionedUserPosition).mentionedImage;
                 currentMentionedPhotoGrapherList.add(photographer);
-                setText(getText().replace(searKeyPosition, getSelectionStart(), replacement));
+                //////////
+                MentionRange mentionRange = new MentionRange();
+                mentionRange.startPoint = getSelectionStart();
+                mentionRange.endPoint = mentionRange.startPoint + replacement.length() - 1;
+                mentionRange.userClickableSpan = getPhotoGrapherClicableSpanObj(photographer);
+                this.mentionsPoint.add(mentionRange);
+
+                String oldMentionValue = mergeOldMentionsTag(mentionRange.startPoint);
+                setText(oldMentionValue);
+                //////////
+
 
             } else if (mentionedUserList.get(mentionedUserPosition).mentionedType == Constants.UserType.USER_TYPE_BUSINESS) {
                 replacement = ("@" + "1" + "_" + mentionedUserList.get(mentionedUserPosition).mentionedUserId);
@@ -161,18 +212,14 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             }
 
 
-//            set mentionReplacement
-
-
-
         }
 
 
 /////////////////////////////////
         //Extract All  mentioned users from Comment_Text
-        //todo second mention not included start
+//        //todo second mention not included start
         List<String> mentionedUsersId = Utilities.getMentionsList(getText().toString());
-        //
+//        //
         List<String> mentionsPhotoGrapherIdIdList = new ArrayList<>();
         List<String> mentionBusinessIdList = new ArrayList<>();
 
@@ -191,36 +238,10 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             }
 
 
-
-//            String[] currentComment = getText().toString().split("");
-//            StringBuilder builder = new StringBuilder();
-//            for (int i = 0; i < currentComment.length; i++) {
-//                for (MentionRange mentionRange : mentionsPoint) {
-//                    if (mentionRange.startPoint == i) {
-//                        if (mentionRange.userClickableSpan.userType.equals(Constants.UserType.USER_TYPE_PHOTOGRAPHER)) {
-//                            builder.append("@0_").append(mentionRange.userClickableSpan.userId);
-//                        }
-//                        break;
-//                    } else if (mentionRange.startPoint >= i && mentionRange.endPoint < i) {
-//                        break;
-//                    } else {
-//                        builder.append(currentComment[i]);
-//                    }
-//                }
-//
-//            }
-
-//            String currentComment2 = builder.toString();
-//            setText(currentComment2);
-
-
-            replaceMentionedPhotoGrapherFlag(mentionsPhotoGrapherIdIdList);
+//            replaceMentionedPhotoGrapherFlag(mentionsPhotoGrapherIdIdList);
+            mentionsPoint.clear();
             setPhotoGrapherMentionSpan(mentionsPhotoGrapherIdIdList);
 ////////////////////////
-
-
-//            replaceMentionedPhotoGrapherFlag(mentionsPhotoGrapherIdIdList);
-//            setPhotoGrapherMentionSpan(mentionsPhotoGrapherIdIdList);
 //            commentFinalValue = replaceMentionedBusinessFlag(mentionBusinessIdList, commentFinalValue);
 //            commentFinalValue = setBusinessMentionSpan(mentionBusinessIdList, commentFinalValue);
             ////
@@ -234,12 +255,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 //        setSelection(finalCursorPosition);
         dismissDropDown();
         mentionsPoint.clear();
-//         make sure to clear mentionsPoint As previous mentions may changed
-//        if (mentionsPoint.size() > 0)
-//            this.mentionsPoint.clear();
-//        if (allCommentClickableSpanList.size() > 0)
-//            this.allCommentClickableSpanList.clear();
-        ///
+
     }
 
 
@@ -252,7 +268,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
         for (String photoGrapherId : mentionsPhotoGrapherIdIdList) {
             Photographer photographer = getMentionedPhotoGrapher(photoGrapherId);
             if (photographer != null) {
-               setText( getText().toString().replace("@0_" + photoGrapherId, " " + photographer.fullName + USER_MENTION_IDENTIFIER));
+                setText( getText().toString().replace("@0_" + photoGrapherId, " " + photographer.fullName + USER_MENTION_IDENTIFIER));
 
             }
         }
@@ -279,43 +295,49 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 
     private void setPhotoGrapherMentionSpan(List<String> mentionsPhotoGrapherIdIdList) {
 
-        for (String photographerId : mentionsPhotoGrapherIdIdList) {
-            if (getMentionedPhotoGrapher(photographerId) != null) {
-                Photographer photographer = getMentionedPhotoGrapher(photographerId);
-                ///////PhotoGrapher CallBack
-                UserClickableSpan photoGrapherClickableSpan = new UserClickableSpan() {
 
+        /// Append unique identifier to mentioned user to get highLighted later
+        /// And Replacing All Occurrence of photoGrapherId with actualValue
+        for (String photoGrapherId : mentionsPhotoGrapherIdIdList) {
+            Photographer photographer = getMentionedPhotoGrapher(photoGrapherId);
+            if (photographer != null) {
+//                for (String photographerId : mentionsPhotoGrapherIdIdList) {
+                    ///////PhotoGrapher CallBack
+                    UserClickableSpan photoGrapherClickableSpan = new UserClickableSpan() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(getContext(), UserProfileActivity.class);
+                            intent.putExtra(UserProfileActivity.USER_ID, photographer.id);
+                            intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
+                            getContext().startActivity(intent);
+                        }
 
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getContext(), UserProfileActivity.class);
-                        intent.putExtra(UserProfileActivity.USER_ID, photographerId);
-                        intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
-                        getContext().startActivity(intent);
-                    }
+                        @Override
+                        public void updateDrawState(TextPaint ds) {
+                            super.updateDrawState(ds);
+                            ds.setUnderlineText(false);
+                            ds.setColor(Color.BLUE); // specific color for this link
+                        }
+                    };
+                    photoGrapherClickableSpan.userId = photographer.id.toString();
+                    photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
 
-                    @Override
-                    public void updateDrawState(TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setUnderlineText(false);
-                        ds.setColor(Color.BLUE); // specific color for this link
-                    }
-                };
-                photoGrapherClickableSpan.userId = photographerId;
-                photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
+                    String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
 
-                String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
+                    String textBefore=getText().toString();
+                    setText(getText().toString().replaceFirst("@0_" + photoGrapherId, " " + photographer.fullName + USER_MENTION_IDENTIFIER));
+                    String textAfter=getText().toString();
+                    int indexStart= getText().toString().indexOf(replacement);
+                    //new userRange get initialized start from here
+                    MentionRange mentionRange = new MentionRange();
+                    mentionRange.startPoint = getText().toString().indexOf(replacement);
+                    mentionRange.endPoint = mentionRange.startPoint + photographer.fullName.length() + 1;
+                    mentionRange.userClickableSpan = photoGrapherClickableSpan;
+                    mentionsPoint.add(mentionRange);
+                    setText(getText().toString().replaceFirst(replacement, replacement.substring(0, replacement.length() - 1) + " "));
 
+//                }
 
-                MentionRange mentionRange = new MentionRange();
-                mentionRange.startPoint = getText().toString().indexOf(replacement) ;
-                mentionRange.endPoint =  mentionRange.startPoint  + replacement.length();
-                mentionRange.userClickableSpan=photoGrapherClickableSpan;
-                this.mentionsPoint.add(mentionRange);
-                this.allCommentClickableSpanList.add(photoGrapherClickableSpan);
-
-
-                setText(getText().toString().replace(replacement, replacement.substring(0, replacement.length() - 1)));
             }
         }
 
@@ -381,7 +403,6 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                 mentionRange.endPoint = replacement.length() - 1;
 
                 mentionsPoint.add(mentionRange);
-                this.allCommentClickableSpanList.add(businessClickableSpan);
 
                 int tempStart = (replacement.length()) - commentFinalValue.indexOf(replacement);
                 int tempEnd = commentFinalValue.indexOf(replacement);
@@ -398,14 +419,14 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
      //     * @param viewHolder        --->view holder contain comment value
      //     * @param mentionsList      --->replacement user_value flaged with (?*_)
      //     * @param clickableSpanList --->link CallBack
-      */
+     */
     private void makeSpannableLinks() {
 
         SpannableString spannableString = new SpannableString(getText());
         for (int i = 0; i < mentionsPoint.size(); i++) {
-            spannableString.setSpan(mentionsPoint.get(i).userClickableSpan, mentionsPoint.get(i).startPoint , mentionsPoint.get(i).endPoint, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(mentionsPoint.get(i).userClickableSpan, mentionsPoint.get(i).startPoint, mentionsPoint.get(i).endPoint - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        setLinksClickable(true);
+//        setLinksClickable(true);
         setClickable(true);
         setMovementMethod(LinkMovementMethod.getInstance());
 
