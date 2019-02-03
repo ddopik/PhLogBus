@@ -129,14 +129,12 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 
         for (MentionRange mentionRange : mentionsPoint) {
 
-            String start = "";
+            String start="";
             String end = "";
-            String mid = "";
+            String mid;
             if (mentionRange.startPoint == newSelectionPoint) {
                 int newInsertIndex = oldCommentText.lastIndexOf("@", getCursorPosition());
-                if (newInsertIndex == 0) {
-                    start = oldCommentText.substring(0, 1);
-                } else {
+                if (newInsertIndex != 0) {
                     start = oldCommentText.substring(0, newInsertIndex - 1);
                 }
                 mid = "@0_" + mentionRange.userClickableSpan.userId+ " ";
@@ -144,11 +142,8 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                 if (oldCommentText.length() - 1 >= getCursorPosition()) {
                     end = oldCommentText.substring(getCursorPosition()) ;
                 }
-
                 oldCommentText = start + mid + end;
             } else {
-
-
                 start = oldCommentText.substring(0, mentionRange.startPoint);
 
                 mid = "@0_" + mentionRange.userClickableSpan.userId+" ";
@@ -158,14 +153,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             oldCommentText = start + mid + end;
 
         }
-
-
-
-
-
         return oldCommentText;
-
-
 }
 
     public void handleMentionedCommentBody(int mentionedUserPosition, List<MentionedUser> mentionedUserList) {
@@ -237,8 +225,6 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                 }
             }
 
-
-//            replaceMentionedPhotoGrapherFlag(mentionsPhotoGrapherIdIdList);
             mentionsPoint.clear();
             setPhotoGrapherMentionSpan(mentionsPhotoGrapherIdIdList);
 ////////////////////////
@@ -250,9 +236,6 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             setText(getText());
         }
 
-
-//        int finalCursorPosition=cursorPosition+mentionedUserListTemp.get(mentionedUserPosition).mentionedUserName.length();
-//        setSelection(finalCursorPosition);
         dismissDropDown();
         mentionsPoint.clear();
 
@@ -321,13 +304,8 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                     };
                     photoGrapherClickableSpan.userId = photographer.id.toString();
                     photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
-
                     String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
-
-                    String textBefore=getText().toString();
                     setText(getText().toString().replaceFirst("@0_" + photoGrapherId, " " + photographer.fullName + USER_MENTION_IDENTIFIER));
-                    String textAfter=getText().toString();
-                    int indexStart= getText().toString().indexOf(replacement);
                     //new userRange get initialized start from here
                     MentionRange mentionRange = new MentionRange();
                     mentionRange.startPoint = getText().toString().indexOf(replacement);
