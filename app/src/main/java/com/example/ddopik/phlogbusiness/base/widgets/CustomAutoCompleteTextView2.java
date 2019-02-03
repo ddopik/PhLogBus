@@ -1,0 +1,166 @@
+package com.example.ddopik.phlogbusiness.base.widgets;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.util.AttributeSet;
+import android.view.View;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
+import com.example.ddopik.phlogbusiness.base.commonmodel.MentionedUser;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
+import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Abdalla maged
+ * on 03,February,2019
+ */
+public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCompatAutoCompleteTextView {
+
+    public List<Photographer> currentMentionedPhotoGrapherList = new ArrayList<>();
+    public List<Business> currentMentionedBusiness = new ArrayList<>();
+    private final String USER_MENTION_IDENTIFIER = "%";
+
+    public CustomAutoCompleteTextView2(Context context) {
+        super(context);
+
+    }
+
+    public CustomAutoCompleteTextView2(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
+
+    }
+
+    public CustomAutoCompleteTextView2(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected void replaceText(CharSequence text) {
+
+    }
+
+    @Override
+    public void dismissDropDown() {
+        super.dismissDropDown();
+    }
+
+
+    public void handleMentionedCommentBody(int mentionedUserPosition, List<MentionedUser> mentionedUserList) {
+
+
+        //place where we will insert our new mentioned  user
+        int searKeyPosition = getText().toString().lastIndexOf("@", getSelectionStart());
+
+        /**
+         * User has selected "Mentioned user" from mentionList After writing The "@" symbol
+         * now we convert this selection to the predefined scheme in order to send it through Api
+         * then add it to our mentionList for later injecting
+         * **/
+        if (searKeyPosition >= 0) {
+
+            if (mentionedUserList.get(mentionedUserPosition).mentionedType == Constants.UserType.USER_TYPE_PHOTOGRAPHER) {
+                Photographer photographer = new Photographer();
+                photographer.id = mentionedUserList.get(mentionedUserPosition).mentionedUserId;
+                photographer.fullName = mentionedUserList.get(mentionedUserPosition).mentionedUserName;
+                photographer.mentionedImage = mentionedUserList.get(mentionedUserPosition).mentionedImage;
+                currentMentionedPhotoGrapherList.add(photographer);
+                //////////
+
+                setUserSpannable(getPhotoGrapherClicableSpanObj(photographer), searKeyPosition);
+                setSelection(getSelectionStart());
+                dismissDropDown();
+                //////////
+
+
+            } else if (mentionedUserList.get(mentionedUserPosition).mentionedType == Constants.UserType.USER_TYPE_BUSINESS) {
+
+                Business business = new Business();
+                business.id = mentionedUserList.get(mentionedUserPosition).mentionedUserId;
+                business.userName = mentionedUserList.get(mentionedUserPosition).mentionedUserName;
+                business.mentionedImage = mentionedUserList.get(mentionedUserPosition).mentionedImage;
+                currentMentionedBusiness.add(business);
+
+            }
+
+
+        }
+
+
+    }
+
+    private void setUserSpannable(UserClickableSpan userSpannable, int position) {
+
+
+//        SpannableString spannableStringSpace = new SpannableString(" ");
+//        setText( TextUtils.concat(spannableString, spannableStringSpace)  );
+
+        CharSequence charSequence = TextUtils.concat(getText());
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
+
+
+        int startPosition = position;
+        int endPosition = 0;
+
+        if (startPosition <= 0) {
+            startPosition = 0;
+
+        } else {
+            startPosition = position - 1;
+        }
+        endPosition=startPosition+userSpannable.userName.length()-1;
+        spannableStringBuilder.replace(startPosition, endPosition, userSpannable.userName);
+        spannableStringBuilder.setSpan(userSpannable, startPosition , endPosition, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        setClickable(true);
+        setMovementMethod(LinkMovementMethod.getInstance());
+        setText(spannableStringBuilder);
+    }
+
+
+    private UserClickableSpan getPhotoGrapherClicableSpanObj(Photographer photographer) {
+
+        ///////PhotoGrapher CallBack
+        UserClickableSpan photoGrapherClickableSpan = new UserClickableSpan() {
+
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), UserProfileActivity.class);
+                intent.putExtra(UserProfileActivity.USER_ID, photographer.id);
+                intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
+                getContext().startActivity(intent);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+                ds.setColor(Color.BLUE); // specific color for this link
+            }
+        };
+        photoGrapherClickableSpan.userId = photographer.id.toString();
+        photoGrapherClickableSpan.userName = photographer.fullName;
+        photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
+        return photoGrapherClickableSpan;
+    }
+
+    private int getCursorPosition() {
+        int cursorPosition = getSelectionStart();
+        boolean isContainImojis = Utilities.isContainImojis(getText().toString());
+        if (!isContainImojis) {
+            cursorPosition = cursorPosition + 1;
+        }
+        return cursorPosition;
+    }
+
+}

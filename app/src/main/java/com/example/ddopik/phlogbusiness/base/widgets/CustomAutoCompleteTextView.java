@@ -143,10 +143,6 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                     end = oldCommentText.substring(getCursorPosition()+Utilities.getIncrementalCount(mentionRange.userClickableSpan.userName)) ;
                 }
                 oldCommentText = start + mid + end;
-
-
-
-
             } else {
                 start = " "+oldCommentText.substring(0,mentionRange.startPoint);
 
@@ -407,14 +403,16 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
      */
     private void makeSpannableLinks() {
 
+
+
         SpannableString spannableString = new SpannableString(getText());
+        SpannableString spannableStringSpace = new SpannableString(" ");
         for (int i = 0; i < mentionsPoint.size(); i++) {
             spannableString.setSpan(mentionsPoint.get(i).userClickableSpan, mentionsPoint.get(i).startPoint, mentionsPoint.get(i).endPoint - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         setClickable(true);
         setMovementMethod(LinkMovementMethod.getInstance());
-
-        setText(spannableString);
+        setText( TextUtils.concat(spannableString, spannableStringSpace)  );
 
     }
 

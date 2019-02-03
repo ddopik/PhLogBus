@@ -17,7 +17,7 @@ import android.widget.*;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
-import com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView2;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.CommentAdapterPresenter;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.CommentAdapterPresenterImpl;
@@ -495,7 +495,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         CustomTextView commentAuthorName;
         ImageView commentAuthorImg;
         //SendCommentCell
-        CustomAutoCompleteTextView sendCommentImgVal;
+        CustomAutoCompleteTextView2 sendCommentImgVal;
         ImageButton sendCommentBtn;
 
 
