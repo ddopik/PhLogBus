@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.bottomappbar.BottomAppBar;
@@ -20,6 +21,7 @@ import com.example.ddopik.phlogbusiness.ui.accountdetails.view.AccountDetailsFra
 import com.example.ddopik.phlogbusiness.ui.customersupport.view.CustomerSupportFragment;
 import com.example.ddopik.phlogbusiness.ui.downloads.view.DownloadsFragment;
 import com.example.ddopik.phlogbusiness.ui.lightboxphotos.view.LightBoxPhotosFragment;
+import com.example.ddopik.phlogbusiness.ui.splash.SplashActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.view.AccountDetailsFragment;
@@ -263,6 +265,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     addFragment(R.id.view_container, LightBoxPhotosFragment.getInstance(lightBox), LightBoxPhotosFragment.TAG, true);
                     toolbar.setVisibility(View.VISIBLE);
                     toolBarTitle.setText(lightBox.name);
+                    break;
+                case LOGOUT:
+                    Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+                    startActivity(intent);
+                    finish();
                     break;
             }
 

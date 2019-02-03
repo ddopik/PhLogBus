@@ -20,7 +20,7 @@ public interface Constants {
     //////NavigationMangerConst
      enum NavigationHelper{
       CAMPAIGN,PROFILE,HOME,NOTIFICATION, CALL_SUPPORT, EARNING_LIST,LIGHT_BOX,EDIT_PROFILE
-        , DOWNLOADS, LIGHT_BOX_PHOTOS, ACCOUNT_DETAILS
+        , DOWNLOADS, LIGHT_BOX_PHOTOS, LOGOUT, ACCOUNT_DETAILS
     }
 
 

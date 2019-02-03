@@ -2,10 +2,12 @@ package com.example.ddopik.phlogbusiness.ui.profile.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
+
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.profile.view.BrandProfileFragmentView;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -36,5 +38,11 @@ public class BrandProfilePresenterImpl implements BrandProfilePresenter {
                     CustomErrorUtil.Companion.setError(context,TAG,throwable);
                     brandProfileFragmentView.viewBrandProfileProgress(false);
                 });
+    }
+
+    @Override
+    public void logout(Context context) {
+        PrefUtils.setLoginState(context, false);
+        PrefUtils.setBrandToken(context, null);
     }
 }

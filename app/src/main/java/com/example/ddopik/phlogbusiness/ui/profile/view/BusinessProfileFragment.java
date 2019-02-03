@@ -27,6 +27,7 @@ import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
@@ -169,6 +170,8 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
                 accountDetailsBtn.performClick();
                 return true;
             case R.id.item_logout:
+                brandProfilePresenter.logout(getContext());
+                MainActivity.navigationManger.navigate(Constants.NavigationHelper.LOGOUT);
                 return true;
         }
         return false;
