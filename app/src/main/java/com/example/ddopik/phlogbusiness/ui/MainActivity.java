@@ -302,6 +302,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 navigationManger.navigate(PROFILE);
                 break;
             }
+            case LIGHT_BOX_PHOTOS:
+                toolbar.setVisibility(View.GONE);
+                super.onBackPressed();
+                break;
             default: {
                 super.onBackPressed();
             }
