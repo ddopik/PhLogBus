@@ -4,25 +4,27 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:background="@color/white">
+    tools:background="@color/black">
 
     <ExpandableListView
         android:id="@+id/filters_expand"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:cacheColorHint="#00000000"
-        android:childDivider="@android:color/transparent"
+        android:cacheColorHint="@color/black"
+        android:childDivider="@color/black"
         android:divider="@color/black"
+        android:background="@color/black"
         android:dividerHeight="1dp"
-        android:groupIndicator="@drawable/group_indicator"
+        android:groupIndicator="@null"
         android:scrollbars="vertical|horizontal"
         android:visibility="gone"
         tools:visibility="visible"/>
 
     <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
         android:id="@+id/album_search_rv"
+        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:orientation="vertical"
         android:visibility="visible"
         tools:visibility="visible"/>

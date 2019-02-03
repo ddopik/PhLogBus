@@ -2,12 +2,20 @@ package com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.constraint.ConstraintLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.FilterOption;
@@ -51,7 +59,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         CustomTextView txtListChild = convertView.findViewById(R.id.filter_item_val);
-        LinearLayout itemContainer = convertView.findViewById(R.id.item_filter_container);
+        ConstraintLayout itemContainer = convertView.findViewById(R.id.item_filter_container);
         RadioButton filterRadioButton = convertView.findViewById(R.id.filter_select);
         txtListChild.setText(filterOption.displayName);
 
@@ -75,6 +83,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public int getChildrenCount(int groupPosition) {
         return filterList.get(groupPosition).options.size();
 
+    }
+
+    @Override
+    public void onGroupExpanded(int groupPosition) {
+        super.onGroupExpanded(groupPosition);
+        Object o = getGroup(groupPosition);
     }
 
     @Override
@@ -102,9 +116,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_group_header, null);
         }
 
-        CustomTextView lblListHeader = (CustomTextView) convertView.findViewById(R.id.lblListHeader);
+        CustomTextView lblListHeader = convertView.findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+        ImageView arrow = convertView.findViewById(R.id.header_item_down_btn);
+
+        if (isExpanded) {
+            arrow.setBackgroundResource(R.drawable.arrow_up_orange);
+            lblListHeader.setTextColor(convertView.getContext().getResources().getColor(R.color.text_input_color));
+        } else {
+            arrow.setBackgroundResource(R.drawable.down_arrow_white);
+            lblListHeader.setTextColor(convertView.getContext().getResources().getColor(R.color.white));
+        }
 
         return convertView;
     }

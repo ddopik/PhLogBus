@@ -27,6 +27,7 @@ import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
@@ -45,10 +46,11 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelpe
  * Fragment of brand profile (Personal)
  */
 public class BusinessProfileFragment extends BaseFragment implements BrandProfileFragmentView, PopupMenu.OnMenuItemClickListener {
+
     private View mainView;
     private TextView brandName, brandWebSite, brandIndustry;
     private ImageView brandImgIcon;
-    private ImageView bramdProfileCoverImg;
+    private ImageView brandProfileCoverImg;
     private LinearLayout accountDetailsBtn, setupBrandBtn, cartBtn, myLightBoxBtn;
     private ProgressBar brandProfileProgress;
     private ImageButton menuButton;
@@ -81,7 +83,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         brandName = mainView.findViewById(R.id.header_profile_brand_name);
         brandWebSite = mainView.findViewById(R.id.header_profile_brand_website);
         brandIndustry = mainView.findViewById(R.id.brand_profile_industry);
-        bramdProfileCoverImg=mainView.findViewById(R.id.bramd_profile_cover_img);
+        brandProfileCoverImg=mainView.findViewById(R.id.brand_profile_cover_img);
         brandImgIcon = mainView.findViewById(R.id.brand_profile_img_ic);
         accountDetailsBtn = mainView.findViewById(R.id.account_detail_btn);
         setupBrandBtn = mainView.findViewById(R.id.setup_brand_btn);
@@ -127,7 +129,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         this.business = business;
 
         if (business.firstName != null)
-            brandName.setText(business.firstName +""+business.firstName);
+            brandName.setText(String.format("%1$s %2$s", business.firstName, business.lastName));
         if (business.website != null)
             brandWebSite.setText(business.website);
         if (business.industry != null)
@@ -143,7 +145,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
 
         GlideApp.with(this)
                 .load(business.imageCover)
-                .into(bramdProfileCoverImg);
+                .into(brandProfileCoverImg);
 
     }
 
@@ -168,6 +170,8 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
                 accountDetailsBtn.performClick();
                 return true;
             case R.id.item_logout:
+                brandProfilePresenter.logout(getContext());
+                MainActivity.navigationManger.navigate(Constants.NavigationHelper.LOGOUT);
                 return true;
         }
         return false;

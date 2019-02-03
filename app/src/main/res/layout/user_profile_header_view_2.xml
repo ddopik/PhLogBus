@@ -35,11 +35,13 @@
             android:textColor="@color/user_profile_text_header_color"
             app:autoSizeMinTextSize="1sp"
             app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".07"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.050000012"
             app:layout_constraintWidth_percent=".2"
             tools:text="Level #" />
 

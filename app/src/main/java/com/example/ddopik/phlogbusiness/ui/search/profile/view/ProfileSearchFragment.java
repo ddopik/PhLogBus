@@ -32,6 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -120,8 +121,7 @@ public class ProfileSearchFragment extends BaseFragment implements ProfileSearch
             @Override
             public void getPagingControllerCallBack(int page) {
                 if (profileSearch.getText().length() > 0) {
-                    profileSearchPresenter.getProfileSearchList(profileSearch.getText().toString().trim(), page - 1);
-
+                    profileSearchPresenter.getProfileSearchList(profileSearch.getText().toString().trim(), page);
                 }
 
             }
@@ -161,6 +161,12 @@ public class ProfileSearchFragment extends BaseFragment implements ProfileSearch
     public void viewProfileSearchItems(List<Photographer> profileSearchList) {
         this.profileSearchList.addAll(profileSearchList);
         profileSearchAdapter.notifyDataSetChanged();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            List<Integer> ids = this.profileSearchList.stream().map(photographer -> photographer.id).collect(Collectors.toList());
+            Log.e(TAG, ids.toString());
+        }
+        searchResultCount.setVisibility(View.VISIBLE);
+        searchResultCount.setTextColor(getResources().getColor(R.color.white));
         searchResultCount.setText(new StringBuilder().append(this.profileSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
         hideSoftKeyBoard();
     }

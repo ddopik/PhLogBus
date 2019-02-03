@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ddopik.phlogbusiness.R;
@@ -35,6 +36,7 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
     private ImageButton backBtn;
 
     private CustomTextView imagesTab, profileTab, albumTab, filterTab, searchResult;
+    private ImageView filterIcon;
     private FrameLayout searchContainer;
     private OnFilterClicked onFilterClicked;
     private OnSearchTabSelected onSearchTabSelected;
@@ -68,7 +70,7 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
         searchContainer = findViewById(R.id.search_container);
         filterTab = findViewById(R.id.filter_ic);
         searchResult = findViewById(R.id.search_result);
-
+        filterIcon = findViewById(R.id.filter_icon);
 
     }
 

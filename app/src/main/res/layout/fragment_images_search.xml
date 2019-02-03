@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
 
     <ExpandableListView
         android:id="@+id/images_filters_expand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:cacheColorHint="#00000000"
-        android:childDivider="@android:color/transparent"
+        app:layout_constraintVertical_bias="0"
+        android:cacheColorHint="@color/transparent"
+        android:childDivider="@color/black"
+        android:background="@color/black"
         android:divider="@color/black"
         android:dividerHeight="1dp"
-        android:groupIndicator="@drawable/group_indicator"
+        android:groupIndicator="@null"
         android:scrollbars="vertical|horizontal"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
     <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
         android:id="@+id/search_images_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:orientation="vertical" />
 
 
@@ -32,6 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
