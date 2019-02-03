@@ -135,25 +135,33 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             if (mentionRange.startPoint == newSelectionPoint) {
                 int newInsertIndex = oldCommentText.lastIndexOf("@", getCursorPosition());
                 if (newInsertIndex != 0) {
-                    start = oldCommentText.substring(0, newInsertIndex - 1);
+                    start =" "+ oldCommentText.substring(0, newInsertIndex - 1);
                 }
                 mid = "@0_" + mentionRange.userClickableSpan.userId+ " ";
 
-                if (oldCommentText.length() - 1 >= getCursorPosition()) {
-                    end = oldCommentText.substring(getCursorPosition()) ;
+                if (oldCommentText.length() - 1 >= getCursorPosition()+Utilities.getIncrementalCount(mentionRange.userClickableSpan.userName)) {
+                    end = oldCommentText.substring(getCursorPosition()+Utilities.getIncrementalCount(mentionRange.userClickableSpan.userName)) ;
                 }
                 oldCommentText = start + mid + end;
+
+
+
+
             } else {
-                start = oldCommentText.substring(0, mentionRange.startPoint);
+                start = " "+oldCommentText.substring(0,mentionRange.startPoint);
 
                 mid = "@0_" + mentionRange.userClickableSpan.userId+" ";
 
-                end = oldCommentText.substring(mentionRange.startPoint+mid.length());
+                int endRange=mentionRange.startPoint+mentionRange.userClickableSpan.userName.length()+Utilities.getIncrementalCount(mentionRange.userClickableSpan.userName)+1;
+                if (endRange <= oldCommentText.length() ) {
+                    end = oldCommentText.substring(endRange);
+                }
+
             }
             oldCommentText = start + mid + end;
 
         }
-        return oldCommentText;
+        return oldCommentText.trim();
 }
 
     public void handleMentionedCommentBody(int mentionedUserPosition, List<MentionedUser> mentionedUserList) {
@@ -236,6 +244,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             setText(getText());
         }
 
+        setSelection(mentionsPoint.get(mentionsPoint.size()-1).endPoint-1);
         dismissDropDown();
         mentionsPoint.clear();
 
@@ -304,6 +313,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                     };
                     photoGrapherClickableSpan.userId = photographer.id.toString();
                     photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
+                    photoGrapherClickableSpan.userName = photographer.fullName;
                     String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
                     setText(getText().toString().replaceFirst("@0_" + photoGrapherId, " " + photographer.fullName + USER_MENTION_IDENTIFIER));
                     //new userRange get initialized start from here
@@ -312,10 +322,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
                     mentionRange.endPoint = mentionRange.startPoint + photographer.fullName.length() + 1;
                     mentionRange.userClickableSpan = photoGrapherClickableSpan;
                     mentionsPoint.add(mentionRange);
-                    setText(getText().toString().replaceFirst(replacement, replacement.substring(0, replacement.length() - 1) + " "));
-
-//                }
-
+                    setText(getText().toString().replaceFirst(replacement, replacement.substring(0, replacement.length() - 1) ));
             }
         }
 
@@ -404,81 +411,14 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
         for (int i = 0; i < mentionsPoint.size(); i++) {
             spannableString.setSpan(mentionsPoint.get(i).userClickableSpan, mentionsPoint.get(i).startPoint, mentionsPoint.get(i).endPoint - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-//        setLinksClickable(true);
         setClickable(true);
         setMovementMethod(LinkMovementMethod.getInstance());
 
         setText(spannableString);
 
-
-//        SpannableString spannableString = new SpannableString(getText());
-//        for (int i = 0; i < mentionsPoint.size(); i++) {
-//            spannableString.setSpan(mentionsPoint.get(i).userClickableSpan, mentionsPoint.get(i).startPoint + 1, mentionsPoint.get(i).endPoint, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        }
-//        setLinksClickable(true);
-//        setClickable(true);
-//        setMovementMethod(LinkMovementMethod.getInstance());
-//        setText(spannableString);
-
-
-//     setPhotoGrapherMentionSpan();
-
-
-//        for (MentionRange mentionRange : mentionsPoint) {
-//
-//            for (int i = mentionRange.startPoint; i <= mentionRange.endPoint - 1; i++) {
-//                if (mentionRange.endPoint < currentComment.length) {
-//                    currentComment[i] = "";
-//                }
-//
-//            }
-//
-//        }
-
-//        setText("");
-
-
-//        SimpleSpanBuilder ssb = new SimpleSpanBuilder();
-//
-//        for (int i = 0; i < currentComment.length; i++) {
-//
-//            for (int j = 0; j < mentionsPoint.size(); j++) {
-//
-//                if (i == mentionsPoint.get(j).startPoint) {
-//
-//                    ssb.append(mentionsPoint.get(j).userClickableSpan.userName, mentionsPoint.get(j).userClickableSpan);
-//                    break;
-//                }
-//
-//                if (j == mentionsPoint.size() - 1) {
-//                    ssb.append(currentComment[i], new ForegroundColorSpan(Color.WHITE));
-//                }
-//
-//            }
-//
-//        }
-//        setText(ssb.build());
-
-
-//        SpannableString spannableString = new SpannableString(getText());
-//        for (int i = 0; i < mentionsPoint.size(); i++) {
-//            spannableString.setSpan(mentionsPoint.get(i).userClickableSpan, mentionsPoint.get(i).startPoint, mentionsPoint.get(i).endPoint, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        }
-//        setText(newSpannableString);
-
     }
 
-    private SpannableString convertTextToSpan(String text, UserClickableSpan userClickableSpan) {
 
-        SpannableString spannableString = new SpannableString(text);
-
-        if (userClickableSpan != null) {
-            spannableString.setSpan(userClickableSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else {
-            return spannableString;
-        }
-        return spannableString;
-    }
 
     /**
      * use this method to Span multiple Links in one row
