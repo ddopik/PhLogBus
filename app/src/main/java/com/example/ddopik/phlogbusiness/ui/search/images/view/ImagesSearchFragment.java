@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
@@ -34,6 +37,7 @@ import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.jakewharton.rxbinding3.widget.TextViewTextChangeEvent;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
@@ -50,7 +54,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * Created by abdalla_maged on 10/31/2018.
  */
-public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFragmentView,SearchActivity.OnFilterClicked {
+public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFragmentView, SearchActivity.OnFilterClicked {
 
     private String TAG = ImagesSearchFragment.class.getSimpleName();
     private View mainView;
@@ -59,6 +63,9 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     private CustomRecyclerView searchImageRv;
     private ProgressBar searchImageProgress;
     private ExpandableListView filterExpListView;
+    private ConstraintLayout promptView;
+    private ImageView promptImage;
+    private TextView promptText;
     private DisplayMetrics metrics = new DisplayMetrics();
 
     private List<Filter> filterList = new ArrayList<>();
@@ -85,7 +92,6 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         if (onSearchTabSelected != null) {
             initPresenter();
             initViews();
@@ -118,6 +124,11 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         imageSearchAdapter = new AlbumAdapter(getContext(), albumGroupList);
         searchImageRv.setAdapter(imageSearchAdapter);
 
+        promptView = mainView.findViewById(R.id.prompt_view);
+        promptImage = mainView.findViewById(R.id.prompt_image);
+        promptImage.setBackgroundResource(R.drawable.ic_image_search);
+        promptText = mainView.findViewById(R.id.prompt_text);
+        promptText.setText(R.string.type_something_image);
 
         //////// setting ExpandableList indicator to right
         Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -133,11 +144,11 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     private void initListener() {
 
 
-        disposable.add(
-
-                RxTextView.textChangeEvents(imageSearch)
+        disposable.add(RxTextView.textChangeEvents(imageSearch)
                         .skipInitialValue()
+//                        .skipWhile(event -> event.getCount() == 0)
                         .debounce(Constants.QUERY_SEARCH_TIME_OUT, TimeUnit.MILLISECONDS)
+//                        .debounce(event -> event.getCount() > 0 ? Observable.just(event) : Observable.empty())
                         .distinctUntilChanged()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -147,15 +158,15 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         /**
          * visibleThreshold =3 --> is a Special case for ImagesSearchFragment Adapter
          * */
-        pagingController = new PagingController(searchImageRv,3) {
+        pagingController = new PagingController(searchImageRv, 3) {
 
-                      @Override
-                public void getPagingControllerCallBack(int page) {
+            @Override
+            public void getPagingControllerCallBack(int page) {
 
-                    imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, page);
+                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, page);
 
 
-                }
+            }
         };
 
 
@@ -181,7 +192,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
 
         imageSearchAdapter.onAlbumImageClicked = imageSearch -> {
             Intent intent = new Intent(getActivity(), ImageCommentActivity.class);
-            intent.putExtra(ImageCommentActivity.IMAGE_DATA,imageSearch);
+            intent.putExtra(ImageCommentActivity.IMAGE_DATA, imageSearch);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivityForResult(intent, ImageCommentActivity.ImageComment_REQUEST_CODE);
         };
@@ -192,7 +203,11 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             @Override
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
                 // user cleared search get default data
-
+                if (textViewTextChangeEvent.getCount() == 0) {
+                    promptView.setVisibility(View.VISIBLE);
+                    promptText.setText(R.string.type_something_image);
+                    return;
+                }
                 albumGroupList.clear();
                 imageSearchAdapter.notifyDataSetChanged();
                 imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, 0);
@@ -250,7 +265,12 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
         Utilities.hideKeyboard(getActivity());
 
-
+        if (baseImageList.size() == 0) {
+            promptView.setVisibility(View.VISIBLE);
+            promptText.setText(R.string.could_not_find_images);
+        } else {
+            promptView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -279,8 +299,6 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     }
 
 
-
-
     @Override
     public void onFilterIconClicked(List<Filter> filterList) {
         filterExpListView.setVisibility(View.VISIBLE);
@@ -305,14 +323,14 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     }
 
 
-    private int getAlbumImagesCount(){
+    private int getAlbumImagesCount() {
         /**
          * inCase last Album wasn't filled with all 4 photos
          * */
 
         if (albumGroupList.size() > 0) {
             int lastImageCount = ((albumGroupList.get(albumGroupList.size() - 1)).albumGroupList.size());
-          return   ((albumGroupList.size() - 1) * 4) + lastImageCount;
+            return ((albumGroupList.size() - 1) * 4) + lastImageCount;
         } else {
             return 0;
         }
@@ -325,11 +343,11 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             if (requestCode == ImageCommentActivity.ImageComment_REQUEST_CODE && resultCode == RESULT_OK) {
                 BaseImage selectedImage = data.getParcelableExtra(ImageCommentActivity.IMAGE_DATA);
 
-                for (int x=0;x<albumGroupList.size();x++) {
+                for (int x = 0; x < albumGroupList.size(); x++) {
                     for (int i = 0; i < albumGroupList.get(x).albumGroupList.size(); i++) {
-                        AlbumGroup albumGroup=albumGroupList.get(x);
+                        AlbumGroup albumGroup = albumGroupList.get(x);
                         if (selectedImage.id == albumGroup.albumGroupList.get(i).id) {
-                            albumGroup.albumGroupList.get(i).isSaved=selectedImage.isSaved;
+                            albumGroup.albumGroupList.get(i).isSaved = selectedImage.isSaved;
                             imageSearchAdapter.notifyDataSetChanged();
                             albumGroup.albumGroupList.set(i, selectedImage);
                             return;

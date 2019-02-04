@@ -29,6 +29,8 @@
         android:visibility="visible"
         tools:visibility="visible"/>
 
+    <include layout="@layout/search_prompt"/>
+
     <ProgressBar
         android:id="@+id/album_search_filter_progress"
         android:layout_width="wrap_content"

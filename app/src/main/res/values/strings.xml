@@ -248,6 +248,11 @@
     <string name="verfication_request_error">Verification request failed</string>
     <string name="likes_count">%1$d Likes</string>
     <string name="comments_count">%1$d Comment</string>
-
+    <string name="type_something_image">Type something in the search bar to search images.</string>
+    <string name="could_not_find_images">Sorry. We didn\'t find images. Try typing another word.</string>
+    <string name="type_something_profile">Type something in the search bar to search profiles.</string>
+    <string name="could_not_find_profiles">Sorry. We didn\'t find profiles. Try typing another word.</string>
+    <string name="type_something_album">Type something in the search bar to search albums.</string>
+    <string name="could_not_find_albums">Sorry. We didn\'t find albums. Try typing another word.</string>
 
 </resources>

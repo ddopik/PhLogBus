@@ -37,6 +37,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:orientation="vertical" />
 
+    <include layout="@layout/search_prompt"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"/>
 
     <ProgressBar
         android:id="@+id/search_images_progress_bar"
