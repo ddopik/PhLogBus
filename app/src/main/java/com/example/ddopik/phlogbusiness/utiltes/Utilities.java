@@ -20,7 +20,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import com.example.ddopik.phlogbusiness.R;
 
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -407,6 +406,12 @@ public class Utilities {
 
         }
         return textOfTextView.substring(startpositionofword,endpositionofword);
+
+    }
+
+    public static int getIncrementalCount(String text){
+        int count = text.length() - text.replace(" ", "").length();
+        return  count;
 
     }
 }

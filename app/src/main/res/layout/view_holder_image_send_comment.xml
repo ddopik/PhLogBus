@@ -10,7 +10,7 @@
 			android:orientation="horizontal"
 			android:padding="@dimen/dp24">
 		
-		<com.example.ddopik.phlogbusiness.base.commonmodel.CustomAutoCompleteTextView
+		<com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView2
 				android:id="@+id/img_send_comment_val"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"

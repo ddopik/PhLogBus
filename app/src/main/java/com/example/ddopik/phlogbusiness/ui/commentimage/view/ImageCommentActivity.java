@@ -111,6 +111,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
                 if (comment.length() > 0) {
                     imageCommentActivityPresenter.submitComment(String.valueOf(previewImage.id), comment);
+
                 } else {
                     showToast(getResources().getString(R.string.comment_cant_not_be_null));
                 }
@@ -196,7 +197,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     }
 
     @Override
-    public void onImagedAddedToCart(boolean state) {
+    public void viewOnImagedAddedToCart(boolean state) {
 
         if (state) {
             previewImage.isCart = true;
@@ -205,7 +206,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     }
 
     @Override
-    public void onImageRate(BaseImage baseImage) {
+    public void viewOnImageRate(BaseImage baseImage) {
         if (baseImage != null) {
             previewImage.rate = baseImage.rate;
             previewImage.isRated = baseImage.isRated;
