@@ -49,7 +49,7 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(submitImageCommentResponse -> {
                     imageCommentActivityView.viewMessage("Comment Submitted");
-                    imageCommentActivityView.onImageCommented(submitImageCommentResponse.data.comment);
+                    imageCommentActivityView.onImageCommented(submitImageCommentResponse.data);
                     imageCommentActivityView.viewImageProgress(false);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);

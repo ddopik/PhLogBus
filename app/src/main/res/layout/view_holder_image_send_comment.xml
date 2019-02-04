@@ -2,19 +2,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			 android:layout_width="match_parent"
 			 android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto">
-	
-	<LinearLayout
+
+	<RelativeLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="bottom"
+
 			android:orientation="horizontal"
 			android:padding="@dimen/dp24">
 		
 		<com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView2
 				android:id="@+id/img_send_comment_val"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_weight="2"
+ 				android:layout_toStartOf="@+id/send_comment_btn"
 				android:imeOptions="actionDone"
  				android:textColor="@color/white"
 				android:background="@color/black"
@@ -24,16 +25,16 @@
 
 		<ImageButton
 				android:id="@+id/send_comment_btn"
-				android:layout_width="@dimen/ic_size_s"
-				android:layout_height="38dp"
-				android:layout_weight="1"
+				android:layout_width="@dimen/dp45"
+				android:layout_height="@dimen/dp45"
+				android:layout_alignParentEnd="true"
 				android:background="@drawable/circle_blue"
 				android:text="@string/send"
 				app:srcCompat="@drawable/ic_add_comment"
 				android:scaleType="centerInside"
 				android:textColor="@color/white"/>
-	
-	
-	</LinearLayout>
+
+
+	</RelativeLayout>
 
 </FrameLayout>

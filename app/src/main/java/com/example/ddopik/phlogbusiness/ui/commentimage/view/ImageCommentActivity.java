@@ -3,6 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -17,6 +18,7 @@ import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
 import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityPresenter;
 
@@ -55,6 +57,37 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             initPresenter();
             initView();
             initListener();
+        }
+
+
+        int arr[] = new int[5];
+
+        arr[0] = 0;
+
+        switch (arr[0]) {
+
+            case 0: {
+                Log.e("Oraooo","-----> 0   is true");
+                break;
+            }
+            case 1 :
+            {
+                Log.e("Oraooo","-----> 1   is true");
+                break;
+            }
+            case 2 :
+            {
+                Log.e("Oraooo","-----> 2   is true");
+                break;
+            }
+            case 3 :
+            {
+                Log.e("Oraooo","-----> 3   is true");
+                break;
+            }
+            default:{
+                Log.e("Oraooo","-----> default");
+            }
         }
 
     }
@@ -181,17 +214,57 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
     }
 
+    private void updateMentionedUserList(SubmitImageCommentData submitImageCommentData) {
+
+
+        if (submitImageCommentData.mentions.business != null) {
+
+            for (Business newBusiness : submitImageCommentData.mentions.business) {
+                for (int i = 0; i < mentions.business.size(); i++) {
+                    if (mentions.business.get(i).id.equals(newBusiness.id)) {
+                        continue;
+                    }
+                    if (i == (mentions.business.size() - 1) && !mentions.business.get(i).id.equals(newBusiness.id))
+                        mentions.business.add(newBusiness);
+                }
+            }
+
+
+        }
+
+        if (submitImageCommentData.mentions.photographers != null) {
+
+            for (Photographer newPhotographer : submitImageCommentData.mentions.photographers) {
+                for (int i = 0; i < mentions.photographers.size(); i++) {
+                    if (mentions.photographers.get(i).id.equals(newPhotographer.id)) {
+                        continue;
+                    }
+                    if (i == (mentions.photographers.size() - 1) && !mentions.photographers.get(i).id.equals(newPhotographer.id))
+                        mentions.photographers.add(newPhotographer);
+                }
+            }
+
+
+        }
+
+
+        commentsAdapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public void onImageLiked(BaseImage baseImage) {
         previewImage = baseImage;
         commentsAdapter.notifyDataSetChanged();
+
+
     }
 
     @Override
-    public void onImageCommented(Comment comment) {
+    public void onImageCommented(SubmitImageCommentData commentData) {
         // (1) is A default value to view AddComment layout in case there is now Comments
-        this.commentList.add(1, comment);
+        this.commentList.add(1, commentData.comment);
+        updateMentionedUserList(commentData);
         commentsAdapter.notifyDataSetChanged();
 
     }

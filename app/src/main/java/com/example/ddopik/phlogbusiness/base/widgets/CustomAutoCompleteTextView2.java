@@ -15,7 +15,6 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.MentionedUser;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
-import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,15 +98,8 @@ public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCo
     }
 
     private void setUserSpannable(UserClickableSpan userSpannable, int position, int oldSearchKeysCount) {
-
-
-//        SpannableString spannableStringSpace = new SpannableString(" ");
-//        setText( TextUtils.concat(spannableString, spannableStringSpace)  );
-
         CharSequence charSequence = TextUtils.concat(getText());
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
-
-
         int startPosition = position ;
 
         if (startPosition <= 0) {
@@ -183,13 +175,61 @@ public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCo
         return photoGrapherClickableSpan;
     }
 
-    private int getCursorPosition() {
-        int cursorPosition = getSelectionStart();
-        boolean isContainImojis = Utilities.isContainImojis(getText().toString());
-        if (!isContainImojis) {
-            cursorPosition = cursorPosition + 1;
+    public String prepareCommentToSend() {
+
+        UserClickableSpan[] clickableSpansList = getText().getSpans(0, getText().length(), UserClickableSpan.class);
+
+        String sendCommentVal = getText().toString();
+        String newCommentValue = "";
+
+        UserClickableSpan[] clickableSpansListSorted = sortMentionListRanges(clickableSpansList);
+
+        for (int i = 0; i < clickableSpansListSorted.length; i++) {
+            if (clickableSpansListSorted[i].userType.equals(Constants.UserType.USER_TYPE_PHOTOGRAPHER)) {
+                int startPoint = getText().getSpanStart(clickableSpansListSorted[i]);
+                int endPoint = getText().getSpanEnd(clickableSpansListSorted[i]);
+
+                String before;
+                if (i == 0) {
+                    before = sendCommentVal.substring(0, startPoint);
+                } else {
+                    int previousSegmentEndPoint = getText().getSpanEnd(clickableSpansListSorted[i - 1]);
+                    before = sendCommentVal.substring(previousSegmentEndPoint, startPoint);
+                }
+                String mentionedId;
+                if (sendCommentVal.substring(endPoint + 1).equals(" ") && (endPoint) < sendCommentVal.length()) {
+                    mentionedId = "@0_" + clickableSpansListSorted[i].userId;
+                } else {
+                    mentionedId = "@0_" + clickableSpansListSorted[i].userId + " ";
+                }
+                newCommentValue = newCommentValue + before + mentionedId;
+            }
+
         }
-        return cursorPosition;
+
+        return newCommentValue;
     }
 
+    private UserClickableSpan[] sortMentionListRanges(UserClickableSpan[] clickableSpansList) {
+
+
+        int len = clickableSpansList.length;
+        for (int i = 0; i < clickableSpansList.length; i++) {
+            for (int j = 0; j < clickableSpansList.length - 1; j++) {
+                UserClickableSpan userClickableSpansTemp;
+//                if ((j + 1) >= clickableSpansList.length) {
+//                    break;
+//                }
+                if (getText().getSpanStart(clickableSpansList[j]) > getText().getSpanStart(clickableSpansList[j + 1])) {
+                    userClickableSpansTemp = clickableSpansList[j];
+                    clickableSpansList[j] = clickableSpansList[j + 1];
+                    clickableSpansList[j + 1] = userClickableSpansTemp;
+
+                }
+
+
+            }
+        }
+        return clickableSpansList;
+    }
 }
