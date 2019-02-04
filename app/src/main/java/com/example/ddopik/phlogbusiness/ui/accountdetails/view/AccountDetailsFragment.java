@@ -8,13 +8,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -53,6 +58,10 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
     private EditText firstNameET, lastNameET, phoneET, emailET, passwordET;
     private ProgressBar loading;
     private Button saveButton;
+    private Toolbar toolbar;
+    private TextView title;
+    private ImageButton backButton;
+    private boolean detailsChanged;
 
     public AccountDetailsFragment() {
         // Required empty public constructor
@@ -125,6 +134,9 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
         loading = mainView.findViewById(R.id.loading);
         loading.setVisibility(View.GONE);
         saveButton = mainView.findViewById(R.id.save_button);
+        backButton = mainView.findViewById(R.id.back_btn);
+        title = mainView.findViewById(R.id.toolbar_title);
+        title.setText(R.string.profile);
     }
 
     private void setListeners() {
@@ -151,6 +163,36 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
                     Toast.makeText(getContext(), result.errorMessage, Toast.LENGTH_LONG).show();
             }
         });
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().equals(model.getFirstName())
+                        || s.toString().equals(model.getLastName())
+                        || s.toString().equals(model.getEmail())
+                        || s.toString().equals(model.getPhone())
+                        || s.toString().equals(model.getPassword())
+                        || s.toString().isEmpty())
+                    return;
+                detailsChanged = true;
+                saveButton.setVisibility(View.VISIBLE);
+            }
+        };
+
+        firstNameET.addTextChangedListener(textWatcher);
+        lastNameET.addTextChangedListener(textWatcher);
+        phoneET.addTextChangedListener(textWatcher);
+        emailET.addTextChangedListener(textWatcher);
+        passwordET.addTextChangedListener(textWatcher);
     }
 
 
@@ -209,6 +251,7 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            detailsChanged = true;
             switch (whichImage) {
                 case COVER:
                     model.setCoverImage(ImagePicker.getFirstImageOrNull(data).getPath());

@@ -7,6 +7,34 @@
     android:background="@color/gray700"
     tools:context=".ui.accountdetails.view.AccountDetailsFragment">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/black"
+        app:contentInsetStart="0dp"
+        app:contentInsetEnd="0dp">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/phlog_app_bar" />
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:visibility="invisible"
+                android:background="@color/transparent"
+                android:text="@string/action_save"
+                android:textColor="@color/white" />
+
+        </FrameLayout>
+    </android.support.design.widget.AppBarLayout>
+
     <ImageView
         android:id="@+id/cover_image_image_view"
         android:layout_width="0dp"
@@ -16,18 +44,18 @@
         app:layout_constraintDimensionRatio="1:.7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <ImageView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:background="@color/white"
         android:alpha=".2"
+        android:background="@color/white"
+        android:scaleType="centerCrop"
         app:layout_constraintDimensionRatio="1:.7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <ImageView
         android:layout_width="0dp"
@@ -61,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".75" />
+        app:layout_constraintGuide_percent=".8" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
@@ -255,20 +283,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_image_image_view" />
 
-    <Button
-        android:id="@+id/save_button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/text_input_color"
-        android:text="@string/save"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".08"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
-        app:layout_constraintVertical_bias="0.100000024"
-        app:layout_constraintWidth_percent=".75" />
+    <!--<Button-->
+        <!--android:id="@+id/save_button"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:background="@color/text_input_color"-->
+        <!--android:text="@string/save"-->
+        <!--android:textColor="@color/white"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHeight_percent=".08"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="@+id/guideline"-->
+        <!--app:layout_constraintVertical_bias="0.100000024"-->
+        <!--app:layout_constraintWidth_percent=".75" />-->
 
 
 </android.support.constraint.ConstraintLayout>
