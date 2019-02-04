@@ -28,12 +28,15 @@ public class DownloadsPresenterImpl implements DownloadsPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void getDownloads(Context context) {
+        view.setLoading(true);
         BaseNetworkApi.getDownloads(PrefUtils.getBrandToken(context))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
+                    view.setLoading(false);
                     view.setDownloads(response.getData());
                 }, throwable -> {
+                    view.setLoading(false);
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
