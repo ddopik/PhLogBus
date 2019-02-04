@@ -265,7 +265,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
         Utilities.hideKeyboard(getActivity());
 
-        if (baseImageList.size() == 0) {
+        if (albumGroupList.size() == 0) {
             promptView.setVisibility(View.VISIBLE);
             promptText.setText(R.string.could_not_find_images);
         } else {
