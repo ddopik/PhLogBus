@@ -303,6 +303,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     public void onFilterIconClicked(List<Filter> filterList) {
         filterExpListView.setVisibility(View.VISIBLE);
         searchImageRv.setVisibility(View.GONE);
+        promptView.setVisibility(View.GONE);
 
         if (this.filterList.size() == 0) {
             this.filterList.addAll(filterList);

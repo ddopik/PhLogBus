@@ -288,6 +288,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     public void onFilterIconClicked(List<Filter> filterList) {
         filterExpListView.setVisibility(View.VISIBLE);
         albumSearchRv.setVisibility(View.GONE);
+        promptView.setVisibility(View.GONE);
 
         if (this.filterList.size() == 0) {
             this.filterList.addAll(filterList);
