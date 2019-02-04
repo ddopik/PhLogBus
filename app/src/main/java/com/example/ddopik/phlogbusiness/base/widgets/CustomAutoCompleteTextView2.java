@@ -88,7 +88,7 @@ public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCo
                 business.userName = mentionedUserList.get(mentionedUserPosition).mentionedUserName;
                 business.mentionedImage = mentionedUserList.get(mentionedUserPosition).mentionedImage;
                 currentMentionedBusiness.add(business);
-                setUserSpannable(getPhotoGrapherClicableSpanObj(business), searKeyPosition, searchKeysCount);
+                setUserSpannable(getBusinessClicableSpanObj(business), searKeyPosition, searchKeysCount);
 
             }
 
@@ -152,6 +152,33 @@ public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCo
         };
         photoGrapherClickableSpan.userId = photographer.id.toString();
         photoGrapherClickableSpan.userName = photographer.fullName + " ";
+        photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
+        return photoGrapherClickableSpan;
+    }
+
+    private UserClickableSpan getBusinessClicableSpanObj(Business business) {
+
+        ///////PhotoGrapher CallBack
+        UserClickableSpan photoGrapherClickableSpan = new UserClickableSpan() {
+
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), UserProfileActivity.class);
+                intent.putExtra(UserProfileActivity.USER_ID, business.id);
+                intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_BUSINESS);
+                getContext().startActivity(intent);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+                ds.setColor(Color.MAGENTA); // specific color for this link
+            }
+        };
+        photoGrapherClickableSpan.userId = business.id.toString();
+        photoGrapherClickableSpan.userName = business.firstName+" "+business.lastName + " ";
         photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
         return photoGrapherClickableSpan;
     }
