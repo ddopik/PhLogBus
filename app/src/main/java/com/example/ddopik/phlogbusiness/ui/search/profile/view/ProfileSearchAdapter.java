@@ -61,7 +61,7 @@ public class ProfileSearchAdapter extends RecyclerView.Adapter<ProfileSearchAdap
                 profileSearchViewHolder.profileFullName.setText(profileList.get(i).fullName);
             if (profileList.get(i).userName != null)
                 profileSearchViewHolder.profileUserName.setText(profileList.get(i).userName);
-            if (profileList.get(i).followingCount != null)
+            if (profileList.get(i).followersCount != null)
                 profileSearchViewHolder.profileFollowersCount.setText(new StringBuilder().append(profileList.get(i).followersCount).append(" ").append(context.getResources().getString(R.string.followers)).toString());
             if (profileList.get(i).followingCount != null)
                 profileSearchViewHolder.profileCountFollowingCount.setText(new StringBuilder().append(profileList.get(i).followingCount).append(" ").append(context.getResources().getString(R.string.following)).toString());

@@ -244,7 +244,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         Utilities.hideKeyboard(getActivity());
 
 
-        if (albumSearchList.size() == 0) {
+        if (this.albumSearchList.size() == 0) {
             promptView.setVisibility(View.VISIBLE);
             promptText.setText(R.string.could_not_find_albums);
         } else {

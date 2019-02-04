@@ -186,7 +186,7 @@ public class ProfileSearchFragment extends BaseFragment implements ProfileSearch
 
 
 
-        if (profileSearchList.size() == 0) {
+        if (this.profileSearchList.size() == 0) {
             promptView.setVisibility(View.VISIBLE);
             promptText.setText(R.string.could_not_find_profiles);
         } else {

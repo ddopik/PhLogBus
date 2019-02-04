@@ -74,7 +74,7 @@ public class Photographer extends MentionedUser implements  Parcelable  {
     @SerializedName("followers_count")
     @Expose
     public Integer followersCount;
-    @SerializedName("following_count")
+    @SerializedName("followings_count")
     @Expose
     public Integer followingCount;
     @SerializedName("photos_count")
@@ -84,7 +84,7 @@ public class Photographer extends MentionedUser implements  Parcelable  {
 
     @SerializedName("country")
     @Expose
-    public transient String country;
+    public transient Country country;
     @SerializedName("rate")
     @Expose
     public float rate;
@@ -122,7 +122,7 @@ public class Photographer extends MentionedUser implements  Parcelable  {
         followersCount = in.readByte() == 0x00 ? null : in.readInt();
         followingCount = in.readByte() == 0x00 ? null : in.readInt();
         photosCount = in.readByte() == 0x00 ? null : in.readInt();
-        country = in.readString();
+//        country = in.readString();
         rate = in.readFloat();
         level = in.readString();
         if (in.readByte() == 0x01) {
@@ -190,7 +190,7 @@ public class Photographer extends MentionedUser implements  Parcelable  {
             dest.writeByte((byte) (0x01));
             dest.writeInt(photosCount);
         }
-        dest.writeString(country);
+//        dest.writeString(country);
         dest.writeFloat(rate);
         dest.writeString(level);
         if (earnings == null) {
