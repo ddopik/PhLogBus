@@ -28,7 +28,6 @@ public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCo
 
     public List<Photographer> currentMentionedPhotoGrapherList = new ArrayList<>();
     public List<Business> currentMentionedBusiness = new ArrayList<>();
-    private final String USER_MENTION_IDENTIFIER = "%";
 
     public CustomAutoCompleteTextView2(Context context) {
         super(context);
@@ -61,7 +60,7 @@ public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCo
 
         //place where we will insert our new mentioned  user
         int searKeyPosition = getText().toString().lastIndexOf("@", getSelectionStart());
-
+        int searchKeysCount = getSelectionStart() - searKeyPosition;
         /**
          * User has selected "Mentioned user" from mentionList After writing The "@" symbol
          * now we convert this selection to the predefined scheme in order to send it through Api
@@ -77,9 +76,8 @@ public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCo
                 currentMentionedPhotoGrapherList.add(photographer);
                 //////////
 
-                setUserSpannable(getPhotoGrapherClicableSpanObj(photographer), searKeyPosition);
-                setSelection(getSelectionStart());
-                dismissDropDown();
+                setUserSpannable(getPhotoGrapherClicableSpanObj(photographer), searKeyPosition, searchKeysCount);
+
                 //////////
 
 
@@ -90,6 +88,7 @@ public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCo
                 business.userName = mentionedUserList.get(mentionedUserPosition).mentionedUserName;
                 business.mentionedImage = mentionedUserList.get(mentionedUserPosition).mentionedImage;
                 currentMentionedBusiness.add(business);
+                setUserSpannable(getPhotoGrapherClicableSpanObj(business), searKeyPosition, searchKeysCount);
 
             }
 
@@ -99,7 +98,7 @@ public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCo
 
     }
 
-    private void setUserSpannable(UserClickableSpan userSpannable, int position) {
+    private void setUserSpannable(UserClickableSpan userSpannable, int position, int oldSearchKeysCount) {
 
 
 //        SpannableString spannableStringSpace = new SpannableString(" ");
@@ -109,23 +108,26 @@ public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCo
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
 
 
-        int startPosition = position;
-        int endPosition = 0;
+        int startPosition = position ;
 
         if (startPosition <= 0) {
             startPosition = 0;
-
-        } else {
-            startPosition = position - 1;
         }
-        endPosition=startPosition+userSpannable.userName.length()-1;
-        spannableStringBuilder.replace(startPosition, endPosition, userSpannable.userName);
-        spannableStringBuilder.setSpan(userSpannable, startPosition , endPosition, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int endPosition = startPosition + userSpannable.userName.length() - 1;
+        spannableStringBuilder.insert(startPosition, userSpannable.userName);
+        spannableStringBuilder.setSpan(userSpannable, startPosition, endPosition , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableStringBuilder.delete(endPosition+1, endPosition+oldSearchKeysCount+1);
         setClickable(true);
         setMovementMethod(LinkMovementMethod.getInstance());
         setText(spannableStringBuilder);
+
+        setSelection(endPosition);
+        dismissDropDown();
     }
 
+    private void removeSearchQuery() {
+
+    }
 
     private UserClickableSpan getPhotoGrapherClicableSpanObj(Photographer photographer) {
 
@@ -149,7 +151,7 @@ public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCo
             }
         };
         photoGrapherClickableSpan.userId = photographer.id.toString();
-        photoGrapherClickableSpan.userName = photographer.fullName;
+        photoGrapherClickableSpan.userName = photographer.fullName + " ";
         photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
         return photoGrapherClickableSpan;
     }
