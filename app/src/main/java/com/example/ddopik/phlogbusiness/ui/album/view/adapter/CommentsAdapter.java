@@ -201,12 +201,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         } else if (getItemViewType(i) == ADD_COMMENT) {
 
 
-            if (commentAdapterAction != null) {
-                commentViewHolder.sendCommentBtn.setOnClickListener(v -> {
-                    commentAdapterAction.onSubmitComment(commentViewHolder.sendCommentImgVal.getText().toString());
-                    commentViewHolder.sendCommentImgVal.getText().clear();
-                });
-            }
+
 
 
             mentionsAutoCompleteAdapter = new MentionsAutoCompleteAdapter(context, R.layout.view_holder_mentioned_user, mentionedUserList);
@@ -258,7 +253,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 );
             }
 
-
+            if (commentAdapterAction != null) {
+                commentViewHolder.sendCommentBtn.setOnClickListener(v -> {
+                    String comment=commentViewHolder.sendCommentImgVal.prepareCommentToSend();
+                    commentAdapterAction.onSubmitComment(comment);
+                    commentViewHolder.sendCommentImgVal.getText().clear();
+                });
+            }
             mentionsAutoCompleteAdapter.onUserClicked = socialUser -> {
             };
 

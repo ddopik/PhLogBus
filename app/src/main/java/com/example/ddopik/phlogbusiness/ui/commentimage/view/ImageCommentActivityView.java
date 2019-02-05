@@ -2,8 +2,8 @@ package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 
 
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Comment;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentData;
 
 /**
  * Created by abdalla_maged on 11/6/2018.
@@ -14,7 +14,7 @@ public interface ImageCommentActivityView {
     void viewPhotoComment(ImageCommentsData imageCommentsData);
 
     //    void viewHeaderImageProgress(boolean state);
-    void onImageCommented(Comment comment);
+    void onImageCommented(SubmitImageCommentData commentData);
 
     void onImageLiked(BaseImage baseImage);
 
