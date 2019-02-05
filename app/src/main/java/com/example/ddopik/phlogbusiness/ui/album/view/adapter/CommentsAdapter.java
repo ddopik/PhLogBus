@@ -46,8 +46,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     private Context context;
     private List<Comment> commentList;
     private Mentions mentions;
-    private List<Photographer> photographerList = new ArrayList<>();
-    private List<Business> businessList = new ArrayList<>();
+
     private List<MentionedUser> mentionedUserList = new ArrayList<>();
     private MentionsAutoCompleteAdapter mentionsAutoCompleteAdapter;
     private CommentAdapterPresenter commentAdapterPresenter;

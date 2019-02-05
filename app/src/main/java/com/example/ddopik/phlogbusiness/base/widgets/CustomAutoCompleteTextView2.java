@@ -217,9 +217,6 @@ public class CustomAutoCompleteTextView2 extends android.support.v7.widget.AppCo
         for (int i = 0; i < clickableSpansList.length; i++) {
             for (int j = 0; j < clickableSpansList.length - 1; j++) {
                 UserClickableSpan userClickableSpansTemp;
-//                if ((j + 1) >= clickableSpansList.length) {
-//                    break;
-//                }
                 if (getText().getSpanStart(clickableSpansList[j]) > getText().getSpanStart(clickableSpansList[j + 1])) {
                     userClickableSpansTemp = clickableSpansList[j];
                     clickableSpansList[j] = clickableSpansList[j + 1];
