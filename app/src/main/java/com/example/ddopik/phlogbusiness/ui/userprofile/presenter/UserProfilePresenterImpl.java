@@ -35,7 +35,7 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
                         userProfileActivityView.viewUserProfileUserName(userProfileData.getUserName());
                         userProfileActivityView.viewUserProfileFullName(userProfileData.getFullName());
                         userProfileActivityView.viewUserProfileRating(userProfileData.getRate());
-                        userProfileActivityView.viewUserProfileLevel("000");
+                        userProfileActivityView.viewUserProfileLevel(userProfileData.getLevel());
                         userProfileActivityView.viewUserProfileProfileImg(userProfileData.getImageProfile());
 //                        userProfileActivityView.setUserCoverImg(userProfileData.) // TODO: where's the user cover image??
                         userProfileActivityView.viewUserProfileFollowersCount(""+userProfileData.getFollowersCount());
