@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.*;
+
+import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
@@ -154,8 +156,8 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     public void viewUserProfileProfileImg(String userImg) {
         GlideApp.with(this)
                 .load(userImg)
+                .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.default_user_pic)
-                .centerCrop()
                 .into(userProfileImg);
     }
 
