@@ -3,7 +3,6 @@ package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -60,35 +59,9 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         }
 
 
-        int arr[] = new int[5];
 
-        arr[0] = 0;
 
-        switch (arr[0]) {
 
-            case 0: {
-                Log.e("Oraooo","-----> 0   is true");
-                break;
-            }
-            case 1 :
-            {
-                Log.e("Oraooo","-----> 1   is true");
-                break;
-            }
-            case 2 :
-            {
-                Log.e("Oraooo","-----> 2   is true");
-                break;
-            }
-            case 3 :
-            {
-                Log.e("Oraooo","-----> 3   is true");
-                break;
-            }
-            default:{
-                Log.e("Oraooo","-----> default");
-            }
-        }
 
     }
 
