@@ -9,9 +9,10 @@
     android:background="@color/white"
     app:cardCornerRadius="@dimen/item_card_corner_radius"
     app:cardElevation="@dimen/item_card_elevation">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/profile_container"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/profile_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/following_card_height"
         android:orientation="horizontal">
@@ -20,9 +21,9 @@
             android:id="@+id/profile_img"
             android:layout_width="@dimen/icon_view_holder_size_m"
             android:layout_height="@dimen/icon_view_holder_size_m"
+            android:layout_gravity="center"
             android:layout_marginStart="@dimen/dp12"
             android:layout_marginEnd="@dimen/dp12"
-            android:layout_gravity="center"
             android:src="@drawable/phlog_logo" />
 
         <LinearLayout
@@ -30,14 +31,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:orientation="vertical"
-            android:gravity="center|start">
+            android:gravity="center|start"
+            android:orientation="vertical">
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/profile_full_name"
-                android:fontFamily="@font/arial_rounded_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/arial_rounded_font"
                 android:textSize="@dimen/text_medium_s"
                 tools:text="full name here" />
 
@@ -45,10 +46,10 @@
                 android:id="@+id/profile_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/font_normal"
                 android:layout_marginTop="@dimen/dp4"
                 android:layout_marginBottom="@dimen/dp4"
                 android:textColor="@color/black"
+                android:textSize="@dimen/font_normal"
                 tools:text="user name here" />
 
             <LinearLayout
@@ -60,8 +61,11 @@
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/profile_followers_count"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:gravity="center"
+                    android:layout_weight=".3"
                     android:textSize="@dimen/font_small"
                     tools:text="125 followers" />
 
@@ -73,8 +77,11 @@
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/profile_following_count"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:lines="1"
                     android:textSize="@dimen/font_small"
                     tools:text="176 k following" />
 
@@ -87,8 +94,11 @@
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/profile_photos_count"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:lines="1"
                     android:textSize="@dimen/font_small"
                     tools:text="202 photo" />
 

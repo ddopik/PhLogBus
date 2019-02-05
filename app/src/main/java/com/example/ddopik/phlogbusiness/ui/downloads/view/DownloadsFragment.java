@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.ddopik.phlogbusiness.R;
@@ -48,6 +49,7 @@ public class DownloadsFragment extends BaseFragment implements DownloadsView, Ea
     private TextView itemsNumberTV;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private ProgressBar loadiing;
 
     private Intent intent;
     private Messenger messenger;
@@ -115,6 +117,7 @@ public class DownloadsFragment extends BaseFragment implements DownloadsView, Ea
         tabLayout = mainView.findViewById(R.id.tab_layout);
         viewPager = mainView.findViewById(R.id.view_pager);
         tabLayout.setupWithViewPager(viewPager);
+        loadiing = mainView.findViewById(R.id.loading);
     }
 
     private void setListeners() {
@@ -194,6 +197,13 @@ public class DownloadsFragment extends BaseFragment implements DownloadsView, Ea
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             new AppSettingsDialog.Builder(this).build().show();
         }
+    }
+
+    @Override
+    public void setLoading(boolean loading) {
+        if (loading)
+            this.loadiing.setVisibility(View.VISIBLE);
+        else this.loadiing.setVisibility(View.GONE);
     }
 
     public interface ChildFragmentActionListener {

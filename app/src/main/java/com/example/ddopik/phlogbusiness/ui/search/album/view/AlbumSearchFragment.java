@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
@@ -68,6 +70,11 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     private CompositeDisposable disposable = new CompositeDisposable();
     private PagingController pagingController;
     private OnSearchTabSelected onSearchTabSelected;
+
+
+    private ConstraintLayout promptView;
+    private ImageView promptImage;
+    private TextView promptText;
 
     public static AlbumSearchFragment getInstance() {
         AlbumSearchFragment albumSearchFragment = new AlbumSearchFragment();
@@ -128,6 +135,12 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         ///////////
         searchResultCount.setText(new StringBuilder().append(this.albumSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
+
+        promptView = mainView.findViewById(R.id.prompt_view);
+        promptImage = mainView.findViewById(R.id.prompt_image);
+        promptImage.setBackgroundResource(R.drawable.ic_album_search);
+        promptText = mainView.findViewById(R.id.prompt_text);
+        promptText.setText(R.string.type_something_album);
     }
 
     private void initListener() {
@@ -188,6 +201,12 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         return new DisposableObserver<TextViewTextChangeEvent>() {
             @Override
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
+
+                if (textViewTextChangeEvent.getCount() == 0) {
+                    promptView.setVisibility(View.VISIBLE);
+                    promptText.setText(R.string.type_something_album);
+                    return;
+                }
                 // user cleared search get default data
                 albumSearchList.clear();
                 albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList,0);
@@ -223,6 +242,14 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         searchResultCount.setText(new StringBuilder().append(this.albumSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
         Utilities.hideKeyboard(getActivity());
+
+
+        if (this.albumSearchList.size() == 0) {
+            promptView.setVisibility(View.VISIBLE);
+            promptText.setText(R.string.could_not_find_albums);
+        } else {
+            promptView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -261,6 +288,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     public void onFilterIconClicked(List<Filter> filterList) {
         filterExpListView.setVisibility(View.VISIBLE);
         albumSearchRv.setVisibility(View.GONE);
+        promptView.setVisibility(View.GONE);
 
         if (this.filterList.size() == 0) {
             this.filterList.addAll(filterList);

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface DownloadsView {
     void setDownloads(List<DataItem> data);
+
+    void setLoading(boolean loading);
 }
