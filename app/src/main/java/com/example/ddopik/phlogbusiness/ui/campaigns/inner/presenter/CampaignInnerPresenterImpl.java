@@ -39,9 +39,9 @@ public class CampaignInnerPresenterImpl implements CampaignInnerPresenter {
                                 return;
                             if (campaignInnerResponse.campaign != null) {
                                 campaignInnerActivityView.viewCampaignTitle(campaignInnerResponse.campaign.titleEn);
-                                campaignInnerActivityView.viewCampaignLeftDays("" + campaignInnerResponse.campaign.daysLeft);
+                                campaignInnerActivityView.viewCampaignLeftDays(String.valueOf(campaignInnerResponse.campaign.daysLeft));
                                 campaignInnerActivityView.viewCampaignHeaderImg(campaignInnerResponse.campaign.imageCover);
-                                campaignInnerActivityView.viewCampaignHostedBy(campaignInnerResponse.campaign.business.userName);
+                                campaignInnerActivityView.viewCampaignHostedBy(campaignInnerResponse.campaign.business.fullName);
 //                                campaignInnerActivityView.viewCampaignMissionDescription(campaignInnerResponse.campaign.descrptionEn, -1);
                                 campaignInnerActivityView.setCampaign(campaignInnerResponse.campaign);
                             }

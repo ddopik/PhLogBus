@@ -30,6 +30,12 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.actionListener = actionListener;
     }
 
+    private int sectionTitleColor = 0;
+
+    public void setSectionTitleColor(int sectionTitleColor) {
+        this.sectionTitleColor = sectionTitleColor;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -54,6 +60,8 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 break;
             case GRID:
                 GridViewHolder __holder = (GridViewHolder) viewHolder;
+                if (sectionTitleColor != 0)
+                    __holder.date.setTextColor(sectionTitleColor);
                 __holder.date.setText(item.getHummanDate());
                 CampaignInnerPhotosAdapter adapter = new CampaignInnerPhotosAdapter(context, item.getPhotos());
                 adapter.photoAction = photoAction;

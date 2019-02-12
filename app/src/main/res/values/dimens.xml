@@ -99,7 +99,7 @@
     <!--////CampignInner-->
     <dimen name="item_offset">2</dimen>
     <dimen name="campaign_setting_padding">25dp</dimen>
-    <dimen name="campaign_inner_setting_icon_size">45dp</dimen>
+    <dimen name="campaign_inner_setting_icon_size">20dp</dimen>
 
 
     <!--//AddCampaignInner-->

@@ -69,7 +69,7 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
         groupAdapter.setType(GroupAdapter.Type.GRID);
         groupAdapter.setPhotoAction(action);
         campaignInnerRv.setAdapter(groupAdapter);
-        campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, 0);
+        campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, 1);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
         pagingController = new PagingController(campaignInnerRv) {
             @Override
             public void getPagingControllerCallBack(int page) {
-                campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, page + 1);
+//                campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, page);
             }
         };
     }

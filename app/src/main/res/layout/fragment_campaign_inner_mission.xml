@@ -5,19 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight=".1">
 
 
         <ImageView
             android:layout_width="@dimen/campaign_inner_setting_icon_size"
             android:layout_height="@dimen/campaign_inner_setting_icon_size"
+            android:layout_gravity="center"
             android:layout_margin="@dimen/dp24"
-            app:srcCompat="@drawable/ic_change_cover" />
+            app:srcCompat="@drawable/ic_photos_number" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,39 +34,40 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/campaign_number_photos"
                 android:text="@string/change_cover"
-                android:textSize="@dimen/text_medium"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textSize="@dimen/font_normal"
+                android:textColor="@color/black" />
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/number_of_photos"
-
+                android:textSize="@dimen/font_small"
                 android:layout_marginTop="@dimen/dp4"
-                android:layout_marginBottom="@dimen/dp8"
-                android:textStyle="bold" />
+                android:layout_marginBottom="@dimen/dp8" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
 
-                android:background="@android:color/black" />
+                android:background="@color/gray400" />
         </LinearLayout>
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight=".1">
 
 
         <ImageView
             android:layout_width="@dimen/campaign_inner_setting_icon_size"
             android:layout_height="@dimen/campaign_inner_setting_icon_size"
+            android:layout_gravity="center"
             android:layout_margin="@dimen/dp24"
-            app:srcCompat="@drawable/ic_change_cover" />
+            app:srcCompat="@drawable/ic_status" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,37 +81,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/live"
-                android:textSize="@dimen/text_medium"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textSize="@dimen/font_normal"
+                android:textColor="@color/black" />
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/status"
+                android:textSize="@dimen/font_small"
                 android:layout_marginTop="@dimen/dp4"
-                android:layout_marginBottom="@dimen/dp8"
-                android:textStyle="bold" />
+                android:layout_marginBottom="@dimen/dp8" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/black" />
+                android:background="@color/gray400" />
         </LinearLayout>
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight=".1">
 
 
         <ImageView
             android:layout_width="@dimen/campaign_inner_setting_icon_size"
             android:layout_height="@dimen/campaign_inner_setting_icon_size"
+            android:layout_gravity="center"
             android:layout_margin="@dimen/dp24"
-            app:srcCompat="@drawable/ic_change_cover" />
+            app:srcCompat="@drawable/ic_crown" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,38 +127,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MacBook Pro"
-                android:textSize="@dimen/text_medium"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textSize="@dimen/font_normal"
+                android:textColor="@color/black" />
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/prize"
+                android:textSize="@dimen/font_small"
                 android:layout_marginTop="@dimen/dp4"
-                android:layout_marginBottom="@dimen/dp8"
-                android:textStyle="bold" />
+                android:layout_marginBottom="@dimen/dp8" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
 
-                android:background="@android:color/black" />
+                android:background="@color/gray400" />
         </LinearLayout>
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight=".1">
 
 
         <ImageView
             android:layout_width="@dimen/campaign_inner_setting_icon_size"
             android:layout_height="@dimen/campaign_inner_setting_icon_size"
+            android:layout_gravity="center"
             android:layout_margin="@dimen/dp24"
-            app:srcCompat="@drawable/ic_change_cover" />
+            app:srcCompat="@drawable/ic_calender" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -166,38 +174,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10/12/2019"
-                android:textSize="@dimen/text_medium"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textSize="@dimen/font_normal"
+                android:textColor="@color/black" />
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/start_date"
+                android:textSize="@dimen/font_small"
                 android:layout_marginTop="@dimen/dp4"
-                android:layout_marginBottom="@dimen/dp8"
-                android:textStyle="bold" />
+                android:layout_marginBottom="@dimen/dp8" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
 
-                android:background="@android:color/black" />
+                android:background="@color/gray400" />
         </LinearLayout>
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight=".1">
 
 
         <ImageView
             android:layout_width="@dimen/campaign_inner_setting_icon_size"
             android:layout_height="@dimen/campaign_inner_setting_icon_size"
+            android:layout_gravity="center"
             android:layout_margin="@dimen/dp24"
-            app:srcCompat="@drawable/ic_change_cover" />
+            app:srcCompat="@drawable/ic_calender" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -211,26 +221,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10/1/2020"
-                android:textSize="@dimen/text_medium"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textSize="@dimen/font_normal"
+                android:textColor="@color/black" />
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/end_date"
+                android:textSize="@dimen/font_small"
                 android:layout_marginTop="@dimen/dp4"
-                android:layout_marginBottom="@dimen/dp8"
-                android:textStyle="bold" />
+                android:layout_marginBottom="@dimen/dp8" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/black" />
+                android:background="@color/gray400" />
         </LinearLayout>
 
 
     </LinearLayout>
+
 </LinearLayout>
 
 

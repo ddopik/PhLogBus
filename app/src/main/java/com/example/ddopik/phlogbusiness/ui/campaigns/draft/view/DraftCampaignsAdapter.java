@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 
 import java.util.List;
@@ -52,15 +52,10 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
             }
         });
 
-        GlideApp.with(context).load(homeCampaign.imageCover)
-                .error(R.drawable.default_place_holder)
-                .into(new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
-                        campaignViewHolder.campaignImage.setBackground(resource);
-                    }
-                });
-        campaignViewHolder.campaignBusinessName.setText(homeCampaign.business.firstName +""+homeCampaign.business.firstName);
+        Glide.with(context).load(homeCampaign.imageCover)
+                .apply(RequestOptions.errorOf(R.drawable.default_place_holder))
+                .into(campaignViewHolder.campaignImage);
+        campaignViewHolder.campaignBusinessName.setText(homeCampaign.business.fullName);
         campaignViewHolder.campaignTitle.setText(homeCampaign.titleEn);
         campaignViewHolder.campaignDayLeft.setText(String.valueOf(homeCampaign.daysLeft));
         campaignViewHolder.campaignDayLeft.append(" " + context.getResources().getString(R.string.days_left));
@@ -68,10 +63,10 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
         campaignViewHolder.campaignJoined.setText(String.valueOf(homeCampaign.daysLeft));
         campaignViewHolder.campaignJoined.append(" "+context.getResources().getString(R.string.people_joined));
 
-        GlideApp.with(context)
+        Glide.with(context)
                 .load(homeCampaign.business.thumbnail)
-                .apply(RequestOptions.circleCropTransform())
-                .error(R.drawable.default_place_holder)
+                .apply(RequestOptions.circleCropTransform()
+                        .error(R.drawable.default_place_holder))
                 .into(campaignViewHolder.campaignBusinessIcon);
     }
 

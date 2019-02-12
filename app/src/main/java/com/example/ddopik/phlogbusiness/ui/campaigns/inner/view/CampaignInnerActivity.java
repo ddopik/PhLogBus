@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -32,7 +33,7 @@ public class CampaignInnerActivity extends BaseActivity implements CampaignInner
 
     private final String TAG = CampaignInnerActivity.class.getSimpleName();
     public static String CAMPAIGN_ID = "campaign_id";
-    private FrameLayout campaignImg;
+    private ImageView campaignImg;
     private TextView campaignTitle, campaignHostedBy, campaignDayLeft;
     private TabLayout campaignTabs;
     private ViewPager campaignViewPager;
@@ -76,12 +77,7 @@ public class CampaignInnerActivity extends BaseActivity implements CampaignInner
     public void viewCampaignHeaderImg(String img) {
         GlideApp.with(this).load(img)
                 .error(R.drawable.splash_screen_background)
-                .into(new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
-                        campaignImg.setBackground(resource);
-                    }
-                });
+                .into(campaignImg);
     }
 
     @SuppressLint("SetTextI18n")
@@ -92,18 +88,14 @@ public class CampaignInnerActivity extends BaseActivity implements CampaignInner
 
     @Override
     public void viewCampaignLeftDays(String dayLeft) {
-        campaignDayLeft.setText(dayLeft);
-        campaignDayLeft.append("  ");
-        campaignDayLeft.append(getResources().getString(R.string.days_left));
+        campaignDayLeft.setText(String.format("%1$s %2$s", dayLeft, getString(R.string.days_left)));
     }
 
     @Override
     public void viewCampaignHostedBy(String hostName) {
         if (hostName == null || hostName.isEmpty())
             return;
-        campaignHostedBy.setText(getResources().getString(R.string.hosted_by));
-        campaignHostedBy.append(hostName);
-
+        campaignHostedBy.setText(getString(R.string.hosted_by, hostName));
     }
 
     @Override
@@ -131,7 +123,7 @@ public class CampaignInnerActivity extends BaseActivity implements CampaignInner
     public void setCampaign(Campaign campaign) {
         InnerCampaignFragmentPagerAdapter adapter = new InnerCampaignFragmentPagerAdapter(getSupportFragmentManager()
                 , campaign
-                , getFragmentTitles(-1));
+                , getFragmentTitles(campaign.photosCount));
         campaignViewPager.setAdapter(adapter);
     }
 }

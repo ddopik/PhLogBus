@@ -14,6 +14,7 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 import com.example.ddopik.phlogbusiness.base.widgets.PickDateDialog;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerSettingPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerSettingPresenterImpl;
+import com.example.ddopik.phlogbusiness.utiltes.CampaignStatusStringProvider;
 
 import org.w3c.dom.Text;
 
@@ -85,11 +86,11 @@ public class CampaignInnerSettingFragment extends BaseFragment implements Campai
     }
 
     private void setCampaignViews() {
-        campaignStatus.setText("" + campaign.status);
+        campaignStatus.setText(new CampaignStatusStringProvider(){}.getStatus(campaign.status));
         campaignEndDate.setText(campaign.endDate);
         campaignStartDate.setText(campaign.startDate);
         campaignPrize.setText(campaign.prize);
-        campaignPhotosNumber.setText("" + -1);
+        campaignPhotosNumber.setText(String.format("%1$d", campaign.photosCount));
     }
 
     private void initListeners() {

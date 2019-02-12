@@ -34,7 +34,7 @@ public class CampaignInnerPhotosAdapter extends RecyclerView.Adapter<CampaignInn
     public CampaignInnerPhotosAdapter.PhotosViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        return new PhotosViewHolder(layoutInflater.inflate(R.layout.view_holder_photo, viewGroup, false));
+        return new PhotosViewHolder(layoutInflater.inflate(R.layout.view_holder_photo_square, viewGroup, false));
     }
 
     @Override
@@ -43,7 +43,6 @@ public class CampaignInnerPhotosAdapter extends RecyclerView.Adapter<CampaignInn
 
         GlideApp.with(context)
                 .load(photoGrapherPhotosList.get(i).url)
-                .centerCrop()
 //                .override(450,450)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(campaignsViewHolder.photographerPhoto);

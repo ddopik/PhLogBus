@@ -76,4 +76,16 @@ public interface Constants {
         String NOTIFICATION_ID = "2001";
         String NOTIFICATION_TITLE = "Uploading";
     }
+
+    interface CampaignStatus {
+        int CAMPAIGN_STATUS_CANCELLED = -1;
+        int CAMPAIGN_STATUS_DRAFT = 0;
+        int CAMPAIGN_STATUS_REQUEST = 1;
+        int CAMPAIGN_STATUS_PENDING = 2;
+        int CAMPAIGN_STATUS_APPROVED = 3;
+        int CAMPAIGN_STATUS_RUNNING = 4;
+        int CAMPAIGN_STATUS_FINISHED = 5;
+        int CAMPAIGN_STATUS_PRIZE_PROCESSING = 6;
+        int CAMPAIGN_STATUS_COMPLETED = 7;
+    }
 }

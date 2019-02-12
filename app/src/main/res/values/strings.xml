@@ -65,7 +65,7 @@
     <string name="tab_mission">Settings</string>
     <string name="tab_photos">Photos</string>
     <string name="days_left">Days Left</string>
-    <string name="hosted_by">Hosted By</string>
+    <string name="hosted_by">Hosted By %1$s</string>
     <string name="follow">Follow</string>
     <string name="submit_ur_photo">Submit your photo</string>
 
@@ -254,5 +254,14 @@
     <string name="could_not_find_profiles">Sorry. We didn\'t find profiles. Try typing another word.</string>
     <string name="type_something_album">Type something in the search bar to search albums.</string>
     <string name="could_not_find_albums">Sorry. We didn\'t find albums. Try typing another word.</string>
+    <string name="campaign_status_unknown">Unknown</string>
+    <string name="campaign_status_cancelled">Cancelled</string>
+    <string name="campaign_status_requested">Requested</string>
+    <string name="campaign_status_pending">Pending</string>
+    <string name="campaign_status_approved">Approved</string>
+    <string name="campaign_status_running">Running</string>
+    <string name="campaign_status_finished">Finished</string>
+    <string name="campaign_status_processing">Processing</string>
+    <string name="campaign_status_completed">Completed</string>
 
 </resources>
