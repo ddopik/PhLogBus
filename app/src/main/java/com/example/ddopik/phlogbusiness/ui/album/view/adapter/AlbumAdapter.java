@@ -6,12 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
+import com.example.ddopik.phlogbusiness.base.widgets.RoundedImageView;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumGroup;
 
@@ -46,20 +43,20 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
     public void onBindViewHolder(@NonNull AlbumFlexItem albumFlexItem, int position) {
 
 
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
+//        RequestOptions requestOptions = new RequestOptions();
+//        requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
 
-        if (albumGroupList.get(position).albumGroupList.size() >= 1){
+        if (albumGroupList.get(position).albumGroupList.size() >= 1) {
             albumFlexItem.albumImg1.setVisibility(View.VISIBLE);
             GlideApp.with(context)
                     .load(albumGroupList.get(position).albumGroupList.get(0).url)
                     .placeholder(R.drawable.default_place_holder)
                     .error(R.drawable.default_error_img)
-                    .apply(requestOptions)
+
                     .into(albumFlexItem.albumImg1);
-            if (onAlbumImageClicked !=null)
-                albumFlexItem.albumImg1.setOnClickListener((v)->onAlbumImageClicked.onImageClicked( albumGroupList.get(position).albumGroupList.get(0)));
-        }else {
+            if (onAlbumImageClicked != null)
+                albumFlexItem.albumImg1.setOnClickListener((v) -> onAlbumImageClicked.onImageClicked(albumGroupList.get(position).albumGroupList.get(0)));
+        } else {
             albumFlexItem.albumImg1.setVisibility(View.INVISIBLE);
         }
 
@@ -69,25 +66,24 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
                     .load(albumGroupList.get(position).albumGroupList.get(1).url)
                     .placeholder(R.drawable.default_place_holder)
                     .error(R.drawable.default_error_img)
-                    .apply(requestOptions)
+
                     .into(albumFlexItem.albumImg2);
-            if (onAlbumImageClicked !=null)
-                albumFlexItem.albumImg2.setOnClickListener((v)->onAlbumImageClicked.onImageClicked( albumGroupList.get(position).albumGroupList.get(1)));
-        }
-        else {
+            if (onAlbumImageClicked != null)
+                albumFlexItem.albumImg2.setOnClickListener((v) -> onAlbumImageClicked.onImageClicked(albumGroupList.get(position).albumGroupList.get(1)));
+        } else {
             albumFlexItem.albumImg2.setVisibility(View.INVISIBLE);
         }
         if (albumGroupList.get(position).albumGroupList.size() >= 3) {
-            albumFlexItem.albumImg3 .setVisibility(View.VISIBLE);
+            albumFlexItem.albumImg3.setVisibility(View.VISIBLE);
             GlideApp.with(context)
                     .load(albumGroupList.get(position).albumGroupList.get(2).url)
                     .placeholder(R.drawable.default_place_holder)
                     .error(R.drawable.default_error_img)
-                    .apply(requestOptions)
+
                     .into(albumFlexItem.albumImg3);
-            if (onAlbumImageClicked !=null)
-                albumFlexItem.albumImg3.setOnClickListener((v)->onAlbumImageClicked.onImageClicked( albumGroupList.get(position).albumGroupList.get(2)));
-        }else {
+            if (onAlbumImageClicked != null)
+                albumFlexItem.albumImg3.setOnClickListener((v) -> onAlbumImageClicked.onImageClicked(albumGroupList.get(position).albumGroupList.get(2)));
+        } else {
             albumFlexItem.albumImg3.setVisibility(View.INVISIBLE);
         }
         if (albumGroupList.get(position).albumGroupList.size() >= 4) {
@@ -96,14 +92,13 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
                     .load(albumGroupList.get(position).albumGroupList.get(3).url)
                     .placeholder(R.drawable.default_place_holder)
                     .error(R.drawable.default_error_img)
-                    .apply(requestOptions)
+
                     .into(albumFlexItem.albumImg4);
-            if (onAlbumImageClicked !=null)
-                albumFlexItem.albumImg4.setOnClickListener((v)->onAlbumImageClicked.onImageClicked( albumGroupList.get(position).albumGroupList.get(3)));
-        }else {
+            if (onAlbumImageClicked != null)
+                albumFlexItem.albumImg4.setOnClickListener((v) -> onAlbumImageClicked.onImageClicked(albumGroupList.get(position).albumGroupList.get(3)));
+        } else {
             albumFlexItem.albumImg4.setVisibility(View.INVISIBLE);
         }
-
 
 
     }
@@ -114,12 +109,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
     }
 
 
-     class AlbumFlexItem extends RecyclerView.ViewHolder {
+    class AlbumFlexItem extends RecyclerView.ViewHolder {
 
-        ImageView albumImg1;
-        ImageView albumImg2;
-        ImageView albumImg3;
-        ImageView albumImg4;
+        RoundedImageView albumImg1;
+        RoundedImageView albumImg2;
+        RoundedImageView albumImg3;
+        RoundedImageView albumImg4;
 
         AlbumFlexItem(View view) {
             super(view);
@@ -131,7 +126,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
     }
 
 
-    public interface OnAlbumImageClicked{
-       void  onImageClicked(BaseImage albumImg);
+    public interface OnAlbumImageClicked {
+        void onImageClicked(BaseImage albumImg);
     }
 }
