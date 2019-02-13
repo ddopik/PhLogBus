@@ -139,23 +139,23 @@
                 app:srcCompat="@drawable/ic_exclusive" />
 
             <TextView
-                android:id="@+id/cart_item_price"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:lines="1"
-                android:textColor="@color/white"
-                app:autoSizeMinTextSize="1sp"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintBottom_toBottomOf="@+id/price_tri"
-                app:layout_constraintEnd_toEndOf="@+id/price_tri"
-                app:layout_constraintHeight_percent=".15"
-                app:layout_constraintHorizontal_bias="0.1"
-                app:layout_constraintStart_toStartOf="@+id/price_tri"
-                app:layout_constraintTop_toTopOf="@+id/cart_item_image"
-                app:layout_constraintVertical_bias="0.050000012"
-                app:layout_constraintWidth_percent=".1"
-                tools:text="TextView" />
+                    android:id="@+id/cart_item_price"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:textColor="@color/white"
+                    app:autoSizeMinTextSize="1sp"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="@+id/price_tri"
+                    app:layout_constraintEnd_toEndOf="@+id/price_tri"
+                    app:layout_constraintHeight_percent=".1"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="@+id/price_tri"
+                    app:layout_constraintTop_toTopOf="@+id/cart_item_image"
+                    app:layout_constraintVertical_bias="0.050000012"
+                    app:layout_constraintWidth_percent=".08"
+                    tools:text="TextView"/>
 
             <RatingBar
                 android:id="@+id/rating"
@@ -177,6 +177,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="@string/buy_exclusive"
+                android:theme="@style/CartCheckBox"
                 app:autoSizeMinTextSize="1sp"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"

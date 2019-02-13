@@ -89,7 +89,7 @@
     <dimen name="user_profile_rating_bar_width">65dp</dimen>
     <dimen name="user_profile_rating_bar_height">20dp</dimen>
     <dimen name="user_profile_list_arrow_ic">18dp</dimen>
-    <dimen name="user_profile_ic_size">30dp</dimen>
+    <dimen name="user_profile_ic_size">20dp</dimen>
     <dimen name="user_profile_list_txt_size">170dp</dimen>
 
 

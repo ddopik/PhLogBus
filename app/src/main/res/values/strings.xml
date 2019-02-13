@@ -87,7 +87,7 @@
     <string name="lbl_contrast">CONTRAST</string>
     <string name="lbl_saturation">SATURATION</string>
     <string name="tab_filters">FILTERS</string>
-    <string name="tab_edit">EDIT</string>
+    <string name="tab_edit">Edit</string>
     <string name="filter_normal">Normal</string>
     <string name="action_save">SAVE</string>
     <string name="action_open">OPEN</string>
@@ -228,11 +228,11 @@
     <string name="image_already_rated">Image already rated</string>
     <string name="please_add_more_tags">Please add at least one tag</string>
     <string name="unfollow">Unfollow</string>
-    <string name="logout">LOGOUT</string>
+    <string name="logout">Logout</string>
     <string name="downloads">Downloads</string>
     <string name="download">Download</string>
     <string name="purchase_count">%1$d purchased photos</string>
-    <string name="phlog_downloading">Downloading...</string>
+    <string name="phlog_downloading">Downloading…</string>
     <string name="external_storage_write_permission_rationale">We need permission to write to your storage to be able to
         download.
     </string>
@@ -263,5 +263,16 @@
     <string name="campaign_status_finished">Finished</string>
     <string name="campaign_status_processing">Processing</string>
     <string name="campaign_status_completed">Completed</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="logout_confirmation">Are you sure?</string>
+    <string name="change_profile_image">Change profile picture</string>
+    <string name="change_cover_image">Change cover picture</string>
+    <string name="my_studios">My Studios</string>
+    <string name="studios">Studios</string>
+    <string name="delete_confirmation">Are you sure?</string>
+    <string name="customer_support">Customer Support</string>
+    <string name="extend_campaign">Extend Campaign</string>
+    <string name="login">Login</string>
+    <string name="login_header">PHLOG Business</string>
 
 </resources>

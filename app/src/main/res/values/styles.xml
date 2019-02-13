@@ -25,6 +25,9 @@
 
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/text_input_color</item>
+
+        <item name="checkboxStyle">@style/CartCheckBox</item>
+        <item name="android:ratingBarStyle">@style/PhlogRatingBarThem</item>
     </style>
 
     <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
@@ -79,4 +82,9 @@
         <item name="colorPrimaryDark">@color/transparent</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="CartCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/text_input_color</item>
+        <item name="colorControlActivated">@color/text_input_color</item>
+    </style>
 </resources>

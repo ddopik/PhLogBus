@@ -1,6 +1,7 @@
 package com.example.softmills.phlog.ui.search.view.album.view
 
 import android.content.Context
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +21,7 @@ class AlbumSearchAdapter(private var albumSearchList: List<AlbumSearch>?) : Recy
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): AlbumSearchViewHolder {
         this.context = viewGroup.context
         val layoutInflater = LayoutInflater.from(context)
-        val view = layoutInflater.inflate(R.layout.view_holder_album_search, viewGroup, false)
+        val view = layoutInflater.inflate(R.layout.view_holder_album_search_2, viewGroup, false)
         return AlbumSearchViewHolder(view)
     }
 
@@ -84,7 +85,7 @@ class AlbumSearchAdapter(private var albumSearchList: List<AlbumSearch>?) : Recy
 
     inner class AlbumSearchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        var albumSearchListItemContainer: FrameLayout
+        var albumSearchListItemContainer: ConstraintLayout
 
         var openAlbumPreview: ImageButton
         var imageSingle: ImageView
@@ -94,7 +95,7 @@ class AlbumSearchAdapter(private var albumSearchList: List<AlbumSearch>?) : Recy
         var albumName: TextView
         var albumPhotoCount: TextView
         var singleImageContainer: FrameLayout
-        var multiImageContainer: LinearLayout
+        var multiImageContainer: ConstraintLayout
 
         init {
             albumSearchListItemContainer = view.findViewById(R.id.album_search_list_item_container)

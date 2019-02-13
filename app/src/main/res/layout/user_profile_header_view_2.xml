@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:numStars="5"
+            android:theme="@style/PhlogRatingBarThem"
             app:layout_constraintBottom_toTopOf="@+id/user_profile_level"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

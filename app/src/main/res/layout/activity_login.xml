@@ -38,7 +38,7 @@
                 android:layout_marginTop="@dimen/dp8"
                 android:fontFamily="@font/arial_rounded_font"
                 android:gravity="bottom"
-                android:text="@string/app_name"
+                android:text="@string/login_header"
                 android:textColor="@color/white"
                 android:textSize="@dimen/signing_head_text_size" />
 

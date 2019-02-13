@@ -86,6 +86,12 @@ public class LightboxPhotosAdapter extends RecyclerView.Adapter<LightboxPhotosAd
         if (image.isCart)
             holder.addToCartButton.setVisibility(View.GONE);
         else holder.addToCartButton.setVisibility(View.VISIBLE);
+        View.OnClickListener onClickListener = v -> {
+           photoActionListener.onAction(ActionType.PHOTOGRAPHER, image);
+        };
+        holder.photographerName.setOnClickListener(onClickListener);
+        holder.photographerUsername.setOnClickListener(onClickListener);
+        holder.photographerAvatar.setOnClickListener(onClickListener);
     }
 
     @Override
@@ -122,7 +128,7 @@ public class LightboxPhotosAdapter extends RecyclerView.Adapter<LightboxPhotosAd
         void onAction(ActionType type, BaseImage image);
 
         enum ActionType {
-            FOLLOW, VIEW, COMMENT, LIKE, ADD_TO_CART, DELETE
+            FOLLOW, VIEW, COMMENT, LIKE, ADD_TO_CART, DELETE, PHOTOGRAPHER
         }
     }
 }

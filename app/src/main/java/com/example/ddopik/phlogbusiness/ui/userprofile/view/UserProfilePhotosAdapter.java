@@ -25,6 +25,10 @@ public class UserProfilePhotosAdapter extends RecyclerView.Adapter<UserProfilePh
     private UserProfilePhotosAdapter.PhotosViewHolder photosViewHolder;
     private PhotoAction photoAction;
 
+    public void setPhotoAction(PhotoAction photoAction) {
+        this.photoAction = photoAction;
+    }
+
     public UserProfilePhotosAdapter(Context context, List<BaseImage> userPhotoList) {
         this.context = context;
         this.userPhotoList = userPhotoList;

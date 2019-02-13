@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.profile.view;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -51,7 +52,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
     private TextView brandName, brandWebSite, brandIndustry;
     private ImageView brandImgIcon;
     private ImageView brandProfileCoverImg;
-    private LinearLayout accountDetailsBtn, setupBrandBtn, cartBtn, myLightBoxBtn;
+    private LinearLayout accountDetailsBtn, setupBrandBtn, cartBtn, myLightBoxBtn, logoutBtn;
     private ProgressBar brandProfileProgress;
     private ImageButton menuButton;
 
@@ -75,7 +76,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
 
     @Override
     protected void initPresenter() {
-        brandProfilePresenter=new BrandProfilePresenterImpl(getContext(),this);
+        brandProfilePresenter = new BrandProfilePresenterImpl(getContext(), this);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         brandName = mainView.findViewById(R.id.header_profile_brand_name);
         brandWebSite = mainView.findViewById(R.id.header_profile_brand_website);
         brandIndustry = mainView.findViewById(R.id.brand_profile_industry);
-        brandProfileCoverImg=mainView.findViewById(R.id.brand_profile_cover_img);
+        brandProfileCoverImg = mainView.findViewById(R.id.brand_profile_cover_img);
         brandImgIcon = mainView.findViewById(R.id.brand_profile_img_ic);
         accountDetailsBtn = mainView.findViewById(R.id.account_detail_btn);
         setupBrandBtn = mainView.findViewById(R.id.setup_brand_btn);
@@ -93,6 +94,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         brandProfileProgress = mainView.findViewById(R.id.brand_profile_progress);
 
         menuButton = mainView.findViewById(R.id.menu_button);
+        logoutBtn = mainView.findViewById(R.id.logout_btn);
     }
 
     private void initListeners() {
@@ -118,6 +120,24 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
             popup.setOnMenuItemClickListener(this);
             popup.inflate(R.menu.profile_fragment_menu);
             popup.show();
+        });
+
+        logoutBtn.setOnClickListener(v -> {
+            new AlertDialog.Builder(getContext()).setTitle(R.string.logout_confirmation)
+                    .setCancelable(true)
+                    .setItems(new CharSequence[]{getString(R.string.yes), getString(R.string.no)}
+                            , (dialog, which) -> {
+                                switch (which) {
+                                    case 0:
+                                        brandProfilePresenter.logout(getContext());
+                                        MainActivity.navigationManger.navigate(Constants.NavigationHelper.LOGOUT);
+                                        dialog.dismiss();
+                                        break;
+                                    case 1:
+                                        dialog.dismiss();
+                                        break;
+                                }
+                            }).show();
         });
     }
 
@@ -168,10 +188,6 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         switch (item.getItemId()) {
             case R.id.item_edit:
                 accountDetailsBtn.performClick();
-                return true;
-            case R.id.item_logout:
-                brandProfilePresenter.logout(getContext());
-                MainActivity.navigationManger.navigate(Constants.NavigationHelper.LOGOUT);
                 return true;
         }
         return false;

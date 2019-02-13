@@ -6,6 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.RoundedImageView;
@@ -34,7 +38,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
     @Override
     public AlbumFlexItem onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.view_holder_flex_album, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.view_holder_flex_album_2, viewGroup, false);
         AlbumFlexItem albumFlexItem = new AlbumFlexItem(view);
         return albumFlexItem;
     }
@@ -42,7 +46,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
     @Override
     public void onBindViewHolder(@NonNull AlbumFlexItem albumFlexItem, int position) {
 
-
+        Context context = albumFlexItem.itemView.getContext();
 //        RequestOptions requestOptions = new RequestOptions();
 //        requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
 
@@ -51,6 +55,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
             GlideApp.with(context)
                     .load(albumGroupList.get(position).albumGroupList.get(0).url)
                     .placeholder(R.drawable.default_place_holder)
+//                    .transforms(new RoundedCorners((int) context.getResources().getDimension(R.dimen.item_card_corner_radius)))
                     .error(R.drawable.default_error_img)
 
                     .into(albumFlexItem.albumImg1);
@@ -65,8 +70,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
             GlideApp.with(context)
                     .load(albumGroupList.get(position).albumGroupList.get(1).url)
                     .placeholder(R.drawable.default_place_holder)
+//                    .transforms(new RoundedCorners((int) context.getResources().getDimension(R.dimen.item_card_corner_radius)))
                     .error(R.drawable.default_error_img)
-
                     .into(albumFlexItem.albumImg2);
             if (onAlbumImageClicked != null)
                 albumFlexItem.albumImg2.setOnClickListener((v) -> onAlbumImageClicked.onImageClicked(albumGroupList.get(position).albumGroupList.get(1)));
@@ -79,7 +84,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
                     .load(albumGroupList.get(position).albumGroupList.get(2).url)
                     .placeholder(R.drawable.default_place_holder)
                     .error(R.drawable.default_error_img)
-
+//                    .transforms(new RoundedCorners((int) context.getResources().getDimension(R.dimen.item_card_corner_radius)))
                     .into(albumFlexItem.albumImg3);
             if (onAlbumImageClicked != null)
                 albumFlexItem.albumImg3.setOnClickListener((v) -> onAlbumImageClicked.onImageClicked(albumGroupList.get(position).albumGroupList.get(2)));
@@ -91,8 +96,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
             GlideApp.with(context)
                     .load(albumGroupList.get(position).albumGroupList.get(3).url)
                     .placeholder(R.drawable.default_place_holder)
+//                    .transforms(new RoundedCorners((int) context.getResources().getDimension(R.dimen.item_card_corner_radius)))
                     .error(R.drawable.default_error_img)
-
                     .into(albumFlexItem.albumImg4);
             if (onAlbumImageClicked != null)
                 albumFlexItem.albumImg4.setOnClickListener((v) -> onAlbumImageClicked.onImageClicked(albumGroupList.get(position).albumGroupList.get(3)));
@@ -111,10 +116,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumFlexIte
 
     class AlbumFlexItem extends RecyclerView.ViewHolder {
 
-        RoundedImageView albumImg1;
-        RoundedImageView albumImg2;
-        RoundedImageView albumImg3;
-        RoundedImageView albumImg4;
+        ImageView albumImg1;
+        ImageView albumImg2;
+        ImageView albumImg3;
+        ImageView albumImg4;
 
         AlbumFlexItem(View view) {
             super(view);

@@ -47,9 +47,10 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <ImageView
+        android:id="@+id/imageView9"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:alpha=".2"
+        android:alpha=".3"
         android:background="@color/white"
         android:scaleType="centerCrop"
         app:layout_constraintDimensionRatio="1:.7"
@@ -58,6 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <ImageView
+        android:id="@+id/imageView7"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha=".15"
@@ -263,11 +265,14 @@
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/textView7"
         app:layout_constraintVertical_bias="0.35"
-        app:passwordToggleEnabled="true">
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/white">
 
         <EditText
             android:id="@+id/password_edit_text"
             android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sign_up_text_size_small"
             app:backgroundTint="@color/gray200" />
@@ -282,6 +287,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_image_image_view" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/change_profile_image"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView9"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/change_cover_image"
+        android:textSize="@dimen/font_small"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView9"
+        app:layout_constraintEnd_toEndOf="@+id/imageView9"
+        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView9"
+        app:layout_constraintVertical_bias="0.97" />
 
     <!--<Button-->
         <!--android:id="@+id/save_button"-->
