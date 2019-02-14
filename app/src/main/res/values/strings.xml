@@ -274,5 +274,6 @@
     <string name="extend_campaign">Extend Campaign</string>
     <string name="login">Login</string>
     <string name="login_header">PHLOG Business</string>
+    <string name="earlier">Earlier</string>
 
 </resources>

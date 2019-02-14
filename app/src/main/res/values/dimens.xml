@@ -58,6 +58,7 @@
     <!--//Notification_ViewHolders-->
     <dimen name="notification_card_height">75dp</dimen>
     <dimen name="notification_card_height_m">95dp</dimen>
+    <dimen name="notification_item_icon_size_m">50dp</dimen>
 
 
     <!--///SignUpActivity-->

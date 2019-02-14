@@ -1,11 +1,11 @@
 package com.example.ddopik.phlogbusiness.ui.notification.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
-/**
- * Created by abdalla_maged On Nov,2018
- */
 public class NotificationData {
 
-   public List<NotificationItem> notificationItemList;
+    @SerializedName("data")
+    public List<NotificationList> notificationList;
 }

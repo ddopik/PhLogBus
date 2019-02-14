@@ -31,7 +31,7 @@ public class NotificationPresenterImp implements NotificationPresenter {
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(notificationResponse -> {
-                    notificationFragmentView.viewNotificationList(notificationResponse.data);
+                    notificationFragmentView.viewNotificationList(notificationResponse.notificationData);
                     notificationFragmentView.viewNotificationProgress(false);
 
                 }, throwable -> {

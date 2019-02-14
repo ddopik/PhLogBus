@@ -91,7 +91,7 @@ public class BaseNetworkApi {
     private static final String INNER_BRAND_URL = BASE_URL + "/search_in_one_brands";
     private static final String BRAND_FOLLOW_URL = BASE_URL + "/join_photographer_brand";
     private static final String SOCIAL_DATA_URL = BASE_URL + "/social";
-    private static final String GET_ALL_NOTIFICATION = BASE_URL + "/notification";
+    private static final String GET_ALL_NOTIFICATION = BASE_URL + "/notification/list";
     private static final String ALL_COMPLETED_CAMPAIGN_URL = BASE_URL + "/campaign/old";
     private static final String ALL_RUNNING_CAMPAIGN_URL = BASE_URL + "/campaign/running";
     private static final String ALL_DRAFT_CAMPAIGN_URL = BASE_URL + "/campaign/draft";

@@ -21,12 +21,13 @@ public interface Constants {
     }
 
 
-    ///////////////////////Entity-type
-    int ENTITY_PROFILE = 1;
-    int ENTITY_CAMPAIGN = 2;
-    int ENTITY_ALBUM = 3;
-    int ENTITY_IMAGE = 4;
-    int ENTITY_BRAND = 5;
+    ///////////////////////Entity-type For socialFragment
+    int ENTITY_PROFILE=1;
+    int ENTITY_CAMPAIGN=2;
+    int ENTITY_ALBUM=4;
+    int ENTITY_IMAGE=3;
+    int ENTITY_BRAND=5;
+
     ///////////////Entity Display-types
     String PROFILE_DISPLAY_TYPE_1 = "101";
     String PROFILE_DISPLAY_TYPE_2 = "102";
@@ -84,4 +85,5 @@ public interface Constants {
         int CAMPAIGN_STATUS_PRIZE_PROCESSING = 6;
         int CAMPAIGN_STATUS_COMPLETED = 7;
     }
+
 }
