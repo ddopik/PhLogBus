@@ -15,8 +15,11 @@ import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.AddToLightBoxDialogFragment;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgActivityPresenter;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgActivityPresenterImpl;
+import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgPresnter;
+import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgPresnterImpl;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AllAlbumImgAdapter;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,60 +31,65 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
 
     public static String ALBUM_ID = "album_id";
-    public static String ALBUM_NAME = "album_name";
+    public static String ALL_ALBUM_IMAGES = "album_list";
     public static String SELECTED_IMG_ID = "selected_img_id";
-    public static String CURRENT_PAGE = "current_page";
-    public static String SELECTED_IMAGE_DATA = "selected_img_data";
-    private int albumId;
-    private int selectedImageId;
-    private int currentPage;
-    private ImageButton backBtn;
-    private CustomTextView toolBarTitle;
-    private CustomRecyclerView allAlbumImgRv;
+    public static String LIST_TYPE = "list_type";
     private AllAlbumImgAdapter allAlbumImgAdapter;
     private List<BaseImage> albumImgList = new ArrayList<>();
     private ProgressBar albumImgProgress;
-    private AllAlbumImgActivityPresenter allAlbumImgActivityPresenter;
-    private PagingController pagingController;
+    private AllAlbumImgPresnter allAlbumImgPresnter;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_album_img);
-
-        if (getIntent().getIntExtra(ALBUM_ID, 0) != 0) {
-            initPresenter();
-            initView();
-            initListener();
-
-        }
+        initPresenter();
+        initView();
     }
 
 
     @Override
     public void initView() {
-        toolBarTitle = findViewById(R.id.toolbar_title);
-        toolBarTitle.setText(getIntent().getStringExtra(ALBUM_NAME));
-        this.albumId = getIntent().getIntExtra(ALBUM_ID, 0);
-        this.selectedImageId = getIntent().getIntExtra(SELECTED_IMG_ID, 0);
-        this.currentPage = getIntent().getIntExtra(CURRENT_PAGE, 0);
+        if (getIntent().getParcelableArrayListExtra(ALL_ALBUM_IMAGES) != null) {
+            this.albumImgList = getIntent().<BaseImage>getParcelableArrayListExtra(ALL_ALBUM_IMAGES);
+            int selectedPosition = getIntent().getIntExtra(SELECTED_IMG_ID,0);
+            Constants.PhotosListType photosListType = (Constants.PhotosListType) getIntent().getSerializableExtra(LIST_TYPE);
+            allAlbumImgAdapter = new AllAlbumImgAdapter(albumImgList, photosListType);
+            albumImgProgress = findViewById(R.id.album_img_list_progress_bar);
+            CustomRecyclerView allAlbumImgRv = findViewById(R.id.album_img_list_rv);
+            allAlbumImgRv.setAdapter(allAlbumImgAdapter);
 
-        backBtn = findViewById(R.id.back_btn);
-        allAlbumImgAdapter = new AllAlbumImgAdapter(albumImgList);
-        albumImgProgress = findViewById(R.id.album_img_list_progress_bar);
-        allAlbumImgRv = findViewById(R.id.album_img_list_rv);
-        allAlbumImgRv.setAdapter(allAlbumImgAdapter);
 
-        for (int i = 1; i < currentPage; i++) {
-            allAlbumImgActivityPresenter.getAlbumImages(albumId, i);
+            for (int i=0;i<albumImgList.size();i++){
+                if(albumImgList.get(i).id == selectedPosition) {
+                    allAlbumImgRv.getLayoutManager().scrollToPosition(i);
+                    break;
+                }
+
+            }
+
+            initListener();
         }
+
+
+//        RecyclerView.SmoothScroller smoothScroller = new
+//                LinearSmoothScroller(getBaseContext()) {
+//                    @Override
+//                    protected int getVerticalSnapPreference() {
+//                        return LinearSmoothScroller.SNAP_TO_ANY;
+//                    }
+//                };
+//
+//        smoothScroller.setTargetPosition(6);
+//
+//        allAlbumImgRv.getLayoutManager().startSmoothScroll(smoothScroller);
 
     }
 
     @Override
     public void initPresenter() {
-        allAlbumImgActivityPresenter = new AllAlbumImgActivityPresenterImpl(this, this);
+        allAlbumImgPresnter=new AllAlbumImgPresnterImpl(this,this);
     }
 
     @Override
@@ -94,73 +102,41 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
         allAlbumImgAdapter.onAlbumImgClicked = new AllAlbumImgAdapter.OnAlbumImgClicked() {
             @Override
             public void onAlbumImgClick(BaseImage albumImg) {
-                Intent intent = new Intent(getBaseContext(), ImageCommentActivity.class);
-                intent.putExtra(ImageCommentActivity.IMAGE_DATA, albumImg);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-            }
-
-
-            @Override
-            public void onAlbumImgCommentClick(BaseImage albumImg) {
-                Intent intent = new Intent(getBaseContext(), ImageCommentActivity.class);
-                intent.putExtra(ImageCommentActivity.IMAGE_DATA, albumImg);
+                Intent intent=new Intent(getBaseContext(),ImageCommentActivity.class);
+                intent.putExtra(ImageCommentActivity.IMAGE_DATA,albumImg);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
 
             @Override
             public void onAlbumImgLikeClick(BaseImage albumImg) {
-                if (albumImg.isLiked) {
-                    allAlbumImgActivityPresenter.unLikeImage(albumImg.id);
-                } else {
-                    allAlbumImgActivityPresenter.likeImage(albumImg.id);
-                }
-
+                allAlbumImgPresnter.likePhoto(String.valueOf(albumImg.id));
             }
 
             @Override
-            public void onAlbumImgAddLightBoxClick(BaseImage albumImg) {
-                AddToLightBoxDialogFragment addToLightBoxDialogFragment = AddToLightBoxDialogFragment.getInstance(albumImg);
-                addToLightBoxDialogFragment.onLighBoxImageComplete = state -> {
-                    if (state) {
-                        for (int i = 0; i < albumImgList.size(); i++) {
-                            if (albumImgList.get(i).id == albumImg.id) {
-                                albumImgList.get(i).isSaved = state;
-                            }
-                        }
-                    }
-                    allAlbumImgAdapter.notifyDataSetChanged();
-                };
-                addToLightBoxDialogFragment.show(getSupportFragmentManager(),AllAlbumImgActivity.class.getSimpleName());
+            public void onAlbumImgCommentClick(BaseImage albumImg) {
+                Intent intent=new Intent(getBaseContext(),ImageCommentActivity.class);
+                intent.putExtra(ImageCommentActivity.IMAGE_DATA,albumImg);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
 
             @Override
-            public void onAlbumImgToCartClick(BaseImage albumImg) {
-                if (albumImg.isCart) {
-                    showToast("view in cart");
-                } else {
-                    allAlbumImgActivityPresenter.addImageToCart(albumImg.id);
+            public void onAlbumImgSaveClick(BaseImage albumImg) {
+
+                if (albumImg.isSaved){
+                    allAlbumImgPresnter.saveToProfileImage(albumImg);
+                }else {
+                    allAlbumImgPresnter.unSaveToProfileImage(albumImg);
+
                 }
             }
 
             @Override
-            public void onAlbumImgLightBoxRemoveClick(BaseImage albumImg) {
+            public void onAlbumImgFollowClick(BaseImage albumImg) {
+                allAlbumImgPresnter.followImagePhotoGrapher(albumImg);
             }
         };
-
-
-        pagingController = new PagingController(allAlbumImgRv) {
-            @Override
-            public void getPagingControllerCallBack(int page) {
-
-                if (currentPage < page)
-                    allAlbumImgActivityPresenter.getAlbumImages(albumId, page);
-
-            }
-        };
-
-        backBtn.setOnClickListener(v -> onBackPressed());
 
 
     }
@@ -168,35 +144,30 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
     @Override
     public void viewAlbumImageList(List<BaseImage> albumImgList) {
 
-
+        this.albumImgList.clear();
         this.albumImgList.addAll(albumImgList);
         allAlbumImgAdapter.notifyDataSetChanged();
 
-        for (int i = 0; i < albumImgList.size(); i++) {
-            if (albumImgList.get(i).id == selectedImageId) {
-                allAlbumImgRv.getLayoutManager().scrollToPosition(i);
-                break;
-            }
-
-        }
     }
 
     @Override
-    public void onImagedAddedToCart(boolean state, int imageId) {
-        for (int i = 0; i < albumImgList.size(); i++) {
-            if (albumImgList.get(i).id == imageId) {
-                albumImgList.get(i).isCart = state;
+    public void onImageSavedToProfile(BaseImage baseImage, boolean state) {
+        for (BaseImage mBaseImage: albumImgList){
+            if (mBaseImage.id ==baseImage.id){
+                mBaseImage.isSaved=state;
                 break;
             }
         }
+
         allAlbumImgAdapter.notifyDataSetChanged();
+
     }
 
     @Override
-    public void onImageLiked(BaseImage baseImage) {
-        for (int i = 0; i < albumImgList.size(); i++) {
-            if (albumImgList.get(i).id == baseImage.id) {
-                albumImgList.set(i, baseImage);
+    public void onImagePhotoGrapherFollowed(BaseImage baseImage, boolean state) {
+        for (BaseImage mBaseImage: albumImgList){
+            if (mBaseImage.id ==baseImage.id){
+                mBaseImage.photographer.isFollow=state;
                 break;
             }
         }
@@ -215,9 +186,12 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
     }
 
     @Override
-    public void viewMessage(String msg) {
-        showToast(msg);
+    public void showToast(String msg) {
+        super.showToast(msg);
     }
 
-
+    @Override
+    public void showMessage(String msg) {
+        showToast(msg);
+    }
 }

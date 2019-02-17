@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by abdalla_maged on 11/13/2018.
  */
-public class SocialResponse {
+public class SocialResponse  {
 
     @SerializedName("data")
     @Expose

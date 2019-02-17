@@ -26,7 +26,7 @@
                 android:layout_marginEnd="@dimen/dp8"
                 android:src="@drawable/phlog_logo" />
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/social_campaign_name"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/icon_view_holder_size_m"
@@ -60,7 +60,7 @@
                 android:orientation="vertical"
                 android:padding="@dimen/dp14">
 
-                <TextView
+                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/social_campaign_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                     android:textSize="@dimen/text_title_head"
                     tools:text="campaign" />
 
-                <TextView
+                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/social_campaign_day_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

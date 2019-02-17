@@ -27,7 +27,7 @@
                 android:layout_marginStart="@dimen/dp6"
                 tools:src="@drawable/default_user_pic" />
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/social_brand_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 android:layout_height="35dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@drawable/rounded_blue_btn"
+                android:background="@drawable/rounded_text_in_btn"
                 android:fontFamily="@string/filters"
                 android:text="@string/follow"
                 android:textColor="@color/white" />
@@ -65,7 +65,7 @@
                 android:src="@drawable/default_photographer_profile" />
 
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/social_brand_following"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

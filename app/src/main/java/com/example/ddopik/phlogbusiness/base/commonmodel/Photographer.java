@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by abdalla_maged On Nov,2018
  */
-public class Photographer extends MentionedUser implements  Parcelable  {
+public class Photographer extends MentionedUser implements Parcelable {
 
     public Photographer(){
 
@@ -53,6 +53,9 @@ public class Photographer extends MentionedUser implements  Parcelable  {
     @SerializedName("image_profile")
     @Expose
     public String imageProfile;
+    @SerializedName("image_cover")
+    @Expose
+    public String imageCover;
     @SerializedName("mobile_os")
     @Expose
     public String mobileOs;
@@ -97,43 +100,7 @@ public class Photographer extends MentionedUser implements  Parcelable  {
 
     @SerializedName("is_follow")
     @Expose
-    public Boolean isFollow;
-
-    protected Photographer(Parcel in) {
-        byte isPhoneVerifiedVal = in.readByte();
-        isPhoneVerified = isPhoneVerifiedVal == 0x02 ? null : isPhoneVerifiedVal != 0x00;
-        userName = in.readString();
-        byte isEmailVerifiedVal = in.readByte();
-        isEmailVerified = isEmailVerifiedVal == 0x02 ? null : isEmailVerifiedVal != 0x00;
-        mobile = in.readString();
-        createdAt = in.readString();
-        mobileModel = in.readString();
-        facebookId = in.readString();
-        token = in.readString();
-        password = in.readString();
-        fullName = in.readString();
-        updatedAt = in.readString();
-        imageProfile = in.readString();
-        mobileOs = in.readString();
-        hash = in.readString();
-        email = in.readString();
-        countryId = in.readString();
-        id = in.readByte() == 0x00 ? null : in.readInt();
-        followersCount = in.readByte() == 0x00 ? null : in.readInt();
-        followingCount = in.readByte() == 0x00 ? null : in.readInt();
-        photosCount = in.readByte() == 0x00 ? null : in.readInt();
-//        country = in.readString();
-        rate = in.readFloat();
-        level = in.readString();
-        if (in.readByte() == 0x01) {
-            earnings = new ArrayList<Earning>();
-            in.readList(earnings, Earning.class.getClassLoader());
-        } else {
-            earnings = null;
-        }
-        byte isFollowVal = in.readByte();
-        isFollow = isFollowVal == 0x02 ? null : isFollowVal != 0x00;
-    }
+    public boolean isFollow;
 
     @Override
     public int describeContents() {
@@ -142,75 +109,66 @@ public class Photographer extends MentionedUser implements  Parcelable  {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        if (isPhoneVerified == null) {
-            dest.writeByte((byte) (0x02));
-        } else {
-            dest.writeByte((byte) (isPhoneVerified ? 0x01 : 0x00));
-        }
-        dest.writeString(userName);
-        if (isEmailVerified == null) {
-            dest.writeByte((byte) (0x02));
-        } else {
-            dest.writeByte((byte) (isEmailVerified ? 0x01 : 0x00));
-        }
-        dest.writeString(mobile);
-        dest.writeString(createdAt);
-        dest.writeString(mobileModel);
-        dest.writeString(facebookId);
-        dest.writeString(token);
-        dest.writeString(password);
-        dest.writeString(fullName);
-        dest.writeString(updatedAt);
-        dest.writeString(imageProfile);
-        dest.writeString(mobileOs);
-        dest.writeString(hash);
-        dest.writeString(email);
-        dest.writeString(countryId);
-        if (id == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(id);
-        }
-        if (followersCount == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(followersCount);
-        }
-        if (followingCount == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(followingCount);
-        }
-        if (photosCount == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(photosCount);
-        }
-//        dest.writeString(country);
-        dest.writeFloat(rate);
-        dest.writeString(level);
-        if (earnings == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(earnings);
-        }
-        if (isFollow == null) {
-            dest.writeByte((byte) (0x02));
-        } else {
-            dest.writeByte((byte) (isFollow ? 0x01 : 0x00));
-        }
+        dest.writeValue(this.isPhoneVerified);
+        dest.writeString(this.userName);
+        dest.writeValue(this.isEmailVerified);
+        dest.writeString(this.mobile);
+        dest.writeString(this.createdAt);
+        dest.writeString(this.mobileModel);
+        dest.writeString(this.facebookId);
+        dest.writeString(this.token);
+        dest.writeString(this.password);
+        dest.writeString(this.fullName);
+        dest.writeString(this.updatedAt);
+        dest.writeString(this.imageProfile);
+        dest.writeString(this.imageCover);
+        dest.writeString(this.mobileOs);
+        dest.writeString(this.hash);
+        dest.writeString(this.email);
+        dest.writeString(this.countryId);
+        dest.writeValue(this.id);
+        dest.writeValue(this.followersCount);
+        dest.writeValue(this.followingCount);
+        dest.writeValue(this.photosCount);
+        dest.writeFloat(this.rate);
+        dest.writeString(this.level);
+        dest.writeList(this.earnings);
+        dest.writeByte(this.isFollow ? (byte) 1 : (byte) 0);
     }
 
-    @SuppressWarnings("unused")
+    protected Photographer(Parcel in) {
+        this.isPhoneVerified = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.userName = in.readString();
+        this.isEmailVerified = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.mobile = in.readString();
+        this.createdAt = in.readString();
+        this.mobileModel = in.readString();
+        this.facebookId = in.readString();
+        this.token = in.readString();
+        this.password = in.readString();
+        this.fullName = in.readString();
+        this.updatedAt = in.readString();
+        this.imageProfile = in.readString();
+        this.imageCover = in.readString();
+        this.mobileOs = in.readString();
+        this.hash = in.readString();
+        this.email = in.readString();
+        this.countryId = in.readString();
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.followersCount = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.followingCount = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.photosCount = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.rate = in.readFloat();
+        this.level = in.readString();
+        this.earnings = new ArrayList<Earning>();
+        in.readList(this.earnings, Earning.class.getClassLoader());
+        this.isFollow = in.readByte() != 0;
+    }
+
     public static final Creator<Photographer> CREATOR = new Creator<Photographer>() {
         @Override
-        public Photographer createFromParcel(Parcel in) {
-            return new Photographer(in);
+        public Photographer createFromParcel(Parcel source) {
+            return new Photographer(source);
         }
 
         @Override

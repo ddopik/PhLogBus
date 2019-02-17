@@ -51,7 +51,7 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                         android:id="@+id/album_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_medium_s" />
 
-                    <TextView
+                    <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                         android:id="@+id/album_author"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                             android:id="@+id/album_img_like_val"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                             android:layout_marginBottom="@dimen/dp8"
                             android:text="10 Likes" />
 
-                        <TextView
+                        <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                             android:id="@+id/album_img_comment_val"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

@@ -13,6 +13,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class AlbumPreviewActivityPresenterImpl implements AlbumPreviewActivityPresenter {
 
+
     private String TAG = AlbumPreviewActivityPresenterImpl.class.getSimpleName();
     private Context context;
     private AlbumPreviewActivityView albumPreviewActivityView;
@@ -23,37 +24,37 @@ public class AlbumPreviewActivityPresenterImpl implements AlbumPreviewActivityPr
     }
 
     @SuppressLint("CheckResult")
-
-
     @Override
-    public void getAlbumDetails(int albumID, String pageNum) {
+    public void getSelectedSearchAlbum(int albumID, String pageNum) {
         albumPreviewActivityView.viewAlbumPreviewProgress(true);
-        BaseNetworkApi.getAlbumDetails( String.valueOf(albumID), pageNum)
+        BaseNetworkApi.getAlbumDetails(String.valueOf(albumID))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(albumPreviewResponse -> {
-                    albumPreviewActivityView.viewAlumPreviewData(albumPreviewResponse.data);
+                    albumPreviewActivityView.viewAlumPreview(albumPreviewResponse.data);
                     albumPreviewActivityView.viewAlbumPreviewProgress(false);
                 }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     albumPreviewActivityView.viewAlbumPreviewProgress(false);
                 });
-    }
 
+
+    }
 
     @SuppressLint("CheckResult")
     @Override
-    public void getAlbumPreviewImages(int albumId,int  pageNum) {
-        BaseNetworkApi.getAlbumImagesPreview( String.valueOf(albumId),String.valueOf( pageNum))
+    public void getAlbumPreviewImages(int albumId, int page) {
+        albumPreviewActivityView.viewAlbumPreviewProgress(true);
+        BaseNetworkApi.getAlbumImagesPreview(String.valueOf(albumId), String.valueOf(page))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(albumPreviewImagesResponse -> {
-                    albumPreviewActivityView.viwAlbumPreviewImages(albumPreviewImagesResponse.data.imagesList);
+                .subscribe(response -> {
                     albumPreviewActivityView.viewAlbumPreviewProgress(false);
+                    albumPreviewActivityView.viwAlbumPreviewImages(response.data.imagesList);
                 }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     albumPreviewActivityView.viewAlbumPreviewProgress(false);
                 });
-
     }
+
 }

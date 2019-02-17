@@ -9,6 +9,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model
 import com.example.ddopik.phlogbusiness.ui.accountdetails.model.AccountDetailsModel;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewImagesResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponse;
+import com.example.ddopik.phlogbusiness.ui.album.model.SavePhotoResponse;
 import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.SubmitCampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.CampaignInnerPhotosResponse;
@@ -90,7 +91,9 @@ public class BaseNetworkApi {
     private static final String FACEBOOK_LOGIN_URL = BASE_URL + "/signup_facebook";
     private static final String INNER_BRAND_URL = BASE_URL + "/search_in_one_brands";
     private static final String BRAND_FOLLOW_URL = BASE_URL + "/join_photographer_brand";
+    private static final String BRAND_UN_FOLLOW_URL = BASE_URL + "/unfollow";
     private static final String SOCIAL_DATA_URL = BASE_URL + "/social";
+    private static final String SOCIAL_DATA_URL_RESET = BASE_URL + "/social?reset=1";
     private static final String GET_ALL_NOTIFICATION = BASE_URL + "/notification/list";
     private static final String ALL_COMPLETED_CAMPAIGN_URL = BASE_URL + "/campaign/old";
     private static final String ALL_RUNNING_CAMPAIGN_URL = BASE_URL + "/campaign/running";
@@ -99,7 +102,9 @@ public class BaseNetworkApi {
     private static final String CAMPAIGN_DETAILS_URL = BASE_URL + "/campaign/details";
     private static final String USER_PROFILE_URL = BASE_URL + "/photographer/details";
     private static final String USER_PROFILE_PHOTOS = BASE_URL + "/photographer/photos";
+    private static final String PHOTOGRAPHER_UN_FOLLOW_USER_URL = BASE_URL + "/photographer/unfollow";
     private static final String PHOTOGRAPHER_FOLLOW_USER_URL = BASE_URL + "/photographer/follow";
+    private static final String GET_ALBUM_DETAILS = BASE_URL + "/photographer/album/details";
     private static final String PHOTOGRAPHER_SEARCH_URL = BASE_URL + "/photographer/list";
     private static final String GET_ALBUM_PREVIEW = BASE_URL +"/album/details";
     private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL +"/album/photos";
@@ -135,6 +140,8 @@ public class BaseNetworkApi {
     private static final String CHANGE_CAMPAIGN_END_DATE_URL = BASE_URL + "/campaign/extend";
     private static final String DUMMY_SOCIAL = "http://178.128.162.10/public/api/photographer/social/dummy";
     private static final String REQUEST_VERIFICATION_BRAND_URL = BASE_URL + "/brand/request_verify";
+    private static final String SAVE_PHOTO_URL = BASE_URL + "/photographer/photo/save";
+    private static final String UNSAVE_PHOTO_URL = BASE_URL + "/photographer/photo/unsave";
 
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
@@ -226,19 +233,47 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<FollowBrandResponse> followBrand(String token, String brandId) {
+    public static io.reactivex.Observable<SavePhotoResponse> savePhoto(int id) {
+        return Rx2AndroidNetworking.post(SAVE_PHOTO_URL)
+                .addBodyParameter("photo_id", String.valueOf(id))
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(SavePhotoResponse.class);
+    }
+
+    public static io.reactivex.Observable<SavePhotoResponse> unSavePhoto(int id) {
+        return Rx2AndroidNetworking.post(UNSAVE_PHOTO_URL)
+                .addBodyParameter("photo_id", String.valueOf(id))
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(SavePhotoResponse.class);
+    }
+    public static io.reactivex.Observable<FollowBrandResponse> followBrand(String brandId) {
         return Rx2AndroidNetworking.post(BRAND_FOLLOW_URL)
-                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
-                .addBodyParameter("brand_id", brandId)
+                .getResponseOnlyFromNetwork()
+                .addBodyParameter("business_id", brandId)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(FollowBrandResponse.class);
     }
 
-    public static io.reactivex.Observable<SocialResponse> getSocialData(String token) {
-//        return Rx2AndroidNetworking.post(SOCIAL_DATA_URL)
-        return Rx2AndroidNetworking.post(DUMMY_SOCIAL)
-                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
+    public static io.reactivex.Observable<FollowBrandResponse> unFollowBrand(String brandId) {
+        return Rx2AndroidNetworking.post(BRAND_UN_FOLLOW_URL)
+                .getResponseOnlyFromNetwork()
+                .addBodyParameter("business_id", brandId)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(FollowBrandResponse.class);
+    }
+    public static io.reactivex.Observable<SocialResponse> getSocialData(boolean firstTime) {
+
+        String url;
+        if (firstTime){
+            url=SOCIAL_DATA_URL_RESET;
+        }else {
+            url=SOCIAL_DATA_URL;
+        }
+        return Rx2AndroidNetworking.post(url)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(SocialResponse.class);
@@ -318,33 +353,40 @@ public class BaseNetworkApi {
                 .getObjectObservable(UserProfileResponse.class);
     }
 
-    public static io.reactivex.Observable<UserPhotosResponse> getUserProfilePhotos(String token, String userID, int page) {
+
+    public static io.reactivex.Observable<UserPhotosResponse> getUserProfilePhotos( String userID, int page) {
         return Rx2AndroidNetworking.post(USER_PROFILE_PHOTOS)
-                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
                 .addBodyParameter("photographer_id", userID)
                 .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
+                .getResponseOnlyFromNetwork()
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(UserPhotosResponse.class);
+
     }
-
-
-    public static io.reactivex.Observable<FollowUserResponse> followUser(String token, String userID) {
-        return Rx2AndroidNetworking.post(PHOTOGRAPHER_FOLLOW_USER_URL)
-                .addBodyParameter(TOKEN_BODY_PARAMETER, token)
+    public static io.reactivex.Observable<FollowUserResponse> unFollowUser(String userID) {
+        return Rx2AndroidNetworking.post(PHOTOGRAPHER_UN_FOLLOW_USER_URL)
                 .addBodyParameter("photographer_id", userID)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(FollowUserResponse.class);
     }
 
-    public static io.reactivex.Observable<AlbumPreviewResponse> getAlbumDetails(String albumId, String page) {
-        return Rx2AndroidNetworking.post(GET_ALBUM_PREVIEW)
-                .addQueryParameter(PAGER_PATH_PARAMETER, page)
+    public static io.reactivex.Observable<FollowUserResponse> followUser(String userID) {
+        return Rx2AndroidNetworking.post(PHOTOGRAPHER_FOLLOW_USER_URL)
+                .addBodyParameter("photographer_id", userID)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(FollowUserResponse.class);
+    }
+
+    public static Observable<AlbumPreviewResponse> getAlbumDetails(String albumId) {
+        return Rx2AndroidNetworking.post(GET_ALBUM_DETAILS)
                 .addBodyParameter("album_id", albumId)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(AlbumPreviewResponse.class);
+//        .getStringSingle();
     }
 
     public static io.reactivex.Observable<AlbumPreviewImagesResponse> getAlbumImagesPreview(String albumId, String page) {

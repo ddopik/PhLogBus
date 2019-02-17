@@ -20,15 +20,10 @@
             android:orientation="horizontal"
             android:layout_marginBottom="@dimen/dp8">
 
-            <ImageView
-                android:id="@+id/social_icon_img"
-                android:layout_width="@dimen/icon_view_holder_size_s"
-                android:layout_height="@dimen/icon_view_holder_size_s"
-                android:layout_marginStart="@dimen/dp4"
-                tools:src="@drawable/default_user_pic" />
 
 
-            <TextView
+
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/social_image_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

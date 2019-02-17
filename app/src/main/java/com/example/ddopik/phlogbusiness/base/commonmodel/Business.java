@@ -6,9 +6,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by abdalla_maged on 12/25/2018.
+ * Created by abdalla_maged On Dec,2018
  */
-public class Business  extends MentionedUser implements Parcelable {
+
+public class Business extends MentionedUser implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -19,10 +20,10 @@ public class Business  extends MentionedUser implements Parcelable {
     @SerializedName("thumbnail")
     @Expose
     public String thumbnail;
-    @SerializedName("full_name")
-    @Expose
-    public String fullName;
-    @SerializedName("website")
+    //    @SerializedName("full_name")
+//    @Expose
+//    public String fullName;
+    @SerializedName("web_site")
     @Expose
     public String website;
     @SerializedName("industry")
@@ -49,6 +50,8 @@ public class Business  extends MentionedUser implements Parcelable {
 
     @SerializedName("is_brand")
     public boolean isBrand;
+    @SerializedName("is_follow")
+    public boolean isFollow;
 
     @SerializedName("is_brand_text")
     public String isBrandText;
@@ -133,7 +136,6 @@ public class Business  extends MentionedUser implements Parcelable {
         dest.writeString(this.phone);
         dest.writeInt(this.followersCount);
         dest.writeString(this.nameEn);
-        dest.writeString(this.fullName);
     }
 
     public Business() {
@@ -168,7 +170,6 @@ public class Business  extends MentionedUser implements Parcelable {
         this.phone = in.readString();
         this.followersCount = in.readInt();
         this.nameEn = in.readString();
-        this.fullName = in.readString();
     }
 
     public static final Parcelable.Creator<Business> CREATOR = new Parcelable.Creator<Business>() {
