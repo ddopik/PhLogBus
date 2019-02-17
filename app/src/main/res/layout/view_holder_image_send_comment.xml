@@ -11,7 +11,7 @@
 			android:orientation="horizontal"
 			android:padding="@dimen/dp24">
 		
-		<com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView2
+		<com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView
 				android:id="@+id/img_send_comment_val"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"

@@ -46,7 +46,7 @@ public class CompleteCampaignsFragment extends BaseFragment implements CompleteC
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mainView=inflater.inflate(R.layout.fragment_complete_fragment,container,false);
+        mainView=inflater.inflate(R.layout.fragment_complete_fragment, container,false);
         return mainView;
     }
 

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ddopik.phlogbusiness.R;
@@ -14,6 +15,9 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 import com.example.ddopik.phlogbusiness.base.widgets.PickDateDialog;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerSettingPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerSettingPresenterImpl;
+import com.example.ddopik.phlogbusiness.utiltes.CampaignStatusStringProvider;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.Constants.CampaignStatus;
 
 import org.w3c.dom.Text;
 
@@ -30,7 +34,8 @@ public class CampaignInnerSettingFragment extends BaseFragment implements Campai
 
 
     private View mainView;
-    private TextView campaignStatus, campaignPrize,campaignStartDate,campaignEndDate, campaignPhotosNumber;
+    private TextView campaignStatus, campaignPrize, campaignStartDate, campaignEndDate, campaignPhotosNumber;
+    private Button extendCampaign;
     private Campaign campaign;
 
     private CampaignInnerSettingPresenter presenter;
@@ -80,20 +85,31 @@ public class CampaignInnerSettingFragment extends BaseFragment implements Campai
         campaignStartDate = mainView.findViewById(R.id.campaign_start_date);
         campaignEndDate = mainView.findViewById(R.id.campaign_end_date);
         campaignPhotosNumber = mainView.findViewById(R.id.campaign_number_photos);
-
+        extendCampaign = mainView.findViewById(R.id.extend_campaign_button);
         setCampaignViews();
     }
 
     private void setCampaignViews() {
-        campaignStatus.setText("" + campaign.status);
+        campaignStatus.setText(new CampaignStatusStringProvider() {
+        }.getStatus(campaign.status));
         campaignEndDate.setText(campaign.endDate);
         campaignStartDate.setText(campaign.startDate);
         campaignPrize.setText(campaign.prize);
-        campaignPhotosNumber.setText("" + -1);
+        campaignPhotosNumber.setText(String.format("%1$d", campaign.photosCount));
+        switch (campaign.status) {
+            case CampaignStatus.CAMPAIGN_STATUS_FINISHED:
+            case CampaignStatus.CAMPAIGN_STATUS_PRIZE_PROCESSING:
+            case CampaignStatus.CAMPAIGN_STATUS_COMPLETED:
+                extendCampaign.setVisibility(View.INVISIBLE);
+                break;
+            default:
+                extendCampaign.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     private void initListeners() {
-        campaignEndDate.setOnClickListener(v -> {
+        extendCampaign.setOnClickListener(v -> {
             PickDateDialog pickDateDialog = new PickDateDialog();
             pickDateDialog.setOnDateSet((year, month, day) -> {
                 String dateString = year + "-" + (month + 1) + "-" + day;

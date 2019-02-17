@@ -49,7 +49,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             else
                 holder.exclusiveIcon.setVisibility(View.INVISIBLE);
         });
-        holder.byWhow.setText(item.getPhotographer().userName);
+        holder.byWhow.setText(item.getPhotographer().fullName);
         holder.likes.setText("" + item.getLikesCount());
 //        holder.price.setText(item.);
         if (item.getUrl() != null)

@@ -21,6 +21,7 @@ import com.example.ddopik.phlogbusiness.ui.accountdetails.view.AccountDetailsFra
 import com.example.ddopik.phlogbusiness.ui.customersupport.view.CustomerSupportFragment;
 import com.example.ddopik.phlogbusiness.ui.downloads.view.DownloadsFragment;
 import com.example.ddopik.phlogbusiness.ui.lightboxphotos.view.LightBoxPhotosFragment;
+import com.example.ddopik.phlogbusiness.ui.notification.view.NotificationFragment;
 import com.example.ddopik.phlogbusiness.ui.splash.SplashActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
@@ -205,24 +206,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     currentTab = CAMPAIGN;
                     break;
                 }
-//                case NOTIFICATION: {
-//
-//                    addFragment(R.id.view_container, new NotificationFragment(), NotificationFragment.class.getSimpleName(), false);
+                case NOTIFICATION: {
+
+                    addFragment(R.id.view_container, new NotificationFragment(), NotificationFragment.class.getSimpleName(), false);
 //                    notificationBtn.setTextColor(getResources().getColor(R.color.text_input_color));
 //                    notificationBtn.setCompoundDrawablesWithIntrinsicBounds(0, notificationBtnImg, 0, 0);
 //                    notificationBtn.setCompoundDrawablePadding(8);
-//                    toolbar.setVisibility(View.VISIBLE);
-//                    toolBarTitle.setText(getResources().getString(R.string.notification));
-//                    currentTab = NOTIFICATION;
-//                    break;
-//                }
+                    toolbar.setVisibility(View.GONE);
+                    toolBarTitle.setText(getResources().getString(R.string.notification));
+                    currentTab = NOTIFICATION;
+                    break;
+                }
                 case CALL_SUPPORT: {
                     addFragment(R.id.view_container, new CustomerSupportFragment(), CustomerSupportFragment.class.getSimpleName(), false);
                     callSupportBtn.setVisibility(View.VISIBLE);
                     callSupportBtn.setTextColor(getResources().getColor(R.color.text_input_color));
                     callSupportFloatBtn.setImageResource(R.drawable.btn_call_support_selected);
                     toolbar.setVisibility(View.VISIBLE);
-                    toolBarTitle.setText(getResources().getString(R.string.call_support));
+                    toolBarTitle.setText(R.string.customer_support);
+                    backBtn.setVisibility(View.INVISIBLE);
                     currentTab = CALL_SUPPORT;
                     break;
                 }
@@ -247,7 +249,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     myProfileBtn.setCompoundDrawablePadding(8);
                     toolbar.setVisibility(View.GONE);
 //                    toolBarTitle.setText(getResources().getString(R.string.light_box));
-                    currentTab = EDIT_PROFILE;
+                    currentTab = LIGHT_BOX;
 
                     break;
                 }
@@ -258,12 +260,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case DOWNLOADS:
                     addFragment(R.id.view_container, new DownloadsFragment(), AccountDetailsFragment.TAG, true);
                     downloadsBtn.setTextColor(getResources().getColor(R.color.text_input_color));
+                    toolbar.setVisibility(View.VISIBLE);
+                    toolBarTitle.setText(R.string.downloads);
+                    backBtn.setVisibility(View.INVISIBLE);
                     break;
                 case LIGHT_BOX_PHOTOS:
                     LightBox lightBox = (LightBox) messageToFragment;
                     addFragment(R.id.view_container, LightBoxPhotosFragment.getInstance(lightBox), LightBoxPhotosFragment.TAG, true);
                     toolbar.setVisibility(View.VISIBLE);
                     toolBarTitle.setText(lightBox.name);
+                    currentTab = LIGHT_BOX_PHOTOS;
                     break;
                 case LOGOUT:
                     Intent intent = new Intent(MainActivity.this, SplashActivity.class);

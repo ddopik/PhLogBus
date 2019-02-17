@@ -16,9 +16,12 @@ import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.ui.lightboxphotos.presenter.LightboxPhotosPresenter;
 import com.example.ddopik.phlogbusiness.ui.lightboxphotos.presenter.LightboxPhotosPresenterImpl;
+import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -197,6 +200,12 @@ public class LightBoxPhotosFragment extends BaseFragment implements LightboxPhot
                             CustomErrorUtil.Companion.setError(getContext(), TAG, throwable);
                         });
                 disposables.add(d6);
+                break;
+            case PHOTOGRAPHER:
+                Intent i2 = new Intent(getContext(), UserProfileActivity.class);
+                i2.putExtra(UserProfileActivity.USER_ID, image.photographer.id.toString());
+                i2.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
+                startActivity(i2);
                 break;
         }
     };

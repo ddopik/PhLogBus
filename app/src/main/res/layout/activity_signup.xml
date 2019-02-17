@@ -8,8 +8,7 @@
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
-    >
+        android:fillViewport="true">
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -94,13 +93,13 @@
                             android:id="@+id/first_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:hint="@string/first_name"
                             android:inputType="textPersonName"
                             android:singleLine="true"
                             android:textAlignment="textStart"
                             android:textColor="@color/black677078"
                             android:textSize="@dimen/sign_up_text_size"
-                            android:textStyle="bold"
-                            tools:text="First Name" />
+                            android:textStyle="bold"/>
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -116,6 +115,7 @@
                             android:id="@+id/last_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:hint="@string/last_name"
                             android:inputType="textPersonName"
                             android:singleLine="true"
                             android:textAlignment="textStart"
@@ -161,6 +161,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
+                        android:hint="@string/email"
                         android:textAlignment="textStart"
                         android:textColor="@color/black677078"
                         android:textSize="@dimen/sign_up_text_size"
@@ -176,8 +177,8 @@
                     android:layout_marginTop="@dimen/sign_up_text_input_margin_top"
                     android:hint="@string/password"
                     android:theme="@style/TextLabel"
-                    app:passwordToggleEnabled="true"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+                    app:passwordToggleEnabled="true">
 
                     <EditText
                         android:id="@+id/register_password"
@@ -187,6 +188,7 @@
                         android:textAlignment="textStart"
                         android:textColor="@color/black677078"
                         android:textSize="@dimen/sign_up_text_size"
+                        android:hint="@string/password"
                         android:textStyle="bold" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -204,6 +206,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="phone"
+                        android:hint="@string/mobile"
                         android:textAlignment="textStart"
                         android:textColor="@color/black677078"
                         android:textSize="@dimen/sign_up_text_size"
@@ -226,6 +229,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textAutoComplete"
                         android:textAlignment="textStart"
+                        android:hint="@string/industry"
                         android:textColor="@color/black677078"
                         android:textSize="@dimen/sign_up_text_size"
                         android:textStyle="bold" />
@@ -270,6 +274,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/dp12"
                     android:paddingEnd="@dimen/dp12"
+                    android:visibility="invisible"
                     android:paddingBottom="@dimen/dp12"
                     android:text="@string/sign_up_terms_notifier"
                     android:textAlignment="textStart"

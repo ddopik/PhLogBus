@@ -11,16 +11,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 
 import java.util.List;
 
-public class CompletedCampaignsAdapter  extends RecyclerView.Adapter<CompletedCampaignsAdapter.CompletedCampaignViewHolder> {
+public class CompletedCampaignsAdapter extends RecyclerView.Adapter<CompletedCampaignsAdapter.CompletedCampaignViewHolder> {
 
     private List<Campaign> completedCampaignCampaignList;
     private Context context;
@@ -53,15 +53,10 @@ public class CompletedCampaignsAdapter  extends RecyclerView.Adapter<CompletedCa
             }
         });
 
-        GlideApp.with(context).load(homeCampaign.imageCover)
-                 .error(R.drawable.default_place_holder)
-                .into(new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
-                        campaignViewHolder.campaignImage.setBackground(resource);
-                    }
-                });
-        campaignViewHolder.campaignBusinessName.setText(homeCampaign.business.firstName +""+homeCampaign.business.firstName);
+        Glide.with(context).load(homeCampaign.imageCover)
+                .apply(RequestOptions.errorOf(R.drawable.default_place_holder))
+                .into(campaignViewHolder.campaignImage);
+        campaignViewHolder.campaignBusinessName.setText(homeCampaign.business.fullName);
         campaignViewHolder.campaignTitle.setText(homeCampaign.titleEn);
 
         campaignViewHolder.campaignDayLeft.setText(String.valueOf(homeCampaign.daysLeft));
@@ -70,10 +65,10 @@ public class CompletedCampaignsAdapter  extends RecyclerView.Adapter<CompletedCa
         campaignViewHolder.campaignJoind.setText(String.valueOf(homeCampaign.daysLeft));
         campaignViewHolder.campaignJoind.append(" " + context.getResources().getString(R.string.people_joined));
 
-        GlideApp.with(context)
+        Glide.with(context)
                 .load(homeCampaign.business.thumbnail)
-                .apply(RequestOptions.circleCropTransform())
-                .error(R.drawable.default_place_holder)
+                .apply(RequestOptions.circleCropTransform()
+                        .error(R.drawable.default_place_holder))
                 .into(campaignViewHolder.campaignBusinessIcon);
     }
 
@@ -85,7 +80,7 @@ public class CompletedCampaignsAdapter  extends RecyclerView.Adapter<CompletedCa
     public class CompletedCampaignViewHolder extends RecyclerView.ViewHolder {
         private ImageView campaignImage;
         private ImageView campaignBusinessIcon;
-        private TextView campaignBusinessName, campaignTitle, campaignDayLeft,campaignJoind;
+        private TextView campaignBusinessName, campaignTitle, campaignDayLeft, campaignJoind;
         private Button joinCampaignBtn;
 
         public CompletedCampaignViewHolder(View view) {

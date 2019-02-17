@@ -19,9 +19,9 @@ public class Business  extends MentionedUser implements Parcelable {
     @SerializedName("thumbnail")
     @Expose
     public String thumbnail;
-//    @SerializedName("full_name")
-//    @Expose
-//    public String fullName;
+    @SerializedName("full_name")
+    @Expose
+    public String fullName;
     @SerializedName("website")
     @Expose
     public String website;
@@ -133,6 +133,7 @@ public class Business  extends MentionedUser implements Parcelable {
         dest.writeString(this.phone);
         dest.writeInt(this.followersCount);
         dest.writeString(this.nameEn);
+        dest.writeString(this.fullName);
     }
 
     public Business() {
@@ -167,6 +168,7 @@ public class Business  extends MentionedUser implements Parcelable {
         this.phone = in.readString();
         this.followersCount = in.readInt();
         this.nameEn = in.readString();
+        this.fullName = in.readString();
     }
 
     public static final Parcelable.Creator<Business> CREATOR = new Parcelable.Creator<Business>() {

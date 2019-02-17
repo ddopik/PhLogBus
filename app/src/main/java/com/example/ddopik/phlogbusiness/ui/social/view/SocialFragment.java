@@ -8,11 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
+import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
 import com.example.ddopik.phlogbusiness.ui.brand.view.BrandInnerActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerActivity;
@@ -23,6 +27,7 @@ import com.example.ddopik.phlogbusiness.ui.social.presenter.SocialFragmentPresen
 import com.example.ddopik.phlogbusiness.ui.social.view.adapter.SocialAdapter;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.SearchActivity;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +45,9 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView {
     private SocialFragmentPresenter socialFragmentPresenter;
     private SocialAdapter socialAdapter;
     private List<SocialData> socialDataList = new ArrayList<>();
+
+    private ImageButton notificationButton;
+    private TextView notificationCount;
 
     @Nullable
     @Override
@@ -75,7 +83,8 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView {
         this.socialAdapter = new SocialAdapter(socialDataList);
         socailRv.setAdapter(socialAdapter);
 
-
+        notificationButton = mainView.findViewById(R.id.notification_icon);
+        notificationCount = mainView.findViewById(R.id.notification_count);
     }
 
     private void initListener(){
@@ -145,7 +154,11 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView {
             }
         };
 
-
+        View.OnClickListener notificaionClickListener = v -> {
+            MainActivity.navigationManger.navigate(Constants.NavigationHelper.NOTIFICATION);
+        };
+        notificationButton.setOnClickListener(notificaionClickListener);
+        notificationCount.setOnClickListener(notificaionClickListener);
     }
 
     @Override

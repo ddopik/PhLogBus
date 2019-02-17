@@ -17,7 +17,7 @@ public class UserProfileData {
     private boolean isFollow;
 
     @SerializedName("level")
-    private Object level;
+    private String level;
 
     @SerializedName("user_name")
     private String userName;
@@ -68,11 +68,11 @@ public class UserProfileData {
         isFollow = follow;
     }
 
-    public Object getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(Object level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 

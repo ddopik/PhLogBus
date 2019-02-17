@@ -56,5 +56,7 @@ public class Campaign {
     @SerializedName("days_left")
     @Expose
     public Integer daysLeft;
+    @SerializedName("photos_count")
+    public int photosCount;
 
 }

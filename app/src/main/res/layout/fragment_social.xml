@@ -29,17 +29,59 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/widgets_padding"
-
                 android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <TextView
+                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/arial_rounded_font"
                     android:text="@string/stories"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_head_xl" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageButton
+                            android:id="@+id/notification_icon"
+                            android:layout_width="0dp"
+                            app:layout_constraintHeight_percent=".7"
+                            android:layout_height="0dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintHorizontal_bias=".97"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintDimensionRatio="1:1"
+                            android:background="@color/transparent"
+                            app:srcCompat="@drawable/ic_bell_1"/>
+
+                        <TextView
+                            android:id="@+id/notification_count"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintHeight_percent=".25"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintVertical_bias=".9"
+                            app:layout_constraintStart_toStartOf="@id/notification_icon"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintEnd_toEndOf="@id/notification_icon"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:background="@drawable/circle"
+                            app:backgroundTint="@color/colorAccent"/>
+                    </android.support.constraint.ConstraintLayout>
+                </FrameLayout>
+            </LinearLayout>
 
                 <EditText
                         android:id="@+id/home_search"

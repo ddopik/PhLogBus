@@ -46,8 +46,9 @@
                 android:id="@+id/campaign_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                tools:background="@drawable/splash_screen_background"/>
+                tools:src="@drawable/default_place_holder"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -94,7 +95,7 @@
               android:layout_height="wrap_content"
               android:layout_marginBottom="@dimen/widgets_padding"
               android:textColor="@color/white"
-              android:drawableStart="@drawable/ic_followe_count"
+              android:drawableStart="@drawable/ic_joined"
               android:drawablePadding="@dimen/widgets_padding"
               tools:text="10 people joined"
               android:gravity="center"/>

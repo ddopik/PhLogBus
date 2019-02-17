@@ -3,11 +3,15 @@ package com.example.ddopik.phlogbusiness.ui.userprofile.view;
  * Created by Abdalla_maged on 9/30/2018.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.*;
+
+import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
@@ -132,6 +136,12 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
                 disposables.add(disposable);
             }
         });
+        userProfilePhotosAdapter.setPhotoAction(baseImage -> {
+            Intent intent = new Intent(this, ImageCommentActivity.class);
+            intent.putExtra(ImageCommentActivity.IMAGE_DATA, baseImage);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivityForResult(intent, ImageCommentActivity.ImageComment_REQUEST_CODE);
+        });
     }
 
     @Override
@@ -154,8 +164,8 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     public void viewUserProfileProfileImg(String userImg) {
         GlideApp.with(this)
                 .load(userImg)
+                .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.default_user_pic)
-                .centerCrop()
                 .into(userProfileImg);
     }
 
