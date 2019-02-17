@@ -104,13 +104,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             int rate3 = Math.round(previewImage.rate);
             commentViewHolder.photoRating.setRating(rate3);
 
-            if (previewImage.isRated) {
+            if (previewImage.isRated != null && previewImage.isRated) {
                 commentViewHolder.photoRating.setIsIndicator(true);
             }
             commentViewHolder.photoRating.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> commentAdapterAction.onImageRateClick(previewImage, rating));
 
 
-            if (previewImage.isSaved) {
+            if (previewImage.isSaved != null && previewImage.isSaved) {
                 commentViewHolder.addLightBoxBtn.setVisibility(View.GONE);
             } else {
                 commentViewHolder.addLightBoxBtn.setVisibility(View.VISIBLE);
@@ -144,8 +144,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
                 });
 
-
-                if (!previewImage.isLiked) {
+                if (previewImage.isLiked != null && !previewImage.isLiked) {
                     commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_off_white);
                 } else {
                     commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_on);
@@ -158,7 +157,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             }
 
 
-            if (previewImage.isCart) {
+            if (previewImage.isCart != null && previewImage.isCart) {
                 commentViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.view_in_cart));
             } else {
                 commentViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.add_to_cart));

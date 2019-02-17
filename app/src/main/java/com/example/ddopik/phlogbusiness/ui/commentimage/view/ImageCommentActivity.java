@@ -140,7 +140,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
             @Override
             public void onAddToCartClick(BaseImage baseImage) {
-                if (baseImage.isCart) {
+                if (baseImage.isCart != null && baseImage.isCart) {
                     Intent intent = new Intent(ImageCommentActivity.this, CartActivity.class);
                     startActivity(intent);
                 } else {

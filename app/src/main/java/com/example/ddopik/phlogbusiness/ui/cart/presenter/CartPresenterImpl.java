@@ -2,8 +2,8 @@ package com.example.ddopik.phlogbusiness.ui.cart.presenter;
 
 import android.content.Context;
 
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
-import com.example.ddopik.phlogbusiness.ui.cart.model.CartItem;
 import com.example.ddopik.phlogbusiness.ui.cart.view.CartView;
 
 import java.util.List;
@@ -28,12 +28,12 @@ public class CartPresenterImpl implements CartPresenter {
     }
 
     @Override
-    public void loadCartItems(Consumer<List<CartItem>> consumer, Context baseContext) {
+    public void loadCartItems(Consumer<List<BaseImage>> consumer, Context baseContext) {
         Disposable disposable = BaseNetworkApi.getCartItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    consumer.accept(response.getData());
+                    consumer.accept(response.data);
                 }, throwable -> {
                     String m = throwable.getMessage();
                 });
@@ -46,8 +46,8 @@ public class CartPresenterImpl implements CartPresenter {
     }
 
     @Override
-    public void removeCartItem(Context baseContext, CartItem o, Consumer<Boolean> booleanConsumer) {
-        Disposable disposable = BaseNetworkApi.removeCartItem(o.getId())
+    public void removeCartItem(Context baseContext, BaseImage baseImage, Consumer<Boolean> booleanConsumer) {
+        Disposable disposable = BaseNetworkApi.removeCartItem(baseImage.id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
