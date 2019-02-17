@@ -51,14 +51,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/widgets_padding"
-                android:fontFamily="@font/arial_rounded_font"
+                android:fontFamily="@font/segoe_b"
                 android:padding="@dimen/widgets_padding"
                 android:text="About brand :"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_medium_s"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/brand_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,31 +69,29 @@
                 android:text="asdasjdbas;nal;xnnnnnnnnnnnnnnnnnnnnnnnnnaaaaaaaaaaaaasdjkasd" />
 
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/brand_website"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:background="@color/gray200"
-                android:fontFamily="@font/arial_rounded_font"
                 android:gravity="center|start"
                 android:padding="@dimen/widgets_padding"
                 android:text="www.brand.come"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/brand_mail"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:background="@color/gray200"
-                android:fontFamily="@font/arial_rounded_font"
                 android:gravity="center|start"
                 android:padding="@dimen/widgets_padding"
                 android:text="brand email@mail.com"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/brand_campaign"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
@@ -101,7 +99,6 @@
                 android:layout_margin="@dimen/widgets_padding"
                 android:layout_marginTop="@dimen/widgets_padding"
                 android:drawableEnd="@drawable/ic_navigate_brand_forward_24dp"
-                android:fontFamily="@font/arial_rounded_font"
                 android:gravity="end"
                 android:text="@string/brand_campaign"
                 android:textColor="@color/text_input_color"

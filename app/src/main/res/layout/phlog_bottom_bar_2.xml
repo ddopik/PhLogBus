@@ -26,7 +26,7 @@
             android:layout_marginTop="@dimen/widgets_padding_s"
             android:background="@color/transparent"
             android:drawableTop="@drawable/ic_social_off"
-            android:fontFamily="@font/ph_log_font"
+            android:fontFamily="@font/segoe_sb"
             android:gravity="center|bottom"
             android:lines="1"
             android:padding="@dimen/widgets_padding_s"
@@ -47,7 +47,7 @@
             android:layout_marginTop="@dimen/widgets_padding_s"
             android:background="@color/transparent"
             android:drawableTop="@drawable/ic_campaigns_off"
-            android:fontFamily="@font/ph_log_font"
+            android:fontFamily="@font/segoe_sb"
             android:gravity="center|bottom"
             android:lines="1"
             android:padding="@dimen/widgets_padding_s"
@@ -68,7 +68,7 @@
             android:layout_marginTop="@dimen/widgets_padding_s"
             android:background="@color/transparent"
             android:drawableTop="@drawable/ic_profile_off"
-            android:fontFamily="@font/ph_log_font"
+            android:fontFamily="@font/segoe_sb"
             android:gravity="center|bottom"
             android:lines="1"
             android:padding="@dimen/widgets_padding_s"
@@ -88,7 +88,7 @@
             android:layout_height="match_parent"
             android:background="@color/transparent"
             android:drawableTop="@drawable/ic_downloads_off"
-            android:fontFamily="@font/ph_log_font"
+            android:fontFamily="@font/segoe_sb"
             android:gravity="center|bottom"
             android:lines="1"
             android:padding="@dimen/widgets_padding_s"
@@ -103,7 +103,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent=".2" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
             android:id="@+id/navigation_call_support"
             android:layout_width="0dp"
             android:layout_height="match_parent"

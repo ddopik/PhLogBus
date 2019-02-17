@@ -24,6 +24,7 @@
 
         <EditText
             android:id="@+id/search_view"
+            android:fontFamily="@font/verdana"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_search_view"
@@ -47,7 +48,6 @@
                 android:layout_margin="@dimen/dp12"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_frame_orange"
-                android:fontFamily="@font/arial_rounded_font"
                 android:gravity="center"
                 android:text="@string/images"
                 android:textAlignment="center"
@@ -61,7 +61,6 @@
                 android:layout_margin="@dimen/dp12"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_frame_orange"
-                android:fontFamily="@font/arial_rounded_font"
                 android:gravity="center"
                 android:text="@string/profile"
                 android:textAlignment="center"
@@ -75,7 +74,6 @@
                 android:layout_margin="@dimen/dp12"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_frame_orange"
-                android:fontFamily="@font/arial_rounded_font"
                 android:gravity="center"
                 android:text="@string/album"
                 android:textAlignment="center"

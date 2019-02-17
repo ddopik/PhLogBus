@@ -36,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp8"
-                android:fontFamily="@font/arial_rounded_font"
+                android:fontFamily="@font/segoe_sb"
                 android:gravity="bottom"
                 android:text="@string/login_header"
                 android:textColor="@color/white"
@@ -68,6 +68,8 @@
 
             <EditText
                 android:id="@+id/mail"
+                android:textColorHint="@color/gray400"
+                android:fontFamily="@font/verdana"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/mail"
@@ -91,6 +93,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
+                android:textColorHint="@color/gray400"
+                android:fontFamily="@font/verdana"
                 android:inputType="textPassword"
                 android:textAlignment="textStart"
                 android:textColor="@color/white"
@@ -106,6 +110,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:fontFamily="@font/segoe_sb"
                 android:id="@+id/sign_up_btn"
                 android:layout_width="@dimen/login_sign_in_btn_width"
                 android:layout_height="@dimen/login_sign_in_btn_height"
@@ -119,7 +124,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/sign_up_text_size_meduim" />
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/forgot_password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -139,14 +144,14 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/do_not_have_account"
                 android:textAlignment="textStart"
                 android:textColor="@color/white" />
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/sign_up_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

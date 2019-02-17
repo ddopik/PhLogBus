@@ -35,7 +35,6 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/dp12"
                 android:layout_weight="3"
-                android:fontFamily="@font/arial_rounded_font"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_medium"
                 tools:text="Brand text" />
@@ -47,7 +46,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_blue_btn"
-                android:fontFamily="@string/filters"
+                android:fontFamily="@font/segoe_sb"
                 android:text="@string/follow"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -72,7 +71,6 @@
                     android:layout_gravity="bottom"
                     tools:text="15 following "
                     android:layout_margin="@dimen/dp8"
-                    android:fontFamily="@font/arial_rounded_font"
                     android:textSize="@dimen/font_normal"
                     android:textColor="@color/white"/>
 

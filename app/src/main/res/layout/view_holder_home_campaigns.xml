@@ -28,6 +28,7 @@
                 android:src="@drawable/phlog_logo" />
 
             <TextView
+                android:fontFamily="@font/segoe_b"
                 android:id="@+id/campaign_name"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/icon_view_holder_size_m"

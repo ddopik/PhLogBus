@@ -1,121 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/black"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical">
 
     <FrameLayout
-            android:id="@+id/activity_photo_info_top_bar"
-            android:layout_width="match_parent"
+        android:id="@+id/activity_photo_info_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black">
+
+        <Button
+            android:id="@+id/activity_info_photo_back_btn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/black">
+            android:layout_gravity="start"
+            android:background="@color/transparent"
+            android:fontFamily="@font/segoe_sb"
+            android:text="@string/back"
+            android:textColor="@color/white" />
 
         <Button
-                android:id="@+id/activity_info_photo_back_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:background="@color/transparent"
-                android:text="@string/back"
-                android:textColor="@color/white"/>
+            android:id="@+id/activity_info_photo_next_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@color/transparent"
+            android:fontFamily="@font/segoe_sb"
+            android:text="@string/next"
 
-        <Button
-                android:id="@+id/activity_info_photo_next_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="@color/transparent"
-                android:text="@string/next"
-
-                android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
 
     </FrameLayout>
 
 
     <ImageView
-            android:id="@+id/photo_info"
-            android:layout_width="@dimen/filter_preview_img_w"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_weight="7"
-            android:scaleType="centerCrop"/>
+        android:id="@+id/photo_info"
+        android:layout_width="@dimen/filter_preview_img_w"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="7"
+        android:scaleType="centerCrop" />
 
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="@dimen/activity_padding">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_padding">
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:background="@color/transparent"
-                    app:srcCompat="@drawable/ic_caption"/>
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:background="@color/transparent"
+                app:srcCompat="@drawable/ic_caption" />
 
             <EditText
-                    android:id="@+id/photo_caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="15dp"
-                    android:paddingStart="@dimen/dp10"
-                    android:hint="@string/add_caption"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    app:backgroundTint="@color/white"/>
+                android:id="@+id/photo_caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="15dp"
+                android:fontFamily="@font/verdana"
+                android:hint="@string/add_caption"
+                android:paddingStart="@dimen/dp10"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:backgroundTint="@color/white" />
 
         </LinearLayout>
 
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp8"
-                android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:orientation="horizontal">
 
             <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:paddingStart="-6dp"
-                    android:background="@color/transparent"
-                    app:srcCompat="@drawable/ic_location"/>
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:background="@color/transparent"
+                android:paddingStart="-6dp"
+                app:srcCompat="@drawable/ic_location" />
 
             <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
 
                 <AutoCompleteTextView
-                        android:id="@+id/auto_complete_places"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/add_location"
-                        android:paddingStart="@dimen/dp10"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        app:backgroundTint="@color/white"/>
+                    android:id="@+id/auto_complete_places"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/verdana"
+                    android:hint="@string/add_location"
+                    android:paddingStart="@dimen/dp10"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:backgroundTint="@color/white" />
 
                 <ImageButton
-                        android:id="@+id/locate_me_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="@dimen/dp12"
-                        android:layout_marginBottom="@dimen/dp8"
-                        android:background="@color/transparent"
-                        app:srcCompat="@drawable/ic_my_location"/>
+                    android:id="@+id/locate_me_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/dp12"
+                    android:layout_marginBottom="@dimen/dp8"
+                    android:background="@color/transparent"
+                    app:srcCompat="@drawable/ic_my_location" />
 
             </RelativeLayout>
 
@@ -124,29 +128,29 @@
 
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dp8"
-                android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp8"
+            android:orientation="horizontal">
 
             <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25sp"
-                    android:paddingTop="@dimen/dp4"
-                    android:background="@color/transparent"
-                    app:srcCompat="@drawable/clock"/>
+                android:layout_width="25dp"
+                android:layout_height="25sp"
+                android:background="@color/transparent"
+                android:paddingTop="@dimen/dp4"
+                app:srcCompat="@drawable/clock" />
 
             <Switch
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:paddingStart="@dimen/dp12"
-                    android:text="@string/save_to_draft"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_medium_s"
-                    android:checked="false"
-                    android:theme="@style/switch_btn_style"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:fontFamily="@font/verdana"
+                android:paddingStart="@dimen/dp12"
+                android:text="@string/save_to_draft"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_medium_s"
+                android:theme="@style/switch_btn_style" />
         </LinearLayout>
 
 

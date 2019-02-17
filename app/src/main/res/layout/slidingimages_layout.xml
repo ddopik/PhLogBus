@@ -12,7 +12,7 @@
         android:scaleType="fitXY"
         app:srcCompat="@drawable/ic_launcher_background"/>
 
-    <TextView
+    <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
         android:id="@+id/image_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_medium"
         android:textStyle="bold"
-        tools:text="Texgt herere"/>
+        tools:text="Text here"/>
 
 </FrameLayout>
 

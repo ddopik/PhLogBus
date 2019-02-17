@@ -24,12 +24,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/arial_rounded_font"
+                android:fontFamily="@font/segoe_b"
                 android:text="@string/tags"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_large" />
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp12"
@@ -37,6 +37,7 @@
                 android:textColor="@color/white" />
 
             <AutoCompleteTextView
+                android:fontFamily="@font/verdana"
                 android:id="@+id/tag_auto_complete"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -71,11 +72,10 @@
         android:orientation="vertical"
       >
 
-        <TextView
+        <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/selected_tags"
-            android:fontFamily="@font/arial_rounded_font"
             android:textStyle="bold"
             android:textColor="@color/white"
 
@@ -119,7 +119,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center|top"
             android:background="@drawable/rounded_blue_btn"
-            android:fontFamily="@font/arial_rounded_font"
+            android:fontFamily="@font/segoe_sb"
             android:text="@string/upload_photo"
             android:textColor="@color/white"
             android:textStyle="bold" />

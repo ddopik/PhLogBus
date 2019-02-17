@@ -36,6 +36,7 @@
             app:layout_constraintTop_toBottomOf="@+id/space2" />
 
         <TextView
+            android:fontFamily="@font/segoe_b"
             android:id="@+id/photographer_name"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -55,6 +56,7 @@
 
         <TextView
             android:id="@+id/photographer_username"
+            android:fontFamily="@font/segoe_sb"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_gravity="start"
@@ -70,6 +72,7 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <Button
+            android:fontFamily="@font/segoe_sb"
             android:id="@+id/follow_button"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -151,6 +154,7 @@
                 <TextView
                     android:id="@+id/img_likes_count"
                     android:layout_width="0dp"
+                    android:fontFamily="@font/segoe_sb"
                     android:layout_height="wrap_content"
                     android:lines="1"
                     app:autoSizeMinTextSize="1sp"
@@ -175,6 +179,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:lines="1"
+                    android:fontFamily="@font/segoe_sb"
                     app:autoSizeMinTextSize="1sp"
                     app:autoSizeTextType="uniform"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -219,6 +224,7 @@
                         android:id="@+id/album_img_add_to_cart_val"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
+                        android:fontFamily="@font/segoe_sb"
                         android:gravity="center"
                         android:lines="1"
                         android:text="@string/add_to_cart"

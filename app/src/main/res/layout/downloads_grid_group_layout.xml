@@ -14,6 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
+        android:fontFamily="@font/segoe_sb"
         android:id="@+id/date_text_view"
         android:layout_width="0dp"
         android:layout_height="0dp"

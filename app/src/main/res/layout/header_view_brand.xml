@@ -47,18 +47,17 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/dp8"
                 android:layout_marginBottom="@dimen/dp8"
-                android:fontFamily="@font/arial_rounded_font"
+                android:fontFamily="@font/segoe_b"
                 android:text="brand name"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_medium_s" />
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/brand_num_followers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/dp12"
-                android:fontFamily="@font/arial_rounded_font"
                 android:text="512 k follows"
                 android:textColor="@color/user_profile_text_header_color" />
 
@@ -71,6 +70,7 @@
                 android:paddingStart="@dimen/dp12"
                 android:paddingEnd="@dimen/dp12"
                 android:text="brand type"
+                android:fontFamily="@font/segoe_sb"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_small" />
         </LinearLayout>
