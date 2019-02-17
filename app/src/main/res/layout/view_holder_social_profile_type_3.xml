@@ -58,7 +58,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_text_in_btn"
-                android:fontFamily="@string/filters"
+                android:fontFamily="@font/segoe_sb"
                 android:text="@string/follow"
                 android:textColor="@color/white" />
         </LinearLayout>
