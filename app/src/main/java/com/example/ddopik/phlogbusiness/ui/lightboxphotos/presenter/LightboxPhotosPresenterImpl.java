@@ -40,7 +40,7 @@ public class LightboxPhotosPresenterImpl implements LightboxPhotosPresenter {
 
     @Override
     public Observable<Boolean> follow(Context context, BaseImage image) {
-        return BaseNetworkApi.followUser(PrefUtils.getBrandToken(context), image.photographer.id.toString())
+        return BaseNetworkApi.followUser( image.photographer.id.toString())
                 .map(response -> {
                     return response != null && response.data != null && response.data.isFollow();
                 });

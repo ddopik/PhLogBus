@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by abdalla_maged on 12/25/2018.
+ * Created by abdalla_maged On Dec,2018
  */
 public class Campaign {
 
@@ -56,7 +56,12 @@ public class Campaign {
     @SerializedName("days_left")
     @Expose
     public Integer daysLeft;
+
+    @SerializedName("is_joined")
+    @Expose
+    public boolean isJoined;
     @SerializedName("photos_count")
+    @Expose
     public int photosCount;
 
 }

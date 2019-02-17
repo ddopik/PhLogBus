@@ -56,7 +56,7 @@ public class CompletedCampaignsAdapter extends RecyclerView.Adapter<CompletedCam
         Glide.with(context).load(homeCampaign.imageCover)
                 .apply(RequestOptions.errorOf(R.drawable.default_place_holder))
                 .into(campaignViewHolder.campaignImage);
-        campaignViewHolder.campaignBusinessName.setText(homeCampaign.business.fullName);
+        campaignViewHolder.campaignBusinessName.setText(new StringBuilder().append(homeCampaign.business.firstName).append(" ").append(homeCampaign.business.lastName).toString());
         campaignViewHolder.campaignTitle.setText(homeCampaign.titleEn);
 
         campaignViewHolder.campaignDayLeft.setText(String.valueOf(homeCampaign.daysLeft));

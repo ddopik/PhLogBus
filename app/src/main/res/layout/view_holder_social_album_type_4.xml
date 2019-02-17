@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/social_album_container"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/view_holder_item_list_height_med"
     android:background="@color/white"
     app:cardCornerRadius="@dimen/item_card_corner_radius"
     app:cardElevation="@dimen/item_card_elevation">
 
     <LinearLayout
-        android:id="@+id/social_profile_container"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -26,6 +27,7 @@
                 android:layout_height="@dimen/icon_view_holder_size_s"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/dp4"
+                android:scaleType="centerCrop"
                 tools:src="@drawable/default_user_pic" />
 
             <LinearLayout
@@ -41,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_medium"
-                    tools:text="Brand text" />
+                    tools:text="Album text" />
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/social_album_photos_number"
@@ -53,17 +55,25 @@
         </LinearLayout>
 
         <FrameLayout
+            android:id="@+id/social_album_type_4_photos_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            tools:visibility="visible">
+            <!--Acts as A default photo as if there is was only one photo -->
+
 
             <LinearLayout
+                android:id="@+id/social_album_img_group_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="invisible"
+                tools:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
@@ -73,6 +83,7 @@
                         android:layout_width="@dimen/social_album_icon_w"
                         android:layout_height="@dimen/social_album_icon_h"
                         android:layout_margin="@dimen/dp2"
+                        android:scaleType="centerCrop"
                         tools:background="@color/orangeF58624" />
 
                     <ImageView
@@ -80,14 +91,14 @@
                         android:layout_width="@dimen/social_album_icon_w"
                         android:layout_height="@dimen/social_album_icon_h"
                         android:layout_margin="@dimen/dp2"
-
+                        android:scaleType="centerCrop"
                         tools:background="@color/colorRed" />
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
@@ -96,6 +107,8 @@
                         android:layout_width="@dimen/social_album_icon_w"
                         android:layout_height="@dimen/social_album_icon_h_xl"
                         android:layout_margin="@dimen/dp2"
+
+                        android:scaleType="centerCrop"
                         tools:background="@color/gray2B2E00" />
 
 
@@ -104,7 +117,12 @@
 
             </LinearLayout>
 
-
+            <ImageView
+                android:id="@+id/album_img_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
         </FrameLayout>
 
     </LinearLayout>

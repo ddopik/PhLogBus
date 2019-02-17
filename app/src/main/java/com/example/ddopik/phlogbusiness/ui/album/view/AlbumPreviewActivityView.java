@@ -12,9 +12,11 @@ import java.util.List;
 public interface AlbumPreviewActivityView {
 
 
-    void viewAlumPreviewData(AlbumPreviewResponseData albumPreviewResponseData);
 
-    void viwAlbumPreviewImages(List<BaseImage> baseImageList);
+    void viewAlumPreview(AlbumPreviewResponseData albumPreviewResponseData);
 
     void viewAlbumPreviewProgress(boolean state);
+    void viwAlbumPreviewImages(List<BaseImage> baseImageList);
+
+
 }

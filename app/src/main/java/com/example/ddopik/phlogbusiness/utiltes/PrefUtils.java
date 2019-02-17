@@ -18,7 +18,7 @@ public abstract class PrefUtils {
     private static final String IS_LANGUAGE_SELECTED = "IS_LANGUAGE_SELECTED";
     private static final String IS_TOKEN_SAVED = "IS_TOKEN_SAVED";
     private static final String APP_LANG = "APP_LANG";
-
+    private static final String GUEST_USER_ID = "-1";
 
     private static final String IS_SETUP_BRAND = "is_setup_brand";
     private static final String IS_PHONE_VERIFIED = "is_phone_verified";
@@ -50,7 +50,9 @@ public abstract class PrefUtils {
     public static void setBrandID(Context context, int userID) {
         getSharedPref(context).edit().putInt(BRAND_ID, userID).apply();
     }
-
+    public static String getUserId(Context mContext) {
+        return getSharedPref(mContext).getString(BRAND_ID, GUEST_USER_ID);
+    }
     public static void setBrandToken(Context context, String userToken) {
         getSharedPref(context).edit().putString(BRAND_TOKEN, userToken).apply();
     }

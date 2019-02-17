@@ -9,7 +9,7 @@ public interface Constants {
     int REQUEST_CODE_GALLERY = 1224;
     int REQUEST_CODE_CAMERA = 1225;
     int REQUEST_CODE_LOCATION = 1225;
-//    String  DEFAULT_PROFILE_IMAGE =1225;
+ int SOCIAL_FRAGMENT_PAGING_THRESHOLD =15;
 
 
     int QUERY_SEARCH_TIME_OUT = 600;
@@ -22,12 +22,11 @@ public interface Constants {
 
 
     ///////////////////////Entity-type For socialFragment
-    int ENTITY_PROFILE=1;
+     int ENTITY_PROFILE=1;
     int ENTITY_CAMPAIGN=2;
     int ENTITY_ALBUM=4;
     int ENTITY_IMAGE=3;
     int ENTITY_BRAND=5;
-
     ///////////////Entity Display-types
     String PROFILE_DISPLAY_TYPE_1 = "101";
     String PROFILE_DISPLAY_TYPE_2 = "102";
@@ -36,7 +35,7 @@ public interface Constants {
     String PROFILE_DISPLAY_TYPE_5 = "105";
     String PROFILE_DISPLAY_TYPE_6 = "106";
 
-    String CAMPAIGN_DISPLAY_TYPE_1 = "401"; //todo back it to 201
+    String CAMPAIGN_DISPLAY_TYPE_1 = "201";
     String CAMPAIGN_DISPLAY_TYPE_2 = "202";
     String CAMPAIGN_DISPLAY_TYPE_3 = "203";
     String CAMPAIGN_DISPLAY_TYPE_4 = "204";
@@ -46,7 +45,7 @@ public interface Constants {
     String ALBUM_DISPLAY_TYPE_1 = "301";
     String ALBUM_DISPLAY_TYPE_2 = "302";
     String ALBUM_DISPLAY_TYPE_3 = "303";
-    String ALBUM_DISPLAY_TYPE_4 = "304";
+    String ALBUM_DISPLAY_TYPE_4 = "405";
     String ALBUM_DISPLAY_TYPE_5 = "305";
 
     String IMGS_DISPLAY_TYPE_1 = "401";
@@ -60,14 +59,17 @@ public interface Constants {
     String BRAND_DISPLAY_TYPE_3 = "503";
     String BRAND_DISPLAY_TYPE_4 = "504";
     String BRAND_DISPLAY_TYPE_5 = "505";
-///////////////////////////////
+
+    ///////////////////////////////
 
 
     enum UserType {
 
         USER_TYPE_BUSINESS, USER_TYPE_PHOTOGRAPHER;
     }
-
+    enum PhotosListType{
+        SOCIAL_LIST,PHOTO_GRAPHER_LIST
+    }
 
     interface UploadPermanentNotificationConfig {
         String NOTIFICATION_ID = "2001";

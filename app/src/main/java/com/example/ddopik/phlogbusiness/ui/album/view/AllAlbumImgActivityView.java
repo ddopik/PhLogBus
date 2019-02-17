@@ -8,10 +8,11 @@ import java.util.List;
  * Created by abdalla_maged on 11/5/2018.
  */
 public interface AllAlbumImgActivityView  {
+    void showMessage(String msg);
+
     void viewAlbumImageList(List<BaseImage> albumImgList);
     void viewAlbumImageListProgress(boolean state);
-    void onImagedAddedToCart(boolean state,int imageId);
-    void onImageLiked( BaseImage baseImage);
 
-    void viewMessage(String msg);
+    void onImageSavedToProfile(BaseImage baseImage,boolean state);
+    void onImagePhotoGrapherFollowed(BaseImage baseImage ,boolean state);
 }

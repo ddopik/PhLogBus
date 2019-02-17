@@ -8,35 +8,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.ui.MainActivity;
-import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
-import com.example.ddopik.phlogbusiness.ui.brand.view.BrandInnerActivity;
-import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerActivity;
-import com.example.ddopik.phlogbusiness.ui.social.model.Entite;
-import com.example.ddopik.phlogbusiness.ui.social.model.SocialData;
-import com.example.ddopik.phlogbusiness.ui.social.presenter.SocialFragmentPresenter;
-import com.example.ddopik.phlogbusiness.ui.social.presenter.SocialFragmentPresenterImpl;
-import com.example.ddopik.phlogbusiness.ui.social.view.adapter.SocialAdapter;
-import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
+import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.SearchActivity;
-import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.ui.social.model.SocialData;
+import com.example.ddopik.phlogbusiness.ui.social.presenter.SocailFragmentPresenterImpl;
+import com.example.ddopik.phlogbusiness.ui.social.presenter.SocialFragmentPresenter;
+import com.example.ddopik.phlogbusiness.ui.social.view.adapter.SocialAdapter;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.*;
-import static com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity.USER_ID;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.SOCIAL_FRAGMENT_PAGING_THRESHOLD;
 
 
-public class SocialFragment extends BaseFragment implements SocialFragmentView {
+public class SocialFragment extends BaseFragment implements SocialFragmentView,SocialAdapter.OnSocialItemListener {
 
     private View mainView;
     private EditText homeSearch;
@@ -45,15 +38,13 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView {
     private SocialFragmentPresenter socialFragmentPresenter;
     private SocialAdapter socialAdapter;
     private List<SocialData> socialDataList = new ArrayList<>();
-
-    private ImageButton notificationButton;
-    private TextView notificationCount;
+    private PagingController pagingController;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        mainView =inflater.inflate(R.layout.fragment_social,container,false);
+        mainView =inflater.inflate(R.layout.fragment_home,container,false);
         return mainView;
 
     }
@@ -64,13 +55,14 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView {
         initPresenter();
         initViews();
         initListener();
-        socialFragmentPresenter.getSocialData();
+        socialFragmentPresenter.getSocialData(true);
+
     }
 
 
     @Override
     protected void initPresenter() {
-        socialFragmentPresenter = new SocialFragmentPresenterImpl(getContext(), this);
+        socialFragmentPresenter = new SocailFragmentPresenterImpl(getContext(), this);
     }
 
     @Override
@@ -80,85 +72,27 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView {
         socialProgress = mainView.findViewById(R.id.social_progress);
 
 
-        this.socialAdapter = new SocialAdapter(socialDataList);
+        this.socialAdapter = new SocialAdapter(socialDataList,getActivity(),this);
+
         socailRv.setAdapter(socialAdapter);
 
-        notificationButton = mainView.findViewById(R.id.notification_icon);
-        notificationCount = mainView.findViewById(R.id.notification_count);
+
     }
 
     private void initListener(){
-        mainView.setOnTouchListener((v, event) -> {
-            return false;
-        });
         homeSearch.setOnClickListener((v)->{
             Intent intent=new Intent(getActivity(), SearchActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });
 
-        socialAdapter.onSocialItemListener = new SocialAdapter.OnSocialItemListener() {
-            @Override
-            public void onSocialProfileClick(Entite entite) {
-                Intent intent = new Intent(getActivity(), UserProfileActivity.class);
-                intent.putExtra(USER_ID, String.valueOf(entite.id));
-                startActivity(intent);
-
-            }
+        pagingController=new PagingController(socailRv, SOCIAL_FRAGMENT_PAGING_THRESHOLD) {
 
             @Override
-            public void OnFollowSocialProfileClick(Entite entite) {
-                socialFragmentPresenter.followUser(String.valueOf(entite.id));
-            }
-
-            @Override
-            public void onSocialCampaignClicked(Entite entite) {
-                Intent intent = new Intent(getActivity(), CampaignInnerActivity.class);
-                intent.putExtra(CampaignInnerActivity.CAMPAIGN_ID,String.valueOf(entite.id));
-                startActivity(intent);
-            }
-
-            @Override
-            public void onSocialFollowCampaignClicked(Entite entite) {
-                socialFragmentPresenter.followSocialCampaign(String.valueOf(entite.id));
-            }
-
-            @Override
-            public void onSocialSlideImageClicked(Entite entite) { ///todo selected img should be passed here
-                Intent intent = new Intent(getActivity(), AllAlbumImgActivity.class);
-
-//                intent.putExtra(SELECTED_IMG_ID,albumImg.albumImgId);/// todo album id should passed here
-                List<BaseImage> albumImgList = new ArrayList<>();
-                for (int i = 0; i < entite.imgs.size(); i++) {
-                    BaseImage albumImg = new BaseImage();
-                    albumImg.id = i;
-                    albumImg.url = entite.imgs.get(i);
-                    albumImgList.add(albumImg);
-                }
-                intent.putExtra(ALBUM_ID, String.valueOf(entite.id));
-//                intent.putParcelableArrayListExtra(ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) albumImgList);
-                intent.putExtra(SELECTED_IMG_ID, "1"); ///todo selected img id should be passed here
-                startActivity(intent);
-            }
-
-            @Override
-            public void onSocialBrandClicked(Entite entite) {
-                Intent intent = new Intent(getActivity(), BrandInnerActivity.class);
-                intent.putExtra(BrandInnerActivity.BRAND_ID, String.valueOf(entite.id));
-                startActivity(intent);
-            }
-
-            @Override
-            public void onSocialBrandFollowClicked(Entite entite) {
-                socialFragmentPresenter.followSocialBrand(String.valueOf(entite.id));
+            public void getPagingControllerCallBack(int page) {
+                socialFragmentPresenter.getSocialData(false);
             }
         };
-
-        View.OnClickListener notificaionClickListener = v -> {
-            MainActivity.navigationManger.navigate(Constants.NavigationHelper.NOTIFICATION);
-        };
-        notificationButton.setOnClickListener(notificaionClickListener);
-        notificationCount.setOnClickListener(notificaionClickListener);
     }
 
     @Override
@@ -176,6 +110,54 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView {
             socialProgress.setVisibility(View.GONE);
         }
     }
+
+
+
+
+    @Override
+    public void onSocialCampaignJoined(int campaignId, boolean state) {
+        for (SocialData socialData : socialDataList) {
+            if (socialData.campaigns != null && socialData.campaigns.size() > 0)
+                for (Campaign campaign : socialData.campaigns) {
+                    if (campaignId == campaign.id) {
+                        campaign.isJoined = state;
+                    }
+                }
+        }
+        socialAdapter.notifyDataSetChanged();
+    }
+
+
+
+
+    @Override
+    public void onSocialPhotoGrapherFollowed(int userId, boolean state) {
+        for (SocialData socialData : socialDataList) {
+            if (socialData.profiles != null && socialData.profiles.size() > 0)
+                for (Photographer photographer : socialData.profiles) {
+                    if (photographer.id.equals(userId)) {
+                        photographer.isFollow = state;
+                    }
+                }
+        }
+        socialAdapter.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void onSocialBrandFollowed(int brandId, boolean state) {
+        for (SocialData socialData : socialDataList) {
+            if (socialData.brands != null && socialData.brands.size() > 0)
+                for (Business business : socialData.brands) {
+                    if (business.id.equals(brandId)) {
+                        business.isFollow = state;
+                    }
+                }
+        }
+        socialAdapter.notifyDataSetChanged();
+    }
+
+
 
     @Override
     public void showMessage(String msg) {
