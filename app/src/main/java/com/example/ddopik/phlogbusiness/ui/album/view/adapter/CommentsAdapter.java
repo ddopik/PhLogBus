@@ -539,6 +539,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         void onAddToCartClick(BaseImage baseImage);
 
         void onSubmitComment(String comment);
+        void onImageCommentClicked();
+
     }
 
     @Override
