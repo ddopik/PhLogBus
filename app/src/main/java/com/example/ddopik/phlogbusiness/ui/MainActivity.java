@@ -149,10 +149,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         private void clearSelected() {
 
-            int homeBrnImg_off = R.drawable.ic_tab_home_off;
-            int campaignBtnImg_off = R.drawable.ic_tab_missions_off;
-            int notificationBtnImg_off = R.drawable.ic_tab_notificatin_off;
-            int myProfileBtnImg_off = R.drawable.ic_tab_profile_off;
+            int homeBrnImg_off = R.drawable.ic_social_off;
+            int campaignBtnImg_off = R.drawable.ic_campaigns_off;
+            int downloadsBtnImg_off = R.drawable.ic_downloads_off;
+            int myProfileBtnImg_off = R.drawable.ic_profile_off;
 
             homeBrn.setTextColor(getResources().getColor(R.color.gray677078));
             homeBrn.setCompoundDrawablesWithIntrinsicBounds(0, homeBrnImg_off, 0, 0);
@@ -171,19 +171,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             callSupportBtn.setVisibility(View.INVISIBLE);
             callSupportFloatBtn.setImageResource(R.drawable.btn_call_support);
             callSupportBtn.setTextColor(getResources().getColor(R.color.gray677078));
-
             callSupportBtn.setCompoundDrawablePadding(8);
 
 
             downloadsBtn.setTextColor(getResources().getColor(R.color.gray677078));
+            downloadsBtn.setCompoundDrawablesWithIntrinsicBounds(0, downloadsBtnImg_off, 0, 0);
+            downloadsBtn.setCompoundDrawablePadding(8);
         }
 
        public void navigate(Constants.NavigationHelper navigationHelper) {
             clearSelected();
-            int homeBrnImg = R.drawable.ic_tab_home_on;
-            int campaignBtnImg = R.drawable.ic_tab_missions_on;
-            int notificationBtnImg = R.drawable.ic_tab_notificatin_on;
-            int myProfileBtnImg = R.drawable.ic_tab_profile_on;
+            int homeBrnImg = R.drawable.ic_social_on;
+            int campaignBtnImg = R.drawable.ic_campaigns_on;
+            int downloadsBtnImg = R.drawable.ic_downloads_on;
+            int myProfileBtnImg = R.drawable.ic_profile_on;
 
             switch (navigationHelper) {
                 case HOME: {
@@ -260,6 +261,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case DOWNLOADS:
                     addFragment(R.id.view_container, new DownloadsFragment(), AccountDetailsFragment.TAG, true);
                     downloadsBtn.setTextColor(getResources().getColor(R.color.text_input_color));
+                    downloadsBtn.setCompoundDrawablesWithIntrinsicBounds(0, downloadsBtnImg, 0, 0);
+                    downloadsBtn.setCompoundDrawablePadding(8);
                     toolbar.setVisibility(View.VISIBLE);
                     toolBarTitle.setText(R.string.downloads);
                     backBtn.setVisibility(View.INVISIBLE);
