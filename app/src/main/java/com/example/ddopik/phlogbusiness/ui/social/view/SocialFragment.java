@@ -99,7 +99,6 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView, 
 
     @Override
     public void viewSocialData(List<SocialData> socialDataList) {
-//        int oldIndex=this.socialDataList.size();
         this.socialDataList.addAll(socialDataList);
         socialAdapter.notifyDataSetChanged();
 
