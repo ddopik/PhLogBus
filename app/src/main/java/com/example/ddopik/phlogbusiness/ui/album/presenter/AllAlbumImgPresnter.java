@@ -8,6 +8,7 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
  */
 public interface AllAlbumImgPresnter {
 
+    void deleteImage(BaseImage baseImage);
     void likePhoto(String photoId);
 
     void saveToProfileImage(BaseImage baseImage);

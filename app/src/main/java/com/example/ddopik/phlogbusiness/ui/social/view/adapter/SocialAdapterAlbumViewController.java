@@ -20,8 +20,7 @@ public class SocialAdapterAlbumViewController {
     @SuppressLint("CheckResult")
     public void setAlbumViewType4(SocialAdapter.SocialViewHolder socialViewHolder, SocialData socialAlbumData, SocialAdapter.OnSocialItemListener onSocialItemListener) {
         socialViewHolder.socialAlbumType4.setVisibility(View.VISIBLE);
-
-
+        socialViewHolder.storyTitle.setText(socialAlbumData.title);
         if (socialAlbumData.photos.size() >= 3) {
             //hide default view if exist
             socialViewHolder.socialDefaultAlbumImg.setVisibility(View.INVISIBLE);

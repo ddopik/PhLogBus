@@ -14,21 +14,18 @@ public class Business extends MentionedUser implements Parcelable {
     @SerializedName("id")
     @Expose
     public Integer id;
-    @SerializedName("image_cover")
-    @Expose
-    public String imageCover;
+
     @SerializedName("thumbnail")
     @Expose
     public String thumbnail;
-    //    @SerializedName("full_name")
-//    @Expose
-//    public String fullName;
-    @SerializedName("web_site")
+
+    @SerializedName("full_name")
+    @Expose
+    public String fullName;
+    @SerializedName("website")
     @Expose
     public String website;
-    @SerializedName("industry")
-    @Expose
-    public Industry industry;
+
 
     @SerializedName("is_phone_verified")
     public boolean isPhoneVerified;
@@ -50,8 +47,6 @@ public class Business extends MentionedUser implements Parcelable {
 
     @SerializedName("is_brand")
     public boolean isBrand;
-    @SerializedName("is_follow")
-    public boolean isFollow;
 
     @SerializedName("is_brand_text")
     public String isBrandText;
@@ -62,8 +57,7 @@ public class Business extends MentionedUser implements Parcelable {
     @SerializedName("rate")
     public int rate;
 
-    @SerializedName("brand_thumbnail")
-    public String brandThumbnail;
+
 
     @SerializedName("first_name")
     public String firstName;
@@ -77,8 +71,7 @@ public class Business extends MentionedUser implements Parcelable {
     @SerializedName("brand_address")
     public String brandAddress;
 
-    @SerializedName("brand_image_cover")
-    public String brandImageCover;
+
 
     @SerializedName("level")
     public int level;
@@ -101,6 +94,21 @@ public class Business extends MentionedUser implements Parcelable {
     @SerializedName("name_en")
     public String nameEn;
 
+    @SerializedName("image_cover")
+    @Expose
+    public String imageCover;
+
+
+    @SerializedName("is_follow")
+    @Expose
+    public Boolean isFollow;
+
+    @SerializedName("industry")
+    transient public Industry industry;
+
+    public Business() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -109,10 +117,9 @@ public class Business extends MentionedUser implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.id);
-        dest.writeString(this.imageCover);
         dest.writeString(this.thumbnail);
+        dest.writeString(this.fullName);
         dest.writeString(this.website);
-        dest.writeParcelable(this.industry, flags);
         dest.writeByte(this.isPhoneVerified ? (byte) 1 : (byte) 0);
         dest.writeString(this.userName);
         dest.writeString(this.nameAr);
@@ -123,12 +130,10 @@ public class Business extends MentionedUser implements Parcelable {
         dest.writeString(this.isBrandText);
         dest.writeString(this.updatedAt);
         dest.writeInt(this.rate);
-        dest.writeString(this.brandThumbnail);
         dest.writeString(this.firstName);
         dest.writeString(this.email);
         dest.writeString(this.brandPhone);
         dest.writeString(this.brandAddress);
-        dest.writeString(this.brandImageCover);
         dest.writeInt(this.level);
         dest.writeString(this.lastName);
         dest.writeInt(this.brandStatus);
@@ -136,17 +141,15 @@ public class Business extends MentionedUser implements Parcelable {
         dest.writeString(this.phone);
         dest.writeInt(this.followersCount);
         dest.writeString(this.nameEn);
-    }
-
-    public Business() {
+        dest.writeString(this.imageCover);
+        dest.writeValue(this.isFollow);
     }
 
     protected Business(Parcel in) {
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.imageCover = in.readString();
         this.thumbnail = in.readString();
+        this.fullName = in.readString();
         this.website = in.readString();
-        this.industry = in.readParcelable(Industry.class.getClassLoader());
         this.isPhoneVerified = in.readByte() != 0;
         this.userName = in.readString();
         this.nameAr = in.readString();
@@ -157,12 +160,10 @@ public class Business extends MentionedUser implements Parcelable {
         this.isBrandText = in.readString();
         this.updatedAt = in.readString();
         this.rate = in.readInt();
-        this.brandThumbnail = in.readString();
         this.firstName = in.readString();
         this.email = in.readString();
         this.brandPhone = in.readString();
         this.brandAddress = in.readString();
-        this.brandImageCover = in.readString();
         this.level = in.readInt();
         this.lastName = in.readString();
         this.brandStatus = in.readInt();
@@ -170,9 +171,11 @@ public class Business extends MentionedUser implements Parcelable {
         this.phone = in.readString();
         this.followersCount = in.readInt();
         this.nameEn = in.readString();
+        this.imageCover = in.readString();
+        this.isFollow = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Business> CREATOR = new Parcelable.Creator<Business>() {
+    public static final Creator<Business> CREATOR = new Creator<Business>() {
         @Override
         public Business createFromParcel(Parcel source) {
             return new Business(source);

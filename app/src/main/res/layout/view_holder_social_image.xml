@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+			 android:layout_width="wrap_content"
+			 android:layout_height="wrap_content"
+			 xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-		
-		    android:id="@+id/social_slider_img"
-		    android:layout_width="@dimen/img_slider_w"
-		    android:layout_height="@dimen/img_slider_h"
-		    android:scaleType="centerCrop"
-		    android:padding="1dp"
-		    tools:src="@drawable/default_campaign_header_view"/>
+	<ImageView
+
+			android:id="@+id/social_slider_img"
+			android:layout_width="@dimen/social_img_slider_w"
+			android:layout_height="@dimen/social_img_slider_h"
+			android:scaleType="centerCrop"
+			android:padding="1dp"
+			tools:src="@drawable/default_campaign_header_view"/>
 
 </FrameLayout>
