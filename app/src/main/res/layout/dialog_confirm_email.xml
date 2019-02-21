@@ -15,6 +15,7 @@
             android:id="@+id/confirm_dialog_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/segoe_b"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp28"
             android:text="@string/verify_account"
@@ -24,6 +25,7 @@
             android:textStyle="bold" />
 
         <Button
+            android:fontFamily="@font/segoe_sb"
             android:id="@+id/confirm_mail_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

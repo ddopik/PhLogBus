@@ -31,7 +31,7 @@ public class CustomTextView extends android.support.v7.widget.AppCompatTextView 
     private void setFont(Context context) {
 
 //        Typeface typeface=Typeface.createFromAsset(getContext().getAssets(),"font/arial_rounded_font.ttf");
-        Typeface typeface= ResourcesCompat.getFont(context, R.font.arial_rounded_font);
+        Typeface typeface= ResourcesCompat.getFont(context, R.font.segoe_sb);
         setTypeface(typeface); //function used to set font
 
     }

@@ -29,7 +29,6 @@
         android:layout_height="wrap_content"
         android:lines="1"
         android:gravity="start|center"
-        android:fontFamily="@font/arial_rounded_font"
         android:textColor="@color/white"
         android:textSize="@dimen/font_normal"
         tools:text="text_here"

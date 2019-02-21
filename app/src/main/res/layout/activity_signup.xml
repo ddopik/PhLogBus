@@ -34,7 +34,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/arial_rounded_font"
+                        android:fontFamily="@font/segoe_b"
                         android:text="@string/sign_up"
                         android:textColor="@color/text_input_color"
                         android:textSize="@dimen/sign_up_text_size"
@@ -54,11 +54,10 @@
                 </LinearLayout>
 
 
-                <TextView
+                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/dp8"
-                    android:fontFamily="@font/arial_rounded_font"
                     android:gravity="bottom|start"
                     android:text="@string/account_details"
                     android:textColor="@color/gray400"
@@ -90,6 +89,7 @@
                         app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                         <EditText
+                            android:fontFamily="@font/verdana"
                             android:id="@+id/first_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -115,6 +115,7 @@
                             android:id="@+id/last_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/verdana"
                             android:hint="@string/last_name"
                             android:inputType="textPersonName"
                             android:singleLine="true"
@@ -162,6 +163,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
                         android:hint="@string/email"
+                        android:fontFamily="@font/verdana"
                         android:textAlignment="textStart"
                         android:textColor="@color/black677078"
                         android:textSize="@dimen/sign_up_text_size"
@@ -184,6 +186,7 @@
                         android:id="@+id/register_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/verdana"
                         android:inputType="textPassword"
                         android:textAlignment="textStart"
                         android:textColor="@color/black677078"
@@ -205,6 +208,7 @@
                         android:id="@+id/mobile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/verdana"
                         android:inputType="phone"
                         android:hint="@string/mobile"
                         android:textAlignment="textStart"
@@ -227,6 +231,7 @@
                         android:id="@+id/industry"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/verdana"
                         android:inputType="textAutoComplete"
                         android:textAlignment="textStart"
                         android:hint="@string/industry"
@@ -250,6 +255,7 @@
                         android:layout_height="@dimen/sign_up_btn_size_h"
                         android:layout_margin="@dimen/dp8"
                         android:layout_weight="1"
+                        android:fontFamily="@font/segoe_sb"
                         android:background="@drawable/rounded_cancel_btn"
                         android:text="@string/cancel"
                         android:textColor="@color/gray96A0AA"
@@ -260,6 +266,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/sign_up_btn_size_h"
                         android:layout_margin="@dimen/dp8"
+                        android:fontFamily="@font/segoe_sb"
                         android:layout_weight="1"
                         android:background="@drawable/rounded_sign_up_btn"
                         android:text="@string/sign_up"
@@ -269,7 +276,7 @@
                 </LinearLayout>
 
 
-                <TextView
+                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/dp12"

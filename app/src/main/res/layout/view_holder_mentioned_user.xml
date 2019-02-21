@@ -35,7 +35,6 @@
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/mentioned_profile_user_name"
-                    android:fontFamily="@font/arial_rounded_font"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_medium_s"

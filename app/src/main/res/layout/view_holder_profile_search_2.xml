@@ -52,7 +52,6 @@
                 android:id="@+id/profile_full_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/arial_rounded_font"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_medium_s"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -71,6 +70,7 @@
                 tools:text="user name here" />
 
             <TextView
+                android:fontFamily="@font/segoe_sb"
                 android:id="@+id/profile_followers_count"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -102,6 +102,7 @@
 
             <TextView
                 android:id="@+id/profile_following_count"
+                android:fontFamily="@font/segoe_sb"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="start"
@@ -130,6 +131,7 @@
 
             <TextView
                 android:id="@+id/profile_photos_count"
+                android:fontFamily="@font/segoe_sb"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="start"

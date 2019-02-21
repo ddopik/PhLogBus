@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/arial_rounded_font"
+                android:fontFamily="@font/segoe_b"
                 android:text="@string/sign_up"
                 android:textColor="@color/text_input_color"
                 android:textSize="@dimen/sign_up_text_size"
@@ -49,7 +49,7 @@
 
         </LinearLayout>
 
-        <TextView
+        <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp24"
@@ -81,7 +81,7 @@
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/ic_upload" />
 
-            <TextView
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -106,6 +106,7 @@
         <Button
             android:id="@+id/upload_img_profile_btn"
             android:layout_width="200dp"
+            android:fontFamily="@font/segoe_sb"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp12"
             android:background="@color/text_input_color"
@@ -115,6 +116,7 @@
         <Button
             android:id="@+id/skip_img_upload_btn"
             android:layout_width="200dp"
+            android:fontFamily="@font/segoe_sb"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:text="@string/skip"

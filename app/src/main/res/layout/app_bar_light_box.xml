@@ -25,9 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/studios"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            app:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
 
         <ImageButton
             android:id="@+id/add_light_box_btn"

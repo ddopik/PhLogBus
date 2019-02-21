@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.ui.cart.model.CartItem;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import io.reactivex.functions.Consumer;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
-    private final List<CartItem> items = new ArrayList<>();
+    private final List<BaseImage> items = new ArrayList<>();
     private final ActionListener actionListener;
 
     public CartAdapter(ActionListener actionListener) {
@@ -40,7 +41,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
-        CartItem item = items.get(i);
+        BaseImage item = items.get(i);
         Context context = holder.itemView.getContext();
         holder.exclusiveIcon.setVisibility(View.INVISIBLE);
         holder.exclusiveCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -49,16 +50,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             else
                 holder.exclusiveIcon.setVisibility(View.INVISIBLE);
         });
-        holder.byWhow.setText(item.getPhotographer().fullName);
-        holder.likes.setText("" + item.getLikesCount());
+        holder.byWhow.setText(item.photographer.fullName);
+        holder.likes.setText("" + item.likesCount);
 //        holder.price.setText(item.);
-        if (item.getUrl() != null)
+        if (item.url != null)
             Glide.with(context)
-                    .load(item.getUrl())
+                    .load(item.url)
                     .into(holder.image);
-        if (item.getPhotographer().imageProfile != null)
+        if (item.photographer.imageProfile != null)
             Glide.with(context)
-                    .load(item.getPhotographer().imageProfile)
+                    .load(item.photographer.imageProfile)
                     .apply(RequestOptions.circleCropTransform().error(R.drawable.ic_photographer))
                     .into(holder.byWhoImage);
         holder.price.setText(context.getString(R.string.price_value, 3.4));
@@ -70,10 +71,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 }
             });
         });
-        holder.rating.setRating(item.getRate());
+        holder.rating.setRating(item.rate);
+        holder.itemView.setOnClickListener(v -> {
+            actionListener.onAction(ActionListener.Type.VIEW, item, null);
+        });
     }
 
-    public void setList(List<CartItem> list) {
+    public void setList(List<BaseImage> list) {
         items.clear();
         items.addAll(list);
         notifyDataSetChanged();
@@ -106,10 +110,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     public interface ActionListener {
-        void onAction(Type type, CartItem o, Consumer<Boolean> booleanConsumer);
+        void onAction(Type type, BaseImage o, Consumer<Boolean> booleanConsumer);
 
         enum Type {
-            REMOVE
+            REMOVE, VIEW
         }
     }
 }

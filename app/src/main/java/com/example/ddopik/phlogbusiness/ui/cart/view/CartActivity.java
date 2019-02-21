@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.cart.view;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,8 +12,10 @@ import android.widget.TextView;
 
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.ui.cart.presenter.CartPresenter;
 import com.example.ddopik.phlogbusiness.ui.cart.presenter.CartPresenterImpl;
+import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 
 public class CartActivity extends BaseActivity implements CartView {
 
@@ -86,6 +89,12 @@ public class CartActivity extends BaseActivity implements CartView {
                         dialog.dismiss();
                     }
                 }).show();
+                break;
+            case VIEW:
+                Intent intent = new Intent(this, ImageCommentActivity.class);
+                intent.putExtra(ImageCommentActivity.IMAGE_DATA, o);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
                 break;
         }
     };

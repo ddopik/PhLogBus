@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:padding="@dimen/dp8">
 
-    <TextView
+    <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
         android:id="@+id/industrie_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

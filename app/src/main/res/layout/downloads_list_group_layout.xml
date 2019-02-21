@@ -17,6 +17,7 @@
         android:id="@+id/date_text_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:fontFamily="@font/segoe_sb"
         app:layout_constraintDimensionRatio="1:.07"
         app:layout_constraintWidth_percent=".95"
         android:textColor="@color/black"

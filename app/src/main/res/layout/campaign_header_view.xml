@@ -43,19 +43,19 @@
                     android:id="@+id/campaign_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/arial_rounded_font"
+                    android:fontFamily="@font/segoe_b"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_large"
                     tools:text="campaign" />
 
-                <TextView
+                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/campaign_hosted_by"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     tools:text="Hosted by" />
 
-                <TextView
+                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/campaign_day_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

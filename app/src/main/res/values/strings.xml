@@ -275,5 +275,6 @@
     <string name="login">Login</string>
     <string name="login_header">PHLOG Business</string>
     <string name="earlier">Earlier</string>
-
+    <string name="phlog">PHLOG</string>
+    <string name="for_business">For Business</string>
 </resources>

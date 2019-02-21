@@ -12,6 +12,7 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/campaigns_tab"
+        app:tabTextAppearance="@style/TabTextAppearance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/campaign_app_bar"
