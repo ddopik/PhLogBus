@@ -19,6 +19,7 @@ public abstract class PrefUtils {
     private static final String IS_TOKEN_SAVED = "IS_TOKEN_SAVED";
     private static final String APP_LANG = "APP_LANG";
     private static final String GUEST_USER_ID = "-1";
+    private static final String FIREBASE_TOKEN = "FIREBASE_TOKEN";
 
     private static final String IS_SETUP_BRAND = "is_setup_brand";
     private static final String IS_PHONE_VERIFIED = "is_phone_verified";
@@ -227,4 +228,15 @@ public abstract class PrefUtils {
     }
 
     public abstract void setPrefFileName(String projectName);
+
+    public static void saveFirebaseToken(Context applicationContext, String token) {
+        applicationContext.getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE)
+                .edit()
+                .putString(FIREBASE_TOKEN, token)
+                .apply();
+    }
+
+    public static String getFirebaseToken(Context context) {
+        return getSharedPref(context).getString(FIREBASE_TOKEN, null);
+    }
 }

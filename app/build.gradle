@@ -128,8 +128,10 @@ dependencies {
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha1'
 //    Google 'material' library bindings:
 //    implementation 'com.jakewharton.rxbinding3:rxbinding-material:3.0.0-alpha1'
+    implementation 'com.google.firebase:firebase-messaging:17.0.0'
 }
 repositories {
     mavenCentral()
 }
 apply plugin: 'realm-android'
+apply plugin: 'com.google.gms.google-services'
