@@ -124,7 +124,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
         Button followBrandBtn;
         /////
         ImageView socialAlbum1, socialAlbum2, socialAlbum3;
-        TextView socialAlbumName, socialAlbumPhotosNumber;
+        CustomTextView socialAlbumName, socialAlbumPhotosNumber;
 
 
         SocialViewHolder(View view) {

@@ -51,7 +51,7 @@
 
     <!--//ViewHolders-->
     <dimen name="view_holder_item_list_height">150dp</dimen>
-    <dimen name="view_holder_item_list_height_med">225dp</dimen>
+    <dimen name="view_holder_item_list_height_med">280dp</dimen>
     <dimen name="icon_view_holder_size_s">35dp</dimen>
     <dimen name="icon_view_holder_size_m">45dp</dimen>
 

@@ -24,6 +24,8 @@ import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityPresenter;
+import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +111,17 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
 
         commentsAdapter.commentAdapterAction = new CommentsAdapter.CommentAdapterAction() {
+
+            @Override
+            public void onCommentAuthorIconClicked(BaseImage baseImage) {
+                if (PrefUtils.getUserId(getBaseContext()).equals(String.valueOf(baseImage.photographer.id))) {
+                    Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
+                    intent.putExtra(UserProfileActivity.USER_ID, String.valueOf(baseImage.photographer.id));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    getBaseContext().startActivity(intent);
+                }
+            }
+
             @Override
             public void onImageLike(BaseImage baseImage) {
                 if (baseImage.isLiked) {
