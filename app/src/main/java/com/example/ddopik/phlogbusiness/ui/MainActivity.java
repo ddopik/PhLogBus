@@ -89,10 +89,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                    String payload = intent.getStringExtra(MainActivityRedirectionValue.PAYLOAD);
             if (intent.getExtras() != null) {
                 String payload = intent.getExtras().getString("data");
-                FirebaseNotificationData data = NotificationParser.parse(payload);
-                navigationManger.navigate(HOME);
-                if (data != null && data.notification.popup != PopupType.NONE)
-                    showPopup(data);
+                if (payload != null) {
+                    FirebaseNotificationData data = NotificationParser.parse(payload);
+                    navigationManger.navigate(HOME);
+                    if (data != null && data.notification.popup != PopupType.NONE)
+                        showPopup(data);
+                }
             }
         }
     }

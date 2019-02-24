@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:padding="@dimen/widgets_padding"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_normal"
+        android:background="@color/white"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="@color/gray400"/>
+</FrameLayout>

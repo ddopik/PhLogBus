@@ -21,6 +21,7 @@ import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
 import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
+import com.example.ddopik.phlogbusiness.ui.commentimage.model.ReportReason;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityPresenter;
@@ -214,6 +215,18 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
                 }
             }
+
+            @Override
+            public void onReportClicked(BaseImage image) {
+                if (ImageCommentActivity.this.reasons == null) {
+                    imageCommentActivityPresenter.getReportReasons(reasons -> {
+                        ImageCommentActivity.this.reasons = reasons;
+                        showReportFragment();
+                    });
+                } else {
+                    showReportFragment();
+                }
+            }
         };
 
 
@@ -225,6 +238,19 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
         });
     }
+
+    private void showReportFragment() {
+        ReportImageFragment.newInstance(reasons, getOnSubmitReportListener())
+                .show(getSupportFragmentManager(), null);
+    }
+
+    private ReportImageFragment.OnSubmitClickListener getOnSubmitReportListener() {
+        return (fragment, model) -> {
+            imageCommentActivityPresenter.submitReport(model);
+        };
+    }
+
+    private List<ReportReason> reasons;
 
     @Override
     public void viewPhotoComment(ImageCommentsData imageCommentsData) {

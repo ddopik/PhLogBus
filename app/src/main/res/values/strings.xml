@@ -278,4 +278,7 @@
     <string name="phlog">PHLOG</string>
     <string name="for_business">For Business</string>
     <string name="close">Close</string>
+    <string name="report">Report</string>
+    <string name="report_extra_hint">Comments...</string>
+    <string name="choose_reason">Choose a reason</string>
 </resources>

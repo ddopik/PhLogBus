@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.*;
 import android.text.method.LinkMovementMethod;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
@@ -28,6 +30,7 @@ import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.jakewharton.rxbinding3.widget.TextViewTextChangeEvent;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
@@ -146,6 +149,20 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 });
             }
 
+            commentViewHolder.menu.setOnClickListener(v -> {
+                PopupMenu popupMenu = new PopupMenu(context, commentViewHolder.menu);
+                popupMenu.inflate(R.menu.image_menu);
+                popupMenu.setOnMenuItemClickListener(menuItem -> {
+                    switch (menuItem.getItemId()) {
+                        case R.id.report_image:
+                            commentAdapterAction.onReportClicked(previewImage);
+                            return true;
+                        default:
+                            return false;
+                    }
+                });
+                popupMenu.show();
+            });
 
 //////////////////////////////////////COMMENT/////////////////////////////////////////
         } else if (getItemViewType(i) == COMMENT) {
@@ -469,6 +486,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         ImageView commentImg, commentAuthorIcon;
         ImageButton imageLikeBtn, imageCommentBtn;
         RatingBar photoRating;
+        ImageButton menu;
         ///Comment_value Cell
         TextView commentVal;
         CustomTextView commentAuthorName;
@@ -493,6 +511,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 imgLikeNum = view.findViewById(R.id.comment_preview_img_like_num);
                 imgCommentNum = view.findViewById(R.id.comment_preview_img_comment_num);
                 photoRating = view.findViewById(R.id.photo_rating);
+                menu = view.findViewById(R.id.menu_button);
 
             } else if (type == COMMENT) {
                 commentVal = view.findViewById(R.id.comment_val);
@@ -511,14 +530,18 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         void onImageLike(BaseImage baseImage);
 
         void onImageCommentClicked();
+
         void onImageRateClick(BaseImage baseImage, float rating);
 
         void onAddToLightBox(BaseImage baseImage);
 
         void onAddToCartClick(BaseImage baseImage);
+
         void onSubmitComment(String comment);
 
         void onCommentAuthorIconClicked(BaseImage baseImage);
+
+        void onReportClicked(BaseImage image);
     }
 
     @Override
