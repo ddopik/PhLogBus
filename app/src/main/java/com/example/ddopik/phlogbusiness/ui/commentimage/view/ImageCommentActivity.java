@@ -1,14 +1,18 @@
 package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
@@ -20,9 +24,13 @@ import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityPresenter;
+import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 /**
  * Created by abdalla_maged on 11/6/2018.
@@ -103,6 +111,17 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
 
         commentsAdapter.commentAdapterAction = new CommentsAdapter.CommentAdapterAction() {
+
+            @Override
+            public void onCommentAuthorIconClicked(BaseImage baseImage) {
+                if (PrefUtils.getUserId(getBaseContext()).equals(String.valueOf(baseImage.photographer.id))) {
+                    Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
+                    intent.putExtra(UserProfileActivity.USER_ID, String.valueOf(baseImage.photographer.id));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    getBaseContext().startActivity(intent);
+                }
+            }
+
             @Override
             public void onImageLike(BaseImage baseImage) {
                 if (baseImage.isLiked) {
@@ -158,6 +177,42 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
                     showToast(getResources().getString(R.string.image_already_rated));
                 }
 
+            }
+
+            @Override
+            public void onImageCommentClicked() {
+                if (commentList.size() == 2) {
+                    commentsRv.scrollToPosition(commentList.size() - 1);
+                    CustomAutoCompleteTextView customAutoCompleteTextView = (CustomAutoCompleteTextView) commentsRv.getChildAt(commentList.size() - 1).findViewById(R.id.img_send_comment_val);
+                    customAutoCompleteTextView.requestFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(customAutoCompleteTextView, InputMethodManager.SHOW_IMPLICIT);
+//
+                } else {
+                    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                            switch (newState) {
+                                case SCROLL_STATE_IDLE:
+                                    //we reached the target position
+                                    int xx = commentsRv.getChildCount();
+                                    showToast("-->" + xx);
+                                    CustomAutoCompleteTextView customAutoCompleteTextView = (CustomAutoCompleteTextView) commentsRv.getChildAt(xx - 1).findViewById(R.id.img_send_comment_val);
+                                    customAutoCompleteTextView.requestFocus();
+//
+                                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    imm.showSoftInput(customAutoCompleteTextView, InputMethodManager.SHOW_IMPLICIT);
+                                    recyclerView.removeOnScrollListener(this);
+                                    break;
+                            }
+                        }
+                    };
+
+                    commentsRv.addOnScrollListener(onScrollListener);
+                    commentsRv.getLayoutManager().smoothScrollToPosition(commentsRv, null, commentList.size() - 1);
+
+
+                }
             }
         };
 

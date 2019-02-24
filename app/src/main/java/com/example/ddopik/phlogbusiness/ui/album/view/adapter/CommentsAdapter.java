@@ -12,11 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
+
 import com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.CommentAdapterPresenter;
@@ -90,6 +90,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         if (getItemViewType(i) == HEAD) {
 
+
             commentViewHolder.authorName.setText(previewImage.photographer.fullName);
             commentViewHolder.authorUserName.setText(previewImage.photographer.userName);
 
@@ -97,27 +98,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     .load(previewImage.photographer.imageProfile)
                     .error(R.drawable.default_error_img)
                     .placeholder(R.drawable.default_place_holder)
+                    .apply(RequestOptions.circleCropTransform())
                     .override(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
                     .into(commentViewHolder.commentAuthorIcon);
 
 
-            int rate3 = Math.round(previewImage.rate);
-            commentViewHolder.photoRating.setRating(rate3);
+            int rate = Math.round(previewImage.rate);
+            commentViewHolder.photoRating.setRating(rate);
 
-            if (previewImage.isRated != null && previewImage.isRated) {
-                commentViewHolder.photoRating.setIsIndicator(true);
-            }
-            commentViewHolder.photoRating.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> commentAdapterAction.onImageRateClick(previewImage, rating));
-
-
-            if (previewImage.isSaved != null && previewImage.isSaved) {
-                commentViewHolder.addLightBoxBtn.setVisibility(View.GONE);
-            } else {
-                commentViewHolder.addLightBoxBtn.setVisibility(View.VISIBLE);
-                commentViewHolder.addLightBoxBtn.setOnClickListener(v -> {
-                    commentAdapterAction.onAddToLightBox(previewImage);
-                });
-            }
 
             GlideApp.with(context)
                     .load(previewImage.url)
@@ -138,13 +126,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentViewHolder.imgCommentNum.setText(new StringBuilder().append(previewImage.commentsCount).append(" ").append(context.getResources().getString(R.string.comment)).toString());
             if (commentAdapterAction != null) {
                 commentViewHolder.imageCommentBtn.setOnClickListener(v -> {
-                    commentViewHolder.sendCommentImgVal.requestFocus();
-                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-
+                    commentAdapterAction.onImageCommentClicked();
                 });
 
-                if (previewImage.isLiked != null && !previewImage.isLiked) {
+
+                if (!previewImage.isLiked) {
                     commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_off_white);
                 } else {
                     commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_on);
@@ -154,18 +140,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
                     commentAdapterAction.onImageLike(previewImage);
                 });
+
+                commentViewHolder.commentAuthorIcon.setOnClickListener(v -> {
+                    commentAdapterAction.onCommentAuthorIconClicked(previewImage);
+                });
             }
 
-
-            if (previewImage.isCart != null && previewImage.isCart) {
-                commentViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.view_in_cart));
-            } else {
-                commentViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.add_to_cart));
-            }
-
-            commentViewHolder.addToCartBtn.setOnClickListener(v -> {
-                commentAdapterAction.onAddToCartClick(previewImage);
-            });
 
 //////////////////////////////////////COMMENT/////////////////////////////////////////
         } else if (getItemViewType(i) == COMMENT) {
@@ -194,13 +174,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentViewHolder.commentAuthorName.setText(commentList.get(i).photographer.fullName);
 
             }
-            handleCommentBody(commentViewHolder.commentVal, commentList.get(i).comment);
+
+            if (commentList.get(i).comment != null) {
+                handleCommentBody(commentViewHolder.commentVal, commentList.get(i).comment);
+            }
+
             ////////////////////////////////ADD_COMMENT///////////////////////////////////////////////
         } else if (getItemViewType(i) == ADD_COMMENT) {
-
-
-
-
 
             mentionsAutoCompleteAdapter = new MentionsAutoCompleteAdapter(context, R.layout.view_holder_mentioned_user, mentionedUserList);
             mentionsAutoCompleteAdapter.setNotifyOnChange(true);
@@ -209,7 +189,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
 
             commentViewHolder.sendCommentImgVal.setOnItemClickListener((parent, view, position, id) -> {
-
                 commentViewHolder.sendCommentImgVal.handleMentionedCommentBody(position, mentionedUserList);
 
             });
@@ -253,11 +232,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
             if (commentAdapterAction != null) {
                 commentViewHolder.sendCommentBtn.setOnClickListener(v -> {
-                    String comment=commentViewHolder.sendCommentImgVal.prepareCommentToSend();
+                    String comment = commentViewHolder.sendCommentImgVal.prepareCommentToSend();
                     commentAdapterAction.onSubmitComment(comment);
                     commentViewHolder.sendCommentImgVal.getText().clear();
                 });
             }
+
+
             mentionsAutoCompleteAdapter.onUserClicked = socialUser -> {
             };
 
@@ -298,7 +279,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
     private void handleCommentBody(TextView commentView, String commentFinalValue) {
-
 
         List<String> authorsId = Utilities.getMentionsList(commentFinalValue);
         List<String> mentionsPhotoGrapherIdIdList = new ArrayList<>();
@@ -485,9 +465,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         //header cell
         FrameLayout addToCartBtn;
-        CustomTextView imgLikeNum, imgCommentNum, commentPreviewImgTags, authorName, authorUserName, albumImgAddToCartVal;
+        CustomTextView imgLikeNum, imgCommentNum, commentPreviewImgTags, authorName, authorUserName;
         ImageView commentImg, commentAuthorIcon;
-        ImageButton imageLikeBtn, imageCommentBtn, addLightBoxBtn;
+        ImageButton imageLikeBtn, imageCommentBtn;
         RatingBar photoRating;
         ///Comment_value Cell
         TextView commentVal;
@@ -505,16 +485,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentAuthorIcon = view.findViewById(R.id.comment_author_icon);
                 authorName = view.findViewById(R.id.author_name);
                 authorUserName = view.findViewById(R.id.author_user_name);
-                addToCartBtn = view.findViewById(R.id.album_img_add_to_cart);
-                albumImgAddToCartVal = view.findViewById(R.id.album_img_add_to_cart_val);
-                addLightBoxBtn = view.findViewById(R.id.add_to_light_box_btn);
+
                 commentImg = view.findViewById(R.id.comment_preview_img);
                 commentPreviewImgTags = view.findViewById(R.id.comment_preview_img_tag);
                 imageLikeBtn = view.findViewById(R.id.comment_preview_img_like_btn);
                 imageCommentBtn = view.findViewById(R.id.comment_preview_img_comment_btn);
-                photoRating = view.findViewById(R.id.photo_rating);
                 imgLikeNum = view.findViewById(R.id.comment_preview_img_like_num);
                 imgCommentNum = view.findViewById(R.id.comment_preview_img_comment_num);
+                photoRating = view.findViewById(R.id.photo_rating);
+
             } else if (type == COMMENT) {
                 commentVal = view.findViewById(R.id.comment_val);
                 commentAuthorImg = view.findViewById(R.id.commentAuthorImg);
@@ -531,13 +510,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public interface CommentAdapterAction {
         void onImageLike(BaseImage baseImage);
 
+        void onImageCommentClicked();
         void onImageRateClick(BaseImage baseImage, float rating);
 
         void onAddToLightBox(BaseImage baseImage);
 
         void onAddToCartClick(BaseImage baseImage);
-
         void onSubmitComment(String comment);
+
+        void onCommentAuthorIconClicked(BaseImage baseImage);
     }
 
     @Override

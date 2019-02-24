@@ -20,6 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import com.example.ddopik.phlogbusiness.R;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -413,5 +415,46 @@ public class Utilities {
         int count = text.length() - text.replace(" ", "").length();
         return  count;
 
+    }
+
+    public static void intializeData(String keyData) throws Exception {
+        byte[] seedValue = {
+                0x2d, 0x2a, 0x2d, 0x42, 0x55, 0x49, 0x4c, 0x44, 0x41, 0x43, 0x4f, 0x44, 0x45, 0x2d, 0x2a, 0x2d
+        };
+        String seedValue2 = "7w!z%C*F)J@NcRfUjXn2r5u8x/A?D(G+";
+        SecretKeySpec secretKey = new SecretKeySpec(seedValue2.getBytes(), "AES");
+
+
+// encrypt
+        String encryptedData = encrypt(keyData, secretKey);
+        Log.e(TAG, "intializeData()  encryptedData ---->" + encryptedData.toString().toString());
+// decrypt
+        String decryptedData = decrypt(encryptedData, secretKey);
+        Log.e(TAG, "intializeData()   decryptedData ---->" + decryptedData.toString().toString());
+    }
+     static String encrypt(String data, SecretKeySpec secretKey) throws Exception {
+        try {
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            byte[] cipherText = cipher.doFinal(data.getBytes("UTF8"));
+            String encryptedString = new String(Base64.encode(cipherText, Base64.DEFAULT));
+            return encryptedString;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+     static String decrypt(String data, SecretKeySpec secretKey) throws Exception {
+        try {
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            byte[] cipherText = Base64.decode(data.getBytes("UTF8"), Base64.DEFAULT);
+            String decryptedString = new String(cipher.doFinal(cipherText), "UTF-8");
+            return decryptedString;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

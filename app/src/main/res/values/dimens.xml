@@ -51,7 +51,7 @@
 
     <!--//ViewHolders-->
     <dimen name="view_holder_item_list_height">150dp</dimen>
-    <dimen name="view_holder_item_list_height_med">225dp</dimen>
+    <dimen name="view_holder_item_list_height_med">280dp</dimen>
     <dimen name="icon_view_holder_size_s">35dp</dimen>
     <dimen name="icon_view_holder_size_m">45dp</dimen>
 
@@ -171,7 +171,8 @@
 
     <dimen name="img_slider_w">175dp</dimen>
     <dimen name="img_slider_h">280dp</dimen>
-
+    <dimen name="social_img_slider_w">175dp</dimen>
+    <dimen name="social_img_slider_h">280dp</dimen>
     <dimen name="social_profile_img_w">300dp</dimen>
     <dimen name="social_album_icon_w">200dp</dimen>
     <dimen name="social_album_icon_h">75dp</dimen>

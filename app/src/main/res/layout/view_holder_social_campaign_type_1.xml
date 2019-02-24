@@ -1,99 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-     app:cardCornerRadius="@dimen/item_card_corner_radius"
-    app:cardElevation="@dimen/item_card_elevation">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+>
 
     <LinearLayout
-        android:id="@+id/social_campaign_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/dp12">
+            android:id="@+id/social_campaign_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/widgets_padding"
+            tools:background="@color/white">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/dp8"
-            android:layout_height="40dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp8">
 
             <ImageView
-                android:id="@+id/social_campaign_icon"
-                android:layout_width="@dimen/icon_view_holder_size_s"
-                android:layout_height="@dimen/icon_view_holder_size_m"
-                android:layout_marginEnd="@dimen/dp8"
-                android:src="@drawable/phlog_logo" />
+                    android:id="@+id/social_campaign_icon"
+                    android:layout_width="@dimen/icon_view_holder_size_s"
+                    android:layout_height="@dimen/icon_view_holder_size_m"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:src="@drawable/phlog_logo" />
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                android:id="@+id/social_campaign_name"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/icon_view_holder_size_m"
-                android:layout_toEndOf="@+id/social_campaign_icon"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                tools:text="Toyota" />
+                    android:id="@+id/social_campaign_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/icon_view_holder_size_m"
+                    android:layout_toEndOf="@+id/social_campaign_icon"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    tools:text="Toyota" />
         </RelativeLayout>
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/campaign_item_height">
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/campaign_item_height">
 
             <ImageView
-                android:id="@+id/social_campaign_img"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                    android:id="@+id/social_campaign_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
 
-                tools:background="@drawable/splash_screen_background"/>
+                    tools:background="@drawable/splash_screen_background" />
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.4"
-                android:background="@drawable/graduant_layer" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.4"
+                    android:background="@drawable/graduant_layer" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="@dimen/dp14">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp14">
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                    android:id="@+id/social_campaign_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_title_head"
-                    tools:text="campaign" />
+                        android:id="@+id/social_campaign_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_title_head"
+                        tools:text="campaign" />
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                    android:id="@+id/social_campaign_day_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_time_white"
-                    android:drawablePadding="@dimen/campaign_drawable_padding"
-                    android:textColor="@color/white"
-                    tools:text="5 day left" />
+                        android:id="@+id/social_campaign_day_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_time_white"
+                        android:drawablePadding="@dimen/campaign_drawable_padding"
+                        android:textColor="@color/white"
+                        tools:text="5 day left" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_gravity="bottom"
-                    android:layout_weight="1"
-                    android:gravity="bottom|center"
-                    android:orientation="horizontal">
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="1"
+                        android:gravity="bottom|center"
+                        android:orientation="horizontal">
 
 
                     <Button
-                        android:fontFamily="@font/segoe_sb"
-                        android:id="@+id/social_join_campaign_btn"
-                        android:layout_width="@dimen/campaign_home_button_width"
-                        android:layout_height="@dimen/campaign_button_size"
-                        android:background="@drawable/rounded_campaign_button"
-                        android:text="@string/join"
-                        android:textColor="@color/white" />
+                            android:id="@+id/social_join_campaign_btn"
+                            android:layout_width="@dimen/campaign_home_button_width"
+                            android:layout_height="@dimen/campaign_button_size"
+                            android:background="@drawable/rounded_campaign_button"
+                            android:fontFamily="@font/segoe_sb"
+                            android:text="@string/join"
+                            android:textColor="@color/white" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -102,4 +101,4 @@
     </LinearLayout>
 
 
-</android.support.v7.widget.CardView>
+</FrameLayout>

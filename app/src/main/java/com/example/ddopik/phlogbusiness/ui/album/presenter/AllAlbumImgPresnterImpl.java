@@ -10,13 +10,13 @@ import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.facebook.GraphRequest.TAG;
 
 /**
  * Created by abdalla_maged On Dec,2018
  */
 public class AllAlbumImgPresnterImpl implements AllAlbumImgPresnter {
 
-    private String TAG=AllAlbumImgPresnterImpl.class.getSimpleName();
     private Context context;
     public AllAlbumImgActivityView allAlbumImgActivityView;
 
@@ -25,12 +25,27 @@ public class AllAlbumImgPresnterImpl implements AllAlbumImgPresnter {
         this.allAlbumImgActivityView = allAlbumImgActivityView;
     }
 
+    @SuppressLint("CheckResult")
+    @Override
+    public void deleteImage(BaseImage baseImage) {
+        allAlbumImgActivityView.viewAlbumImageListProgress(true);
+        BaseNetworkApi.deleteImage(String.valueOf(baseImage.id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(baseStateResponse -> {
+                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                    allAlbumImgActivityView.onImagePhotoGrapherDeleted(baseImage,true);
+                }, throwable -> {
+                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                });
+    }
 
     @SuppressLint("CheckResult")
     @Override
     public void likePhoto(String photoId) {
         allAlbumImgActivityView.viewAlbumImageListProgress(true);
-        BaseNetworkApi.likeImage(photoId)
+        BaseNetworkApi.likePhotoGrapherPhotoPhoto(photoId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseStateResponse -> {
@@ -93,4 +108,5 @@ public class AllAlbumImgPresnterImpl implements AllAlbumImgPresnter {
                 });
 
     }
+
 }

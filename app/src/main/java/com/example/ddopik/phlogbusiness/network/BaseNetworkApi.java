@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.network;
 
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseStateResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToCartResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.LightBoxListResponse;
@@ -130,7 +131,8 @@ public class BaseNetworkApi {
     private static final String GET_CART_ITEMS_URL = BASE_URL + "/cart/list";
     private static final String REMOVE_FROM_CART_URL = BASE_URL + "/cart/remove";
     private static final String SOCIAL_AUTO_COMPLETE = BASE_URL_COMMON + "/social/search";
-
+    private static final String DELETE_PHOTOGRAPHER_PHOTO = BASE_URL + "/photographer/photo/delete";
+    private static final String LIKE_PHOTOGRAPHER_PHOTO = BASE_URL + "/photographer/photo/like";
 
     private static final String UPDATE_PROFILE_URL = BASE_URL + "/profile/update";
     private static final String UNFOLLOW_USER_URL = BASE_URL + "/photographer/unfollow";
@@ -684,6 +686,23 @@ public class BaseNetworkApi {
                 .build()
 //                .getStringObservable();
         .getObjectSingle(RequestVerificationResponse.class);
+    }
+
+    public static io.reactivex.Observable<BaseStateResponse> deleteImage(String imageId) {
+        return Rx2AndroidNetworking.post(DELETE_PHOTOGRAPHER_PHOTO)
+                .addBodyParameter("photo_id", imageId)
+                .getResponseOnlyFromNetwork()
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(BaseStateResponse.class);
+    }
+    public static io.reactivex.Observable<BaseStateResponse> likePhotoGrapherPhotoPhoto(String imageId) {
+        return Rx2AndroidNetworking.post(LIKE_PHOTOGRAPHER_PHOTO)
+                .addBodyParameter("photo_id", imageId)
+                .getResponseOnlyFromNetwork()
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(BaseStateResponse.class);
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

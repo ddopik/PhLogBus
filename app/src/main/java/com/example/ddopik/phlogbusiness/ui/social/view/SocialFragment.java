@@ -12,8 +12,6 @@ import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.SearchActivity;
@@ -21,6 +19,7 @@ import com.example.ddopik.phlogbusiness.ui.social.model.SocialData;
 import com.example.ddopik.phlogbusiness.ui.social.presenter.SocailFragmentPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.social.presenter.SocialFragmentPresenter;
 import com.example.ddopik.phlogbusiness.ui.social.view.adapter.SocialAdapter;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ import java.util.List;
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.SOCIAL_FRAGMENT_PAGING_THRESHOLD;
 
 
-public class SocialFragment extends BaseFragment implements SocialFragmentView,SocialAdapter.OnSocialItemListener {
+public class SocialFragment extends BaseFragment implements SocialFragmentView, SocialAdapter.OnSocialItemListener {
 
     private View mainView;
     private EditText homeSearch;
@@ -44,7 +43,7 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView,S
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        mainView =inflater.inflate(R.layout.fragment_home,container,false);
+        mainView = inflater.inflate(R.layout.fragment_home, container, false);
         return mainView;
 
     }
@@ -56,7 +55,11 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView,S
         initViews();
         initListener();
         socialFragmentPresenter.getSocialData(true);
-
+//        try {
+//            Utilities.intializeData("https://www.gettyimages.com/gi-resources/images/CreativeLandingPage/HP_Sept_24_2018/CR3_GettyImages-159018836.jpg");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 
@@ -67,26 +70,25 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView,S
 
     @Override
     protected void initViews() {
-        homeSearch=mainView.findViewById(R.id.home_search);
+        homeSearch = mainView.findViewById(R.id.home_search);
         socailRv = mainView.findViewById(R.id.social_rv);
         socialProgress = mainView.findViewById(R.id.social_progress);
 
 
-        this.socialAdapter = new SocialAdapter(socialDataList,getActivity(),this);
-
+        this.socialAdapter = new SocialAdapter(socialDataList, getActivity(), this);
         socailRv.setAdapter(socialAdapter);
 
 
     }
 
-    private void initListener(){
-        homeSearch.setOnClickListener((v)->{
-            Intent intent=new Intent(getActivity(), SearchActivity.class);
+    private void initListener() {
+        homeSearch.setOnClickListener((v) -> {
+            Intent intent = new Intent(getActivity(), SearchActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });
 
-        pagingController=new PagingController(socailRv, SOCIAL_FRAGMENT_PAGING_THRESHOLD) {
+        pagingController = new PagingController(socailRv, SOCIAL_FRAGMENT_PAGING_THRESHOLD) {
 
             @Override
             public void getPagingControllerCallBack(int page) {
@@ -112,36 +114,32 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView,S
     }
 
 
+//    @Override
+//    public void onSocialCampaignJoined(int campaignId, boolean state) {
+//        for (SocialData socialData : socialDataList) {
+//            if (socialData.campaigns != null && socialData.campaigns.size() > 0)
+//                for (Campaign campaign : socialData.campaigns) {
+//                    if (campaignId == campaign.id) {
+//                        campaign.isJoined = state;
+//                    }
+//                }
+//        }
+//        socialAdapter.notifyDataSetChanged();
+//    }
 
 
-    @Override
-    public void onSocialCampaignJoined(int campaignId, boolean state) {
-        for (SocialData socialData : socialDataList) {
-            if (socialData.campaigns != null && socialData.campaigns.size() > 0)
-                for (Campaign campaign : socialData.campaigns) {
-                    if (campaignId == campaign.id) {
-                        campaign.isJoined = state;
-                    }
-                }
-        }
-        socialAdapter.notifyDataSetChanged();
-    }
-
-
-
-
-    @Override
-    public void onSocialPhotoGrapherFollowed(int userId, boolean state) {
-        for (SocialData socialData : socialDataList) {
-            if (socialData.profiles != null && socialData.profiles.size() > 0)
-                for (Photographer photographer : socialData.profiles) {
-                    if (photographer.id.equals(userId)) {
-                        photographer.isFollow = state;
-                    }
-                }
-        }
-        socialAdapter.notifyDataSetChanged();
-    }
+//    @Override
+//    public void onSocialPhotoGrapherFollowed(int userId, boolean state) {
+//        for (SocialData socialData : socialDataList) {
+//            if (socialData.profiles != null && socialData.profiles.size() > 0)
+//                for (Photographer photographer : socialData.profiles) {
+//                    if (photographer.id.equals(userId)) {
+//                        photographer.isFollow = state;
+//                    }
+//                }
+//        }
+//        socialAdapter.notifyDataSetChanged();
+//    }
 
 
     @Override
@@ -156,7 +154,6 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView,S
         }
         socialAdapter.notifyDataSetChanged();
     }
-
 
 
     @Override

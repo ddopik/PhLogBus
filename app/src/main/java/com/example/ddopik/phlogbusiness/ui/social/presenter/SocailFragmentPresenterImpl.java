@@ -32,7 +32,6 @@ public class SocailFragmentPresenterImpl implements SocialFragmentPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(socialResponse -> {
-
                     socialFragmentView.viewSocialData(socialResponse.data);
                     socialFragmentView.viewSocialDataProgress(false);
                 }, throwable -> {

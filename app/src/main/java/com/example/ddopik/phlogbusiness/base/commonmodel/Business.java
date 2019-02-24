@@ -20,9 +20,9 @@ public class Business extends MentionedUser implements Parcelable {
     @SerializedName("thumbnail")
     @Expose
     public String thumbnail;
-    //    @SerializedName("full_name")
-//    @Expose
-//    public String fullName;
+        @SerializedName("full_name")
+    @Expose
+    public String fullName;
     @SerializedName("web_site")
     @Expose
     public String website;
@@ -101,6 +101,9 @@ public class Business extends MentionedUser implements Parcelable {
     @SerializedName("name_en")
     public String nameEn;
 
+    public Business() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -111,6 +114,7 @@ public class Business extends MentionedUser implements Parcelable {
         dest.writeValue(this.id);
         dest.writeString(this.imageCover);
         dest.writeString(this.thumbnail);
+        dest.writeString(this.fullName);
         dest.writeString(this.website);
         dest.writeParcelable(this.industry, flags);
         dest.writeByte(this.isPhoneVerified ? (byte) 1 : (byte) 0);
@@ -120,6 +124,7 @@ public class Business extends MentionedUser implements Parcelable {
         dest.writeString(this.description);
         dest.writeString(this.createdAt);
         dest.writeByte(this.isBrand ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isFollow ? (byte) 1 : (byte) 0);
         dest.writeString(this.isBrandText);
         dest.writeString(this.updatedAt);
         dest.writeInt(this.rate);
@@ -138,13 +143,11 @@ public class Business extends MentionedUser implements Parcelable {
         dest.writeString(this.nameEn);
     }
 
-    public Business() {
-    }
-
     protected Business(Parcel in) {
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.imageCover = in.readString();
         this.thumbnail = in.readString();
+        this.fullName = in.readString();
         this.website = in.readString();
         this.industry = in.readParcelable(Industry.class.getClassLoader());
         this.isPhoneVerified = in.readByte() != 0;
@@ -154,6 +157,7 @@ public class Business extends MentionedUser implements Parcelable {
         this.description = in.readString();
         this.createdAt = in.readString();
         this.isBrand = in.readByte() != 0;
+        this.isFollow = in.readByte() != 0;
         this.isBrandText = in.readString();
         this.updatedAt = in.readString();
         this.rate = in.readInt();
@@ -172,7 +176,7 @@ public class Business extends MentionedUser implements Parcelable {
         this.nameEn = in.readString();
     }
 
-    public static final Parcelable.Creator<Business> CREATOR = new Parcelable.Creator<Business>() {
+    public static final Creator<Business> CREATOR = new Creator<Business>() {
         @Override
         public Business createFromParcel(Parcel source) {
             return new Business(source);
