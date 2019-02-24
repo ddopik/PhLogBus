@@ -17,6 +17,8 @@ import com.example.ddopik.phlogbusiness.R;
  */
 public abstract class BaseDialogFragment extends DialogFragment {
 
+    protected boolean cancelable;
+
     public BaseDialogFragment() {
         // Required empty public constructor
     }
@@ -31,7 +33,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        setCancelable(false);
+        setCancelable(cancelable);
         setViews(view);
         setListeners();
     }

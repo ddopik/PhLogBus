@@ -17,6 +17,8 @@ import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.fgm.model.FirebaseNotificationData;
+import com.example.ddopik.phlogbusiness.fgm.parse.NotificationParser;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.view.AccountDetailsFragment;
 import com.example.ddopik.phlogbusiness.ui.customersupport.view.CustomerSupportFragment;
 import com.example.ddopik.phlogbusiness.ui.downloads.view.DownloadsFragment;
@@ -32,6 +34,8 @@ import com.example.ddopik.phlogbusiness.ui.profile.view.BusinessProfileFragment;
 import com.example.ddopik.phlogbusiness.ui.social.view.SocialFragment;
 import com.example.ddopik.phlogbusiness.ui.uploadimage.view.GalleryImageFragment;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.Constants.MainActivityRedirectionValue;
+import com.example.ddopik.phlogbusiness.utiltes.Constants.PopupType;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.*;
@@ -62,6 +66,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         initPresenter();
         initListener();
         navigationManger.navigate(HOME);
+
+        handleIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (intent.hasExtra(MainActivityRedirectionValue.VALUE)) {
+            int redirection = intent.getIntExtra(MainActivityRedirectionValue.VALUE, 0);
+            switch (redirection) {
+                case MainActivityRedirectionValue.TO_PROFILE:
+                    navigationManger.navigate(PROFILE);
+                    break;
+            }
+        } else {
+            navigationManger.navigate(HOME);
+//                    String payload = intent.getStringExtra(MainActivityRedirectionValue.PAYLOAD);
+            if (intent.getExtras() != null) {
+                String payload = intent.getExtras().getString("data");
+                FirebaseNotificationData data = NotificationParser.parse(payload);
+                navigationManger.navigate(HOME);
+                if (data != null && data.notification.popup != PopupType.NONE)
+                    showPopup(data);
+            }
+        }
     }
 
     @Override
@@ -138,7 +171,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onResume();
     }
 
-    public class  NavigationManger {
+    public class NavigationManger {
         private Constants.NavigationHelper currentTab;
 
         private Object messageToFragment;
@@ -163,7 +196,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             campaignBtn.setCompoundDrawablePadding(8);
 
 
-
             myProfileBtn.setTextColor(getResources().getColor(R.color.gray677078));
             myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg_off, 0, 0);
             myProfileBtn.setCompoundDrawablePadding(8);
@@ -179,7 +211,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             downloadsBtn.setCompoundDrawablePadding(8);
         }
 
-       public void navigate(Constants.NavigationHelper navigationHelper) {
+        public void navigate(Constants.NavigationHelper navigationHelper) {
             clearSelected();
             int homeBrnImg = R.drawable.ic_social_on;
             int campaignBtnImg = R.drawable.ic_campaigns_on;
@@ -198,7 +230,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
 
                 case CAMPAIGN: {
-                    addFragment(R.id.view_container,  CampaignsFragment.getInstance(), CampaignsFragment.class.getSimpleName(), false);
+                    addFragment(R.id.view_container, CampaignsFragment.getInstance(), CampaignsFragment.class.getSimpleName(), false);
                     campaignBtn.setTextColor(getResources().getColor(R.color.text_input_color));
                     campaignBtn.setCompoundDrawablesWithIntrinsicBounds(0, campaignBtnImg, 0, 0);
                     campaignBtn.setCompoundDrawablePadding(8);
@@ -284,7 +316,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
 
-         Constants.NavigationHelper getCurrentTab() {
+        Constants.NavigationHelper getCurrentTab() {
             return currentTab;
         }
     }

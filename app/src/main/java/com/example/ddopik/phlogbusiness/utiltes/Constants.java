@@ -88,4 +88,17 @@ public interface Constants {
         int CAMPAIGN_STATUS_COMPLETED = 7;
     }
 
+
+    interface MainActivityRedirectionValue {
+        String VALUE = MainActivityRedirectionValue.class.getSimpleName();
+        String PAYLOAD = "payload";
+        int TO_PROFILE = 1;
+        int TO_POPUP = 2;
+    }
+
+    interface PopupType {
+        int LEVEL_UP = 1;
+        int WON_CAMPAIGN = 2;
+        int NONE = 0;
+    }
 }
