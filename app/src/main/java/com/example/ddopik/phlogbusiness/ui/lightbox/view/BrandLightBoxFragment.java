@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
@@ -134,6 +135,9 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
         }
         this.lightBoxList.addAll(lightBoxes);
         lightBoxAdapter.notifyDataSetChanged();
+
+
+
     }
 
     @Override

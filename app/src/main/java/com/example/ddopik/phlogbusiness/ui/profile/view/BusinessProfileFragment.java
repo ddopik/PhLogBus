@@ -3,7 +3,6 @@ package com.example.ddopik.phlogbusiness.ui.profile.view;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,11 +17,7 @@ import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
@@ -35,8 +29,6 @@ import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenter;
 import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenterImpl;
-
-import org.w3c.dom.Text;
 
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.ACCOUNT_DETAILS;
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.LIGHT_BOX;
@@ -50,7 +42,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
 
     private View mainView;
     private TextView brandName, brandWebSite, brandIndustry;
-    private CustomTextView brandUserName;
+    private CustomTextView brandUserMail;
     private ImageView brandImgIcon;
     private ImageView brandProfileCoverImg;
     private LinearLayout accountDetailsBtn, setupBrandBtn, cartBtn, myLightBoxBtn, logoutBtn;
@@ -83,7 +75,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
     @Override
     protected void initViews() {
         brandName = mainView.findViewById(R.id.header_profile_brand_name);
-        brandUserName = mainView.findViewById(R.id.brand_user_name);
+        brandUserMail = mainView.findViewById(R.id.brand_user_mail);
         brandWebSite = mainView.findViewById(R.id.header_profile_brand_website);
         brandIndustry = mainView.findViewById(R.id.brand_profile_industry);
         brandProfileCoverImg = mainView.findViewById(R.id.brand_profile_cover_img);
@@ -153,7 +145,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         if (business.firstName != null)
             brandName.setText(String.format("%1$s %2$s", business.firstName, business.lastName));
         if (business.userName !=null)
-            brandUserName.setText(business.userName);
+            brandUserMail.setText(business.email);
         if (business.website != null)
             brandWebSite.setText(business.website);
         if (business.industry != null)

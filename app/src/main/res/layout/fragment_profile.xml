@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="@string/account_details"
-                    android:textSize="@dimen/font_normal"
+                    android:textSize="@dimen/text_medium_s"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="@string/set_up_ur_account"
-                    android:textSize="@dimen/font_normal"
+                    android:textSize="@dimen/text_medium_s"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="@string/cart"
-                    android:textSize="@dimen/font_normal"
+                    android:textSize="@dimen/text_medium_s"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -164,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="@string/my_studios"
-                    android:textSize="@dimen/font_normal"
+                    android:textSize="@dimen/text_medium_s"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -196,7 +196,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="@string/logout"
-                    android:textSize="@dimen/font_normal"
+                    android:textSize="@dimen/text_medium_s"
                     android:textStyle="bold" />
 
                 <ImageView

@@ -8,10 +8,12 @@ import android.view.*;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LightBoxAdapter extends RecyclerView.Adapter<LightBoxAdapter.LightBoxViewHolder> {
@@ -38,11 +40,26 @@ public class LightBoxAdapter extends RecyclerView.Adapter<LightBoxAdapter.LightB
     @Override
     public void onBindViewHolder(@NonNull LightBoxViewHolder lightBoxViewHolder, int i) {
 
+
+
         lightBoxViewHolder.lightBoxName.setText(lightBoxList.get(i).name);
         lightBoxViewHolder.lightBoxPhotosCount.setText(new StringBuilder().append(lightBoxList.get(i).photosCount).append(" ").append(context.getResources().getString(R.string.photos)).toString());
 
         LightBoxSliderAdapter lightBoxSliderAdapter = new LightBoxSliderAdapter(lightBoxList.get(i).photos);
         lightBoxViewHolder.lightBoxSliderRv.setAdapter(lightBoxSliderAdapter);
+
+
+
+        //this block acts as Adapter placeHolder
+        if(this.lightBoxList.get(i).photos.size()==0){
+            BaseImage baseImage=new BaseImage();
+            baseImage.id=-1;
+            baseImage.url="";
+            List tempList=new ArrayList<BaseImage>();
+            tempList.add(baseImage);
+            LightBoxSliderAdapter tempLightBoxSliderAdapter = new LightBoxSliderAdapter(tempList);
+            lightBoxViewHolder.lightBoxSliderRv.setAdapter(tempLightBoxSliderAdapter);
+        }
         if (onLightBoxClickListener != null) {
 
             lightBoxViewHolder.lightBoxContainer.setOnClickListener(v->{

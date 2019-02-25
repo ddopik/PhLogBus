@@ -134,7 +134,7 @@
                 app:layout_constraintWidth_percent=".3"
                 tools:text="Industry"/>
         <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                android:id="@+id/brand_user_name"
+                android:id="@+id/brand_user_mail"
                 tools:text="user name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
