@@ -22,4 +22,6 @@ public interface ImageCommentActivityPresenter {
     void getReportReasons(Consumer<List<ReportReason>> consumer);
 
     void submitReport(Consumer<Boolean> success, ReportModel model);
+
+    void chooseWinner(int campaignId, BaseImage image, Consumer<Boolean> success);
 }

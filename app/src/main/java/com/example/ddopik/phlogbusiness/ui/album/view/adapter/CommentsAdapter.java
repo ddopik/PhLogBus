@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.*;
@@ -33,6 +34,7 @@ import com.jakewharton.rxbinding3.widget.TextViewTextChangeEvent;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -55,6 +57,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     private CommentAdapterPresenter commentAdapterPresenter;
     private CompositeDisposable disposable = new CompositeDisposable();
     private BaseImage previewImage;
+    private boolean shouldShowChooseWinnerButton;
     public CommentAdapterAction commentAdapterAction;
     private int HEAD = 0;
     private int COMMENT = 1;
@@ -163,6 +166,18 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 });
                 popupMenu.show();
             });
+
+            if (shouldShowChooseWinnerButton) {
+                commentViewHolder.chooseWinnerBtn.setVisibility(View.VISIBLE);
+                commentViewHolder.chooseWinnerBtn.setOnClickListener(v -> {
+                    commentViewHolder.chooseWinnerBtn.setEnabled(false);
+                    commentAdapterAction.onChooseWinnerClick(previewImage, success -> {
+                        if (success) commentViewHolder.chooseWinnerBtn.setVisibility(View.GONE);
+                        else commentViewHolder.chooseWinnerBtn.setEnabled(true);
+                    });
+                });
+            } else commentViewHolder.chooseWinnerBtn.setVisibility(View.GONE);
+
 
 //////////////////////////////////////COMMENT/////////////////////////////////////////
         } else if (getItemViewType(i) == COMMENT) {
@@ -479,6 +494,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         return commentList.size();
     }
 
+    public void setShouldShowChooseWinnerButton(boolean shouldShowChooseWinnerButton) {
+        this.shouldShowChooseWinnerButton = shouldShowChooseWinnerButton;
+    }
+
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         //header cell
         FrameLayout addToCartBtn;
@@ -487,6 +506,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         ImageButton imageLikeBtn, imageCommentBtn;
         RatingBar photoRating;
         ImageButton menu;
+        ConstraintLayout chooseWinnerBtn;
         ///Comment_value Cell
         TextView commentVal;
         CustomTextView commentAuthorName;
@@ -512,6 +532,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 imgCommentNum = view.findViewById(R.id.comment_preview_img_comment_num);
                 photoRating = view.findViewById(R.id.photo_rating);
                 menu = view.findViewById(R.id.menu_button);
+                chooseWinnerBtn = view.findViewById(R.id.choose_winner_btn);
 
             } else if (type == COMMENT) {
                 commentVal = view.findViewById(R.id.comment_val);
@@ -542,6 +563,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         void onCommentAuthorIconClicked(BaseImage baseImage);
 
         void onReportClicked(BaseImage image);
+
+        void onChooseWinnerClick(BaseImage previewImage, Consumer<Boolean> success);
     }
 
     @Override

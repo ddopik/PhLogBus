@@ -283,4 +283,6 @@
     <string name="choose_reason">Choose a reason</string>
     <string name="report_failed">Failed to submit report</string>
     <string name="report_success">Report submitted</string>
+    <string name="choose_winner">Choose photo to win campaign</string>
+    <string name="image_choosen_winner">Photo is set as winner</string>
 </resources>

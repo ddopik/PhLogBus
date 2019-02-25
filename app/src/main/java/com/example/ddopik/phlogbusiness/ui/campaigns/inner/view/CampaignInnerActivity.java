@@ -1,19 +1,14 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.inner.view;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
@@ -108,7 +103,7 @@ public class CampaignInnerActivity extends BaseActivity implements CampaignInner
     private List<Fragment> getFragmentPagerFragment(Campaign campaign) {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(CampaignInnerSettingFragment.getInstance(campaign));
-        fragmentList.add(CampaignInnerPhotosFragment.getInstance(String.valueOf(campaign.id)));
+        fragmentList.add(CampaignInnerPhotosFragment.getInstance(String.valueOf(campaign.id), campaign.status));
         return fragmentList;
     }
 

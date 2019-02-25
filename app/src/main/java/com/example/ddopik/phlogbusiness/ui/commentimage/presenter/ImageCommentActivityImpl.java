@@ -25,6 +25,8 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
     private Context context;
     private ImageCommentActivityView imageCommentActivityView;
 
+    private static final String SAVED = "Saved";
+
     public ImageCommentActivityImpl(Context context, ImageCommentActivityView imageCommentActivityView) {
         this.context = context;
         this.imageCommentActivityView = imageCommentActivityView;
@@ -166,6 +168,23 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                         success.accept(true);
                     } else success.accept(false);
                 }, throwable -> {
+                    success.accept(false);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                });
+    }
+
+    @Override
+    public void chooseWinner(int campaignId, BaseImage image, Consumer<Boolean> success) {
+        imageCommentActivityView.viewImageProgress(true);
+        BaseNetworkApi.chooseWinner(campaignId, image)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    imageCommentActivityView.viewImageProgress(false);
+                    if (response.msg.equals(SAVED)) success.accept(true);
+                    else success.accept(false);
+                }, throwable -> {
+                    imageCommentActivityView.viewImageProgress(false);
                     success.accept(false);
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });

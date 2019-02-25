@@ -19,6 +19,7 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.DataItem;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPhotosFragmentPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPhotosFragmentPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.List;
 public class CampaignInnerPhotosFragment extends BaseFragment implements CampaignInnerPhotosFragmentView {
 
     private String campaignID;
+    private int status;
     private View mainView;
     private CustomRecyclerView campaignInnerRv;
     private ProgressBar campaignInnerProgressBar;
@@ -37,9 +39,10 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
     private PagingController pagingController;
     private CampaignInnerPhotosFragmentPresenter campaignInnerPhotosFragmentPresenter;
 
-    public static CampaignInnerPhotosFragment getInstance(String campaignID) {
+    public static CampaignInnerPhotosFragment getInstance(String campaignID, Integer status) {
         CampaignInnerPhotosFragment campaignInnerPhotosFragment = new CampaignInnerPhotosFragment();
         campaignInnerPhotosFragment.campaignID = campaignID;
+        campaignInnerPhotosFragment.status = status;
         return campaignInnerPhotosFragment;
 
     }
@@ -126,6 +129,9 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
     private CampaignInnerPhotosAdapter.PhotoAction action = baseImage -> {
         Intent intent = new Intent(getContext(), ImageCommentActivity.class);
         intent.putExtra(ImageCommentActivity.IMAGE_DATA, baseImage);
+        if (status == Constants.CampaignStatus.CAMPAIGN_STATUS_APPROVED || status == Constants.CampaignStatus.CAMPAIGN_STATUS_RUNNING)
+            intent.putExtra(ImageCommentActivity.SHOULD_SHOW_CHOOSE_WINNER, true);
+        intent.putExtra(ImageCommentActivity.CAMPAIGN_ID, Integer.valueOf(campaignID));
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     };

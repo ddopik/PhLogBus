@@ -2,6 +2,8 @@ package com.example.ddopik.phlogbusiness.network;
 
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.interfaces.UploadProgressListener;
+import com.example.ddopik.phlogbusiness.base.BaseApiResponse;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseStateResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToCartResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToLightBoxResponse;
@@ -146,6 +148,7 @@ public class BaseNetworkApi {
     private static final String UNSAVE_PHOTO_URL = BASE_URL + "/photographer/photo/unsave";
     private static final String REPORT_REASONS_LIST_URL = BASE_URL_COMMON + "/reports/reasons";
     private static final String REPORT_PHOTO_URL = BASE_URL + "/photo/report";
+    private static final String CHOOSE_CAMPAIGN_WINNER_URL = BASE_URL + "/campaign/photo/set_winning";
 
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
@@ -722,6 +725,15 @@ public class BaseNetworkApi {
                 .addBodyParameter("details", model.extra)
                 .build()
                 .getStringObservable();
+    }
+
+    public static Observable<BaseApiResponse> chooseWinner(int campaignId, BaseImage image) {
+        return Rx2AndroidNetworking.post(CHOOSE_CAMPAIGN_WINNER_URL)
+                .setPriority(Priority.HIGH)
+                .addBodyParameter("campaign_id", String.valueOf(campaignId))
+                .addBodyParameter("photo_id", String.valueOf(image.id))
+                .build()
+                .getObjectObservable(BaseApiResponse.class);
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

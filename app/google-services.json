@@ -1,0 +1,113 @@
+{
+  "project_info": {
+    "project_number": "840873229007",
+    "firebase_url": "https://phlog-api.firebaseio.com",
+    "project_id": "phlog-api",
+    "storage_bucket": "phlog-api.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840873229007:android:e87064c918d03a9d",
+        "android_client_info": {
+          "package_name": "com.example.ddopik.phlogbusiness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840873229007-p5nscv0d7kocalv0s6crhg8v380en48g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ddopik.phlogbusiness",
+            "certificate_hash": "36a43d5f38b97dca74a05a8f81c81f30b008fb75"
+          }
+        },
+        {
+          "client_id": "840873229007-m7k251orp9br8qgiicfnlrmstuimkpq4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA8ndfK_aK0SavhYoszZ2C26jTmazRUDM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840873229007-m7k251orp9br8qgiicfnlrmstuimkpq4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "840873229007-c2rh5u04q1ornkqnd55pap1aqsjjlbp8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.softmills.phLog"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840873229007:android:3c3393e7b10a5ab1",
+        "android_client_info": {
+          "package_name": "com.example.softmills.phlog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840873229007-ail09ehd95c1rs6eaob0kiqv3ra4sp24.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.softmills.phlog",
+            "certificate_hash": "36a43d5f38b97dca74a05a8f81c81f30b008fb75"
+          }
+        },
+        {
+          "client_id": "840873229007-m7k251orp9br8qgiicfnlrmstuimkpq4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA8ndfK_aK0SavhYoszZ2C26jTmazRUDM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840873229007-m7k251orp9br8qgiicfnlrmstuimkpq4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "840873229007-c2rh5u04q1ornkqnd55pap1aqsjjlbp8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.softmills.phLog"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

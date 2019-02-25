@@ -17,6 +17,42 @@
         android:background="@color/black"
         android:orientation="vertical">
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/choose_winner_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/text_input_color"
+            android:padding="@dimen/dp12">
+
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                android:id="@+id/customTextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/widgets_padding"
+                android:text="@string/choose_winner"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintBottom_toBottomOf="@id/customTextView2"
+                app:layout_constraintEnd_toStartOf="@+id/customTextView2"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/customTextView2"
+                app:srcCompat="@drawable/ic_campaigns_white"/>
+        </android.support.constraint.ConstraintLayout>
+
         <LinearLayout
             android:id="@+id/comment_img_header"
             android:layout_width="match_parent"
@@ -58,16 +94,16 @@
             </LinearLayout>
 
             <FrameLayout
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
 
                 <ImageButton
                     android:id="@+id/menu_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_menu_dots"
-                    android:layout_gravity="end|center"/>
+                    android:layout_gravity="end|center"
+                    android:background="@drawable/ic_menu_dots" />
             </FrameLayout>
         </LinearLayout>
 

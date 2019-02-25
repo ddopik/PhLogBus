@@ -19,7 +19,7 @@ public class InnerCampaignFragmentPagerAdapter extends FragmentStatePagerAdapter
     public InnerCampaignFragmentPagerAdapter(FragmentManager manager, Campaign campaign, List<String> mFragmentTitleList) {
         super(manager);
         mFragmentList.add(CampaignInnerSettingFragment.getInstance(campaign));
-        mFragmentList.add(CampaignInnerPhotosFragment.getInstance(String.valueOf(campaign.id)));
+        mFragmentList.add(CampaignInnerPhotosFragment.getInstance(String.valueOf(campaign.id), campaign.status));
         this.mFragmentTitleList = mFragmentTitleList;
     }
 

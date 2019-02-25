@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
@@ -31,6 +32,8 @@ import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.functions.Consumer;
+
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 /**
@@ -39,10 +42,14 @@ import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 public class ImageCommentActivity extends BaseActivity implements ImageCommentActivityView {
 
     public static String IMAGE_DATA = "image_data";
+    public static String SHOULD_SHOW_CHOOSE_WINNER = "choose_winner";
+    public static String CAMPAIGN_ID = "campaign_id";
     public static final int ImageComment_REQUEST_CODE = 1396;
     private CustomTextView toolBarTitle;
     private ImageButton backBtn;
     private BaseImage previewImage;
+    private boolean shouldShowChooseWinnerButton;
+    private int campaignId;
     private List<Photographer> photographerList = new ArrayList<Photographer>();
     private List<Business> businessList = new ArrayList<Business>();
 
@@ -62,14 +69,12 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         if (getIntent().getParcelableExtra(IMAGE_DATA) != null) {
             setContentView(R.layout.activity_image_commnet);
             previewImage = getIntent().getExtras().getParcelable(IMAGE_DATA);
+            shouldShowChooseWinnerButton = getIntent().getBooleanExtra(SHOULD_SHOW_CHOOSE_WINNER, false);
+            campaignId = getIntent().getIntExtra(CAMPAIGN_ID, -1);
             initPresenter();
             initView();
             initListener();
         }
-
-
-
-
 
 
     }
@@ -90,6 +95,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         commentList.add(userComment);/// acts As default for image Add comment
 
         commentsAdapter = new CommentsAdapter(previewImage, commentList, mentions);
+        commentsAdapter.setShouldShowChooseWinnerButton(shouldShowChooseWinnerButton);
         commentsRv.setAdapter(commentsAdapter);
         imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), "0");
 
@@ -227,6 +233,17 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
                     showReportFragment();
                 }
             }
+
+            @Override
+            public void onChooseWinnerClick(BaseImage image, Consumer<Boolean> success) {
+                if (campaignId != -1) {
+                    imageCommentActivityPresenter.chooseWinner(campaignId, image, state -> {
+                        if (state)
+                            showToast(getString(R.string.image_choosen_winner));
+                        success.accept(state);
+                    });
+                }
+            }
         };
 
 
@@ -253,7 +270,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
                     showToast(getString(R.string.report_failed));
                 else
                     showToast(getString(R.string.report_success));
-            },model);
+            }, model);
         };
     }
 
