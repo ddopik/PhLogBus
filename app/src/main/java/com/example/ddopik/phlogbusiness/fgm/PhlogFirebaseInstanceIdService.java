@@ -1,15 +1,19 @@
 package com.example.ddopik.phlogbusiness.fgm;
 
 import android.util.Log;
+
+import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
-import java.security.NoSuchAlgorithmException;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class PhlogFirebaseInstanceIdService extends FirebaseInstanceIdService {
+
+    private static final String TAG = PhlogFirebaseInstanceIdService.class.getSimpleName();
 
     @Override
     public void onTokenRefresh() {
@@ -17,5 +21,13 @@ public class PhlogFirebaseInstanceIdService extends FirebaseInstanceIdService {
         String token = FirebaseInstanceId.getInstance().getToken();
         Log.e("Firebase token", token);
         PrefUtils.saveFirebaseToken(getApplicationContext(), token);
+        BaseNetworkApi.updateFirebaseToken(PrefUtils.getBrandToken(getApplicationContext()), token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(getApplicationContext(), TAG, throwable);
+                });
     }
 }

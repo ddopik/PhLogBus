@@ -38,20 +38,22 @@ public class LoginPresenterImp implements LoginPresenter {
     @Override
     public void signInNormal(HashMap<String, String> loginData) {
         loginView.showLoginProgress(true);
+        loginData.put("firebase_token", PrefUtils.getFirebaseToken(context));
         BaseNetworkApi.LoginUserNormal(loginData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(loginResponse -> {
                     loginView.showLoginProgress(false);
-
+                    saveBrand(loginResponse.getData());
                     if(PrefUtils.isFirstLaunch(context)){
                         loginView.navigateToPickProfilePhoto();
                     }else {
                         loginView.navigateToHome();
                     }
-                    saveBrand(loginResponse.getData());
 
                 }, throwable -> {
+                    loginView.showMessage(context.getString(R.string.wrong_credentials));
+                    loginView.showLoginProgress(false);
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);;
                 });
     }
@@ -106,6 +108,8 @@ public class LoginPresenterImp implements LoginPresenter {
                 parameter.put("mobile_model", Utilities.getDeviceName());
                 parameter.put("email", socialUser.email);
                 parameter.put("image_profile", socialUser.profilePictureUrl);
+
+                parameter.put("firebase_token", PrefUtils.getFirebaseToken(context));
                 processFaceBookUser(parameter);
 
             }

@@ -84,19 +84,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case MainActivityRedirectionValue.TO_PROFILE:
                     navigationManger.navigate(PROFILE);
                     break;
-            }
-        } else {
-            navigationManger.navigate(HOME);
-//                    String payload = intent.getStringExtra(MainActivityRedirectionValue.PAYLOAD);
-            if (intent.getExtras() != null) {
-                String payload = intent.getExtras().getString("data");
-                if (payload != null) {
+                case MainActivityRedirectionValue.TO_POPUP:
+                    String payload = intent.getStringExtra(MainActivityRedirectionValue.PAYLOAD);
                     FirebaseNotificationData data = NotificationParser.parse(payload);
                     navigationManger.navigate(HOME);
                     if (data != null && data.notification.popup != PopupType.NONE)
                         showPopup(data);
-                }
+                    break;
             }
+        } else {
+            navigationManger.navigate(HOME);
         }
     }
 

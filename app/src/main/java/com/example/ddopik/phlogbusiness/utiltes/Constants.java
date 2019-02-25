@@ -97,8 +97,8 @@ public interface Constants {
     }
 
     interface PopupType {
-        int LEVEL_UP = 1;
-        int WON_CAMPAIGN = 2;
+        int CHOOSE_WINNER = 3;
+        int DOCUMENTS_APPROVED = 4;
         int NONE = 0;
     }
 }
