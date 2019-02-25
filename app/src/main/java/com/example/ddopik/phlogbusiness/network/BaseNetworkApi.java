@@ -145,6 +145,7 @@ public class BaseNetworkApi {
     private static final String SAVE_PHOTO_URL = BASE_URL + "/photographer/photo/save";
     private static final String UNSAVE_PHOTO_URL = BASE_URL + "/photographer/photo/unsave";
     private static final String REPORT_REASONS_LIST_URL = BASE_URL_COMMON + "/reports/reasons";
+    private static final String REPORT_PHOTO_URL = BASE_URL + "/photo/report";
 
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";
@@ -713,8 +714,14 @@ public class BaseNetworkApi {
                 .getObjectObservable(ReportReasonsResponse.class);
     }
 
-    public static void submitReport(ReportModel model) {
-
+    public static Observable<String> submitReport(ReportModel model) {
+        return Rx2AndroidNetworking.post(REPORT_PHOTO_URL)
+                .setPriority(Priority.HIGH)
+                .addBodyParameter("photo_id", String.valueOf(model.imageId))
+                .addBodyParameter("report_id", String.valueOf(model.selectedReason.getId()))
+                .addBodyParameter("details", model.extra)
+                .build()
+                .getStringObservable();
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

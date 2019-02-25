@@ -245,8 +245,15 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     }
 
     private ReportImageFragment.OnSubmitClickListener getOnSubmitReportListener() {
-        return (fragment, model) -> {
-            imageCommentActivityPresenter.submitReport(model);
+        return (fragment, model, success) -> {
+            model.imageId = previewImage.id;
+            imageCommentActivityPresenter.submitReport(aBoolean -> {
+                success.accept(aBoolean);
+                if (!aBoolean)
+                    showToast(getString(R.string.report_failed));
+                else
+                    showToast(getString(R.string.report_success));
+            },model);
         };
     }
 

@@ -55,7 +55,7 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
         Glide.with(context).load(homeCampaign.imageCover)
                 .apply(RequestOptions.errorOf(R.drawable.default_place_holder))
                 .into(campaignViewHolder.campaignImage);
-        campaignViewHolder.campaignBusinessName.setText(new StringBuilder().append(homeCampaign.business.firstName).append(" ").append(homeCampaign.business.lastName));
+        campaignViewHolder.campaignBusinessName.setText(homeCampaign.business.fullName);
         campaignViewHolder.campaignTitle.setText(homeCampaign.titleEn);
         campaignViewHolder.campaignDayLeft.setText(String.valueOf(homeCampaign.daysLeft));
         campaignViewHolder.campaignDayLeft.append(" " + context.getResources().getString(R.string.days_left));

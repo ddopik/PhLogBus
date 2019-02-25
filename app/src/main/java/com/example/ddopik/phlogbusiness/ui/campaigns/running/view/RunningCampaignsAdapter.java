@@ -57,7 +57,7 @@ public class RunningCampaignsAdapter extends RecyclerView.Adapter<RunningCampaig
         Glide.with(context).load(homeCampaign.imageCover)
                 .apply(RequestOptions.errorOf(R.drawable.default_place_holder).placeholder(R.drawable.default_error_img))
                 .into(campaignViewHolder.campaignImage);
-        campaignViewHolder.campaignBusinessName.setText(new StringBuilder().append(homeCampaign.business.firstName).append(" ").append(homeCampaign.business.lastName).toString());
+        campaignViewHolder.campaignBusinessName.setText(homeCampaign.business.fullName);
         campaignViewHolder.campaignTitle.setText(homeCampaign.titleEn);
         campaignViewHolder.campaignDayLeft.setText(String.valueOf(homeCampaign.daysLeft));
         campaignViewHolder.campaignDayLeft.append(" "+context.getResources().getString(R.string.days_left));

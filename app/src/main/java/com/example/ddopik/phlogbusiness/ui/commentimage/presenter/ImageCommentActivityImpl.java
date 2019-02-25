@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.ui.commentimage.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ReportModel;
@@ -156,6 +157,17 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
 
     @Override
     public void submitReport(Consumer<Boolean> success, ReportModel model) {
-        BaseNetworkApi.submitReport(model);
+        BaseNetworkApi.submitReport(model)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+                    if (s != null) {
+                        Log.e("report response", s);
+                        success.accept(true);
+                    } else success.accept(false);
+                }, throwable -> {
+                    success.accept(false);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                });
     }
 }

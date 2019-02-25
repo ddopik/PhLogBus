@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.ddopik.phlogbusiness.R;
@@ -27,6 +28,7 @@ public class ReportImageFragment extends BaseDialogFragment {
     private RecyclerView reasonsRV;
     private EditText extra;
     private Button submit;
+    private ProgressBar loading;
 
     private ReasonsAdapter adapter;
 
@@ -43,6 +45,7 @@ public class ReportImageFragment extends BaseDialogFragment {
         ReportImageFragment fragment = new ReportImageFragment();
         fragment.reasons = reasons;
         fragment.onSubmitClickListener = onSubmitClickListener;
+        fragment.cancelable = true;
         return fragment;
     }
 
@@ -53,6 +56,7 @@ public class ReportImageFragment extends BaseDialogFragment {
         reasonsRV.setAdapter(adapter);
         extra = view.findViewById(R.id.extra_et);
         submit = view.findViewById(R.id.submit_btn);
+        loading = view.findViewById(R.id.loading);
     }
 
     @Override
@@ -66,11 +70,15 @@ public class ReportImageFragment extends BaseDialogFragment {
         });
         submit.setOnClickListener(v -> {
             if (onSubmitClickListener != null) {
+                loading.setVisibility(View.VISIBLE);
                 if (model.selectedReason == null) {
                     Toast.makeText(getContext(), R.string.choose_reason, Toast.LENGTH_SHORT).show();
                 }
                 model.extra = extra.getText().toString();
-                onSubmitClickListener.onSubmitClick(this, model);
+                onSubmitClickListener.onSubmitClick(this, model, success -> {
+                    if (success) dismiss();
+                    else loading.setVisibility(View.GONE);
+                });
             }
         });
     }
@@ -84,6 +92,6 @@ public class ReportImageFragment extends BaseDialogFragment {
     }
 
     public interface OnSubmitClickListener {
-        void onSubmitClick(DialogFragment fragment, ReportModel model);
+        void onSubmitClick(DialogFragment fragment, ReportModel model, Consumer<Boolean> success);
     }
 }
