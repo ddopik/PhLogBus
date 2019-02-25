@@ -37,6 +37,7 @@ import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.Constants.MainActivityRedirectionValue;
 import com.example.ddopik.phlogbusiness.utiltes.Constants.PopupType;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.*;
 
@@ -168,6 +169,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    private void callSupport(){
+        Utilities.sendEmail(getResources().getString(R.string.phlog_mail),getBaseContext());
+
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -253,7 +258,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     break;
                 }
                 case CALL_SUPPORT: {
-                    addFragment(R.id.view_container, new CustomerSupportFragment(), CustomerSupportFragment.class.getSimpleName(), false);
+                    callSupport();
                     callSupportBtn.setVisibility(View.VISIBLE);
                     callSupportBtn.setTextColor(getResources().getColor(R.color.text_input_color));
                     callSupportFloatBtn.setImageResource(R.drawable.btn_call_support_selected);
