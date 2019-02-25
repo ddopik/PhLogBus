@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.splash.SplashActivity"></activity>
+        <activity android:name=".ui.splash.SplashActivity"/>
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTask"
@@ -48,6 +48,7 @@
         <activity android:name=".ui.album.view.AllAlbumImgActivity" />
         <activity android:name=".ui.uploadimage.view.AddTagActivity" />
         <activity android:name=".ui.brand.view.BrandInnerActivity" />
+        <activity android:name=".ui.payment.PaymentWebViewActivity" />
         <activity
             android:name=".ui.setupbrand.view.SetupBrandActivity"
             android:screenOrientation="portrait"
