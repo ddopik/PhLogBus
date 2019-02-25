@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface WelcomeView {
 
-    void showWelcomeImageSlider(List<InitSlider> images);
+//    void showWelcomeImageSlider(List<InitSlider> images);
 
 }

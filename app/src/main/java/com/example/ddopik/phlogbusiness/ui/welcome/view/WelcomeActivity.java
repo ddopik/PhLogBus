@@ -45,17 +45,14 @@ public class WelcomeActivity extends BaseActivity implements WelcomeView {
 
 
         signInBtn = findViewById(R.id.sign_in_btn);
-        signUpBtn = findViewById(R.id.sign_up_btn);
-
-
-        InitSlider initSliderDefaultItem = new InitSlider();
-        initSliderDefaultItem.image = "";
-        initSliderDefaultItem.text = "basic Image";
-        urlList.add(initSliderDefaultItem);
-        WelcomeSlideAdapter = new WelcomeSlideAdapter(getBaseContext(), urlList);
-        slidesViewPager = findViewById(R.id.slides_view_pager);
-        slidesViewPager.setAdapter(WelcomeSlideAdapter);
-        indicator = findViewById(R.id.circle_indicator_pager);
+//        InitSlider initSliderDefaultItem = new InitSlider();
+//        initSliderDefaultItem.image = "";
+//        initSliderDefaultItem.text = "basic Image";
+//        urlList.add(initSliderDefaultItem);
+//        WelcomeSlideAdapter = new WelcomeSlideAdapter(getBaseContext(), urlList);
+//        slidesViewPager = findViewById(R.id.slides_view_pager);
+//        slidesViewPager.setAdapter(WelcomeSlideAdapter);
+//        indicator = findViewById(R.id.circle_indicator_pager);
 
 
     }
@@ -77,17 +74,17 @@ public class WelcomeActivity extends BaseActivity implements WelcomeView {
         });
     }
 
-    @Override
-    public void showWelcomeImageSlider(List<InitSlider> images) {
-        urlList.clear();
-        InitSlider initSliderDefaultItem = new InitSlider();
-        initSliderDefaultItem.image = "";
-        initSliderDefaultItem.text = "basic Image";
-        urlList.add(initSliderDefaultItem);
-        urlList.addAll(images);
-        WelcomeSlideAdapter.notifyDataSetChanged();
-        indicator.setViewPager(slidesViewPager);
-    }
+//    @Override
+//    public void showWelcomeImageSlider(List<InitSlider> images) {
+//        urlList.clear();
+//        InitSlider initSliderDefaultItem = new InitSlider();
+//        initSliderDefaultItem.image = "";
+//        initSliderDefaultItem.text = "basic Image";
+//        urlList.add(initSliderDefaultItem);
+//        urlList.addAll(images);
+//        WelcomeSlideAdapter.notifyDataSetChanged();
+//        indicator.setViewPager(slidesViewPager);
+//    }
 
 
 }
