@@ -92,8 +92,8 @@ dependencies {
     implementation 'com.bikomobile:circleindicatorpager:1.0.0'
     //ImagePicker
     implementation 'com.github.esafirm.android-image-picker:imagepicker:1.13.1'
-    // for experimental rx picker
-    implementation 'com.github.esafirm.android-image-picker:rximagepicker:1.13.1'
+//    // for experimental rx picker
+//    implementation 'com.github.esafirm.android-image-picker:rximagepicker:1.13.1'
 
     //Easy permissions
     implementation 'pub.devrel:easypermissions:1.3.0'

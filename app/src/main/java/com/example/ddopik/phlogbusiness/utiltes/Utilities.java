@@ -421,7 +421,7 @@ public class Utilities {
         byte[] seedValue = {
                 0x2d, 0x2a, 0x2d, 0x42, 0x55, 0x49, 0x4c, 0x44, 0x41, 0x43, 0x4f, 0x44, 0x45, 0x2d, 0x2a, 0x2d
         };
-        String seedValue2 = "7w!z%C*F)J@NcRfUjXn2r5u8x/A?D(G+";
+        String seedValue2 = "keykeykeykeykeykkeykeykeykeykeyk";
         SecretKeySpec secretKey = new SecretKeySpec(seedValue2.getBytes(), "AES");
 
 
