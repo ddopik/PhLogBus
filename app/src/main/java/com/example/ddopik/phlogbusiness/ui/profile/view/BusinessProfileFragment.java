@@ -50,6 +50,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
 
     private View mainView;
     private TextView brandName, brandWebSite, brandIndustry;
+    private CustomTextView brandUserName;
     private ImageView brandImgIcon;
     private ImageView brandProfileCoverImg;
     private LinearLayout accountDetailsBtn, setupBrandBtn, cartBtn, myLightBoxBtn, logoutBtn;
@@ -82,6 +83,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
     @Override
     protected void initViews() {
         brandName = mainView.findViewById(R.id.header_profile_brand_name);
+        brandUserName = mainView.findViewById(R.id.brand_user_name);
         brandWebSite = mainView.findViewById(R.id.header_profile_brand_website);
         brandIndustry = mainView.findViewById(R.id.brand_profile_industry);
         brandProfileCoverImg = mainView.findViewById(R.id.brand_profile_cover_img);
@@ -150,6 +152,8 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
 
         if (business.firstName != null)
             brandName.setText(String.format("%1$s %2$s", business.firstName, business.lastName));
+        if (business.userName !=null)
+            brandUserName.setText(business.userName);
         if (business.website != null)
             brandWebSite.setText(business.website);
         if (business.industry != null)
