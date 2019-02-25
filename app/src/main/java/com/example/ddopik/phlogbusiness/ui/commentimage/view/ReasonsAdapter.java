@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.ddopik.phlogbusiness.R;
@@ -39,10 +40,13 @@ public class ReasonsAdapter extends RecyclerView.Adapter<ReasonsAdapter.ViewHold
         Context context = holder.itemView.getContext();
         if (reason.getSystemName() != null)
             holder.text.setText(reason.getSystemName());
-        if (reason.selected)
+        if (reason.selected) {
+            holder.check.setChecked(true);
             holder.text.setTextColor(context.getResources().getColor(R.color.text_input_color));
-        else
+        } else {
+            holder.check.setChecked(false);
             holder.text.setTextColor(context.getResources().getColor(R.color.black));
+        }
         holder.itemView.setOnClickListener(v -> {
             if (onReasonClickListener != null)
                 onReasonClickListener.onReasonClick(reason);
@@ -56,10 +60,12 @@ public class ReasonsAdapter extends RecyclerView.Adapter<ReasonsAdapter.ViewHold
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView text;
+        CheckBox check;
 
         public ViewHolder(@NonNull View view) {
             super(view);
             text = view.findViewById(R.id.text);
+            check = view.findViewById(R.id.check);
         }
     }
 

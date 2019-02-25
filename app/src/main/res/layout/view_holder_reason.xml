@@ -2,14 +2,27 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    
-    <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-        android:id="@+id/text"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:padding="@dimen/widgets_padding"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/font_normal"
-        android:background="@color/white"/>
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/CartCheckBox"
+            android:enabled="false"/>
+
+        <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:padding="@dimen/widgets_padding"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_normal"
+            android:background="@color/white"/>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
