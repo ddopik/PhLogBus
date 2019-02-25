@@ -9,9 +9,14 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.welcome.view.WelcomeActivity;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.Constants.MainActivityRedirectionValue;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 
 public class SplashActivity extends BaseActivity {
@@ -21,14 +26,27 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         initView();
 //        getSupportActionBar().hide();
-        new Handler().postDelayed(() ->{
-            Intent intent=new Intent(SplashActivity.this, WelcomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            startActivity(intent);
-        },3000);
+        new Handler().postDelayed(() -> {
+            if (PrefUtils.isLoginProvided(this)) {
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                Bundle bundle = getIntent().getExtras();
+                if (bundle != null) {
+                    String payload = bundle.getString("data");
+                    if (payload != null) {
+                        intent.putExtra(MainActivityRedirectionValue.VALUE, MainActivityRedirectionValue.TO_POPUP);
+                        intent.putExtra(MainActivityRedirectionValue.PAYLOAD, payload);
+                    }
+                }
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(SplashActivity.this, WelcomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+            finish();
+        }, 3000);
     }
-
 
 
     @Override
@@ -43,7 +61,7 @@ public class SplashActivity extends BaseActivity {
         anim.setDuration(1200);
 
 
-        final ImageView splash =  findViewById(R.id.app_logo);
+        final ImageView splash = findViewById(R.id.app_logo);
         splash.startAnimation(anim);
 
 

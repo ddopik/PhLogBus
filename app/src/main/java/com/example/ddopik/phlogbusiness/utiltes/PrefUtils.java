@@ -129,8 +129,8 @@ public abstract class PrefUtils {
     }
 
     public static String getBrandToken(Context mContext) {
-//        return getSharedPref(mContext).getString(BRAND_TOKEN, "");
-        return "74d3345c17b1d9e62f54d30917fccc6f";
+        return getSharedPref(mContext).getString(BRAND_TOKEN, "");
+//        return "74d3345c17b1d9e62f54d30917fccc6f";
 
     }
 
@@ -204,7 +204,7 @@ public abstract class PrefUtils {
 
 
     public static boolean isLoginProvided(Context context) {
-        return getSharedPref(context).getBoolean(IS_BRAND, false);
+        return getSharedPref(context).getBoolean(LOGIN_PROVIDER, false);
     }
 
 

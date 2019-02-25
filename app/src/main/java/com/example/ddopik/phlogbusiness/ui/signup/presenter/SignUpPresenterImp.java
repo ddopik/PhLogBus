@@ -6,6 +6,7 @@ import android.content.Context;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.signup.view.SignUpView;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -27,6 +28,8 @@ public class SignUpPresenterImp implements SignUpPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void signUpUser(HashMap<String, String> signUpData) {
+
+        signUpData.put("firebase_token", PrefUtils.getFirebaseToken(context));
         BaseNetworkApi.signUpUser(signUpData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
