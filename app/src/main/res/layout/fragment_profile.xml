@@ -95,12 +95,12 @@
                     android:src="@drawable/ic_brand_profile" />
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                    android:layout_width="@dimen/user_profile_list_txt_size"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/set_up_ur_account"
-                    android:textSize="@dimen/font_normal"
-                    android:textStyle="bold" />
+                        android:layout_width="@dimen/user_profile_list_txt_size"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/set_up_ur_account"
+                        android:textSize="@dimen/font_normal"
+                        android:textStyle="bold" android:id="@+id/brand_status_tv"/>
 
                 <ImageView
                     android:layout_width="@dimen/user_profile_list_arrow_ic"
