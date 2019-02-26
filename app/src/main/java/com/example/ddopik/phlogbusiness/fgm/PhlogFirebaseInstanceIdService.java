@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.fgm;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
@@ -15,6 +16,7 @@ public class PhlogFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
     private static final String TAG = PhlogFirebaseInstanceIdService.class.getSimpleName();
 
+    @SuppressLint("CheckResult")
     @Override
     public void onTokenRefresh() {
         super.onTokenRefresh();

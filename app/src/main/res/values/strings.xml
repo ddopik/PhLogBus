@@ -289,4 +289,5 @@
     <string name="payment_url">http://www.google.com</string>
     <string name="report_select_prompt">Select a reason for reporting this photo</string>
     <string name="wrong_credentials">Wrong credentials</string>
+    <string name="replay">replay</string>
 </resources>

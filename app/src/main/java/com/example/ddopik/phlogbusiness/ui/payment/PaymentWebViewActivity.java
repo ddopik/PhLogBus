@@ -24,7 +24,6 @@ public class PaymentWebViewActivity extends BaseActivity {
         webView();
     }
 
-    //Metodo llamar el webview
     private void webView(){
         //Habilitar JavaScript (Videos youtube)
         webview.getSettings().setJavaScriptEnabled(true);
