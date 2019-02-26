@@ -620,7 +620,7 @@ public class BaseNetworkApi {
                 .getObjectObservable(SocialAutoCompleteResponse.class);
     }
 
-    public static Observable<String> updateProfile(String token, AccountDetailsModel model) {
+    public static Observable<LoginResponse> updateProfile(String token, AccountDetailsModel model) {
         Rx2ANRequest.MultiPartBuilder builder = Rx2AndroidNetworking.upload(UPDATE_PROFILE_URL)
                 .addHeaders("x-auth-token", token)
                 .addHeaders("x-user-type", DEFAULT_USER_TYPE)
@@ -637,7 +637,7 @@ public class BaseNetworkApi {
         return builder
                 .setPriority(Priority.HIGH)
                 .build()
-                .getStringObservable();
+                .getObjectObservable(LoginResponse.class);
     }
 
     public static Observable<FollowUserResponse> unfollowUser(String userID) {
@@ -736,14 +736,14 @@ public class BaseNetworkApi {
                 .getObjectObservable(BaseApiResponse.class);
     }
 
-    public static Observable<String> updateFirebaseToken(String token, String firebaseToken) {
+    public static Observable<LoginResponse> updateFirebaseToken(String token, String firebaseToken) {
         return Rx2AndroidNetworking.upload(UPDATE_PROFILE_URL)
                 .addHeaders("x-auth-token", token)
                 .addHeaders("x-user-type", DEFAULT_USER_TYPE)
                 .addHeaders("x-lang-code", "en-us")
                 .addMultipartParameter("firebase_token", firebaseToken)
                 .build()
-                .getStringObservable();
+                .getObjectObservable(LoginResponse.class);
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

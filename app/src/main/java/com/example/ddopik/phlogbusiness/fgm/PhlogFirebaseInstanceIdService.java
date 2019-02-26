@@ -21,13 +21,14 @@ public class PhlogFirebaseInstanceIdService extends FirebaseInstanceIdService {
         String token = FirebaseInstanceId.getInstance().getToken();
         Log.e("Firebase token", token);
         PrefUtils.saveFirebaseToken(getApplicationContext(), token);
-        BaseNetworkApi.updateFirebaseToken(PrefUtils.getBrandToken(getApplicationContext()), token)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
+        if (PrefUtils.isLoginProvided(getApplicationContext()))
+            BaseNetworkApi.updateFirebaseToken(PrefUtils.getBrandToken(getApplicationContext()), token)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(s -> {
 
-                }, throwable -> {
-                    CustomErrorUtil.Companion.setError(getApplicationContext(), TAG, throwable);
-                });
+                    }, throwable -> {
+                        CustomErrorUtil.Companion.setError(getApplicationContext(), TAG, throwable);
+                    });
     }
 }
