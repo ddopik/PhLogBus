@@ -24,200 +24,204 @@
                 android:gravity="center"
                 app:layout_collapseMode="parallax">
 
-                <include layout="@layout/header_view_brand_profile_2" android:layout_alignParentStart="true"
-                         android:layout_alignParentTop="true"/>
+                <include
+                    layout="@layout/header_view_brand_profile_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true" />
             </RelativeLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
     <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@color/white"-->
-        <!--android:fillViewport="true"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/white"-->
+    <!--android:fillViewport="true"-->
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        android:weightSum="1"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
         <LinearLayout
+            android:id="@+id/account_detail_btn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/white"
-            android:weightSum="1"
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="0dp"
+            android:layout_weight=".08"
+            android:background="@color/gray200"
+            android:gravity="center"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="@dimen/user_profile_ic_size"
+                android:layout_height="@dimen/user_profile_ic_size"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_account_details" />
 
-            <LinearLayout
-                android:id="@+id/account_detail_btn"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/gray200"
-                android:layout_weight=".08"
-                android:gravity="center"
-                android:orientation="horizontal">
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                android:layout_width="@dimen/user_profile_list_txt_size"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/account_details"
+                android:textSize="@dimen/font_normal"
+                android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="@dimen/user_profile_ic_size"
-                    android:layout_height="@dimen/user_profile_ic_size"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_account_details" />
-
-                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                    android:layout_width="@dimen/user_profile_list_txt_size"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/account_details"
-                    android:textSize="@dimen/text_medium_s"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="@dimen/user_profile_list_arrow_ic"
-                    android:layout_height="@dimen/user_profile_list_arrow_ic"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_next_arrow" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/setup_brand_btn"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".08"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/user_profile_ic_size"
-                    android:layout_height="@dimen/user_profile_ic_size"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_brand_profile" />
-
-                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                        android:layout_width="@dimen/user_profile_list_txt_size"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:text="@string/set_up_ur_account"
-                        android:textSize="@dimen/font_normal"
-                        android:textStyle="bold" android:id="@+id/brand_status_tv"/>
-
-                <ImageView
-                    android:layout_width="@dimen/user_profile_list_arrow_ic"
-                    android:layout_height="@dimen/user_profile_list_arrow_ic"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_next_arrow" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/cart_btn"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/gray200"
-                android:gravity="center"
-                android:layout_weight=".08"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/user_profile_ic_size"
-                    android:layout_height="@dimen/user_profile_ic_size"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_shopping_cart_black" />
-
-                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                    android:layout_width="@dimen/user_profile_list_txt_size"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/cart"
-                    android:textSize="@dimen/text_medium_s"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="@dimen/user_profile_list_arrow_ic"
-                    android:layout_height="@dimen/user_profile_list_arrow_ic"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_next_arrow" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/light_box_btn"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".08"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/user_profile_ic_size"
-                    android:layout_height="@dimen/user_profile_ic_size"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_studios" />
-
-                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                    android:layout_width="@dimen/user_profile_list_txt_size"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/my_studios"
-                    android:textSize="@dimen/text_medium_s"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="@dimen/user_profile_list_arrow_ic"
-                    android:layout_height="@dimen/user_profile_list_arrow_ic"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_next_arrow" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/logout_btn"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".08"
-                android:background="@color/gray200"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="@dimen/user_profile_ic_size"
-                    android:layout_height="@dimen/user_profile_ic_size"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_logout" />
-
-                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                    android:layout_width="@dimen/user_profile_list_txt_size"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/logout"
-                    android:textSize="@dimen/text_medium_s"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="@dimen/user_profile_list_arrow_ic"
-                    android:layout_height="@dimen/user_profile_list_arrow_ic"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_next_arrow" />
-
-
-            </LinearLayout>
+            <ImageView
+                android:layout_width="@dimen/user_profile_list_arrow_ic"
+                android:layout_height="@dimen/user_profile_list_arrow_ic"
+                android:layout_weight="1"
+                android:src="@drawable/ic_next_arrow" />
 
 
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/brand_profile_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            tools:visibility="visible" />
+        <LinearLayout
+            android:id="@+id/setup_brand_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".08"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/user_profile_ic_size"
+                android:layout_height="@dimen/user_profile_ic_size"
+                android:layout_weight="1"
+                android:src="@drawable/ic_brand_profile" />
+
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                android:id="@+id/brand_status_tv"
+                android:layout_width="@dimen/user_profile_list_txt_size"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/set_up_ur_account"
+                android:textSize="@dimen/font_normal"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="@dimen/user_profile_list_arrow_ic"
+                android:layout_height="@dimen/user_profile_list_arrow_ic"
+                android:layout_weight="1"
+                android:src="@drawable/ic_next_arrow" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cart_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".08"
+            android:background="@color/gray200"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/user_profile_ic_size"
+                android:layout_height="@dimen/user_profile_ic_size"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_shopping_cart_black" />
+
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                android:layout_width="@dimen/user_profile_list_txt_size"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/cart"
+                android:textSize="@dimen/font_normal"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="@dimen/user_profile_list_arrow_ic"
+                android:layout_height="@dimen/user_profile_list_arrow_ic"
+                android:layout_weight="1"
+                android:src="@drawable/ic_next_arrow" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/light_box_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".08"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/user_profile_ic_size"
+                android:layout_height="@dimen/user_profile_ic_size"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_studios" />
+
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                android:layout_width="@dimen/user_profile_list_txt_size"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/my_studios"
+                android:textSize="@dimen/font_normal"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="@dimen/user_profile_list_arrow_ic"
+                android:layout_height="@dimen/user_profile_list_arrow_ic"
+                android:layout_weight="1"
+                android:src="@drawable/ic_next_arrow" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/logout_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".08"
+            android:background="@color/gray200"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/user_profile_ic_size"
+                android:layout_height="@dimen/user_profile_ic_size"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_logout" />
+
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                android:layout_width="@dimen/user_profile_list_txt_size"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/logout"
+                android:textSize="@dimen/font_normal"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="@dimen/user_profile_list_arrow_ic"
+                android:layout_height="@dimen/user_profile_list_arrow_ic"
+                android:layout_weight="1"
+                android:src="@drawable/ic_next_arrow" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/brand_profile_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible" />
     <!--</FrameLayout>-->
 
 
