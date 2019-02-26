@@ -16,6 +16,7 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.ui.cart.presenter.CartPresenter;
 import com.example.ddopik.phlogbusiness.ui.cart.presenter.CartPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
+import com.example.ddopik.phlogbusiness.ui.payment.PaymentWebViewActivity;
 
 public class CartActivity extends BaseActivity implements CartView {
 
@@ -55,7 +56,9 @@ public class CartActivity extends BaseActivity implements CartView {
 
     private void initListeners() {
         checkoutButton.setOnClickListener(v -> {
-
+            Intent intent=new Intent(this,PaymentWebViewActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
         });
     }
 

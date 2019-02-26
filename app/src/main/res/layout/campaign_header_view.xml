@@ -39,30 +39,33 @@
                 android:orientation="vertical">
 
 
-                <TextView
+                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/campaign_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/segoe_b"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_large"
+                    android:textColor="@color/text_input_color"
+                    android:textSize="@dimen/signing_head_text_size"
                     tools:text="campaign" />
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/campaign_hosted_by"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/widgets_padding"
                     android:textColor="@color/white"
-                    tools:text="Hosted by" />
+                    tools:text="Hosted by"
+                android:textSize="@dimen/text_title_head"/>
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/campaign_day_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_time_white"
+                    android:drawableStart="@drawable/ic_clock"
                     android:drawablePadding="@dimen/campaign_drawable_padding"
                     android:gravity="bottom"
                     android:textColor="@color/white"
+                    android:textSize="@dimen/text_medium_s"
                     tools:text="5 day left" />
 
             </LinearLayout>

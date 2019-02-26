@@ -285,6 +285,8 @@
     <string name="report_success">Report submitted</string>
     <string name="choose_winner">Choose photo to win campaign</string>
     <string name="image_choosen_winner">Photo is set as winner</string>
+    <string name="phlog_mail">phlog@mail.com</string>
+    <string name="payment_url">http://www.google.com</string>
     <string name="report_select_prompt">Select a reason for reporting this photo</string>
     <string name="wrong_credentials">Wrong credentials</string>
     <string name="brand_pending_approval">Brand Pending Approval</string>

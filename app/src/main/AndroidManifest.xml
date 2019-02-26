@@ -46,6 +46,7 @@
         <activity android:name=".ui.album.view.AllAlbumImgActivity" />
         <activity android:name=".ui.uploadimage.view.AddTagActivity" />
         <activity android:name=".ui.brand.view.BrandInnerActivity" />
+        <activity android:name=".ui.payment.PaymentWebViewActivity" />
         <activity
             android:name=".ui.setupbrand.view.SetupBrandActivity"
             android:screenOrientation="portrait"

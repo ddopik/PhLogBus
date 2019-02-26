@@ -44,6 +44,11 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView, 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         mainView = inflater.inflate(R.layout.fragment_home, container, false);
+        try {
+            Utilities.intializeData("mina");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return mainView;
 
     }
@@ -55,11 +60,7 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView, 
         initViews();
         initListener();
         socialFragmentPresenter.getSocialData(true);
-//        try {
-//            Utilities.intializeData("https://www.gettyimages.com/gi-resources/images/CreativeLandingPage/HP_Sept_24_2018/CR3_GettyImages-159018836.jpg");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
     }
 
 
