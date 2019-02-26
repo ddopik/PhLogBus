@@ -29,7 +29,13 @@ android {
         multiDexEnabled true
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "PAYMENT_SECRET", PAYMENT_SECRET
+            buildConfigField "String", "PAYMENT_IV_KEY", PAYMENT_IV_KEY
+        }
         release {
+            buildConfigField "String", "PAYMENT_SECRET", PAYMENT_SECRET
+            buildConfigField "String", "PAYMENT_IV_KEY", PAYMENT_IV_KEY
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

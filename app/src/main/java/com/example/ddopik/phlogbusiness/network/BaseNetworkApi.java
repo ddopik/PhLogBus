@@ -149,6 +149,7 @@ public class BaseNetworkApi {
     private static final String REPORT_REASONS_LIST_URL = BASE_URL_COMMON + "/reports/reasons";
     private static final String REPORT_PHOTO_URL = BASE_URL + "/photo/report";
     private static final String CHOOSE_CAMPAIGN_WINNER_URL = BASE_URL + "/campaign/photo/set_winning";
+    public static final String PAYMENT_URL = "http://178.128.162.10" + "/business/payment";
 
     //Path Parameters
     private static final String PAGER_PATH_PARAMETER = "page";

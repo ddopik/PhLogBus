@@ -178,6 +178,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 });
             } else commentViewHolder.chooseWinnerBtn.setVisibility(View.GONE);
 
+            if (previewImage.isCart)
+                commentViewHolder.cartText.setText(R.string.add_to_cart);
+            else commentViewHolder.cartText.setText(R.string.view_in_cart);
+
+            commentViewHolder.addToCartBtn.setOnClickListener(v -> {
+                commentAdapterAction.onAddToCartClick(previewImage);
+            });
 
 //////////////////////////////////////COMMENT/////////////////////////////////////////
         } else if (getItemViewType(i) == COMMENT) {
@@ -501,6 +508,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         //header cell
         FrameLayout addToCartBtn;
+        TextView cartText;
         CustomTextView imgLikeNum, imgCommentNum, commentPreviewImgTags, authorName, authorUserName;
         ImageView commentImg, commentAuthorIcon;
         ImageButton imageLikeBtn, imageCommentBtn;
@@ -519,6 +527,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         CommentViewHolder(View view, int type) {
             super(view);
             if (type == HEAD) {
+                addToCartBtn = view.findViewById(R.id.album_img_add_to_cart);
+                cartText = view.findViewById(R.id.album_img_add_to_cart_val);
 
                 commentAuthorIcon = view.findViewById(R.id.comment_author_icon);
                 authorName = view.findViewById(R.id.author_name);
