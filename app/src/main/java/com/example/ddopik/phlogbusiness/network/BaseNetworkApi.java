@@ -23,7 +23,7 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowBrandResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.model.FollowCampaignResponse;
 import com.example.ddopik.phlogbusiness.ui.cart.model.CartResponse;
 import com.example.ddopik.phlogbusiness.ui.cart.model.RemoveItemResponse;
-import com.example.ddopik.phlogbusiness.ui.downloads.model.Response;
+import com.example.ddopik.phlogbusiness.ui.downloads.model.DownloadsListResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageRateResponse;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.LikeImageResponse;
@@ -80,8 +80,9 @@ public class BaseNetworkApi {
     public static final String ERROR_STATE_1 = "1";
 
     //
-    private static final String BASE_URL = "http://178.128.162.10/public/api/business";
-    private static final String BASE_URL_COMMON = "http://178.128.162.10/public/api/common";
+    public static final String BASE_SERVER_URL = "http://178.128.162.10";
+    private static final String BASE_URL = BASE_SERVER_URL + "/public/api/business";
+    private static final String BASE_URL_COMMON = BASE_SERVER_URL + "/public/api/common";
 
     private static final String WELCOME_SLIDES_IMAGES = BASE_URL + "/photographer/init_slider";
     private static final String USER_SEARCH_FILTERS = BASE_URL_COMMON + "/filters/list";
@@ -138,7 +139,7 @@ public class BaseNetworkApi {
 
     private static final String UPDATE_PROFILE_URL = BASE_URL + "/profile/update";
     private static final String UNFOLLOW_USER_URL = BASE_URL + "/photographer/unfollow";
-    private static final String DOWNLOADS_URL = BASE_URL + "/campaign/photos";
+    private static final String DOWNLOADS_URL = BASE_URL + "/photo/purchase/list";
     private static final String FORGOT_PASSWORD_URL = BASE_URL + "/auth/forgot_password";
     private static final String LIGHT_BOX_PHOTOS_URL = BASE_URL + "/lightBox/photos";
     private static final String CHANGE_CAMPAIGN_END_DATE_URL = BASE_URL + "/campaign/extend";
@@ -149,8 +150,9 @@ public class BaseNetworkApi {
     private static final String REPORT_REASONS_LIST_URL = BASE_URL_COMMON + "/reports/reasons";
     private static final String REPORT_PHOTO_URL = BASE_URL + "/photo/report";
     private static final String CHOOSE_CAMPAIGN_WINNER_URL = BASE_URL + "/campaign/photo/set_winning";
+    public static final String PAYMENT_URL = BASE_SERVER_URL + "/business/payment";
+    public static final String LOGOUT_URL = BASE_URL + "/auth/logout";
     private static final String COMMENT_REPLAY_URL = BASE_URL + "/photo/comment/list";
-    public static final String PAYMENT_URL = "http://178.128.162.10" + "/business/payment";
 
     //Path Parameters
     private static final String PAGER_QUERY_PARAMETER = "page";
@@ -660,15 +662,13 @@ public class BaseNetworkApi {
                 .getObjectObservable(FollowUserResponse.class);
     }
 
-    public static Observable<Response> getDownloads(String token) {
+    public static Observable<DownloadsListResponse> getDownloads(String token) {
         // TODO: edit when API is ready
         return Rx2AndroidNetworking.post(DOWNLOADS_URL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
-                .addBodyParameter("campaign_id", "269")
-                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(0))
                 .setPriority(Priority.HIGH)
                 .build()
-                .getObjectObservable(Response.class);
+                .getObjectObservable(DownloadsListResponse.class);
     }
 
     public static Observable<String> forgotPassword(String email) {
@@ -770,6 +770,13 @@ public class BaseNetworkApi {
                 .build()
                 .getObjectObservable(ImageCommentsResponse.class);
     }
+    public static Observable<String> logout() {
+        return Rx2AndroidNetworking.post(LOGOUT_URL)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getStringObservable();
+    }
+
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){
 //        return Rx2AndroidNetworking.get()
 //

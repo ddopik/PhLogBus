@@ -12,6 +12,8 @@ import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
+import java.net.URLEncoder;
+
 import javax.crypto.spec.SecretKeySpec;
 
 @SuppressLint("Registered")
@@ -34,7 +36,12 @@ public class PaymentWebViewActivity extends BaseActivity {
         webview.getSettings().setJavaScriptEnabled(true);
 
         //Handling Page Navigation
-        webview.setWebViewClient(new WebViewClient());
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+            }
+        });
 
         //Load a URL on WebView
 //        webview.loadUrl("http://google.com/");
@@ -47,9 +54,11 @@ public class PaymentWebViewActivity extends BaseActivity {
 
     private String getEncryptedToken() {
         try {
-            return Utilities.encrypt(PrefUtils.getBrandToken(getApplicationContext())
+            String encryptedToken = Utilities.encrypt(PrefUtils.getBrandToken(getApplicationContext())
                     , new SecretKeySpec(BuildConfig.PAYMENT_SECRET.getBytes(), "AES")
                     , BuildConfig.PAYMENT_IV_KEY);
+            String encodedToken = URLEncoder.encode(encryptedToken, "utf-8");
+            return encodedToken;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

@@ -2,8 +2,12 @@ package com.example.ddopik.phlogbusiness.ui.profile.presenter;
 
 import android.content.Context;
 
+import io.reactivex.Observable;
+
 public interface BrandProfilePresenter {
     void getProfileBrandData();
 
-    void logout(Context context);
+    void clearLoginData(Context context);
+
+    Observable<Boolean> logout();
 }

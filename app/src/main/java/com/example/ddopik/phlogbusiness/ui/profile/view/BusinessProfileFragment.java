@@ -24,6 +24,7 @@ import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.Constants.BrandStatus;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
@@ -31,6 +32,10 @@ import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenter;
 import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenterImpl;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
+import static com.example.ddopik.phlogbusiness.ui.downloads.presenter.DownloadsPresenterImpl.TAG;
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.ACCOUNT_DETAILS;
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.LIGHT_BOX;
 
@@ -125,9 +130,20 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
                             , (dialog, which) -> {
                                 switch (which) {
                                     case 0:
-                                        brandProfilePresenter.logout(getContext());
-                                        MainActivity.navigationManger.navigate(Constants.NavigationHelper.LOGOUT);
-                                        dialog.dismiss();
+                                        brandProfilePresenter.logout()
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(success -> {
+                                                    if (success) {
+                                                        brandProfilePresenter.clearLoginData(getContext());
+                                                        MainActivity.navigationManger.navigate(Constants.NavigationHelper.LOGOUT);
+                                                        dialog.dismiss();
+                                                    } else
+                                                        showToast(getString(R.string.error_logout));
+                                                }, throwable -> {
+                                                    showToast(getString(R.string.error_logout));
+                                                    CustomErrorUtil.Companion.setError(getContext(), TAG, throwable);
+                                                });
                                         break;
                                     case 1:
                                         dialog.dismiss();
@@ -155,8 +171,10 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
 
         switch (business.brandStatus) {
             case BrandStatus.BRAND_STATUS_NONE:
-            case BrandStatus.BRAND_STATUS_DRAFT:
                 brandStatus.setText(R.string.setup_your_brand);
+                break;
+            case BrandStatus.BRAND_STATUS_DRAFT:
+                brandStatus.setText(R.string.complete_brand_data);
                 break;
             case BrandStatus.BRAND_STATUS_REQUEST:
             case BrandStatus.BRAND_STATUS_PENDING:
