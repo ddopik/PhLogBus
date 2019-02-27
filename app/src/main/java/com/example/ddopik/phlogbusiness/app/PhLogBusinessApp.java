@@ -2,6 +2,7 @@
 package com.example.ddopik.phlogbusiness.app;
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 
 
@@ -11,6 +12,7 @@ import com.example.ddopik.phlogbusiness.network.BasicAuthInterceptor;
 import com.example.ddopik.phlogbusiness.realm.RealmConfigFile;
 import com.example.ddopik.phlogbusiness.realm.RealmDbMigration;
 
+import com.example.ddopik.phlogbusiness.utiltes.networkstatus.NetworkStateChangeManager;
 import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
@@ -33,7 +35,7 @@ public class PhLogBusinessApp extends Application {
     public static Realm realm;
     public static PhLogBusinessApp app;
 
-
+    private NetworkStateChangeManager networkStateChangeManager;
 
 
     @Override
@@ -46,6 +48,11 @@ public class PhLogBusinessApp extends Application {
 //        intializeSteatho();
 //        deleteCache(app);   ///for developing        ##################
 //        initializeDepInj(); ///intializing Dagger Dependancy
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkStateChangeManager = new NetworkStateChangeManager(this);
+            networkStateChangeManager.listen();
+        }
     }
 
     /**
