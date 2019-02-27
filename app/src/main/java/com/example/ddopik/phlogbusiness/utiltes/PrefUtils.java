@@ -37,6 +37,7 @@ public abstract class PrefUtils {
 
 
     private static final String UPLOADING = "uploading";
+    private static final String FIREBASE_TOKEN_SENT = "firebase_token_sent";
 
     private static String PREF_FILE_NAME;
 
@@ -230,7 +231,7 @@ public abstract class PrefUtils {
     public abstract void setPrefFileName(String projectName);
 
     public static void saveFirebaseToken(Context applicationContext, String token) {
-        applicationContext.getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE)
+        getSharedPref(applicationContext)
                 .edit()
                 .putString(FIREBASE_TOKEN, token)
                 .apply();
@@ -238,5 +239,17 @@ public abstract class PrefUtils {
 
     public static String getFirebaseToken(Context context) {
         return getSharedPref(context).getString(FIREBASE_TOKEN, null);
+    }
+
+    public static void setFirebaseTokenSentToServer(Context context, boolean isSent) {
+        getSharedPref(context)
+                .edit()
+                .putBoolean(FIREBASE_TOKEN_SENT, isSent)
+                .apply();
+    }
+
+    public static boolean isFirebaseTokenSentToServer(Context context) {
+        return getSharedPref(context)
+                .getBoolean(FIREBASE_TOKEN_SENT, false);
     }
 }

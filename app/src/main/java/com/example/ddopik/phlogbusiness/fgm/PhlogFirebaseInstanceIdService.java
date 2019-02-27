@@ -26,9 +26,9 @@ public class PhlogFirebaseInstanceIdService extends FirebaseInstanceIdService {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(s -> {
-
+                        PrefUtils.setFirebaseTokenSentToServer(getApplicationContext(), true);
                     }, throwable -> {
-                        CustomErrorUtil.Companion.setError(getApplicationContext(), TAG, throwable);
+                        PrefUtils.setFirebaseTokenSentToServer(getApplicationContext(), false);
                     });
     }
 }

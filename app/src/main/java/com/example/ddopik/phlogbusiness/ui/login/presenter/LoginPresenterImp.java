@@ -61,6 +61,7 @@ public class LoginPresenterImp implements LoginPresenter {
                     loginView.showLoginProgress(false);
                     if (response == null)
                         return;
+                    PrefUtils.setFirebaseTokenSentToServer(context, true);
                     if(PrefUtils.isFirstLaunch(context)){
                         loginView.navigateToPickProfilePhoto();
                     }else {
@@ -68,6 +69,12 @@ public class LoginPresenterImp implements LoginPresenter {
                     }
                 }, throwable -> {
                     loginView.showLoginProgress(false);
+                    PrefUtils.setFirebaseTokenSentToServer(context, false);
+                    if(PrefUtils.isFirstLaunch(context)){
+                        loginView.navigateToPickProfilePhoto();
+                    }else {
+                        loginView.navigateToHome();
+                    }
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
