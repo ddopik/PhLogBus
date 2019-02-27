@@ -171,8 +171,10 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
 
         switch (business.brandStatus) {
             case BrandStatus.BRAND_STATUS_NONE:
-            case BrandStatus.BRAND_STATUS_DRAFT:
                 brandStatus.setText(R.string.setup_your_brand);
+                break;
+            case BrandStatus.BRAND_STATUS_DRAFT:
+                brandStatus.setText(R.string.complete_brand_data);
                 break;
             case BrandStatus.BRAND_STATUS_REQUEST:
             case BrandStatus.BRAND_STATUS_PENDING:
