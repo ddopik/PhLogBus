@@ -41,7 +41,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.CommnetListType.COMMENT_LIST;
-import static com.example.ddopik.phlogbusiness.utiltes.Constants.CommnetListType.REPLIES_LIST;
 
 /**
  * Created by abdalla_maged On Nov,2018
@@ -91,12 +90,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         else if (i==ADD_COMMENT){
             return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_send_comment, viewGroup, false), ADD_COMMENT);
         }
-//        else if (i == commentList.size()  &&commentListType==REPLIES_LIST) {
-//            return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_send_comment, viewGroup, false), ADD_COMMENT);
-//        }
-//        else if (i == commentList.size()) {
-//            return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_send_comment, viewGroup, false), ADD_COMMENT);
-//        }
+
         else {
             return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_comment, viewGroup, false), COMMENT);
 
@@ -303,7 +297,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             if (commentAdapterAction != null) {
                 commentViewHolder.sendCommentBtn.setOnClickListener(v -> {
                     String comment = commentViewHolder.sendCommentImgVal.prepareCommentToSend();
-                    commentAdapterAction.onSubmitComment(comment);
+                    commentAdapterAction.onSubmitCommnet(comment);
                     commentViewHolder.sendCommentImgVal.getText().clear();
 
                 });
@@ -629,7 +623,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         void onAddToCartClick(BaseImage baseImage);
 
-        void onSubmitComment(String comment);
+        void onSubmitCommnet(String comment);
 
         void onCommentAuthorIconClicked(BaseImage baseImage);
 

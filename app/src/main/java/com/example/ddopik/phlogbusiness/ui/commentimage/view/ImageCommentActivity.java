@@ -137,7 +137,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             }
 
             @Override
-            public void onSubmitComment(String comment) {
+            public void onSubmitCommnet(String comment) {
 
                 if (comment.length() > 0) {
                     imageCommentActivityPresenter.submitComment(String.valueOf(previewImage.id), comment);

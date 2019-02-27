@@ -40,7 +40,6 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
     private List<Comment> commentList = new ArrayList<>();
     private Mentions mentions = new Mentions();
     private CommentsAdapter commentsAdapter;
-
     private PagingController pagingController;
     private ReplayCommentPresenter replayCommentPresenter;
 
@@ -108,12 +107,10 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
             }
 
             @Override
-            public void onSubmitComment(String comment) {
+            public void onSubmitCommnet(String comment) {
 
                 if (comment.length() > 0) {
                     replayCommentPresenter.submitReplayComment(String.valueOf(previewImage.id), String.valueOf(commentId), comment);
-//                    replayCommentPresenter.submitReplayComment("216", "370", comment);
-
                 } else {
                     showToast(getResources().getString(R.string.comment_cant_not_be_null));
                 }
@@ -218,7 +215,7 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
             for (Photographer newPhotoGrapher : mentionsNew.photographers) {
 
                 for (int i = 0; i < this.mentions.photographers.size(); i++) {
-                    if (mentions.photographers.get(i).id == newPhotoGrapher.id) {
+                    if (mentions.photographers.get(i).id.equals(newPhotoGrapher.id)) {
                         break;
                     }
                     if (i == this.mentions.photographers.size() - 1) {
@@ -232,7 +229,7 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
             for (Business newBusiness : mentionsNew.business) {
 
                 for (int i = 0; i < this.mentions.business.size(); i++) {
-                    if (mentions.business.get(i).id == newBusiness.id) {
+                    if (mentions.business.get(i).id.equals(newBusiness.id)) {
                         break;
                     }
                     if (i == this.mentions.business.size() - 1) {

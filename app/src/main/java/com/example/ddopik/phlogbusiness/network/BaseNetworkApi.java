@@ -410,7 +410,7 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<ImageCommentsResponse> getImageComments(String image_id, String page) {
         return Rx2AndroidNetworking.post(GET_IMAGE_COMMENT)
-                .addQueryParameter("photo_id", image_id)
+                .addBodyParameter("photo_id", image_id)
                 .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .getResponseOnlyFromNetwork()
                 .setPriority(Priority.HIGH)
@@ -420,8 +420,8 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<SubmitImageCommentResponse> submitImageComment(String image_id, String imageComment) {
         return Rx2AndroidNetworking.post(SUBMIT_IMAGE_COMMENT)
-                .addQueryParameter("photo_id", image_id)
-                .addQueryParameter("comment", imageComment)
+                .addBodyParameter("photo_id", image_id)
+                .addBodyParameter("comment", imageComment)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(SubmitImageCommentResponse.class);
@@ -429,9 +429,9 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<SubmitImageCommentResponse> submitImageCommentReplay(String image_id,String parentCommnetId ,String imageComment) {
         return Rx2AndroidNetworking.post(SUBMIT_IMAGE_COMMENT)
-                .addQueryParameter("parent_comment_id", parentCommnetId)
-                .addQueryParameter("photo_id", image_id)
-                .addQueryParameter("comment", imageComment)
+                .addBodyParameter("parent_comment_id", parentCommnetId)
+                .addBodyParameter("photo_id", image_id)
+                .addBodyParameter("comment", imageComment)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(SubmitImageCommentResponse.class);
