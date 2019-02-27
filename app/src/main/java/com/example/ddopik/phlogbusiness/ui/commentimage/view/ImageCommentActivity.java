@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
@@ -29,11 +28,10 @@ import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentAc
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
+import io.reactivex.functions.Consumer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
@@ -94,7 +92,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         commentList.add(userComment); /// acts As default for image Header
         commentList.add(userComment);/// acts As default for image Add comment
 
-        commentsAdapter = new CommentsAdapter(previewImage, commentList,mentions,Constants.CommnetListType.COMMENT_LIST);
+        commentsAdapter = new CommentsAdapter(previewImage, commentList, mentions, Constants.CommnetListType.COMMENT_LIST);
         commentsAdapter.setShouldShowChooseWinnerButton(shouldShowChooseWinnerButton);
         commentsRv.setAdapter(commentsAdapter);
         imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), "0");
@@ -236,7 +234,12 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
             @Override
             public void onReplayClicked(int commentID) {
-                commentsAdapter.REPLAY_POSITION=commentID;
+
+                Intent intent = new Intent(getBaseContext(), ReplayCommentActivity.class);
+                intent.putExtra(ReplayCommentActivity.COMMENT_ID, commentID);
+                intent.putExtra(ReplayCommentActivity.COMMENT_IMAGE,previewImage);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
 
             @Override

@@ -760,9 +760,9 @@ public class BaseNetworkApi {
     public static Observable<ImageCommentsResponse> getCommentReplies(int repliesId,int imageID,String page){
         return Rx2AndroidNetworking.post(COMMENT_REPLAY_URL)
                 .setPriority(Priority.HIGH)
-                .addHeaders("x-lang-code","en-us")
-                .addHeaders("x-auth-token","a72907a015f69ca277cfb0953107289d")
-                .addHeaders("x-user-type","0")
+//                .addHeaders("x-lang-code","en-us")
+//                .addHeaders("x-auth-token","a72907a015f69ca277cfb0953107289d")
+//                .addHeaders("x-user-type","0")
                 .addBodyParameter("photo_id", String.valueOf(imageID))
                 .addBodyParameter("parent_comment_id", String.valueOf(repliesId))
                 .addQueryParameter(PAGER_QUERY_PARAMETER,page)

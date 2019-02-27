@@ -195,7 +195,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                             .override(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
                             .apply(RequestOptions.circleCropTransform())
                             .into(commentViewHolder.commentAuthorImg);
-                commentViewHolder.commentAuthorName.setText(commentList.get(i).business.firstName + " " + commentList.get(i).business.lastName);
+                commentViewHolder.commentAuthorName.setText(new StringBuilder().append(commentList.get(i).business.firstName).append(" ").append(commentList.get(i).business.lastName).toString());
 
 
             } else if (commentList.get(i).photographer != null) {
@@ -215,16 +215,23 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 handleCommentBody(commentViewHolder.commentVal, commentList.get(i).comment);
             }
 
-            if (REPLAY_POSITION == i) {
-//                addReplyView(commentViewHolder.parentCommentView);
+
+
+
+            if (commentList.get(i).repliesCount > 0) {
+                commentViewHolder.imageCommentReplayBtn.setText(new StringBuilder().append(context.getResources().getString(R.string.view_more)).append(commentList.get(i).repliesCount).append(" ").append(context.getResources().getString(R.string.replay)).toString());
+            } else {
+                commentViewHolder.imageCommentReplayBtn.setText(context.getResources().getString(R.string.replay));
             }
             if (commentAdapterAction != null) {
                 commentViewHolder.imageCommentReplayBtn.setOnClickListener(v -> {
-                            commentAdapterAction.onReplayClicked(i);
+                            commentAdapterAction.onReplayClicked(commentList.get(i).id);
                         }
                 );
 
             }
+
+
 
             ////////////////////////////////ADD_COMMENT///////////////////////////////////////////////
         } else if (getItemViewType(i) == ADD_COMMENT) {
