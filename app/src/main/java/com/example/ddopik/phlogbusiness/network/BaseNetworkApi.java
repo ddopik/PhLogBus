@@ -666,8 +666,6 @@ public class BaseNetworkApi {
         // TODO: edit when API is ready
         return Rx2AndroidNetworking.post(DOWNLOADS_URL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
-                .addBodyParameter("campaign_id", "269")
-                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(0))
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(DownloadsListResponse.class);
