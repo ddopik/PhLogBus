@@ -11,7 +11,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
@@ -51,8 +50,9 @@ public class SocialAdapterProfileViewController {
         socialViewHolder.storyTitle.setText(socialData.title);
         socialViewHolder.socialProfileType3.setVisibility(View.VISIBLE);
         Photographer photographer = socialData.profiles.get(0);
-        if (photographer.fullName !=null)
-        socialViewHolder.socialProfileType3FullName.setText(photographer.fullName);
+        if (photographer.fullName != null) {
+            socialViewHolder.socialProfileType3FullName.setText(photographer.fullName);
+        }
         socialViewHolder.socialProfileType3UserName.setText(new StringBuilder().append("@").append(photographer.userName).toString());
         getUserPhotos(photographer.id, socialData);
 
