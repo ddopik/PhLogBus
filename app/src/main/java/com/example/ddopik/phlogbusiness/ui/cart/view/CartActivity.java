@@ -70,6 +70,7 @@ public class CartActivity extends BaseActivity implements CartView {
                 itemsNumberTV.setText(getString(R.string.cart_item_count, 0));
                 cartIsEmptyIV.setVisibility(View.VISIBLE);
                 cartIsEmptyTV.setVisibility(View.VISIBLE);
+                loading.setVisibility(View.GONE);
             } else {
                 loading.setVisibility(View.GONE);
                 CartAdapter adapter = (CartAdapter) recyclerView.getAdapter();

@@ -150,6 +150,7 @@ public class BaseNetworkApi {
     private static final String REPORT_PHOTO_URL = BASE_URL + "/photo/report";
     private static final String CHOOSE_CAMPAIGN_WINNER_URL = BASE_URL + "/campaign/photo/set_winning";
     private static final String COMMENT_REPLAY_URL = BASE_URL + "/photo/comment/list";
+    public static final String PAYMENT_URL = "http://178.128.162.10" + "/business/payment";
 
     //Path Parameters
     private static final String PAGER_QUERY_PARAMETER = "page";
@@ -631,7 +632,7 @@ public class BaseNetworkApi {
                 .getObjectObservable(SocialAutoCompleteResponse.class);
     }
 
-    public static Observable<String> updateProfile(String token, AccountDetailsModel model) {
+    public static Observable<LoginResponse> updateProfile(String token, AccountDetailsModel model) {
         Rx2ANRequest.MultiPartBuilder builder = Rx2AndroidNetworking.upload(UPDATE_PROFILE_URL)
                 .addHeaders("x-auth-token", token)
                 .addHeaders("x-user-type", DEFAULT_USER_TYPE)
@@ -648,7 +649,7 @@ public class BaseNetworkApi {
         return builder
                 .setPriority(Priority.HIGH)
                 .build()
-                .getStringObservable();
+                .getObjectObservable(LoginResponse.class);
     }
 
     public static Observable<FollowUserResponse> unfollowUser(String userID) {
@@ -747,14 +748,14 @@ public class BaseNetworkApi {
                 .getObjectObservable(BaseApiResponse.class);
     }
 
-    public static Observable<String> updateFirebaseToken(String token, String firebaseToken) {
+    public static Observable<LoginResponse> updateFirebaseToken(String token, String firebaseToken) {
         return Rx2AndroidNetworking.upload(UPDATE_PROFILE_URL)
                 .addHeaders("x-auth-token", token)
                 .addHeaders("x-user-type", DEFAULT_USER_TYPE)
                 .addHeaders("x-lang-code", "en-us")
                 .addMultipartParameter("firebase_token", firebaseToken)
                 .build()
-                .getStringObservable();
+                .getObjectObservable(LoginResponse.class);
     }
 
     public static Observable<ImageCommentsResponse> getCommentReplies(int repliesId,int imageID,String page){

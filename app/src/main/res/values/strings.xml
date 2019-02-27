@@ -291,4 +291,6 @@
     <string name="wrong_credentials">Wrong credentials</string>
     <string name="replay">replay</string>
     <string name="view_more">view more</string>
+    <string name="brand_pending_approval">Brand Pending Approval</string>
+    <string name="edit_brand">Edit Brand Details</string>
 </resources>

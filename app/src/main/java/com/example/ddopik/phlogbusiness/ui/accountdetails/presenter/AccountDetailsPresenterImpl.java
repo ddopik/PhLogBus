@@ -46,8 +46,12 @@ public class AccountDetailsPresenterImpl implements AccountDetailsPresenter {
         Disposable disposable = BaseNetworkApi.updateProfile(PrefUtils.getBrandToken(context), model)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
+                .subscribe(response -> {
                     view.setLoading(false);
+                    if (response == null) {
+                        view.updateSuccess(false);
+                        return;
+                    }
                     view.updateSuccess(true);
                 }, throwable -> {
                     view.setLoading(false);

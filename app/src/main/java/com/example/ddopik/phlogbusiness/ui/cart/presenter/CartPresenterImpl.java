@@ -4,10 +4,12 @@ import android.content.Context;
 
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
+import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.cart.view.CartView;
 
 import java.util.List;
 
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -17,6 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 public class CartPresenterImpl implements CartPresenter {
 
     private static final String SAVED = "saved";
+    private static final String TAG = CartPresenterImpl.class.getSimpleName();
 
     private CartView view;
 
@@ -35,7 +38,8 @@ public class CartPresenterImpl implements CartPresenter {
                 .subscribe(response -> {
                     consumer.accept(response.data);
                 }, throwable -> {
-                    String m = throwable.getMessage();
+                    consumer.accept(null);
+                    CustomErrorUtil.Companion.setError(baseContext, TAG, throwable);
                 });
         disposables.add(disposable);
     }

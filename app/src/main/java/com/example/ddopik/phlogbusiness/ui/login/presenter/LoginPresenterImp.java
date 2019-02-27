@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@SuppressLint("CheckResult")
 public class LoginPresenterImp implements LoginPresenter {
 
     private LoginView loginView;
@@ -34,7 +35,6 @@ public class LoginPresenterImp implements LoginPresenter {
 
     private static final String TAG = LoginPresenterImp.class.getSimpleName();
 
-    @SuppressLint("CheckResult")
     @Override
     public void signInNormal(HashMap<String, String> loginData) {
         loginView.showLoginProgress(true);
@@ -45,16 +45,30 @@ public class LoginPresenterImp implements LoginPresenter {
                 .subscribe(loginResponse -> {
                     loginView.showLoginProgress(false);
                     saveBrand(loginResponse.getData());
+                    sendFirebaseToken();
+                }, throwable -> {
+                    loginView.showMessage(context.getString(R.string.wrong_credentials));
+                    loginView.showLoginProgress(false);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                });
+    }
+
+    private void sendFirebaseToken() {
+        BaseNetworkApi.updateFirebaseToken(PrefUtils.getBrandToken(context), PrefUtils.getFirebaseToken(context))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    loginView.showLoginProgress(false);
+                    if (response == null)
+                        return;
                     if(PrefUtils.isFirstLaunch(context)){
                         loginView.navigateToPickProfilePhoto();
                     }else {
                         loginView.navigateToHome();
                     }
-
                 }, throwable -> {
-                    loginView.showMessage(context.getString(R.string.wrong_credentials));
                     loginView.showLoginProgress(false);
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);;
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 

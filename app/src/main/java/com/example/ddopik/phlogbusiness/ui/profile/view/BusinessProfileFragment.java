@@ -23,6 +23,7 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.Constants.BrandStatus;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
@@ -41,7 +42,7 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelpe
 public class BusinessProfileFragment extends BaseFragment implements BrandProfileFragmentView, PopupMenu.OnMenuItemClickListener {
 
     private View mainView;
-    private TextView brandName, brandWebSite, brandIndustry;
+    private TextView brandName, brandWebSite, brandIndustry, brandStatus;
     private CustomTextView brandUserMail;
     private ImageView brandImgIcon;
     private ImageView brandProfileCoverImg;
@@ -89,6 +90,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
 
         menuButton = mainView.findViewById(R.id.menu_button);
         logoutBtn = mainView.findViewById(R.id.logout_btn);
+        brandStatus = mainView.findViewById(R.id.brand_status_tv);
     }
 
     private void initListeners() {
@@ -150,6 +152,20 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
             brandWebSite.setText(business.website);
         if (business.industry != null)
             brandIndustry.setText(business.industry.name);
+
+        switch (business.brandStatus) {
+            case BrandStatus.BRAND_STATUS_NONE:
+            case BrandStatus.BRAND_STATUS_DRAFT:
+                brandStatus.setText(R.string.setup_your_brand);
+                break;
+            case BrandStatus.BRAND_STATUS_REQUEST:
+            case BrandStatus.BRAND_STATUS_PENDING:
+                brandStatus.setText(R.string.brand_pending_approval);
+                break;
+            case BrandStatus.BRAND_STATUS_APPROVED:
+                brandStatus.setText(R.string.edit_brand);
+                break;
+        }
 
 
         GlideApp.with(this)

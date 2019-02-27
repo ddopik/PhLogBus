@@ -441,7 +441,7 @@ public class Utilities {
     }
 
 
-    static String encrypt(String data, SecretKeySpec secretKey, String ivKey) throws Exception {
+    public static String encrypt(String data, SecretKeySpec secretKey, String ivKey) throws Exception {
         try {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             byte[] iv = ivKey.getBytes();
@@ -457,7 +457,7 @@ public class Utilities {
         return null;
     }
 
-    static String decrypt(String data, SecretKeySpec secretKey, String ivKey) throws Exception {
+    public static String decrypt(String data, SecretKeySpec secretKey, String ivKey) throws Exception {
         try {
             //
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
