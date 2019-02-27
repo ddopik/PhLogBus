@@ -8,17 +8,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.ui.downloads.model.DataItem;
+import com.example.ddopik.phlogbusiness.ui.downloads.model.GroupItem;
 import com.example.ddopik.phlogbusiness.ui.downloads.view.DownloadsFragment;
 
 import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<DataItem> items;
+    private final List<GroupItem> items;
     private final DownloadsFragment.ChildFragmentActionListener actionListener;
 
-    public GroupAdapter(List<DataItem> items, DownloadsFragment.ChildFragmentActionListener actionListener) {
+    public GroupAdapter(List<GroupItem> items, DownloadsFragment.ChildFragmentActionListener actionListener) {
         this.items = items;
         this.actionListener = actionListener;
     }
@@ -40,7 +40,7 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        DataItem item = items.get(i);
+        GroupItem item = items.get(i);
         ItemAdapter adapter = new ItemAdapter(item.getPhotos(), actionListener);
         switch (type) {
             case LIST:

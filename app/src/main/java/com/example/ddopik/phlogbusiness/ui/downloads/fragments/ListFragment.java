@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.ui.downloads.model.DataItem;
+import com.example.ddopik.phlogbusiness.ui.downloads.model.GroupItem;
 import com.example.ddopik.phlogbusiness.ui.downloads.view.DownloadsFragment;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class ListFragment extends Fragment {
 
-    private List<DataItem> data;
+    private List<GroupItem> data;
     private DownloadsFragment.ChildFragmentActionListener childFragmentActionListener;
 
     private RecyclerView recyclerView;
@@ -30,7 +30,7 @@ public class ListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static Fragment newInstance(List<DataItem> data, DownloadsFragment.ChildFragmentActionListener childFragmentActionListener) {
+    public static Fragment newInstance(List<GroupItem> data, DownloadsFragment.ChildFragmentActionListener childFragmentActionListener) {
         ListFragment fragment = new ListFragment();
         fragment.data = data;
         fragment.childFragmentActionListener = childFragmentActionListener;

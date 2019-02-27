@@ -23,14 +23,13 @@ import android.widget.TextView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.ui.downloads.model.DataItem;
+import com.example.ddopik.phlogbusiness.ui.downloads.model.GroupItem;
 import com.example.ddopik.phlogbusiness.ui.downloads.presenter.DownloadsPresenter;
 import com.example.ddopik.phlogbusiness.ui.downloads.presenter.DownloadsPresenterImpl;
 
 import java.util.List;
 
 import com.example.ddopik.phlogbusiness.utiltes.downloader.DownloaderService;
-import com.example.ddopik.phlogbusiness.utiltes.uploader.UploaderService;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -50,6 +49,8 @@ public class DownloadsFragment extends BaseFragment implements DownloadsView, Ea
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ProgressBar loadiing;
+    private TextView noDownloadsTV;
+    private View noDownloadsIcon;
 
     private Intent intent;
     private Messenger messenger;
@@ -118,22 +119,30 @@ public class DownloadsFragment extends BaseFragment implements DownloadsView, Ea
         viewPager = mainView.findViewById(R.id.view_pager);
         tabLayout.setupWithViewPager(viewPager);
         loadiing = mainView.findViewById(R.id.loading);
+        noDownloadsTV = mainView.findViewById(R.id.no_downloads_tv);
+        noDownloadsIcon = mainView.findViewById(R.id.no_dowloads_icon);
     }
 
     private void setListeners() {
     }
 
     @Override
-    public void setDownloads(List<DataItem> data) {
+    public void setDownloads(List<GroupItem> data) {
         int count = 0;
-        for (DataItem item : data) {
+        for (GroupItem item : data) {
             count += item.getPhotos().size();
         }
         itemsNumberTV.setText(getString(R.string.purchase_count, count));
-        PagerAdapter adapter = new DownloadsPagerAdpter(getChildFragmentManager(), data, childFragmentActionListener);
-        viewPager.setAdapter(adapter);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_tab_list);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_tab_grid);
+        if (count > 0) {
+            PagerAdapter adapter = new DownloadsPagerAdpter(getChildFragmentManager(), data, childFragmentActionListener);
+            viewPager.setAdapter(adapter);
+            tabLayout.getTabAt(0).setIcon(R.drawable.ic_tab_list);
+            tabLayout.getTabAt(1).setIcon(R.drawable.ic_tab_grid);
+        } else {
+            viewPager.setVisibility(View.INVISIBLE);
+            noDownloadsIcon.setVisibility(View.VISIBLE);
+            noDownloadsTV.setVisibility(View.VISIBLE);
+        }
     }
 
     private void sendMessageToService(Message message) {

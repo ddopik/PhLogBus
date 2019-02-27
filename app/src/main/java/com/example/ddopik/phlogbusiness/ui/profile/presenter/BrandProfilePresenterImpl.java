@@ -8,6 +8,7 @@ import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.profile.view.BrandProfileFragmentView;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -41,8 +42,14 @@ public class BrandProfilePresenterImpl implements BrandProfilePresenter {
     }
 
     @Override
-    public void logout(Context context) {
+    public void clearLoginData(Context context) {
         PrefUtils.setLoginState(context, false);
         PrefUtils.setBrandToken(context, null);
+    }
+
+    @Override
+    public Observable<Boolean> logout() {
+        return BaseNetworkApi.logout()
+                .map(s -> s != null);
     }
 }

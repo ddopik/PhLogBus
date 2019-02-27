@@ -5,7 +5,7 @@ import java.util.List;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.google.gson.annotations.SerializedName;
 
-public class DataItem{
+public class GroupItem {
 
 	@SerializedName("date")
 	private String date;

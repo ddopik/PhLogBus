@@ -48,10 +48,10 @@
                 app:srcCompat="@drawable/ic_downloads_white" />
 
             <TextView
-                android:fontFamily="@font/segoe_b"
                 android:id="@+id/items_number_text_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:fontFamily="@font/segoe_b"
                 android:gravity="center"
                 android:lines="1"
                 android:textColor="@color/black"
@@ -71,14 +71,14 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:tabIndicatorColor="@color/transparent"
         android:background="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".08"
-        app:tabIconTint="@color/downloads_tab_selector"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2"
-        app:tabGravity="center" />
+        app:tabGravity="center"
+        app:tabIconTint="@color/downloads_tab_selector"
+        app:tabIndicatorColor="@color/transparent" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
@@ -101,4 +101,34 @@
         app:layout_constraintStart_toStartOf="@+id/view_pager"
         app:layout_constraintTop_toTopOf="@+id/view_pager"
         tools:visibility="visible" />
+
+    <View
+        android:id="@+id/no_dowloads_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintHeight_percent=".2"
+        app:layout_constraintDimensionRatio="1:1"
+        android:background="@drawable/ic_downloads_off"
+        app:layout_constraintTop_toBottomOf="@id/cardView2"
+        app:layout_constraintVertical_bias=".1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+        android:id="@+id/no_downloads_tv"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias=".05"
+        android:textSize="@dimen/font_normal"
+        android:textColor="@color/gray800"
+        android:text="@string/no_downloads_prompt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/no_dowloads_icon" />
 </android.support.constraint.ConstraintLayout>
