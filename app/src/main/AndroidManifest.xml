@@ -15,19 +15,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.splash.view.SplashActivity">
+        <activity android:name=".ui.splash.SplashActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter></activity>
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ui.login.view.LoginActivity"></activity>
+        <activity android:name=".ui.login.view.LoginActivity"/>
         <activity android:name=".ui.welcome.view.WelcomeActivity" />
         <activity android:name=".ui.signup.view.SignUpActivity" />
-        <activity android:name=".ui.signup.view.UploadSignUpPhotoActivity"></activity>
+        <activity android:name=".ui.signup.view.UploadSignUpPhotoActivity"/>
         <activity android:name=".ui.userprofile.view.UserProfileActivity" />
         <activity android:name=".ui.commentimage.view.ImageCommentActivity" />
         <activity android:name=".ui.campaigns.inner.view.CampaignInnerActivity" />
@@ -60,6 +63,9 @@
         <activity
             android:name=".ui.cart.view.CartActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.commentimage.view.ReplayCommentActivity">
+
+        </activity>
 
         <service
             android:name=".utiltes.downloader.DownloaderService"

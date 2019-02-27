@@ -1,61 +1,61 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/slides_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorGray"/>
+            android:id="@+id/slides_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorGray"/>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/default_user_profile"
-        android:gravity="bottom"
-        android:paddingBottom="@dimen/dp18">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/default_user_profile"
+            android:gravity="bottom"
+            android:paddingBottom="@dimen/dp18">
 
 
         <com.bikomobile.circleindicatorpager.CircleIndicatorPager
-            android:id="@+id/circle_indicator_pager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:ci_drawable="@drawable/circle_indicator_selected"
-            app:ci_drawable_unselected="@drawable/circle_indicator_unselected"
-            app:ci_height="@dimen/circle_indicator_pager_height"
-            app:ci_width="@dimen/circle_indicator_pager_width" />
+                android:id="@+id/circle_indicator_pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ci_drawable="@drawable/circle_indicator_selected"
+                app:ci_drawable_unselected="@drawable/circle_indicator_unselected"
+                app:ci_height="@dimen/circle_indicator_pager_height"
+                app:ci_width="@dimen/circle_indicator_pager_width"/>
 
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp16"
-            android:layout_below="@+id/circle_indicator_pager"
-            >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp16"
+                android:layout_below="@+id/circle_indicator_pager"
+        >
 
             <Button
-                android:fontFamily="@font/segoe_sb"
-                android:id="@+id/sign_in_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="@dimen/dp8"
-                android:background="@drawable/rounder_button"
-                android:text="@string/login"
-                android:textColor="@color/colorWhite" />
+                    android:fontFamily="@font/segoe_sb"
+                    android:id="@+id/welcome_sign_in_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/dp8"
+                    android:background="@drawable/rounder_button"
+                    android:text="@string/login"
+                    android:textColor="@color/colorWhite"/>
 
             <Button
-                android:fontFamily="@font/segoe_sb"
-                android:id="@+id/sign_up_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="@dimen/dp8"
-                android:background="@drawable/rounder_button"
-                android:text="@string/sign_up"
-                android:textColor="@color/colorWhite" />
+                    android:id="@+id/welcome_sign_up_btn"
+                    android:fontFamily="@font/segoe_sb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/dp8"
+                    android:background="@drawable/rounder_button"
+                    android:text="@string/sign_up"
+                    android:textColor="@color/colorWhite"/>
 
         </LinearLayout>
 

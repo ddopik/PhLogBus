@@ -44,8 +44,8 @@ public class WelcomeActivity extends BaseActivity implements WelcomeView {
     public void initView() {
 
 
-        signInBtn = findViewById(R.id.sign_in_btn);
-        signUpBtn = findViewById(R.id.sign_up_btn);
+        signInBtn = findViewById(R.id.welcome_sign_in_btn);
+        signUpBtn = findViewById(R.id.welcome_sign_up_btn);
 //        InitSlider initSliderDefaultItem = new InitSlider();
 //        initSliderDefaultItem.image = "";
 //        initSliderDefaultItem.text = "basic Image";

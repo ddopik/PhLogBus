@@ -52,7 +52,7 @@
 				android:gravity="center"
 				android:orientation="vertical">
 
-			<com.example.softmills.phlog.base.widgets.CustomTextView
+			<com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
 					android:id="@+id/album_name"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
 					android:textSize="@dimen/text_medium_s"
 					tools:text="album name" />
 
-			<com.example.softmills.phlog.base.widgets.CustomTextView
+			<com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
 					android:id="@+id/album_author"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
 							app:srcCompat="@drawable/ic_download" />
 				</FrameLayout>
 
-				<com.example.softmills.phlog.base.widgets.CustomTextView
+				<com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
 						android:id="@+id/image_comment_tag_val"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"

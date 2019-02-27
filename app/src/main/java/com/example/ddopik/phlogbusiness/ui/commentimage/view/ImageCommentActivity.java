@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
@@ -27,12 +26,12 @@ import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageComment
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityPresenter;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
+import io.reactivex.functions.Consumer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
@@ -50,8 +49,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     private BaseImage previewImage;
     private boolean shouldShowChooseWinnerButton;
     private int campaignId;
-    private List<Photographer> photographerList = new ArrayList<Photographer>();
-    private List<Business> businessList = new ArrayList<Business>();
+
 
     private FrameLayout addCommentProgress;
     private CustomRecyclerView commentsRv;
@@ -94,7 +92,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         commentList.add(userComment); /// acts As default for image Header
         commentList.add(userComment);/// acts As default for image Add comment
 
-        commentsAdapter = new CommentsAdapter(previewImage, commentList, mentions);
+        commentsAdapter = new CommentsAdapter(previewImage, commentList, mentions, Constants.CommnetListType.COMMENT_LIST);
         commentsAdapter.setShouldShowChooseWinnerButton(shouldShowChooseWinnerButton);
         commentsRv.setAdapter(commentsAdapter);
         imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), "0");
@@ -232,6 +230,16 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
                 } else {
                     showReportFragment();
                 }
+            }
+
+            @Override
+            public void onReplayClicked(int commentID) {
+
+                Intent intent = new Intent(getBaseContext(), ReplayCommentActivity.class);
+                intent.putExtra(ReplayCommentActivity.COMMENT_ID, commentID);
+                intent.putExtra(ReplayCommentActivity.COMMENT_IMAGE,previewImage);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
 
             @Override

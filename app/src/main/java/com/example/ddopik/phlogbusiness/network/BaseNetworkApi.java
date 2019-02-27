@@ -152,9 +152,10 @@ public class BaseNetworkApi {
     private static final String CHOOSE_CAMPAIGN_WINNER_URL = BASE_URL + "/campaign/photo/set_winning";
     public static final String PAYMENT_URL = BASE_SERVER_URL + "/business/payment";
     public static final String LOGOUT_URL = BASE_URL + "/auth/logout";
+    private static final String COMMENT_REPLAY_URL = BASE_URL + "/photo/comment/list";
 
     //Path Parameters
-    private static final String PAGER_PATH_PARAMETER = "page";
+    private static final String PAGER_QUERY_PARAMETER = "page";
 
 
     //Body Parameters
@@ -223,7 +224,7 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<AlbumSearchResponse> getSearchAlbum(String key, Map<String, String> filters, String page) {
         return Rx2AndroidNetworking.post(SEARCH_ALBUM)
-                .addQueryParameter(PAGER_PATH_PARAMETER, page)
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .addBodyParameter("keyword", key)
                 .addBodyParameter(filters)
                 .setPriority(Priority.HIGH)
@@ -234,7 +235,7 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<ImagesSearchResponse> getSearchImages(String key,Map<String,String> filters ,String page) {
         return Rx2AndroidNetworking.post(SEARCH_IMAGES)
-                .addQueryParameter(PAGER_PATH_PARAMETER, page)
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .addBodyParameter("keyword",key)
                 .addBodyParameter(filters)
                  .setPriority(Priority.HIGH)
@@ -293,7 +294,7 @@ public class BaseNetworkApi {
     public static io.reactivex.Observable<ProfileSearchResponse> getProfileSearch(String key, int page) {
         return Rx2AndroidNetworking.post(PHOTOGRAPHER_SEARCH_URL)
                 .addBodyParameter("keyword", key)
-                .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
                 .getResponseOnlyFromNetwork()
                 .setPriority(Priority.HIGH)
                 .build()
@@ -303,7 +304,7 @@ public class BaseNetworkApi {
     public static io.reactivex.Observable<NotificationResponse> getNotification(String token, String page) {
         return Rx2AndroidNetworking.post(GET_ALL_NOTIFICATION)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
-                .addQueryParameter(PAGER_PATH_PARAMETER, page)
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(NotificationResponse.class);
@@ -312,7 +313,7 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<CampaignResponse> getAllCompleteCampaign(int page) {
         return Rx2AndroidNetworking.post(ALL_COMPLETED_CAMPAIGN_URL)
-                .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignResponse.class);
@@ -320,7 +321,7 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<CampaignResponse> getAllDraftCampaign(int page) {
         return Rx2AndroidNetworking.post(ALL_DRAFT_CAMPAIGN_URL)
-                .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignResponse.class);
@@ -328,7 +329,7 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(int page) {
         return Rx2AndroidNetworking.post(ALL_RUNNING_CAMPAIGN_URL)
-                .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignResponse.class);
@@ -338,7 +339,7 @@ public class BaseNetworkApi {
         return Rx2AndroidNetworking.post(CAMPAIGN_PHOTOS_URL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
                 .addBodyParameter("campaign_id", campaignID)
-                .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignInnerPhotosResponse.class);
@@ -367,7 +368,7 @@ public class BaseNetworkApi {
     public static io.reactivex.Observable<UserPhotosResponse> getUserProfilePhotos( String userID, int page) {
         return Rx2AndroidNetworking.post(USER_PROFILE_PHOTOS)
                 .addBodyParameter("photographer_id", userID)
-                .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
                 .getResponseOnlyFromNetwork()
                 .setPriority(Priority.HIGH)
                 .build()
@@ -401,7 +402,7 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<AlbumPreviewImagesResponse> getAlbumImagesPreview(String albumId, String page) {
         return Rx2AndroidNetworking.post(GET_ALBUM_IMAGES_PREVIEW)
-                .addQueryParameter(PAGER_PATH_PARAMETER, page)
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .addBodyParameter("album_id", albumId)
                 .setPriority(Priority.HIGH)
                 .build()
@@ -412,7 +413,7 @@ public class BaseNetworkApi {
     public static io.reactivex.Observable<ImageCommentsResponse> getImageComments(String image_id, String page) {
         return Rx2AndroidNetworking.post(GET_IMAGE_COMMENT)
                 .addQueryParameter("photo_id", image_id)
-                .addQueryParameter(PAGER_PATH_PARAMETER, page)
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .getResponseOnlyFromNetwork()
                 .setPriority(Priority.HIGH)
                 .build()
@@ -421,6 +422,16 @@ public class BaseNetworkApi {
 
     public static io.reactivex.Observable<SubmitImageCommentResponse> submitImageComment(String image_id, String imageComment) {
         return Rx2AndroidNetworking.post(SUBMIT_IMAGE_COMMENT)
+                .addQueryParameter("photo_id", image_id)
+                .addQueryParameter("comment", imageComment)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(SubmitImageCommentResponse.class);
+    }
+
+    public static io.reactivex.Observable<SubmitImageCommentResponse> submitImageCommentReplay(String image_id,String parentCommnetId ,String imageComment) {
+        return Rx2AndroidNetworking.post(SUBMIT_IMAGE_COMMENT)
+                .addQueryParameter("parent_comment_id", parentCommnetId)
                 .addQueryParameter("photo_id", image_id)
                 .addQueryParameter("comment", imageComment)
                 .setPriority(Priority.HIGH)
@@ -485,7 +496,7 @@ public class BaseNetworkApi {
     public static io.reactivex.Observable<BrandLightBoxResponse> getBrandLightBoxes(String page) {
         return Rx2AndroidNetworking.post(BRAND_LIGHT_BOX_URL)
                 .setPriority(Priority.HIGH)
-                .addQueryParameter(PAGER_PATH_PARAMETER, page)
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .build()
                 .getObjectObservable(BrandLightBoxResponse.class);
     }
@@ -656,7 +667,7 @@ public class BaseNetworkApi {
         return Rx2AndroidNetworking.post(DOWNLOADS_URL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
                 .addBodyParameter("campaign_id", "269")
-                .addQueryParameter(PAGER_PATH_PARAMETER, String.valueOf(0))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(0))
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(DownloadsListResponse.class);
@@ -674,7 +685,7 @@ public class BaseNetworkApi {
         return Rx2AndroidNetworking.post(LIGHT_BOX_PHOTOS_URL)
                 .setPriority(Priority.HIGH)
                 .addBodyParameter("lightbox_id", String.valueOf(lightBoxId))
-                .addQueryParameter("page", String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
                 .build()
                 .getObjectObservable(LightboxPhotosResponse.class);
     }
@@ -749,6 +760,18 @@ public class BaseNetworkApi {
                 .getObjectObservable(LoginResponse.class);
     }
 
+    public static Observable<ImageCommentsResponse> getCommentReplies(int repliesId,int imageID,String page){
+        return Rx2AndroidNetworking.post(COMMENT_REPLAY_URL)
+                .setPriority(Priority.HIGH)
+//                .addHeaders("x-lang-code","en-us")
+//                .addHeaders("x-auth-token","a72907a015f69ca277cfb0953107289d")
+//                .addHeaders("x-user-type","0")
+                .addBodyParameter("photo_id", String.valueOf(imageID))
+                .addBodyParameter("parent_comment_id", String.valueOf(repliesId))
+                .addQueryParameter(PAGER_QUERY_PARAMETER,page)
+                .build()
+                .getObjectObservable(ImageCommentsResponse.class);
+    }
     public static Observable<String> logout() {
         return Rx2AndroidNetworking.post(LOGOUT_URL)
                 .setPriority(Priority.HIGH)

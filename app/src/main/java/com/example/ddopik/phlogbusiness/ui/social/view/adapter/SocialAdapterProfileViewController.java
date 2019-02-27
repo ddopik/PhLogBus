@@ -51,6 +51,7 @@ public class SocialAdapterProfileViewController {
         socialViewHolder.storyTitle.setText(socialData.title);
         socialViewHolder.socialProfileType3.setVisibility(View.VISIBLE);
         Photographer photographer = socialData.profiles.get(0);
+        if (photographer.fullName !=null)
         socialViewHolder.socialProfileType3FullName.setText(photographer.fullName);
         socialViewHolder.socialProfileType3UserName.setText(new StringBuilder().append("@").append(photographer.userName).toString());
         getUserPhotos(photographer.id, socialData);

@@ -70,6 +70,9 @@ public interface Constants {
     enum PhotosListType{
         SOCIAL_LIST,PHOTO_GRAPHER_LIST
     }
+    enum CommnetListType{
+        COMMENT_LIST,REPLIES_LIST
+    }
 
     interface UploadPermanentNotificationConfig {
         String NOTIFICATION_ID = "2001";

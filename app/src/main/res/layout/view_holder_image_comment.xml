@@ -3,38 +3,37 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
                                     xmlns:tools="http://schemas.android.com/tools"
+                                    android:id="@+id/comment_parent_view"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="@dimen/dp8"
                                     app:cardCornerRadius="@dimen/item_card_corner_radius"
-
                                     app:cardElevation="@dimen/item_card_elevation">
 
 
-<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:orientation="horizontal">
-
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:orientation="horizontal">
 
 
         <ImageView
-        android:id="@+id/commentAuthorImg"
-        android:layout_width="@dimen/icon_view_holder_size_m"
-        android:layout_height="@dimen/icon_view_holder_size_m"
-        android:layout_marginStart="@dimen/dp12"
-        android:layout_marginEnd="@dimen/dp12"
-        android:layout_gravity="center"
-        android:src="@drawable/phlog_logo" />
+                android:id="@+id/commentAuthorImg"
+                android:layout_width="@dimen/icon_view_holder_size_m"
+                android:layout_height="@dimen/icon_view_holder_size_m"
+                android:layout_marginStart="@dimen/dp12"
+                android:layout_marginEnd="@dimen/dp12"
+                android:layout_gravity="center"
+                android:src="@drawable/phlog_logo"/>
 
         <LinearLayout
 
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/notification_card_height"
-            android:gravity="center|start"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/widgets_padding">
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/notification_card_height"
+                android:gravity="center|start"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/widgets_padding">
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                     android:id="@+id/comment_author"
@@ -52,7 +51,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_normal"
                     android:layout_marginStart="@dimen/dp8"
-                    tools:text="comment data here" />
+                    tools:text="comment data here"/>
 
             <!--<TextView-->
             <!--android:id="@+id/notification_time"-->
@@ -62,11 +61,20 @@
             <!--android:layout_marginTop="@dimen/dp4"-->
             <!--android:layout_marginBottom="@dimen/dp4"-->
             <!--tools:text="user name here" />-->
-
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                    android:id="@+id/image_comment_replay_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/widgets_padding"
+                    android:textColor="@color/text_input_color"
+                    android:text="@string/replay"
+                    android:layout_gravity="start|bottom"
+            />
 
         </LinearLayout>
 
-</LinearLayout>
+
+    </LinearLayout>
 
 
 </android.support.v7.widget.CardView>

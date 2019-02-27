@@ -89,7 +89,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 
 
 
-            if (albumImgList.get(i).isSaved) {
+            if (albumImgList.get(i).photographer.id == Integer.parseInt(PrefUtils.getUserId(context))) {
                  albumImgViewHolder.albumImgDeleteBtn.setVisibility(View.VISIBLE);
                 albumImgViewHolder.albumImgSaveBtn.setVisibility(View.INVISIBLE);
 

@@ -289,6 +289,8 @@
     <string name="payment_url">http://www.google.com</string>
     <string name="report_select_prompt">Select a reason for reporting this photo</string>
     <string name="wrong_credentials">Wrong credentials</string>
+    <string name="replay">replay</string>
+    <string name="view_more">view more</string>
     <string name="brand_pending_approval">Brand Pending Approval</string>
     <string name="edit_brand">Edit Your Brand</string>
     <string name="no_downloads_prompt">You havn\'t made any purchases</string>
