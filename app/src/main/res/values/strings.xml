@@ -290,7 +290,7 @@
     <string name="report_select_prompt">Select a reason for reporting this photo</string>
     <string name="wrong_credentials">Wrong credentials</string>
     <string name="brand_pending_approval">Brand Pending Approval</string>
-    <string name="edit_brand">Edit Brand Details</string>
+    <string name="edit_brand">Edit Your Brand</string>
     <string name="no_downloads_prompt">You havn\'t made any purchases</string>
     <string name="error_logout">An error occurred. Try again later.</string>
     <string name="complete_brand_data">Complete Your Brand Data</string>
