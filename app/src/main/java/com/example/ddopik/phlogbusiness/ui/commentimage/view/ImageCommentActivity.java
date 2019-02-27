@@ -288,8 +288,8 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     public void viewPhotoComment(ImageCommentsData imageCommentsData) {
 
 
-// (1) is A default value to view AddComment layout in case there is now Comments
-        this.commentList.addAll(1, imageCommentsData.comments.commentList);
+// (1) is A default value to view AddComment layout in case there is no Comments
+        this.commentList.addAll(commentList.size()-1, imageCommentsData.comments.commentList);
 
         if (imageCommentsData.mentions.business != null)
             this.mentions.business.addAll(imageCommentsData.mentions.business);

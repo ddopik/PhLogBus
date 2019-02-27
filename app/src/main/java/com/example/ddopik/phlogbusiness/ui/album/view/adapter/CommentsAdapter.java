@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.CommnetListType.COMMENT_LIST;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.CommnetListType.REPLIES_LIST;
 
 /**
  * Created by abdalla_maged On Nov,2018
@@ -48,7 +49,7 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.CommnetListType
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> implements CommentsAdapterView {
 
     private String TAG = CommentsAdapter.class.getSimpleName();
-    private Constants.CommnetListType commnetListType;
+    private Constants.CommnetListType commentListType;
     private Context context;
     private List<Comment> commentList;
     private Mentions mentions;
@@ -63,16 +64,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     private int HEAD = 0;
     private int COMMENT = 1;
     private int ADD_COMMENT = 2;
-    public int REPLAY_POSITION = -1;
+
     private final String USER_MENTION_IDENTIFIER = "%";
     private DisposableObserver<TextViewTextChangeEvent> searchQuery;
 
 
-    public CommentsAdapter(BaseImage previewImage, List<Comment> commentList, Mentions mentions, Constants.CommnetListType commnetListType) {
+    public CommentsAdapter(BaseImage previewImage, List<Comment> commentList, Mentions mentions, Constants.CommnetListType commentListType) {
         this.commentList = commentList;
         this.previewImage = previewImage;
         this.mentions = mentions;
-        this.commnetListType = commnetListType;
+        this.commentListType = commentListType;
 
 
     }
@@ -84,11 +85,19 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         commentAdapterPresenter = new CommentAdapterPresenterImpl(context, this);
 
-        if (i == HEAD) {
+        if (i == HEAD ) {
             return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_comment_start_item, viewGroup, false), HEAD);
-        } else if (i == commentList.size()) {
+        }
+        else if (i==ADD_COMMENT){
             return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_send_comment, viewGroup, false), ADD_COMMENT);
-        } else {
+        }
+//        else if (i == commentList.size()  &&commentListType==REPLIES_LIST) {
+//            return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_send_comment, viewGroup, false), ADD_COMMENT);
+//        }
+//        else if (i == commentList.size()) {
+//            return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_send_comment, viewGroup, false), ADD_COMMENT);
+//        }
+        else {
             return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_comment, viewGroup, false), COMMENT);
 
         }
@@ -296,6 +305,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     String comment = commentViewHolder.sendCommentImgVal.prepareCommentToSend();
                     commentAdapterAction.onSubmitComment(comment);
                     commentViewHolder.sendCommentImgVal.getText().clear();
+
                 });
             }
 
@@ -511,11 +521,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
      */
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 && commnetListType.equals(COMMENT_LIST)) {
+        if (position == 0 && commentListType.equals(COMMENT_LIST)) {
             return HEAD; //-->For Image Header Preview
-        } else if (position == (commentList.size() - 1) && commnetListType.equals(COMMENT_LIST)) {
-            return ADD_COMMENT; //---> normal Comment viewHolder
-        } else {
+        } else if (position == (commentList.size() - 1)  ) {
+            return ADD_COMMENT;
+        }
+        else {
             return COMMENT; //--->  Comment Cell
         }
     }
