@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -46,7 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-
+    private boolean snackBarShowing;
     @Override
     protected void onResume() {
         super.onResume();
@@ -59,10 +60,23 @@ public abstract class BaseActivity extends AppCompatActivity {
                     break;
                 case CONNECTIVITY:
                     boolean connected = (Boolean) event.getObject();
-                    if (!connected) {
+                    if (!connected && !snackBarShowing) {
                         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content)
                                 , R.string.connection_problem_check_network
                                 , Snackbar.LENGTH_LONG);
+                        snackbar.addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                            @Override
+                            public void onDismissed(Snackbar transientBottomBar, int event) {
+                                snackBarShowing = false;
+                                super.onDismissed(transientBottomBar, event);
+                            }
+
+                            @Override
+                            public void onShown(Snackbar transientBottomBar) {
+                                snackBarShowing = true;
+                                super.onShown(transientBottomBar);
+                            }
+                        });
                         snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorRed));
                         snackbar.show();
                     }

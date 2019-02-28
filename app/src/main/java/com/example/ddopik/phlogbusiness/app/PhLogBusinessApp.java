@@ -9,12 +9,14 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 
 
+import android.util.Log;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.example.ddopik.phlogbusiness.network.BasicAuthInterceptor;
 import com.example.ddopik.phlogbusiness.realm.RealmConfigFile;
 import com.example.ddopik.phlogbusiness.realm.RealmDbMigration;
 
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.utiltes.networkstatus.NetworkChangeBroadcastReceiver;
 import com.example.ddopik.phlogbusiness.utiltes.networkstatus.NetworkStateChangeManager;
 import com.facebook.stetho.Stetho;
@@ -62,6 +64,8 @@ public class PhLogBusinessApp extends Application {
             IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
             registerReceiver(networkChangeBroadcastReceiver, filter);
         }
+        String fbtoken = PrefUtils.getFirebaseToken(this);
+        Log.e("sd", fbtoken);
     }
 
     @Override
