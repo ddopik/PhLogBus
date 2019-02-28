@@ -65,7 +65,8 @@
         <activity
             android:name=".ui.cart.view.CartActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.commentimage.view.ReplayCommentActivity">
+        <activity android:name=".ui.commentimage.view.ReplayCommentActivity"
+                  android:windowSoftInputMode="stateHidden" >
 
         </activity>
 

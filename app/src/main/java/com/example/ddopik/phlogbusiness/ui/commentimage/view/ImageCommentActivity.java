@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,19 +28,26 @@ import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentAc
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityPresenter;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.CommentListType.MAIN_COMMENT;
 
 /**
  * Created by abdalla_maged on 11/6/2018.
  */
 public class ImageCommentActivity extends BaseActivity implements ImageCommentActivityView {
 
+    private String TAG=ImageCommentActivity.class.getSimpleName();
     public static String IMAGE_DATA = "image_data";
     public static String SHOULD_SHOW_CHOOSE_WINNER = "choose_winner";
     public static String CAMPAIGN_ID = "campaign_id";
@@ -92,7 +100,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         commentList.add(userComment); /// acts As default for image Header
         commentList.add(userComment);/// acts As default for image Add comment
 
-        commentsAdapter = new CommentsAdapter(previewImage, commentList, mentions, Constants.CommnetListType.COMMENT_LIST);
+        commentsAdapter = new CommentsAdapter(previewImage, commentList, mentions, MAIN_COMMENT);
         commentsAdapter.setShouldShowChooseWinnerButton(shouldShowChooseWinnerButton);
         commentsRv.setAdapter(commentsAdapter);
         imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), "0");
@@ -186,6 +194,8 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
             @Override
             public void onImageCommentClicked() {
+
+
                 if (commentList.size() == 2) {
                     commentsRv.scrollToPosition(commentList.size() - 1);
                     CustomAutoCompleteTextView customAutoCompleteTextView = (CustomAutoCompleteTextView) commentsRv.getChildAt(commentList.size() - 1).findViewById(R.id.img_send_comment_val);
@@ -200,9 +210,8 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
                             switch (newState) {
                                 case SCROLL_STATE_IDLE:
                                     //we reached the target position
-                                    int xx = commentsRv.getChildCount();
-                                    showToast("-->" + xx);
-                                    CustomAutoCompleteTextView customAutoCompleteTextView = (CustomAutoCompleteTextView) commentsRv.getChildAt(xx - 1).findViewById(R.id.img_send_comment_val);
+
+                                    CustomAutoCompleteTextView customAutoCompleteTextView = commentsRv.getChildAt(commentsRv.getChildCount()).findViewById(R.id.img_send_comment_val);
                                     customAutoCompleteTextView.requestFocus();
 //
                                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -233,11 +242,13 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             }
 
             @Override
-            public void onReplayClicked(int commentID) {
+            public void onReplayClicked(Comment comment, Constants.CommentListType commentListType) {
 
                 Intent intent = new Intent(getBaseContext(), ReplayCommentActivity.class);
-                intent.putExtra(ReplayCommentActivity.COMMENT_ID, commentID);
+
                 intent.putExtra(ReplayCommentActivity.COMMENT_IMAGE,previewImage);
+                intent.putExtra(ReplayCommentActivity.COMMENT_LIST_TYPE,commentListType);
+                intent.putExtra(ReplayCommentActivity.REPLY_HEADER_COMMNET,comment);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
@@ -288,7 +299,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     public void viewPhotoComment(ImageCommentsData imageCommentsData) {
 
 
-// (1) is A default value to view AddComment layout in case there is now Comments
+// (1) is A default value to view AddComment layout in case there is no Comments
         this.commentList.addAll(1, imageCommentsData.comments.commentList);
 
         if (imageCommentsData.mentions.business != null)
@@ -300,42 +311,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
     }
 
-    private void updateMentionedUserList(SubmitImageCommentData submitImageCommentData) {
 
-
-        if (submitImageCommentData.mentions.business != null) {
-
-            for (Business newBusiness : submitImageCommentData.mentions.business) {
-                for (int i = 0; i < mentions.business.size(); i++) {
-                    if (mentions.business.get(i).id.equals(newBusiness.id)) {
-                        continue;
-                    }
-                    if (i == (mentions.business.size() - 1) && !mentions.business.get(i).id.equals(newBusiness.id))
-                        mentions.business.add(newBusiness);
-                }
-            }
-
-
-        }
-
-        if (submitImageCommentData.mentions.photographers != null) {
-
-            for (Photographer newPhotographer : submitImageCommentData.mentions.photographers) {
-                for (int i = 0; i < mentions.photographers.size(); i++) {
-                    if (mentions.photographers.get(i).id.equals(newPhotographer.id)) {
-                        continue;
-                    }
-                    if (i == (mentions.photographers.size() - 1) && !mentions.photographers.get(i).id.equals(newPhotographer.id))
-                        mentions.photographers.add(newPhotographer);
-                }
-            }
-
-
-        }
-
-
-        commentsAdapter.notifyDataSetChanged();
-    }
 
 
     @Override
@@ -346,12 +322,26 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onImageCommented(SubmitImageCommentData commentData) {
         // (1) is A default value to view AddComment layout in case there is now Comments
         this.commentList.add(1, commentData.comment);
-        updateMentionedUserList(commentData);
-        commentsAdapter.notifyDataSetChanged();
+
+        reSortMentionList(commentData.mentions).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mentions -> {
+                    this.mentions.business.addAll(mentions.business);
+                    this.mentions.photographers.addAll(mentions.photographers);
+                    commentsAdapter.notifyDataSetChanged();
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(this, TAG, throwable);
+                });
+
+
+        Utilities.hideKeyboard(this);
+
+
 
     }
 
@@ -390,7 +380,45 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         showToast(msg);
     }
 
+    private Observable<Mentions> reSortMentionList(Mentions mentionsNew) {
 
+        Mentions mentions = new Mentions();
+        this.mentions.photographers.addAll(mentionsNew.photographers);
+        this.mentions.business.addAll(mentionsNew.business);
+        return Observable.fromCallable(() -> {
+
+
+            for (Photographer newPhotoGrapher : mentionsNew.photographers) {
+
+                for (int i = 0; i < this.mentions.photographers.size(); i++) {
+                    if (mentions.photographers.get(i).id.equals(newPhotoGrapher.id)) {
+                        break;
+                    }
+                    if (i == this.mentions.photographers.size() - 1) {
+                        this.mentions.photographers.add(newPhotoGrapher);
+                    }
+                }
+
+
+            }
+
+            for (Business newBusiness : mentionsNew.business) {
+
+                for (int i = 0; i < this.mentions.business.size(); i++) {
+                    if (mentions.business.get(i).id.equals(newBusiness.id)) {
+                        break;
+                    }
+                    if (i == this.mentions.business.size() - 1) {
+                        this.mentions.business.add(newBusiness);
+                    }
+                }
+
+
+            }
+            return mentions;
+        });
+
+    }
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();

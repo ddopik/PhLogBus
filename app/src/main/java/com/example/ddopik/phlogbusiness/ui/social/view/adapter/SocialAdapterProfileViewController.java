@@ -5,13 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
@@ -50,9 +50,21 @@ public class SocialAdapterProfileViewController {
         socialViewHolder.socialProfileAlbumType3PhotosContainer.setBackground(context.getResources().getDrawable(R.drawable.default_user_profile));
         socialViewHolder.storyTitle.setText(socialData.title);
         socialViewHolder.socialProfileType3.setVisibility(View.VISIBLE);
+
         Photographer photographer = socialData.profiles.get(0);
-        if (photographer.fullName !=null)
-        socialViewHolder.socialProfileType3FullName.setText(photographer.fullName);
+        if (photographer == null) {
+            Log.e(TAG, "setProfileType3() -------photographer is null---------------------- ");
+
+            Log.e(TAG, "setProfileType3() -------entityId --> " + socialData.entityId);
+            Log.e(TAG, "setProfileType3() -------displayType --> " + socialData.displayType);
+            Log.e(TAG, "setProfileType3() -------title --> " + socialData.title);
+
+            Log.e(TAG, "setProfileType3() -------photographer is null---------------------- ");
+
+        }
+        if (photographer.fullName != null) {
+            socialViewHolder.socialProfileType3FullName.setText(photographer.fullName);
+        }
         socialViewHolder.socialProfileType3UserName.setText(new StringBuilder().append("@").append(photographer.userName).toString());
         getUserPhotos(photographer.id, socialData);
 
