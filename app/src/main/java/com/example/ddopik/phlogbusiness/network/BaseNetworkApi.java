@@ -153,6 +153,7 @@ public class BaseNetworkApi {
     public static final String PAYMENT_URL = BASE_SERVER_URL + "/business/payment";
     public static final String LOGOUT_URL = BASE_URL + "/auth/logout";
     private static final String COMMENT_REPLAY_URL = BASE_URL + "/photo/comment/list";
+    private static final String SET_EXCLUSIVE_URL = BASE_URL + "/cart/exclusive";
 
     //Path Parameters
     private static final String PAGER_QUERY_PARAMETER = "page";
@@ -773,6 +774,15 @@ public class BaseNetworkApi {
     public static Observable<String> logout() {
         return Rx2AndroidNetworking.post(LOGOUT_URL)
                 .setPriority(Priority.HIGH)
+                .build()
+                .getStringObservable();
+    }
+
+    public static Observable<String> setImageBuyExclusive(BaseImage image, boolean exclusive) {
+        return Rx2AndroidNetworking.post(SET_EXCLUSIVE_URL)
+                .setPriority(Priority.HIGH)
+                .addBodyParameter("photo_id", String.valueOf(image.id))
+                .addBodyParameter("is_exclusive", String.valueOf(exclusive))
                 .build()
                 .getStringObservable();
     }
