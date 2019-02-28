@@ -6,9 +6,12 @@ import android.widget.Toast
 import com.androidnetworking.error.ANError
 import com.example.ddopik.phlogbusiness.base.commonmodel.ErrorMessageResponse
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi.*
+import com.example.ddopik.phlogbusiness.utiltes.rxeventbus.RxEvent
+import com.example.ddopik.phlogbusiness.utiltes.rxeventbus.RxEventBus
 
 import com.google.gson.Gson
 import java.lang.Exception
+import java.net.ConnectException
 
 /**
  * Created by abdalla_maged on 11/6/2018.
@@ -54,6 +57,9 @@ class CustomErrorUtil {
                     }
 
                 }
+//                throwable.takeIf { it is ConnectException } .apply{
+//                    RxEventBus.getInstance().post(RxEvent(RxEvent.Type.CONNECTIVITY, false));
+//                }
             }catch (e: Exception){
                 Log.e(TAG, contextTAG + "--------------->" +throwable?.message )
             }

@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.payment;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
@@ -12,6 +13,7 @@ import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
+import java.net.URL;
 import java.net.URLEncoder;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -45,7 +47,10 @@ public class PaymentWebViewActivity extends BaseActivity {
 
         //Load a URL on WebView
 //        webview.loadUrl("http://google.com/");
-        String url = BaseNetworkApi.PAYMENT_URL + "/" + getEncryptedToken();
+
+//        String url = BaseNetworkApi.PAYMENT_URL + "/" + getEncryptedToken();
+        String url =
+                Uri.parse(BaseNetworkApi.PAYMENT_URL).buildUpon().appendPath(getEncryptedToken()).build().toString();
         Log.e("url", url);
         if (url != null)
             webview.loadUrl(url);
@@ -57,8 +62,9 @@ public class PaymentWebViewActivity extends BaseActivity {
             String encryptedToken = Utilities.encrypt(PrefUtils.getBrandToken(getApplicationContext())
                     , new SecretKeySpec(BuildConfig.PAYMENT_SECRET.getBytes(), "AES")
                     , BuildConfig.PAYMENT_IV_KEY);
-            String encodedToken = URLEncoder.encode(encryptedToken, "utf-8");
-            return encodedToken;
+            String encodedToken = URLEncoder.encode(encryptedToken, "UTF-8");
+//            encodedToken = Uri.encode(encodedToken);
+            return encryptedToken;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

@@ -1,7 +1,10 @@
 
 package com.example.ddopik.phlogbusiness.app;
+
 import android.app.Application;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 
@@ -12,6 +15,7 @@ import com.example.ddopik.phlogbusiness.network.BasicAuthInterceptor;
 import com.example.ddopik.phlogbusiness.realm.RealmConfigFile;
 import com.example.ddopik.phlogbusiness.realm.RealmDbMigration;
 
+import com.example.ddopik.phlogbusiness.utiltes.networkstatus.NetworkChangeBroadcastReceiver;
 import com.example.ddopik.phlogbusiness.utiltes.networkstatus.NetworkStateChangeManager;
 import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
@@ -36,6 +40,7 @@ public class PhLogBusinessApp extends Application {
     public static PhLogBusinessApp app;
 
     private NetworkStateChangeManager networkStateChangeManager;
+    private NetworkChangeBroadcastReceiver networkChangeBroadcastReceiver;
 
 
     @Override
@@ -49,9 +54,25 @@ public class PhLogBusinessApp extends Application {
 //        deleteCache(app);   ///for developing        ##################
 //        initializeDepInj(); ///intializing Dagger Dependancy
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             networkStateChangeManager = new NetworkStateChangeManager(this);
             networkStateChangeManager.listen();
+        } else {
+            networkChangeBroadcastReceiver = new NetworkChangeBroadcastReceiver();
+            IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+            registerReceiver(networkChangeBroadcastReceiver, filter);
+        }
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (networkStateChangeManager != null)
+                networkStateChangeManager.stopListening();
+        } else {
+            if (networkChangeBroadcastReceiver != null)
+                unregisterReceiver(networkChangeBroadcastReceiver);
         }
     }
 
@@ -151,7 +172,7 @@ public class PhLogBusinessApp extends Application {
 //    }
 
 
-    public static void initFastAndroidNetworking(String userToken,String userType,String lang,Context context) {
+    public static void initFastAndroidNetworking(String userToken, String userType, String lang, Context context) {
 
 /**
  * initializing block to add authentication to your Header Request

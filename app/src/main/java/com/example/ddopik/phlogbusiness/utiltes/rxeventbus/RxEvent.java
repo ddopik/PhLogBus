@@ -19,7 +19,7 @@ public class RxEvent<T> {
         return object;
     }
 
-    public static enum Type {
-        POPUP
+    public enum Type {
+        POPUP, CONNECTIVITY
     }
 }
