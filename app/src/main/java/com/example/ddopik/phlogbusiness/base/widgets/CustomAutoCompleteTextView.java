@@ -233,4 +233,5 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
         }
         return clickableSpansList;
     }
+
 }

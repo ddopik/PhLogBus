@@ -13,6 +13,7 @@ public interface ReplayCommentActivityView {
 
     void viewMessage(String msg);
 
+
     void onCommentReplied(SubmitImageCommentData submitImageCommentData);
 
 

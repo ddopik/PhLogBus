@@ -70,8 +70,9 @@ public interface Constants {
     enum PhotosListType{
         SOCIAL_LIST,PHOTO_GRAPHER_LIST
     }
-    enum CommnetListType{
-        COMMENT_LIST,REPLIES_LIST
+
+    enum CommentListType{
+        VIEW_REPLIES, MAIN_COMMENT,REPLAY_ON_COMMENT;
     }
 
     interface UploadPermanentNotificationConfig {

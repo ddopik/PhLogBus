@@ -28,11 +28,12 @@
                 android:src="@drawable/phlog_logo"/>
 
         <LinearLayout
-
+                android:id="@+id/comment_val_sub_container"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/notification_card_height"
                 android:gravity="center|start"
                 android:orientation="vertical"
+
                 android:paddingTop="@dimen/widgets_padding">
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
@@ -67,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/widgets_padding"
                     android:textColor="@color/text_input_color"
-                    android:text="@string/replay"
+                    tools:text="@string/replay"
                     android:layout_gravity="start|bottom"
             />
 

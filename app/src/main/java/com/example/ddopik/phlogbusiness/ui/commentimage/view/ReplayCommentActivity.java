@@ -1,14 +1,21 @@
 package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
@@ -28,15 +35,22 @@ import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.CommentListType.VIEW_REPLIES;
+
 public class ReplayCommentActivity extends BaseActivity implements ReplayCommentActivityView {
 
     private String TAG = ReplayCommentActivity.class.getSimpleName();
-    public static String COMMENT_ID = "comment_id";
-    public static String COMMENT_IMAGE = "commnet_image";
+    public static String COMMENT_IMAGE = "comment_image";
+    public static String COMMENT_LIST_TYPE = "comment_list_type";
+    protected static String REPLY_HEADER_COMMNET = "replay_header_comment";
+    private Constants.CommentListType commentListType;
     private CustomRecyclerView repliesRv;
     private ProgressBar repliesProgressBar;
+    private CustomTextView toolBarTitle;
+    private ImageButton backBtn;
     private BaseImage previewImage;
-    private int commentId;
+    private Comment headerComment;
     private List<Comment> commentList = new ArrayList<>();
     private Mentions mentions = new Mentions();
     private CommentsAdapter commentsAdapter;
@@ -52,25 +66,50 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
         initView();
         initListener();
 
-
-        if (getIntent().getIntExtra(COMMENT_ID, 0) > 0 && getIntent().getParcelableExtra(COMMENT_IMAGE) != null) {
+        if (getIntent().getParcelableExtra(REPLY_HEADER_COMMNET) != null && getIntent().getParcelableExtra(COMMENT_IMAGE) != null) {
             previewImage = getIntent().getParcelableExtra(COMMENT_IMAGE);
-            commentId = getIntent().getIntExtra(COMMENT_ID, 0);
-            replayCommentPresenter.getReplies(getIntent().getIntExtra(COMMENT_ID, 0), previewImage.id, 0);
+            headerComment = (Comment) getIntent().getParcelableExtra(REPLY_HEADER_COMMNET);
+            commentListType = (Constants.CommentListType) getIntent().getSerializableExtra(COMMENT_LIST_TYPE);
+            Comment comment=new Comment();
 
+            commentList.add(headerComment);
+            commentList.add(comment);
+            commentsAdapter.notifyDataSetChanged();
+            replayCommentPresenter.getReplies(headerComment.id, previewImage.id, 0);
         }
+
+
 
     }
 
     @Override
-    public void initView() {
-         repliesProgressBar = findViewById(R.id.comment_replay_progress);
-        repliesRv = findViewById(R.id.comment_replay_rv);
+    protected void onNewIntent(Intent intent) {
 
-        Comment userComment = new Comment();
-        commentList.add(userComment);/// acts As default for image Add comment
-        commentsAdapter = new CommentsAdapter(previewImage, commentList, mentions, Constants.CommnetListType.REPLIES_LIST);
+
+        if (intent.getParcelableExtra(REPLY_HEADER_COMMNET) != null && getIntent().getParcelableExtra(COMMENT_IMAGE) != null) {
+            previewImage = intent.getParcelableExtra(COMMENT_IMAGE);
+            headerComment = intent.getParcelableExtra(REPLY_HEADER_COMMNET);
+            commentListType = (Constants.CommentListType) intent.getSerializableExtra(COMMENT_LIST_TYPE);
+            commentList.clear();
+            Comment comment=new Comment();
+             commentList.add(headerComment);
+            commentList.add(comment);
+            commentsAdapter.notifyDataSetChanged();
+            replayCommentPresenter.getReplies(headerComment.id, previewImage.id, 0);
+
+        }
+    }
+
+    @Override
+    public void initView() {
+        toolBarTitle = findViewById(R.id.toolbar_title);
+        toolBarTitle.setText(getResources().getString(R.string.replies));
+        backBtn = findViewById(R.id.back_btn);
+        repliesProgressBar = findViewById(R.id.comment_replay_progress);
+        repliesRv = findViewById(R.id.comment_replay_rv);
+        commentsAdapter = new CommentsAdapter(previewImage, commentList, mentions, VIEW_REPLIES);
         repliesRv.setAdapter(commentsAdapter);
+
 
     }
 
@@ -84,7 +123,7 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
         pagingController = new PagingController(repliesRv) {
             @Override
             public void getPagingControllerCallBack(int page) {
-                replayCommentPresenter.getReplies(getIntent().getIntExtra(COMMENT_ID, 0), previewImage.id, page);
+                replayCommentPresenter.getReplies(headerComment.id, previewImage.id, page);
             }
         };
 
@@ -107,10 +146,10 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
             }
 
             @Override
-            public void onSubmitCommnet(String comment) {
+            public void onSubmitComment(String comment) {
 
                 if (comment.length() > 0) {
-                    replayCommentPresenter.submitReplayComment(String.valueOf(previewImage.id), String.valueOf(commentId), comment);
+                    replayCommentPresenter.submitReplayComment(String.valueOf(previewImage.id), String.valueOf(headerComment.id), comment);
                 } else {
                     showToast(getResources().getString(R.string.comment_cant_not_be_null));
                 }
@@ -145,8 +184,13 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
             }
 
             @Override
-            public void onReplayClicked(int commentID) {
-
+            public void onReplayClicked(Comment comment, Constants.CommentListType commentListType) {
+                Intent intent = new Intent(getBaseContext(), ReplayCommentActivity.class);
+                intent.putExtra(ReplayCommentActivity.COMMENT_IMAGE, previewImage);
+                intent.putExtra(ReplayCommentActivity.COMMENT_LIST_TYPE, commentListType);
+                intent.putExtra(ReplayCommentActivity.REPLY_HEADER_COMMNET, comment);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
 
             @Override
@@ -154,6 +198,10 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
 
             }
         };
+        backBtn.setOnClickListener(v -> {
+            onBackPressed();
+
+        });
     }
 
 
@@ -181,7 +229,12 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
     public void viewReplies(ImageCommentsData imageCommentsData) {
 
 
-        this.commentList.addAll(this.commentList.size()-1,imageCommentsData.comments.commentList);
+//        if (newReplay) {
+//            this.commentList.clear();
+//            Comment userComment = new Comment();
+//            commentList.add(userComment);/// acts As default for image Add comment
+//        }
+        this.commentList.addAll(commentList.size()-1, imageCommentsData.comments.commentList);
 
         if (imageCommentsData.mentions.business != null)
             this.mentions.business.addAll(imageCommentsData.mentions.business);
@@ -191,6 +244,43 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
 
         commentsAdapter.notifyDataSetChanged();
 
+
+        if (commentListType == Constants.CommentListType.REPLAY_ON_COMMENT) {
+            if (commentList.size() == 1) {
+                repliesRv.scrollToPosition(commentList.size() - 1);
+                CustomAutoCompleteTextView customAutoCompleteTextView = (CustomAutoCompleteTextView) repliesRv.getChildAt(commentList.size() - 1).findViewById(R.id.img_send_comment_val);
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(customAutoCompleteTextView, InputMethodManager.SHOW_IMPLICIT);
+                customAutoCompleteTextView.requestFocus();
+            } else {
+                repliesRv.getLayoutManager().smoothScrollToPosition(repliesRv, null, commentList.size() - 1);
+                RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        switch (newState) {
+                            case SCROLL_STATE_IDLE:
+
+                                //we reached the target position
+                                if (repliesRv.getChildAt(repliesRv.getChildCount() - 1).findViewById(R.id.img_send_comment_val) != null) {
+                                    CustomAutoCompleteTextView customAutoCompleteTextView = repliesRv.getChildAt(repliesRv.getChildCount() - 1).findViewById(R.id.img_send_comment_val);
+                                    customAutoCompleteTextView.requestFocus();
+                                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    imm.showSoftInput(customAutoCompleteTextView, InputMethodManager.SHOW_IMPLICIT);
+                                    recyclerView.removeOnScrollListener(this);
+                                }
+
+                                break;
+                        }
+                    }
+                };
+
+                repliesRv.addOnScrollListener(onScrollListener);
+
+
+            }
+
+        }
     }
 
     @Override
@@ -200,6 +290,12 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
 
     @Override
     public void viewRepliesProgress(boolean state) {
+
+        if (state) {
+            repliesProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            repliesProgressBar.setVisibility(View.GONE);
+        }
 
     }
 
