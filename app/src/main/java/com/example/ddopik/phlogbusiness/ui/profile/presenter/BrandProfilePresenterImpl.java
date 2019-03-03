@@ -3,11 +3,14 @@ package com.example.ddopik.phlogbusiness.ui.profile.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Device;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.profile.view.BrandProfileFragmentView;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -48,8 +51,32 @@ public class BrandProfilePresenterImpl implements BrandProfilePresenter {
     }
 
     @Override
-    public Observable<Boolean> logout() {
-        return BaseNetworkApi.logout()
-                .map(s -> s != null);
+    public void logout() {
+        BaseNetworkApi.logout()
+                .subscribeOn(Schedulers.io())
+                .subscribe(s -> {
+                    if (s != null)
+                        sendFirebaseTokenAsLoggedOut();
+                    else
+                        brandProfileFragmentView.viewMessage(context.getString(R.string.error_logout));
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                    brandProfileFragmentView.viewMessage(context.getString(R.string.error_logout));
+                });
+    }
+
+    private void sendFirebaseTokenAsLoggedOut() {
+        BaseNetworkApi.updateFirebaseToken(new Device(Utilities.getDeviceName(), false, PrefUtils.getFirebaseToken(context)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if (response != null)
+                        brandProfileFragmentView.logoutSuccess();
+                    else
+                        brandProfileFragmentView.viewMessage(context.getString(R.string.error_logout));
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                    brandProfileFragmentView.viewMessage(context.getString(R.string.error_logout));
+                });
     }
 }

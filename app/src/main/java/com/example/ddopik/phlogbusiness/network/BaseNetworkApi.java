@@ -5,6 +5,7 @@ import com.androidnetworking.interfaces.UploadProgressListener;
 import com.example.ddopik.phlogbusiness.base.BaseApiResponse;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseStateResponse;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Device;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToCartResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.LightBoxListResponse;
@@ -154,6 +155,7 @@ public class BaseNetworkApi {
     public static final String LOGOUT_URL = BASE_URL + "/auth/logout";
     private static final String COMMENT_REPLAY_URL = BASE_URL + "/photo/comment/list";
     private static final String SET_EXCLUSIVE_URL = BASE_URL + "/cart/exclusive";
+    private static final String UPDATE_FIREBASE_TOKEN_URL = BASE_URL + "/auth/device/set";
 
     //Path Parameters
     private static final String PAGER_QUERY_PARAMETER = "page";
@@ -757,6 +759,13 @@ public class BaseNetworkApi {
                 .addMultipartParameter("firebase_token", firebaseToken)
                 .build()
                 .getObjectObservable(LoginResponse.class);
+    }
+
+    public static Observable<String> updateFirebaseToken(Device device) {
+        return Rx2AndroidNetworking.post(UPDATE_FIREBASE_TOKEN_URL)
+                .addBodyParameter(device)
+                .build()
+                .getStringObservable();
     }
 
     public static Observable<ImageCommentsResponse> getCommentReplies(int repliesId,int imageID,String page){

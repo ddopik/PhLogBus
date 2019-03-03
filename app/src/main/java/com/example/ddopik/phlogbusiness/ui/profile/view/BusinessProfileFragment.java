@@ -130,20 +130,8 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
                             , (dialog, which) -> {
                                 switch (which) {
                                     case 0:
-                                        brandProfilePresenter.logout()
-                                                .subscribeOn(Schedulers.io())
-                                                .observeOn(AndroidSchedulers.mainThread())
-                                                .subscribe(success -> {
-                                                    if (success) {
-                                                        brandProfilePresenter.clearLoginData(getContext());
-                                                        MainActivity.navigationManger.navigate(Constants.NavigationHelper.LOGOUT);
-                                                        dialog.dismiss();
-                                                    } else
-                                                        showToast(getString(R.string.error_logout));
-                                                }, throwable -> {
-                                                    showToast(getString(R.string.error_logout));
-                                                    CustomErrorUtil.Companion.setError(getContext(), TAG, throwable);
-                                                });
+                                        brandProfilePresenter.logout();
+                                        dialog.dismiss();
                                         break;
                                     case 1:
                                         dialog.dismiss();
@@ -221,5 +209,11 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void logoutSuccess() {
+        brandProfilePresenter.clearLoginData(getContext());
+        MainActivity.navigationManger.navigate(Constants.NavigationHelper.LOGOUT);
     }
 }

@@ -6,4 +6,6 @@ public interface BrandProfileFragmentView {
     void viewBrandProfileData(Business business);
     void viewMessage(String msg);
     void viewBrandProfileProgress(Boolean state);
+
+    void logoutSuccess();
 }
