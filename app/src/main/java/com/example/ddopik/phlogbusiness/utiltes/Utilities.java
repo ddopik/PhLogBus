@@ -347,6 +347,23 @@ public class Utilities {
         return authorListId;
 
     }
+    public static List<String> getCommentMentionsList(String comment)
+
+    {
+        String regex = "_+([0-9]+%+)";
+        List<String> authorListId = new ArrayList<>();
+
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(comment);
+
+        while (matcher.find()) {
+            authorListId.add(matcher.group(1));
+        }
+
+        return authorListId;
+
+    }
 
     public static List<Integer> findWord(String textString, String word) {
         List<Integer> indexes = new ArrayList<Integer>();

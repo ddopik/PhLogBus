@@ -351,6 +351,32 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         };
     }
 
+    //
+//    private List<MentionRange> getMentionRanges(String commnetVal,List<String> mentionsPhotoGrapherIdIdList, List<String> mentionBusinessIdList){
+//        List<MentionRange> mentionRangeList=new ArrayList<>();
+//
+//        for (String word : commnetVal.split("\\s+"))
+//        {
+//            MentionRange mentionRange=new MentionRange();
+//            for (String photoGrapherId:mentionsPhotoGrapherIdIdList){
+//                if (word.equals(photoGrapherId)){
+//                    mentionRange.startPoint=
+//                    break;
+//                }
+//
+//            }
+//            for (String bussinessId:mentionBusinessIdList){
+//                if (word.equals(bussinessId)){
+//
+//                    break;
+//                }
+//
+//            }
+//
+//        }
+//
+//        return  mentionRangeList;
+//    };
     private void handleCommentBody(TextView commentView, String commentFinalValue) {
 
         List<String> authorsId = Utilities.getMentionsList(commentFinalValue);
@@ -372,40 +398,49 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 }
             }
 
+            List<String> currentMentionedUseres=Utilities.getCommentMentionsList(commentFinalValue);
+
+            for (int x=0;x<currentMentionedUseres.size();x++){
+
+            }//todo state here
 
             /// Append unique identifier to mentioned user to get highLighted later
             /// And Replacing All Occurrence of photoGrapherId with actualValue
-            for (String photoGrapherId : mentionsPhotoGrapherIdIdList) {
-                Photographer photographer = getMentionedPhotoGrapher(photoGrapherId);
-                if (photographer != null) {
+//            for (String photoGrapherId : mentionsPhotoGrapherIdIdList) {
+            for (int i = 0; i < mentionsPhotoGrapherIdIdList.size(); i++) {
+                Photographer photographer = getMentionedPhotoGrapher(mentionsPhotoGrapherIdIdList.get(i));
+                if (mentionsPhotoGrapherIdIdList.get(i) != null) {
 
-                    commentFinalValue = commentFinalValue.replace("@0_" + photoGrapherId, photographer.fullName + USER_MENTION_IDENTIFIER);
+                    commentFinalValue = commentFinalValue.replace("@0_" + mentionsPhotoGrapherIdIdList.get(i), photographer.fullName + "_" + i + USER_MENTION_IDENTIFIER);
                     commentView.setText(commentFinalValue);
                 }
             }
 
             /// Append unique identifier to mentioned user to get highLighted later
             /// And Replacing All Occurrence of businessId with actualValue
-            for (String businessId : mentionBusinessIdList) {
-                if (getMentionedBusiness(businessId) != null) {
-                    Business business = getMentionedBusiness(businessId);
+//            for (String businessId : mentionBusinessIdList) {
+            for (int i = 0; i < mentionBusinessIdList.size(); i++) {
+                if (getMentionedBusiness(mentionBusinessIdList.get(i)) != null) {
+                    Business business = getMentionedBusiness(mentionBusinessIdList.get(i));
                     if (business != null) {
-                        commentFinalValue = commentFinalValue.replace("@1_" + businessId, business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER);
+                        commentFinalValue = commentFinalValue.replace("@1_" + mentionBusinessIdList.get(i), business.firstName + " " + business.lastName + "_" + i + USER_MENTION_IDENTIFIER);
                         commentView.setText(commentFinalValue);
                     }
                 }
             }
 
 
-            for (String photographerId : mentionsPhotoGrapherIdIdList) {
-                if (getMentionedPhotoGrapher(photographerId) != null) {
-                    Photographer photographer = getMentionedPhotoGrapher(photographerId);
+
+            for (int i = 0; i < mentionsPhotoGrapherIdIdList.size(); i++) {
+                final int xx = i;
+                if (getMentionedPhotoGrapher(mentionsPhotoGrapherIdIdList.get(i)) != null) {
+                    Photographer photographer = getMentionedPhotoGrapher(mentionsPhotoGrapherIdIdList.get(i));
                     ///////PhotoGrapher CallBack
                     ClickableSpan noUnderLineClickSpan = new ClickableSpan() {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(context, UserProfileActivity.class);
-                            intent.putExtra(UserProfileActivity.USER_ID, photographerId);
+                            intent.putExtra(UserProfileActivity.USER_ID, mentionsPhotoGrapherIdIdList.get(xx));
                             intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
                             context.startActivity(intent);
                         }
@@ -419,13 +454,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     };
 
 
-                    String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
-                    int replacementStart = commentFinalValue.indexOf(replacement) - 1;
+                    String replacement = photographer.fullName + "_" + i + USER_MENTION_IDENTIFIER;
+                    int replacementStart = commentFinalValue.indexOf(replacement) - 3;
                     int replacementEnd = replacementStart + replacement.length();
+
+
                     MentionRange mentionRange = new MentionRange();
                     mentionRange.startPoint = replacementStart;
                     mentionRange.endPoint = replacementEnd;
                     mentionsPoint.add(mentionRange);
+
                     clickableSpanList.add(noUnderLineClickSpan);
                     commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
                 }
@@ -434,15 +472,18 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
             //////////////////////////////////////////////////////////
 
-            for (String businessId : mentionBusinessIdList) {
-                if (getMentionedBusiness(businessId) != null) {
-                    Business business = getMentionedBusiness(businessId);
+            for (int i = 0; i < mentionBusinessIdList.size(); i++) {
+
+                final int xx = i;
+
+                if (getMentionedBusiness(mentionBusinessIdList.get(i)) != null) {
+                    Business business = getMentionedBusiness(mentionBusinessIdList.get(i));
                     //////business CallBack
                     ClickableSpan noUnderLineClickSpan2 = new ClickableSpan() {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(context, UserProfileActivity.class);
-                            intent.putExtra(UserProfileActivity.USER_ID, businessId);
+                            intent.putExtra(UserProfileActivity.USER_ID, mentionBusinessIdList.get(xx));
                             intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_BUSINESS);
                             context.startActivity(intent);
                         }
@@ -454,17 +495,20 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                             ds.setColor(Color.MAGENTA); // specific color for this link
                         }
                     };
-                    String replacement = business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER;
+                    String replacement = business.firstName + " " + business.lastName + "_" + i + USER_MENTION_IDENTIFIER;
                     int replacementStart = commentFinalValue.indexOf(replacement);
-                    int replacementEnd = replacementStart + replacement.length()-1;
+                    int replacementEnd = replacementStart + replacement.length() - 3;
+
                     MentionRange mentionRange = new MentionRange();
                     mentionRange.startPoint = replacementStart;
                     mentionRange.endPoint = replacementEnd;
                     mentionsPoint.add(mentionRange);
+
                     clickableSpanList.add(noUnderLineClickSpan2);
                     commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
                 }
             }
+
             makeLinks(commentView, mentionsPoint, clickableSpanList, commentFinalValue);
         } else {
             commentView.setText(commentFinalValue);
@@ -485,14 +529,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         for (int i = 0; i < mentionsList.size(); i++) {
 
-            int spannableStartPoint = mentionsList.get(i).startPoint+1;
-            int spannableEndPoint=mentionsList.get(i).endPoint;
+            int spannableStartPoint = mentionsList.get(i).startPoint + 1;
+            int spannableEndPoint = mentionsList.get(i).endPoint;
 
             if (spannableStartPoint < 0) {
                 spannableStartPoint = 0;
             }
 
-            spannableString.setSpan(clickableSpanList.get(i), spannableStartPoint,spannableEndPoint , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(clickableSpanList.get(i), spannableStartPoint, spannableEndPoint, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         viewHolder.setLinksClickable(true);
         viewHolder.setClickable(true);
