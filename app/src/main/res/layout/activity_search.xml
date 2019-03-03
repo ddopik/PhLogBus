@@ -33,6 +33,8 @@
             android:hint="@string/search"
             android:padding="@dimen/widgets_padding"
             android:textColor="@color/black"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
             android:textColorHint="@color/colorlightg" />
 
         <LinearLayout

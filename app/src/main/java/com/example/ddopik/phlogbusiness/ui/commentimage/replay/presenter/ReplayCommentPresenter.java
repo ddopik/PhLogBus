@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.commentimage.presenter;
+package com.example.ddopik.phlogbusiness.ui.commentimage.replay.presenter;
 
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 

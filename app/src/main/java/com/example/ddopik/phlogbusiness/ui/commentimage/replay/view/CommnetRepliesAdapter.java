@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.commentimage.view;
+package com.example.ddopik.phlogbusiness.ui.commentimage.replay.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -18,6 +18,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.CommentAdapterPresenter;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
+import com.example.ddopik.phlogbusiness.ui.commentimage.view.MentionsAutoCompleteAdapter;
 import com.jakewharton.rxbinding3.widget.TextViewTextChangeEvent;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;

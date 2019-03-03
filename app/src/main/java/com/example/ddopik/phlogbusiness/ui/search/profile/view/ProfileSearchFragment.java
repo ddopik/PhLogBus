@@ -6,9 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,6 +26,7 @@ import com.example.ddopik.phlogbusiness.ui.search.profile.presenter.ProfileSearc
 import com.example.ddopik.phlogbusiness.ui.search.profile.presenter.ProfileSearchPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.jakewharton.rxbinding3.widget.TextViewTextChangeEvent;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -130,6 +133,10 @@ public class ProfileSearchFragment extends BaseFragment implements ProfileSearch
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(searchQuery()));
 
+
+
+
+
         pagingController = new PagingController(profileSearchRv) {
             @Override
             public void getPagingControllerCallBack(int page) {
@@ -158,6 +165,7 @@ public class ProfileSearchFragment extends BaseFragment implements ProfileSearch
                     return;
                 }
                 profileSearchList.clear();
+                profileSearchAdapter.notifyDataSetChanged();
                 profileSearchPresenter.getProfileSearchList(profileSearch.getText().toString().trim(), 0);
                 Log.e(TAG, "search string: " + profileSearch.getText().toString());
 

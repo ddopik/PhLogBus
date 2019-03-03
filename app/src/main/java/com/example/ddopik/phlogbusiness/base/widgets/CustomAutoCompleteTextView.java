@@ -100,15 +100,15 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
     private void setUserSpannable(UserClickableSpan userSpannable, int position, int oldSearchKeysCount) {
         CharSequence charSequence = TextUtils.concat(getText());
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
-        int startPosition = position ;
+        int startPosition = position;
 
         if (startPosition <= 0) {
             startPosition = 0;
         }
         int endPosition = startPosition + userSpannable.userName.length() - 1;
         spannableStringBuilder.insert(startPosition, userSpannable.userName);
-        spannableStringBuilder.setSpan(userSpannable, startPosition, endPosition , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableStringBuilder.delete(endPosition+1, endPosition+oldSearchKeysCount+1);
+        spannableStringBuilder.setSpan(userSpannable, startPosition, endPosition, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableStringBuilder.delete(endPosition + 1, endPosition + oldSearchKeysCount + 1);
         setClickable(true);
         setMovementMethod(LinkMovementMethod.getInstance());
         setText(spannableStringBuilder);
@@ -170,7 +170,7 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
             }
         };
         photoGrapherClickableSpan.userId = business.id.toString();
-        photoGrapherClickableSpan.userName = business.firstName+" "+business.lastName + " ";
+        photoGrapherClickableSpan.userName = business.firstName + " " + business.lastName + " ";
         photoGrapherClickableSpan.userType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
         return photoGrapherClickableSpan;
     }
@@ -184,32 +184,44 @@ public class CustomAutoCompleteTextView extends android.support.v7.widget.AppCom
 
         UserClickableSpan[] clickableSpansListSorted = sortMentionListRanges(clickableSpansList);
 
+        //handle multiple mentions
         for (int i = 0; i < clickableSpansListSorted.length; i++) {
             if (clickableSpansListSorted[i].userType.equals(Constants.UserType.USER_TYPE_PHOTOGRAPHER)) {
                 int startPoint = getText().getSpanStart(clickableSpansListSorted[i]);
                 int endPoint = getText().getSpanEnd(clickableSpansListSorted[i]);
 
+                String after = "";
                 String before;
+
                 if (i == 0) {
                     before = oldCommentVal.substring(0, startPoint);
+                    if (clickableSpansListSorted.length-1 == i){
+                        after = oldCommentVal.substring(endPoint);
+                    }
+
                 } else {
+                    //get spannable  string full range from specified point
+                    //in order to get spannable end point
                     int previousSegmentEndPoint = getText().getSpanEnd(clickableSpansListSorted[i - 1]);
                     before = oldCommentVal.substring(previousSegmentEndPoint, startPoint);
                 }
+
+
                 String mentionedId;
                 if (oldCommentVal.substring(endPoint + 1).equals(" ") && (endPoint) < oldCommentVal.length()) {
                     mentionedId = "@0_" + clickableSpansListSorted[i].userId;
                 } else {
                     mentionedId = "@0_" + clickableSpansListSorted[i].userId + " ";
                 }
-                newCommentValue = newCommentValue + before + mentionedId;
+
+                newCommentValue = newCommentValue + before + mentionedId + after;
             }
 
         }
 
-        if (newCommentValue.length() >0){
+        if (newCommentValue.length() > 0) {
             return newCommentValue;
-        }else {
+        } else {
             return oldCommentVal;
         }
     }

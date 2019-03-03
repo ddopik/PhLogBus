@@ -26,6 +26,7 @@ import com.example.ddopik.phlogbusiness.ui.commentimage.model.ReportReason;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ImageCommentActivityPresenter;
+import com.example.ddopik.phlogbusiness.ui.commentimage.replay.view.ReplayCommentActivity;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
@@ -37,6 +38,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
@@ -47,7 +49,7 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.CommentListType
  */
 public class ImageCommentActivity extends BaseActivity implements ImageCommentActivityView {
 
-    private String TAG=ImageCommentActivity.class.getSimpleName();
+    private String TAG = ImageCommentActivity.class.getSimpleName();
     public static String IMAGE_DATA = "image_data";
     public static String SHOULD_SHOW_CHOOSE_WINNER = "choose_winner";
     public static String CAMPAIGN_ID = "campaign_id";
@@ -210,7 +212,6 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
                             switch (newState) {
                                 case SCROLL_STATE_IDLE:
                                     //we reached the target position
-
                                     CustomAutoCompleteTextView customAutoCompleteTextView = commentsRv.getChildAt(commentsRv.getChildCount()).findViewById(R.id.img_send_comment_val);
                                     customAutoCompleteTextView.requestFocus();
 //
@@ -246,9 +247,9 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
                 Intent intent = new Intent(getBaseContext(), ReplayCommentActivity.class);
 
-                intent.putExtra(ReplayCommentActivity.COMMENT_IMAGE,previewImage);
-                intent.putExtra(ReplayCommentActivity.COMMENT_LIST_TYPE,commentListType);
-                intent.putExtra(ReplayCommentActivity.REPLY_HEADER_COMMNET,comment);
+                intent.putExtra(ReplayCommentActivity.COMMENT_IMAGE, previewImage);
+                intent.putExtra(ReplayCommentActivity.COMMENT_LIST_TYPE, commentListType);
+                intent.putExtra(ReplayCommentActivity.REPLY_HEADER_COMMENT, comment);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
@@ -298,9 +299,8 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     @Override
     public void viewPhotoComment(ImageCommentsData imageCommentsData) {
 
-
-// (1) is A default value to view AddComment layout in case there is no Comments
-        this.commentList.addAll(1, imageCommentsData.comments.commentList);
+        Collections.reverse(imageCommentsData.comments.commentList);
+        this.commentList.addAll(this.commentList.size() - 1, imageCommentsData.comments.commentList);
 
         if (imageCommentsData.mentions.business != null)
             this.mentions.business.addAll(imageCommentsData.mentions.business);
@@ -310,8 +310,6 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         commentsAdapter.notifyDataSetChanged();
 
     }
-
-
 
 
     @Override
@@ -326,7 +324,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     @Override
     public void onImageCommented(SubmitImageCommentData commentData) {
         // (1) is A default value to view AddComment layout in case there is now Comments
-        this.commentList.add(1, commentData.comment);
+        this.commentList.add(commentList.size() - 1, commentData.comment);
 
         reSortMentionList(commentData.mentions).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -340,7 +338,6 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
 
         Utilities.hideKeyboard(this);
-
 
 
     }
@@ -419,6 +416,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         });
 
     }
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();

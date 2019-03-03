@@ -81,8 +81,8 @@ public class BaseNetworkApi {
 
     //
     public static final String BASE_SERVER_URL = "http://178.128.162.10";
-    private static final String BASE_URL = BASE_SERVER_URL + "/public/api/business";
-    private static final String BASE_URL_COMMON = BASE_SERVER_URL + "/public/api/common";
+    private static final String BASE_URL = BASE_SERVER_URL + "/api/business";
+    private static final String BASE_URL_COMMON = BASE_SERVER_URL + "/api/common";
 
     private static final String WELCOME_SLIDES_IMAGES = BASE_URL + "/photographer/init_slider";
     private static final String USER_SEARCH_FILTERS = BASE_URL_COMMON + "/filters/list";

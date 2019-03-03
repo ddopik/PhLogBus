@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.commentimage.view;
+package com.example.ddopik.phlogbusiness.ui.commentimage.replay.view;
 
 import com.example.ddopik.phlogbusiness.base.commonmodel.MentionedUser;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;

@@ -223,29 +223,29 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 handleCommentBody(commentViewHolder.commentVal, commentList.get(i).comment);
                 if (getItemViewType(i) == REPLY_COMMENT) {
                     commentViewHolder.commentValSubContainer.setBackgroundColor(context.getResources().getColor(R.color.black242B31));
-                    commentViewHolder.commentValSubContainer.setPadding(12,12,12,12);
+                    commentViewHolder.commentValSubContainer.setPadding(12, 12, 12, 12);
                 }
             }
 
 
-            if (commentList.get(i).repliesCount > 0 ) {
+            if (commentList.get(i).repliesCount != null && commentList.get(i).repliesCount > 0) {
                 commentViewHolder.imageCommentReplayBtn.setText(new StringBuilder().append(context.getResources().getString(R.string.view_more)).append(" ").append(commentList.get(i).repliesCount).append(" ").append(context.getResources().getString(R.string.replay)).toString());
             } else {
                 commentViewHolder.imageCommentReplayBtn.setText(context.getResources().getString(R.string.replay));
             }
-            if (commentAdapterAction != null && getItemViewType(i) != REPLY_COMMENT ) {
+            if (commentAdapterAction != null && getItemViewType(i) != REPLY_COMMENT) {
                 commentViewHolder.imageCommentReplayBtn.setOnClickListener(v -> {
                             if (commentViewHolder.imageCommentReplayBtn.getText().equals(context.getResources().getString(R.string.replay))) {
-                                commentAdapterAction.onReplayClicked(commentList.get(i),REPLAY_ON_COMMENT);
+                                commentAdapterAction.onReplayClicked(commentList.get(i), REPLAY_ON_COMMENT);
                             } else {
-                                commentAdapterAction.onReplayClicked(commentList.get(i) ,VIEW_REPLIES);
+                                commentAdapterAction.onReplayClicked(commentList.get(i), VIEW_REPLIES);
 
                             }
 
                         }
                 );
 
-            }else {
+            } else {
                 commentViewHolder.imageCommentReplayBtn.setVisibility(View.GONE);
             }
 
@@ -455,8 +455,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                         }
                     };
                     String replacement = business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER;
-                    int replacementStart = commentFinalValue.indexOf(replacement) - 1;
-                    int replacementEnd = replacementStart + replacement.length();
+                    int replacementStart = commentFinalValue.indexOf(replacement);
+                    int replacementEnd = replacementStart + replacement.length()-1;
                     MentionRange mentionRange = new MentionRange();
                     mentionRange.startPoint = replacementStart;
                     mentionRange.endPoint = replacementEnd;
@@ -482,8 +482,17 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
      */
     private void makeLinks(TextView viewHolder, List<MentionRange> mentionsList, List<ClickableSpan> clickableSpanList, String commentFinalValue) {
         SpannableString spannableString = new SpannableString(commentFinalValue);
+
         for (int i = 0; i < mentionsList.size(); i++) {
-            spannableString.setSpan(clickableSpanList.get(i), mentionsList.get(i).startPoint + 1, mentionsList.get(i).endPoint, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            int spannableStartPoint = mentionsList.get(i).startPoint+1;
+            int spannableEndPoint=mentionsList.get(i).endPoint;
+
+            if (spannableStartPoint < 0) {
+                spannableStartPoint = 0;
+            }
+
+            spannableString.setSpan(clickableSpanList.get(i), spannableStartPoint,spannableEndPoint , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         viewHolder.setLinksClickable(true);
         viewHolder.setClickable(true);
@@ -590,7 +599,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentAuthorImg = view.findViewById(R.id.commentAuthorImg);
                 commentAuthorName = view.findViewById(R.id.comment_author);
                 imageCommentReplayBtn = view.findViewById(R.id.image_comment_replay_btn);
-                commentValSubContainer=view.findViewById(R.id.comment_val_sub_container);
+                commentValSubContainer = view.findViewById(R.id.comment_val_sub_container);
             } else if (type == ADD_COMMENT) {
                 sendCommentImgVal = view.findViewById(R.id.img_send_comment_val);
                 sendCommentBtn = view.findViewById(R.id.send_comment_btn);
@@ -618,7 +627,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         void onReportClicked(BaseImage image);
 
-        void onReplayClicked(Comment comment ,Constants.CommentListType commentListType);
+        void onReplayClicked(Comment comment, Constants.CommentListType commentListType);
 
         void onChooseWinnerClick(BaseImage previewImage, Consumer<Boolean> success);
     }
