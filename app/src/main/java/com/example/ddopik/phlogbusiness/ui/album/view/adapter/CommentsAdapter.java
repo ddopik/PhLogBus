@@ -454,7 +454,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     int replacementStart = commentFinalValue.indexOf(replacement);
                     while (replacementStart >= 0) {
                         MentionRange mentionRange = new MentionRange();
-                        mentionRange.startPoint = replacementStart - 1;
+                        mentionRange.startPoint = replacementStart  ;
                         mentionRange.endPoint = replacementStart + replacement.length()  ;
                         replacementStart = commentFinalValue.indexOf(replacement, replacementStart + 1);
                         mentionsPoint.add(mentionRange);
@@ -500,7 +500,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     int replacementStart = commentFinalValue.indexOf(replacement);
                     while (replacementStart >= 0) {
                         MentionRange mentionRange = new MentionRange();
-                        mentionRange.startPoint = replacementStart-1 ;
+                        mentionRange.startPoint = replacementStart  ;
                         mentionRange.endPoint = replacementStart + replacement.length() ;
                         replacementStart = commentFinalValue.indexOf(replacement, replacementStart + 1);
 
@@ -522,141 +522,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     }
 
-//    private void handleCommentBody2(TextView commentView, String commentFinalValue) {
-//
-//        List<String> authorsId = Utilities.getMentionsList(commentFinalValue);
-//        List<String> mentionsPhotoGrapherIdIdList = new ArrayList<>();
-//        List<String> mentionBusinessIdList = new ArrayList<>();
-//        List<MentionRange> mentionsPoint = new ArrayList<MentionRange>();
-//        List<ClickableSpan> clickableSpanList = new ArrayList<>();
-//        //
-//
-//        if (authorsId.size() > 0) {
-//
-//            for (String authorId : authorsId) {
-//                String[] singleId = authorId.split("\\_");
-//
-//                if (singleId[0].equals("0")) {
-//                    mentionsPhotoGrapherIdIdList.add(singleId[1]);
-//                } else if (singleId[0].equals("1")) {
-//                    mentionBusinessIdList.add(singleId[1]);
-//                }
-//            }
-//
-//
-//            /// Append unique identifier to mentioned user to get highLighted later
-//            /// And Replacing All Occurrence of photoGrapherId with actualValue
-////            for (String photoGrapherId : mentionsPhotoGrapherIdIdList) {
-//            for (int i = 0; i < mentionsPhotoGrapherIdIdList.size(); i++) {
-//                Photographer photographer = getMentionedPhotoGrapher(mentionsPhotoGrapherIdIdList.get(i));
-//                if (mentionsPhotoGrapherIdIdList.get(i) != null) {
-//                    if (photographer != null) {
-//                        commentFinalValue = commentFinalValue.replace("@0_" + mentionsPhotoGrapherIdIdList.get(i), photographer.fullName + USER_MENTION_IDENTIFIER);
-//                        commentView.setText(commentFinalValue);
-//                    }
-//                }
-//            }
-//
-//            /// Append unique identifier to mentioned user to get highLighted later
-//            /// And Replacing All Occurrence of businessId with actualValue
-////            for (String businessId : mentionBusinessIdList) {
-//            for (int i = 0; i < mentionBusinessIdList.size(); i++) {
-//                if (getMentionedBusiness(mentionBusinessIdList.get(i)) != null) {
-//                    Business business = getMentionedBusiness(mentionBusinessIdList.get(i));
-//                    if (business != null) {
-//                        commentFinalValue = commentFinalValue.replace("@1_" + mentionBusinessIdList.get(i), business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER);
-//                        commentView.setText(commentFinalValue);
-//                    }
-//                }
-//            }
-//
-//
-//            for (int i = 0; i < mentionsPhotoGrapherIdIdList.size(); i++) {
-//                final int xx = i;
-//                if (getMentionedPhotoGrapher(mentionsPhotoGrapherIdIdList.get(i)) != null) {
-//                    Photographer photographer = getMentionedPhotoGrapher(mentionsPhotoGrapherIdIdList.get(i));
-//                    ///////PhotoGrapher CallBack
-//                    ClickableSpan noUnderLineClickSpan = new ClickableSpan() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            Intent intent = new Intent(context, UserProfileActivity.class);
-//                            intent.putExtra(UserProfileActivity.USER_ID, mentionsPhotoGrapherIdIdList.get(xx));
-//                            intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_PHOTOGRAPHER);
-//                            context.startActivity(intent);
-//                        }
-//
-//                        @Override
-//                        public void updateDrawState(TextPaint ds) {
-//                            super.updateDrawState(ds);
-//                            ds.setUnderlineText(false);
-//                            ds.setColor(Color.BLUE); // specific color for this link
-//                        }
-//                    };
-//
-//
-//                    String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
-//                    int replacementStart = commentFinalValue.indexOf(replacement) - 1;
-//                    int replacementEnd = replacementStart + replacement.length();
-//
-//
-//                    MentionRange mentionRange = new MentionRange();
-//                    mentionRange.startPoint = replacementStart;
-//                    mentionRange.endPoint = replacementEnd;
-//                    mentionsPoint.add(mentionRange);
-//
-//                    clickableSpanList.add(noUnderLineClickSpan);
-//                    commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
-//                }
-//            }
-//
-//
-//            //////////////////////////////////////////////////////////
-//
-//            for (int i = 0; i < mentionBusinessIdList.size(); i++) {
-//
-//                final int xx = i;
-//
-//                if (getMentionedBusiness(mentionBusinessIdList.get(i)) != null) {
-//                    Business business = getMentionedBusiness(mentionBusinessIdList.get(i));
-//                    //////business CallBack
-//                    ClickableSpan noUnderLineClickSpan2 = new ClickableSpan() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            Intent intent = new Intent(context, UserProfileActivity.class);
-//                            intent.putExtra(UserProfileActivity.USER_ID, mentionBusinessIdList.get(xx));
-//                            intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_BUSINESS);
-//                            context.startActivity(intent);
-//                        }
-//
-//                        @Override
-//                        public void updateDrawState(TextPaint ds) {
-//                            super.updateDrawState(ds);
-//                            ds.setUnderlineText(false);
-//                            ds.setColor(Color.MAGENTA); // specific color for this link
-//                        }
-//                    };
-//
-//                    String replacement = business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER;
-//                    int replacementStart = commentFinalValue.indexOf(replacement) - 1;
-//                    int replacementEnd = replacementStart + replacement.length();
-//
-//                    MentionRange mentionRange = new MentionRange();
-//                    mentionRange.startPoint = replacementStart;
-//                    mentionRange.endPoint = replacementEnd;
-//                    mentionsPoint.add(mentionRange);
-//
-//                    clickableSpanList.add(noUnderLineClickSpan2);
-//                    commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
-//                }
-//            }
-//
-//            makeLinks(commentView, mentionsPoint, clickableSpanList, commentFinalValue);
-//        } else {
-//            commentView.setText(commentFinalValue);
-//        }
-//
-//
-//    }
+
 
 
     /**
@@ -670,8 +536,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         for (int i = 0; i < mentionsList.size(); i++) {
 
-            int spannableStartPoint = mentionsList.get(i).startPoint + 1;
-            int spannableEndPoint = mentionsList.get(i).endPoint+1;
+            int spannableStartPoint = mentionsList.get(i).startPoint-1;
+            int spannableEndPoint = mentionsList.get(i).endPoint;
 
             if (spannableStartPoint <= 0) {
                 spannableStartPoint = 0;
