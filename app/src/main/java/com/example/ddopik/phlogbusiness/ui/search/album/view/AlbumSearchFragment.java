@@ -101,6 +101,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         }
 
         if (albumSearch.getText().toString().length() > 0) {
+            promptView.setVisibility(View.GONE);
             albumSearchList.clear();
             albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList,0);
         } //there is A search query exist
@@ -162,6 +163,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
             @Override
             public void getPagingControllerCallBack(int page) {
                 if (albumSearch.getText().length() > 0) {
+                    promptView.setVisibility(View.GONE);
                     albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList,page);
                 }
 
@@ -207,6 +209,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
                     promptText.setText(R.string.type_something_album);
                     return;
                 }
+                promptView.setVisibility(View.GONE);
                 // user cleared search get default data
                 albumSearchList.clear();
                 albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList,0);
@@ -300,6 +303,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         searchResultCount.setVisibility(View.VISIBLE);
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.text_input_color));
         searchResultCount.setOnClickListener(v -> {
+            promptView.setVisibility(View.GONE);
             albumSearchList.clear();
             albumSearchAdapter.notifyDataSetChanged();
             albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString(), filterList, 0);

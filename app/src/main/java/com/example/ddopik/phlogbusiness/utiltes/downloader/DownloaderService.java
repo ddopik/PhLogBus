@@ -1,13 +1,16 @@
 package com.example.ddopik.phlogbusiness.utiltes.downloader;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Messenger;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -73,6 +76,18 @@ public class DownloaderService extends Service {
                                 @Override
                                 public void onDownloadComplete() {
                                     downloading--;
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    Uri uri = FileProvider.getUriForFile(getApplicationContext()
+                                            , getApplicationContext().getPackageName() + ".provider", f);
+                                    intent.setDataAndType(uri, "*/*");
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext()
+                                            , (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                                    notificationFactory.changeNotificationPendingIntent(getApplicationContext()
+                                            , getString(R.string.permanent_notification_channel_id)
+                                            , getString(R.string.permanent_notification_id), pendingIntent
+                                            , getString(R.string.download_complete), R.drawable.phlog_logo);
                                     checkAndStop();
                                     Toast.makeText(getApplicationContext(), R.string.download_complete, Toast.LENGTH_SHORT).show();
                                 }
@@ -93,12 +108,6 @@ public class DownloaderService extends Service {
         if (downloading == 0 && bound == 0) {
             stopForeground(false);
             stopSelf();
-        } else if (downloading == 0) {
-            notificationFactory.changeNotificationContent(this
-                    , getString(R.string.permanent_notification_channel_id)
-                    , getString(R.string.permanent_notification_id)
-                    , getString(R.string.download_complete)
-                    , R.drawable.phlog_logo);
         }
     }
 

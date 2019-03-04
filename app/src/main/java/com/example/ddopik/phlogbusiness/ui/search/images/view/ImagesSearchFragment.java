@@ -99,8 +99,10 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
 
         }
 
-        if (imageSearch.getText().toString().length() > 0)
+        if (imageSearch.getText().toString().length() > 0) {
+            promptView.setVisibility(View.GONE);
             imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, 0);
+        }
     }
 
 
@@ -145,14 +147,14 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
 
 
         disposable.add(RxTextView.textChangeEvents(imageSearch)
-                        .skipInitialValue()
+                .skipInitialValue()
 //                        .skipWhile(event -> event.getCount() == 0)
-                        .debounce(Constants.QUERY_SEARCH_TIME_OUT, TimeUnit.MILLISECONDS)
+                .debounce(Constants.QUERY_SEARCH_TIME_OUT, TimeUnit.MILLISECONDS)
 //                        .debounce(event -> event.getCount() > 0 ? Observable.just(event) : Observable.empty())
-                        .distinctUntilChanged()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(searchQuery()));
+                .distinctUntilChanged()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(searchQuery()));
 
 
         /**
@@ -163,6 +165,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             @Override
             public void getPagingControllerCallBack(int page) {
 
+                promptView.setVisibility(View.GONE);
                 imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, page);
 
 
@@ -208,6 +211,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
                     promptText.setText(R.string.type_something_image);
                     return;
                 }
+                promptView.setVisibility(View.GONE);
                 albumGroupList.clear();
                 imageSearchAdapter.notifyDataSetChanged();
                 imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, 0);
@@ -315,6 +319,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         searchResultCount.setVisibility(View.VISIBLE);
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.text_input_color));
         searchResultCount.setOnClickListener(v -> {
+            promptView.setVisibility(View.GONE);
             albumGroupList.clear();
             imageSearchAdapter.notifyDataSetChanged();
             imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString(), filterList, 0);

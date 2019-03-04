@@ -50,9 +50,19 @@ public class NotificationFactory {
         manager.notify(Integer.valueOf(notificationId), builder.build());
     }
 
-    public void changeNotificationPendingIntent(Context context, String notificationId, PendingIntent pendingIntent) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, notificationId);
+    public void changeNotificationPendingIntent(Context context, String channelId, String notificationId, PendingIntent pendingIntent, int icon) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId);
         builder.setContentIntent(pendingIntent);
+        builder.setSmallIcon(icon);
+        NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+        manager.notify(Integer.valueOf(notificationId), builder.build());
+    }
+
+    public void changeNotificationPendingIntent(Context context, String channelId, String notificationId, PendingIntent pendingIntent, String content, int icon) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId);
+        builder.setContentIntent(pendingIntent);
+        builder.setContentText(content);
+        builder.setSmallIcon(icon);
         NotificationManagerCompat manager = NotificationManagerCompat.from(context);
         manager.notify(Integer.valueOf(notificationId), builder.build());
     }
