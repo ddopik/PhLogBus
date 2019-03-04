@@ -184,8 +184,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             } else commentViewHolder.chooseWinnerBtn.setVisibility(View.GONE);
 
             if (previewImage.isCart)
-                commentViewHolder.cartText.setText(R.string.add_to_cart);
-            else commentViewHolder.cartText.setText(R.string.view_in_cart);
+                commentViewHolder.cartText.setText(R.string.view_in_cart);
+            else commentViewHolder.cartText.setText(R.string.add_to_cart);
 
             commentViewHolder.addToCartBtn.setOnClickListener(v -> {
                 commentAdapterAction.onAddToCartClick(previewImage);
