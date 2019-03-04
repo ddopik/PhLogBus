@@ -9,8 +9,11 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkRequest;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import com.example.ddopik.phlogbusiness.utiltes.rxeventbus.RxEvent;
+import com.example.ddopik.phlogbusiness.utiltes.rxeventbus.RxEvent.Type;
+import com.example.ddopik.phlogbusiness.utiltes.rxeventbus.RxEventBus;
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class NetworkStateChangeManager {
     private final Application application;
 
@@ -50,6 +53,7 @@ public class NetworkStateChangeManager {
         @Override
         public void onLost(Network network) {
             super.onLost(network);
+            RxEventBus.getInstance().post(new RxEvent<>(Type.CONNECTIVITY, false));
         }
 
         @Override
@@ -60,6 +64,8 @@ public class NetworkStateChangeManager {
         @Override
         public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
             super.onCapabilitiesChanged(network, networkCapabilities);
+            boolean connected = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+            RxEventBus.getInstance().post(new RxEvent<>(Type.CONNECTIVITY, connected));
         }
 
         @Override

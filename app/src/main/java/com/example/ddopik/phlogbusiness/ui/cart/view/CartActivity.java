@@ -100,6 +100,13 @@ public class CartActivity extends BaseActivity implements CartView {
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 break;
+            case EXCLUSIVE:
+                presenter.setExclusive(this, o, success -> {
+                    if (!success)
+                        showToast(getString(R.string.error_exclusive));
+                    booleanConsumer.accept(success);
+                });
+                break;
         }
     };
 }

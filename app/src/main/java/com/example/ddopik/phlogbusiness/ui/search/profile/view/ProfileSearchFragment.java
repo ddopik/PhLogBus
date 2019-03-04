@@ -90,6 +90,7 @@ public class ProfileSearchFragment extends BaseFragment implements ProfileSearch
             initListener();
 
             if (profileSearch.getText().toString().length() > 0) {
+                promptView.setVisibility(View.GONE);
                 profileSearchList.clear();
                 profileSearchPresenter.getProfileSearchList(onSearchTabSelected.getSearchView().getText().toString().trim(), 0);
             }
@@ -141,6 +142,7 @@ public class ProfileSearchFragment extends BaseFragment implements ProfileSearch
             @Override
             public void getPagingControllerCallBack(int page) {
                 if (profileSearch.getText().length() > 0) {
+                    promptView.setVisibility(View.GONE);
                     profileSearchPresenter.getProfileSearchList(profileSearch.getText().toString().trim(), page);
                 }
 
@@ -164,6 +166,7 @@ public class ProfileSearchFragment extends BaseFragment implements ProfileSearch
                     promptText.setText(R.string.type_something_profile);
                     return;
                 }
+                promptView.setVisibility(View.GONE);
                 profileSearchList.clear();
                 profileSearchAdapter.notifyDataSetChanged();
                 profileSearchPresenter.getProfileSearchList(profileSearch.getText().toString().trim(), 0);

@@ -1,9 +1,11 @@
 package com.example.ddopik.phlogbusiness.ui.cart.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -39,6 +41,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
         BaseImage item = items.get(i);
@@ -49,6 +52,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 holder.exclusiveIcon.setVisibility(View.VISIBLE);
             else
                 holder.exclusiveIcon.setVisibility(View.INVISIBLE);
+        });
+        holder.exclusiveCheck.setChecked(item.exclusive);
+        holder.exclusiveCheck.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_UP:
+                        actionListener.onAction(ActionListener.Type.EXCLUSIVE, item, success -> {
+                            if (success) {
+                                item.exclusive = !item.exclusive;
+                                holder.exclusiveCheck.setChecked(item.exclusive);
+                            }
+                        });
+                        return false;
+                    default:
+                        return true;
+                }
+            }
         });
         holder.byWhow.setText(item.photographer.fullName);
         holder.likes.setText("" + item.likesCount);
@@ -113,7 +134,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         void onAction(Type type, BaseImage o, Consumer<Boolean> booleanConsumer);
 
         enum Type {
-            REMOVE, VIEW
+            REMOVE, VIEW, EXCLUSIVE
         }
     }
 }

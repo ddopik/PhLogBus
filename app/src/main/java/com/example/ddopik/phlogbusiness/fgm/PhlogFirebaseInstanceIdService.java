@@ -3,9 +3,11 @@ package com.example.ddopik.phlogbusiness.fgm;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+import com.example.ddopik.phlogbusiness.base.commonmodel.Device;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -24,7 +26,7 @@ public class PhlogFirebaseInstanceIdService extends FirebaseInstanceIdService {
         Log.e("Firebase token", token);
         PrefUtils.saveFirebaseToken(getApplicationContext(), token);
         if (PrefUtils.isLoginProvided(getApplicationContext()))
-            BaseNetworkApi.updateFirebaseToken(PrefUtils.getBrandToken(getApplicationContext()), token)
+            BaseNetworkApi.updateFirebaseToken(new Device(Utilities.getDeviceName(), true, PrefUtils.getBrandToken(getApplicationContext())))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(s -> {

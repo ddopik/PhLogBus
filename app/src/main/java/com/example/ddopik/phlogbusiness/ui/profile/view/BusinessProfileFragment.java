@@ -130,20 +130,8 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
                             , (dialog, which) -> {
                                 switch (which) {
                                     case 0:
-                                        brandProfilePresenter.logout()
-                                                .subscribeOn(Schedulers.io())
-                                                .observeOn(AndroidSchedulers.mainThread())
-                                                .subscribe(success -> {
-                                                    if (success) {
-                                                        brandProfilePresenter.clearLoginData(getContext());
-                                                        MainActivity.navigationManger.navigate(Constants.NavigationHelper.LOGOUT);
-                                                        dialog.dismiss();
-                                                    } else
-                                                        showToast(getString(R.string.error_logout));
-                                                }, throwable -> {
-                                                    showToast(getString(R.string.error_logout));
-                                                    CustomErrorUtil.Companion.setError(getContext(), TAG, throwable);
-                                                });
+                                        brandProfilePresenter.logout();
+                                        dialog.dismiss();
                                         break;
                                     case 1:
                                         dialog.dismiss();
@@ -166,8 +154,8 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
             brandUserMail.setText(business.email);
         if (business.website != null)
             brandWebSite.setText(business.website);
-        if (business.industry != null)
-            brandIndustry.setText(business.industry.name);
+        if (business.industry != null && business.industry.nameEn != null)
+            brandIndustry.setText(business.industry.nameEn);
 
         switch (business.brandStatus) {
             case BrandStatus.BRAND_STATUS_NONE:
@@ -221,5 +209,11 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void logoutSuccess() {
+        brandProfilePresenter.clearLoginData(getContext());
+        MainActivity.navigationManger.navigate(Constants.NavigationHelper.LOGOUT);
     }
 }

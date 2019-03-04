@@ -65,4 +65,20 @@ public class CartPresenterImpl implements CartPresenter {
                 });
         disposables.add(disposable);
     }
+
+    @Override
+    public void setExclusive(Context context, BaseImage image, Consumer<Boolean> success) {
+        Disposable disposable = BaseNetworkApi.setImageBuyExclusive(image, !image.exclusive)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+                    if (s != null)
+                        success.accept(true);
+                    else success.accept(false);
+                }, throwable -> {
+                    success.accept(false);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                });
+        disposables.add(disposable);
+    }
 }

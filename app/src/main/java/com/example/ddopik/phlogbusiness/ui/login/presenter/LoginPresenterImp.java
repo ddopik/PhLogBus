@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Device;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
@@ -54,7 +55,7 @@ public class LoginPresenterImp implements LoginPresenter {
     }
 
     private void sendFirebaseToken() {
-        BaseNetworkApi.updateFirebaseToken(PrefUtils.getBrandToken(context), PrefUtils.getFirebaseToken(context))
+        BaseNetworkApi.updateFirebaseToken(new Device(Utilities.getDeviceName(), true, PrefUtils.getBrandToken(context)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {

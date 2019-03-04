@@ -3,6 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.cart.presenter;
 import android.content.Context;
 
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
+import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.cart.view.CartView;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface CartPresenter {
     void terminate();
 
     void removeCartItem(Context baseContext, BaseImage baseImage, Consumer<Boolean> booleanConsumer);
+
+    void setExclusive(Context context, BaseImage image, Consumer<Boolean> success);
 }

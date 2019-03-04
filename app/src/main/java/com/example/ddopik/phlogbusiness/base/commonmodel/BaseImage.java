@@ -84,6 +84,12 @@ public class BaseImage implements Parcelable {
     @Expose
     public float rate;
 
+    @SerializedName("is_exclusive")
+    public boolean exclusive;
+
+    @SerializedName("extension")
+    public String extension;
+
     @Override
     public int describeContents() {
         return 0;
@@ -111,6 +117,8 @@ public class BaseImage implements Parcelable {
         dest.writeValue(this.savesCount);
         dest.writeValue(this.likesCount);
         dest.writeFloat(this.rate);
+        dest.writeValue(this.exclusive);
+        dest.writeString(this.extension);
     }
 
     protected BaseImage(Parcel in) {
@@ -134,6 +142,8 @@ public class BaseImage implements Parcelable {
         this.savesCount = (Integer) in.readValue(Integer.class.getClassLoader());
         this.likesCount = (Integer) in.readValue(Integer.class.getClassLoader());
         this.rate = in.readFloat();
+        this.exclusive = (boolean) in.readValue(Boolean.class.getClassLoader());
+        this.extension = in.readString();
     }
 
     public static final Creator<BaseImage> CREATOR = new Creator<BaseImage>() {

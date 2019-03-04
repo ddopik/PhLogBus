@@ -113,4 +113,7 @@ public interface Constants {
         int BRAND_STATUS_PENDING = 3;
         int BRAND_STATUS_APPROVED = 4;
     }
+
+    int STATUS_LOGGED_IN = 1;
+    int STATUS_LOGGED_OUT = 0;
 }

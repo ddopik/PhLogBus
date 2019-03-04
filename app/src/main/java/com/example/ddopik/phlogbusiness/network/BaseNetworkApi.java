@@ -5,6 +5,7 @@ import com.androidnetworking.interfaces.UploadProgressListener;
 import com.example.ddopik.phlogbusiness.base.BaseApiResponse;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseStateResponse;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Device;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToCartResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.AddImageToLightBoxResponse;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model.LightBoxListResponse;
@@ -153,6 +154,9 @@ public class BaseNetworkApi {
     public static final String PAYMENT_URL = BASE_SERVER_URL + "/business/payment";
     public static final String LOGOUT_URL = BASE_URL + "/auth/logout";
     private static final String COMMENT_REPLAY_URL = BASE_URL + "/photo/comment/list";
+    private static final String SET_EXCLUSIVE_URL = BASE_URL + "/cart/exclusive";
+    private static final String UPDATE_FIREBASE_TOKEN_URL = BASE_URL + "/auth/device/set";
+    public static final String BASE_IMAGE_DOWNLOAD_URL = BASE_SERVER_URL + "/photo";
 
     //Path Parameters
     private static final String PAGER_QUERY_PARAMETER = "page";
@@ -758,6 +762,13 @@ public class BaseNetworkApi {
                 .getObjectObservable(LoginResponse.class);
     }
 
+    public static Observable<String> updateFirebaseToken(Device device) {
+        return Rx2AndroidNetworking.post(UPDATE_FIREBASE_TOKEN_URL)
+                .addBodyParameter(device)
+                .build()
+                .getStringObservable();
+    }
+
     public static Observable<ImageCommentsResponse> getCommentReplies(int repliesId,int imageID,String page){
         return Rx2AndroidNetworking.post(COMMENT_REPLAY_URL)
                 .setPriority(Priority.HIGH)
@@ -773,6 +784,15 @@ public class BaseNetworkApi {
     public static Observable<String> logout() {
         return Rx2AndroidNetworking.post(LOGOUT_URL)
                 .setPriority(Priority.HIGH)
+                .build()
+                .getStringObservable();
+    }
+
+    public static Observable<String> setImageBuyExclusive(BaseImage image, boolean exclusive) {
+        return Rx2AndroidNetworking.post(SET_EXCLUSIVE_URL)
+                .setPriority(Priority.HIGH)
+                .addBodyParameter("photo_id", String.valueOf(image.id))
+                .addBodyParameter("is_exclusive", String.valueOf(exclusive))
                 .build()
                 .getStringObservable();
     }

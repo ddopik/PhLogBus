@@ -9,5 +9,5 @@ public interface BrandProfilePresenter {
 
     void clearLoginData(Context context);
 
-    Observable<Boolean> logout();
+    void logout();
 }
