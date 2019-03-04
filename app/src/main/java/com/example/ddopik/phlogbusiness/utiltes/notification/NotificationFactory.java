@@ -42,9 +42,10 @@ public class NotificationFactory {
         }
     }
 
-    public void changeNotificationContent(Context context, String notificationId, String content) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, notificationId);
+    public void changeNotificationContent(Context context, String channelId, String notificationId, String content, int icon) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId);
         builder.setContentText(content);
+        builder.setSmallIcon(icon);
         NotificationManagerCompat manager = NotificationManagerCompat.from(context);
         manager.notify(Integer.valueOf(notificationId), builder.build());
     }

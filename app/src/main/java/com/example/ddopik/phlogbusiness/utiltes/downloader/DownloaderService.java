@@ -8,23 +8,25 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Messenger;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.widget.Toast;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.DownloadListener;
+import com.example.ddopik.phlogbusiness.BuildConfig;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
-import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandView;
+import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
+import com.example.ddopik.phlogbusiness.ui.downloads.model.DownloadRequestModel;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.example.ddopik.phlogbusiness.utiltes.notification.NotificationFactory;
 import com.example.ddopik.phlogbusiness.utiltes.uploader.UploaderService;
+import com.google.gson.Gson;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
-import io.reactivex.disposables.CompositeDisposable;
 
+import javax.crypto.spec.SecretKeySpec;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class DownloaderService extends Service {
 
@@ -51,7 +53,20 @@ public class DownloaderService extends Service {
                         f.mkdirs();
                     }
                     String path = f.getAbsolutePath();
-                    Rx2AndroidNetworking.download(image.url, path, String.valueOf(new Date().getTime() + ".jpg"))
+                    DownloadRequestModel model = new DownloadRequestModel(image.id, PrefUtils.getBrandToken(getApplicationContext()));
+                    String s = new Gson().toJson(model);
+                    String encryptedS = null;
+                    try {
+                        encryptedS = Utilities.encrypt(s
+                                , new SecretKeySpec(BuildConfig.PAYMENT_SECRET.getBytes(), "AES")
+                                , BuildConfig.PAYMENT_IV_KEY);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                    String fileName = String.valueOf(new Date().getTime()) + "." + image.extension;
+                    String url = BaseNetworkApi.BASE_IMAGE_DOWNLOAD_URL + "/" + encryptedS;
+                    Rx2AndroidNetworking.download(url, path, fileName)
                             .setPriority(Priority.HIGH)
                             .build()
                             .startDownload(new DownloadListener() {
@@ -59,6 +74,7 @@ public class DownloaderService extends Service {
                                 public void onDownloadComplete() {
                                     downloading--;
                                     checkAndStop();
+                                    Toast.makeText(getApplicationContext(), R.string.download_complete, Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
@@ -77,6 +93,12 @@ public class DownloaderService extends Service {
         if (downloading == 0 && bound == 0) {
             stopForeground(false);
             stopSelf();
+        } else if (downloading == 0) {
+            notificationFactory.changeNotificationContent(this
+                    , getString(R.string.permanent_notification_channel_id)
+                    , getString(R.string.permanent_notification_id)
+                    , getString(R.string.download_complete)
+                    , R.drawable.phlog_logo);
         }
     }
 

@@ -37,6 +37,9 @@ public class PaymentWebViewActivity extends BaseActivity {
         //Habilitar JavaScript (Videos youtube)
         webview.getSettings().setJavaScriptEnabled(true);
 
+        // for Stripe to work!
+        webview.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13E233 Safari/601.1");
+
         //Handling Page Navigation
         webview.setWebViewClient(new WebViewClient() {
             @Override

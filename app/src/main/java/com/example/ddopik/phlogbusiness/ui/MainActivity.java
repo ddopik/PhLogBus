@@ -20,6 +20,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.fgm.model.FirebaseNotificationData;
 import com.example.ddopik.phlogbusiness.fgm.parse.NotificationParser;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.view.AccountDetailsFragment;
+import com.example.ddopik.phlogbusiness.ui.downloads.model.DownloadRequestModel;
 import com.example.ddopik.phlogbusiness.ui.downloads.view.DownloadsFragment;
 import com.example.ddopik.phlogbusiness.ui.lightboxphotos.view.LightBoxPhotosFragment;
 import com.example.ddopik.phlogbusiness.ui.notification.view.NotificationFragment;

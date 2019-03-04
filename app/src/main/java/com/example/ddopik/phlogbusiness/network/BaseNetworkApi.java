@@ -82,8 +82,8 @@ public class BaseNetworkApi {
 
     //
     public static final String BASE_SERVER_URL = "http://178.128.162.10";
-    private static final String BASE_URL = BASE_SERVER_URL + "/public/api/business";
-    private static final String BASE_URL_COMMON = BASE_SERVER_URL + "/public/api/common";
+    private static final String BASE_URL = BASE_SERVER_URL + "/api/business";
+    private static final String BASE_URL_COMMON = BASE_SERVER_URL + "/api/common";
 
     private static final String WELCOME_SLIDES_IMAGES = BASE_URL + "/photographer/init_slider";
     private static final String USER_SEARCH_FILTERS = BASE_URL_COMMON + "/filters/list";
@@ -156,6 +156,7 @@ public class BaseNetworkApi {
     private static final String COMMENT_REPLAY_URL = BASE_URL + "/photo/comment/list";
     private static final String SET_EXCLUSIVE_URL = BASE_URL + "/cart/exclusive";
     private static final String UPDATE_FIREBASE_TOKEN_URL = BASE_URL + "/auth/device/set";
+    public static final String BASE_IMAGE_DOWNLOAD_URL = BASE_SERVER_URL + "/photo";
 
     //Path Parameters
     private static final String PAGER_QUERY_PARAMETER = "page";

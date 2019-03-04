@@ -64,8 +64,6 @@ public class PhLogBusinessApp extends Application {
             IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
             registerReceiver(networkChangeBroadcastReceiver, filter);
         }
-        String fbtoken = PrefUtils.getFirebaseToken(this);
-        Log.e("sd", fbtoken);
     }
 
     @Override
