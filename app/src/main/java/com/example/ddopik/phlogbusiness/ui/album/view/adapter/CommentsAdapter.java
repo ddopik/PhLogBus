@@ -398,11 +398,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 }
             }
 
-            List<String> currentMentionedUseres=Utilities.getCommentMentionsList(commentFinalValue);
+            List<String> currentMentionedUseres = Utilities.getCommentMentionsList(commentFinalValue);
 
-            for (int x=0;x<currentMentionedUseres.size();x++){
-
-            }//todo state here
 
             /// Append unique identifier to mentioned user to get highLighted later
             /// And Replacing All Occurrence of photoGrapherId with actualValue
@@ -410,9 +407,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             for (int i = 0; i < mentionsPhotoGrapherIdIdList.size(); i++) {
                 Photographer photographer = getMentionedPhotoGrapher(mentionsPhotoGrapherIdIdList.get(i));
                 if (mentionsPhotoGrapherIdIdList.get(i) != null) {
-
-                    commentFinalValue = commentFinalValue.replace("@0_" + mentionsPhotoGrapherIdIdList.get(i), photographer.fullName + "_" + i + USER_MENTION_IDENTIFIER);
-                    commentView.setText(commentFinalValue);
+                    if (photographer != null) {
+                        commentFinalValue = commentFinalValue.replace("@0_" + mentionsPhotoGrapherIdIdList.get(i), photographer.fullName + USER_MENTION_IDENTIFIER);
+                        commentView.setText(commentFinalValue);
+                    }
                 }
             }
 
@@ -423,12 +421,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 if (getMentionedBusiness(mentionBusinessIdList.get(i)) != null) {
                     Business business = getMentionedBusiness(mentionBusinessIdList.get(i));
                     if (business != null) {
-                        commentFinalValue = commentFinalValue.replace("@1_" + mentionBusinessIdList.get(i), business.firstName + " " + business.lastName + "_" + i + USER_MENTION_IDENTIFIER);
+                        commentFinalValue = commentFinalValue.replace("@1_" + mentionBusinessIdList.get(i), business.firstName + " " + business.lastName+ USER_MENTION_IDENTIFIER);
                         commentView.setText(commentFinalValue);
                     }
                 }
             }
-
 
 
             for (int i = 0; i < mentionsPhotoGrapherIdIdList.size(); i++) {
@@ -454,8 +451,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     };
 
 
-                    String replacement = photographer.fullName + "_" + i + USER_MENTION_IDENTIFIER;
-                    int replacementStart = commentFinalValue.indexOf(replacement) - 3;
+                    String replacement = photographer.fullName +   USER_MENTION_IDENTIFIER;
+                    int replacementStart = commentFinalValue.indexOf(replacement) - 1;
                     int replacementEnd = replacementStart + replacement.length();
 
 
@@ -495,9 +492,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                             ds.setColor(Color.MAGENTA); // specific color for this link
                         }
                     };
-                    String replacement = business.firstName + " " + business.lastName + "_" + i + USER_MENTION_IDENTIFIER;
-                    int replacementStart = commentFinalValue.indexOf(replacement);
-                    int replacementEnd = replacementStart + replacement.length() - 3;
+
+                    String replacement = business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER;
+                    int replacementStart = commentFinalValue.indexOf(replacement)-1;
+                    int replacementEnd = replacementStart + replacement.length() ;
 
                     MentionRange mentionRange = new MentionRange();
                     mentionRange.startPoint = replacementStart;
