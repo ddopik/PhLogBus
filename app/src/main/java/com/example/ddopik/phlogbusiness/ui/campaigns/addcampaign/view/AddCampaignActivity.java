@@ -9,6 +9,7 @@ import android.support.design.widget.TextInputLayout;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import com.bumptech.glide.Glide;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.example.ddopik.phlogbusiness.R;
@@ -27,6 +28,7 @@ import static com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.Add
 
 public class AddCampaignActivity extends BaseActivity {
 
+    public static String CAMPAIGN_DATA = "campaign_data";
     private ImageView campaignPicCoverBtn;
     private CustomTextView uploadCampaignImgLapel;
     private TextInputLayout campaignNameInput;
@@ -39,16 +41,33 @@ public class AddCampaignActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_campaign);
+        if (getIntent().getParcelableExtra(CAMPAIGN_DATA) != null)
+            addCampaignRequestModel = getIntent().getParcelableExtra(CAMPAIGN_DATA);
         initView();
+        setCampaignData();
         initListener();
+    }
+
+    private void setCampaignData() {
+        if (addCampaignRequestModel != null) {
+            if (addCampaignRequestModel.campaignName != null)
+                campaignName.setText(addCampaignRequestModel.campaignName);
+            if (addCampaignRequestModel.campaignCoverPhoto != null)
+                Glide.with(this).load(addCampaignRequestModel.campaignCoverPhoto).into(campaignPicCoverBtn);
+            else if (addCampaignRequestModel.coverUrl != null)
+                Glide.with(this).load(addCampaignRequestModel.coverUrl).into(campaignPicCoverBtn);
+
+        } else {
+            addCampaignRequestModel = new AddCampaignRequestModel();
+        }
     }
 
     @Override
     public void initView() {
         uploadCampaignImgLapel = findViewById(R.id.upload_campaign_img_lapel);
-        addCampaignRequestModel=new AddCampaignRequestModel();
+//        addCampaignRequestModel=new AddCampaignRequestModel();
         campaignPicCoverBtn = findViewById(R.id.campaign_pic_cover_btn);
-        campaignNameInput=findViewById(R.id.campaign_name_input);
+        campaignNameInput = findViewById(R.id.campaign_name_input);
         campaignName = findViewById(R.id.campaign_name);
         campaignNextBtn = findViewById(R.id.add_campaign_step_one_next_btn);
     }
@@ -84,7 +103,7 @@ public class AddCampaignActivity extends BaseActivity {
             campaignNameInput.setErrorEnabled(false);
         }
 
-        if (addCampaignRequestModel.campaignCoverPhoto == null) {
+        if (addCampaignRequestModel.campaignCoverPhoto == null && (addCampaignRequestModel.coverUrl == null || addCampaignRequestModel.coverUrl.isEmpty())) {
 //            campaignNameInput.setEnabled(true);
             uploadCampaignImgLapel.setText(getResources().getString(R.string.campaign_image_cover_required));
             uploadCampaignImgLapel.setTextColor(getResources().getColor(R.color.colorRed));
@@ -158,7 +177,7 @@ public class AddCampaignActivity extends BaseActivity {
                     .placeholder(R.drawable.default_place_holder)
                     .error(R.drawable.default_error_img)
                     .into(campaignPicCoverBtn);
-            addCampaignRequestModel.campaignCoverPhoto=new File(ImagePicker.getFirstImageOrNull(data).getPath());
+            addCampaignRequestModel.campaignCoverPhoto = new File(ImagePicker.getFirstImageOrNull(data).getPath());
         }
 
         super.onActivityResult(requestCode, resultCode, data);

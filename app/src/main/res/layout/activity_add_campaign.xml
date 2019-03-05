@@ -67,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/add_campaign_upload_cover_img_size"
                     android:background="@color/grayDFE4E8"
-                    android:scaleType="centerInside"
+                    android:scaleType="centerCrop"
                     app:srcCompat="@drawable/ic_campaign_upload_btn" />
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView

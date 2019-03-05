@@ -220,13 +220,13 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
     private SubViewActionConsumer subViewActionConsumer = action -> {
         switch (action.action) {
             case ARABIC_NAME:
-                if (model.arabicBrandName.equals(action.object))
+                if (model.arabicBrandName != null && model.arabicBrandName.equals(action.object))
                     break;
                 changed = true;
                 model.arabicBrandName = (String) action.object;
                 break;
             case ENGLISH_NAME:
-                if (model.englishBrandName.equals(action.object))
+                if (model.englishBrandName != null && model.englishBrandName.equals(action.object))
                     break;
                 changed = true;
                 model.englishBrandName = (String) action.object;
@@ -251,25 +251,25 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                 model.industryId = ((Industry) action.object).id;
                 break;
             case PHONE:
-                if (model.phone.equals(action.object))
+                if (model.phone != null && model.phone.equals(action.object))
                     break;
                 changed = true;
                 model.phone = (String) action.object;
                 break;
             case ADDRESS:
-                if (model.address.equals(action.object))
+                if (model.address != null && model.address.equals(action.object))
                     break;
                 changed = true;
                 model.address = (String) action.object;
                 break;
             case EMAIL:
-                if (model.email.equals(action.object))
+                if (model.email != null && model.email.equals(action.object))
                     break;
                 changed = true;
                 model.email = (String) action.object;
                 break;
             case WEBSITE:
-                if (model.webSite.equals(action.object))
+                if (model.webSite != null && model.webSite.equals(action.object))
                     break;
                 changed = true;
                 model.webSite = (String) action.object;
@@ -284,7 +284,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                 }
                 break;
             case DESC:
-                if (model.desc.equals(action.object))
+                if (model.desc != null && model.desc.equals(action.object))
                     break;
                 changed = true;
                 model.desc = (String) action.object;

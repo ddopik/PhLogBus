@@ -95,7 +95,6 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(likeImageResponse -> {
-                    imageCommentActivityView.onImageLiked(baseImage);
                     imageCommentActivityView.onImageLiked(likeImageResponse.data);
                 }, throwable -> {
                     imageCommentActivityView.viewImageProgress(false);

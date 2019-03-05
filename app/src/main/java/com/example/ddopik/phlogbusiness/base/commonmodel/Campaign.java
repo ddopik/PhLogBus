@@ -64,4 +64,7 @@ public class Campaign {
     @Expose
     public int photosCount;
 
+    @SerializedName("winners_count")
+    public int winnerCount;
+
 }

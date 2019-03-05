@@ -63,6 +63,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                             if (success) {
                                 item.exclusive = !item.exclusive;
                                 holder.exclusiveCheck.setChecked(item.exclusive);
+                                if (item.exclusive)
+                                    holder.price.setText(context.getString(R.string.price_value, item.price));
+                                else
+                                    holder.price.setText(context.getString(R.string.price_value, item.priceExclusive));
                             }
                         });
                         return false;
@@ -83,7 +87,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     .load(item.photographer.imageProfile)
                     .apply(RequestOptions.circleCropTransform().error(R.drawable.ic_photographer))
                     .into(holder.byWhoImage);
-        holder.price.setText(context.getString(R.string.price_value, 3.4));
+        holder.price.setText(context.getString(R.string.price_value, item.price));
         holder.remove.setOnClickListener(v -> {
             actionListener.onAction(ActionListener.Type.REMOVE, item, success -> {
                 if (success) {

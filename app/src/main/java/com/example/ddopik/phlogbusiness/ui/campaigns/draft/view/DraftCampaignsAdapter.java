@@ -48,7 +48,7 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
         Campaign homeCampaign = draftCampaignList.get(i);
         campaignViewHolder.campaignImage.setOnClickListener(v -> {
             if (campaignLister != null) {
-                campaignLister.onCampaignClicked(homeCampaign.id.toString());
+                campaignLister.onCampaignClicked(homeCampaign);
             }
         });
 
@@ -96,7 +96,7 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
 
     public interface CampaignLister {
 
-        void onCampaignClicked(String campaignID);
+        void onCampaignClicked(Campaign campaign);
 
     }
 }

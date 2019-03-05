@@ -33,25 +33,27 @@ public class AddCampaignPresenterImpl implements AddCampaignStepTwoPresenter, Ad
 
     @SuppressLint("CheckResult")
     @Override
-    public void submitCampaign(AddCampaignStepThreeActivityView addCampaignStepThreeActivityView, AddCampaignRequestModel addCampaignRequestModel , Context context) {
+    public void submitCampaign(AddCampaignStepThreeActivityView addCampaignStepThreeActivityView, AddCampaignRequestModel addCampaignRequestModel, Context context) {
         addCampaignStepThreeActivityView.viewSubmitCampaignProgress(true);
 
 
-        HashMap<String,String> data=new HashMap<String,String>();
-        data.put("title_en",addCampaignRequestModel.campaignName);
-        data.put("descrption_en",addCampaignRequestModel.campaignDescription);
-        data.put("prize",addCampaignRequestModel.campaignPrize);
-        data.put("start_date",addCampaignRequestModel.campaignStartDate);
-        data.put("end_date",addCampaignRequestModel.campaignEndDate);
-        data.put("winners_count",addCampaignRequestModel.winnersNumber);
-        data.put("is_draft",addCampaignRequestModel.isDraft);
+        HashMap<String, String> data = new HashMap<String, String>();
+        data.put("title_en", addCampaignRequestModel.campaignName);
+        data.put("descrption_en", addCampaignRequestModel.campaignDescription);
+        data.put("prize", addCampaignRequestModel.campaignPrize);
+        data.put("start_date", addCampaignRequestModel.campaignStartDate);
+        data.put("end_date", addCampaignRequestModel.campaignEndDate);
+        data.put("winners_count", addCampaignRequestModel.winnersNumber);
+        data.put("is_draft", addCampaignRequestModel.isDraft);
+        if (addCampaignRequestModel.campaignCoverPhoto == null)
+            data.put("image_cover", addCampaignRequestModel.coverUrl);
 
         for (int i = 0; i < addCampaignRequestModel.tagList.size(); i++) {
             data.put("tags[" + i + "]", addCampaignRequestModel.tagList.get(i).name);
         }
 
 
-        BaseNetworkApi.submitCampaign(PrefUtils.getBrandToken(context),data,addCampaignRequestModel.campaignCoverPhoto)
+        BaseNetworkApi.submitCampaign(PrefUtils.getBrandToken(context), data, addCampaignRequestModel.campaignCoverPhoto)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(submitCampaignResponse -> {
