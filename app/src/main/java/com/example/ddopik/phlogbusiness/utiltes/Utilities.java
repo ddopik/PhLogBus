@@ -348,6 +348,36 @@ public class Utilities {
 
     }
 
+    public static List<String> getCommentMentionsList(String comment)
+
+    {
+        String regex = "_+([0-9]+%+)";
+        List<String> authorListId = new ArrayList<>();
+
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(comment);
+
+        while (matcher.find()) {
+            authorListId.add(matcher.group(1));
+        }
+
+        return authorListId;
+
+    }
+
+    public static List<Integer> getCommentMentionsUserOccuranceNumber(String comment, String mentionedString)
+
+    {
+        List<Integer> mentionedUserOccuranceList = new ArrayList<>();
+        int index = comment.indexOf(mentionedString);
+        while (index >= 0) {
+            mentionedUserOccuranceList.add(index);
+            index = comment.indexOf(mentionedString, index + 1);
+        }
+        return mentionedUserOccuranceList;
+    }
+
     public static List<Integer> findWord(String textString, String word) {
         List<Integer> indexes = new ArrayList<Integer>();
         String lowerCaseTextString = textString.toLowerCase();
@@ -433,10 +463,10 @@ public class Utilities {
         String ivKey = "keykeykeykeykeyk";
 
 // encrypt
-        String encryptedData = encrypt(keyData, secretKey,ivKey);
+        String encryptedData = encrypt(keyData, secretKey, ivKey);
         Log.e(TAG, "intializeData()  encryptedData ---->" + encryptedData);
 // decrypt
-        String decryptedData = decrypt(encryptedData, secretKey,ivKey);
+        String decryptedData = decrypt(encryptedData, secretKey, ivKey);
         Log.e(TAG, "intializeData()   decryptedData ---->" + decryptedData);
     }
 

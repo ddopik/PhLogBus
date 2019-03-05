@@ -1,4 +1,4 @@
-package com.example.ddopik.phlogbusiness.ui.commentimage.view;
+package com.example.ddopik.phlogbusiness.ui.commentimage.replay.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,8 +20,8 @@ import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentData;
-import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ReplayCommentPresenter;
-import com.example.ddopik.phlogbusiness.ui.commentimage.presenter.ReplayCommentPresenterImpl;
+import com.example.ddopik.phlogbusiness.ui.commentimage.replay.presenter.ReplayCommentPresenter;
+import com.example.ddopik.phlogbusiness.ui.commentimage.replay.presenter.ReplayCommentPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
@@ -33,6 +33,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
@@ -43,7 +44,7 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
     private String TAG = ReplayCommentActivity.class.getSimpleName();
     public static String COMMENT_IMAGE = "comment_image";
     public static String COMMENT_LIST_TYPE = "comment_list_type";
-    protected static String REPLY_HEADER_COMMNET = "replay_header_comment";
+    public static String REPLY_HEADER_COMMENT = "replay_header_comment";
     private Constants.CommentListType commentListType;
     private CustomRecyclerView repliesRv;
     private ProgressBar repliesProgressBar;
@@ -66,11 +67,11 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
         initView();
         initListener();
 
-        if (getIntent().getParcelableExtra(REPLY_HEADER_COMMNET) != null && getIntent().getParcelableExtra(COMMENT_IMAGE) != null) {
+        if (getIntent().getParcelableExtra(REPLY_HEADER_COMMENT) != null && getIntent().getParcelableExtra(COMMENT_IMAGE) != null) {
             previewImage = getIntent().getParcelableExtra(COMMENT_IMAGE);
-            headerComment = (Comment) getIntent().getParcelableExtra(REPLY_HEADER_COMMNET);
+            headerComment = (Comment) getIntent().getParcelableExtra(REPLY_HEADER_COMMENT);
             commentListType = (Constants.CommentListType) getIntent().getSerializableExtra(COMMENT_LIST_TYPE);
-            Comment comment=new Comment();
+            Comment comment = new Comment();
 
             commentList.add(headerComment);
             commentList.add(comment);
@@ -79,20 +80,19 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
         }
 
 
-
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
 
 
-        if (intent.getParcelableExtra(REPLY_HEADER_COMMNET) != null && getIntent().getParcelableExtra(COMMENT_IMAGE) != null) {
+        if (intent.getParcelableExtra(REPLY_HEADER_COMMENT) != null && getIntent().getParcelableExtra(COMMENT_IMAGE) != null) {
             previewImage = intent.getParcelableExtra(COMMENT_IMAGE);
-            headerComment = intent.getParcelableExtra(REPLY_HEADER_COMMNET);
+            headerComment = intent.getParcelableExtra(REPLY_HEADER_COMMENT);
             commentListType = (Constants.CommentListType) intent.getSerializableExtra(COMMENT_LIST_TYPE);
             commentList.clear();
-            Comment comment=new Comment();
-             commentList.add(headerComment);
+            Comment comment = new Comment();
+            commentList.add(headerComment);
             commentList.add(comment);
             commentsAdapter.notifyDataSetChanged();
             replayCommentPresenter.getReplies(headerComment.id, previewImage.id, 0);
@@ -188,7 +188,7 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
                 Intent intent = new Intent(getBaseContext(), ReplayCommentActivity.class);
                 intent.putExtra(ReplayCommentActivity.COMMENT_IMAGE, previewImage);
                 intent.putExtra(ReplayCommentActivity.COMMENT_LIST_TYPE, commentListType);
-                intent.putExtra(ReplayCommentActivity.REPLY_HEADER_COMMNET, comment);
+                intent.putExtra(ReplayCommentActivity.REPLY_HEADER_COMMENT, comment);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
@@ -208,8 +208,8 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
     @SuppressLint("CheckResult")
     @Override
     public void onCommentReplied(SubmitImageCommentData submitImageCommentData) {
-        commentList.add(submitImageCommentData.comment);
 
+        commentList.add(commentList.size() - 1, submitImageCommentData.comment);
 
         reSortMentionList(submitImageCommentData.mentions).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -229,12 +229,8 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
     public void viewReplies(ImageCommentsData imageCommentsData) {
 
 
-//        if (newReplay) {
-//            this.commentList.clear();
-//            Comment userComment = new Comment();
-//            commentList.add(userComment);/// acts As default for image Add comment
-//        }
-        this.commentList.addAll(commentList.size()-1, imageCommentsData.comments.commentList);
+        Collections.reverse(imageCommentsData.comments.commentList);
+        this.commentList.addAll(commentList.size() - 1, imageCommentsData.comments.commentList);
 
         if (imageCommentsData.mentions.business != null)
             this.mentions.business.addAll(imageCommentsData.mentions.business);

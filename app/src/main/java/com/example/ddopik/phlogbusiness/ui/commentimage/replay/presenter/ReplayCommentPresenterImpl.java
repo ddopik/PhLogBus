@@ -1,20 +1,12 @@
-package com.example.ddopik.phlogbusiness.ui.commentimage.presenter;
+package com.example.ddopik.phlogbusiness.ui.commentimage.replay.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
-import com.example.ddopik.phlogbusiness.base.commonmodel.MentionedUser;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
-import com.example.ddopik.phlogbusiness.ui.commentimage.view.ReplayCommentActivityView;
-import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.ui.commentimage.replay.view.ReplayCommentActivityView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ReplayCommentPresenterImpl implements ReplayCommentPresenter {
 
