@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.search.album.view;
 
 import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
+import com.example.ddopik.phlogbusiness.ui.search.album.model.AlbumSearchData;
 import com.example.softmills.phlog.ui.search.view.album.model.AlbumSearch;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface AlbumSearchFragmentView {
 
-     void viewSearchAlbum(List<AlbumSearch> albumSearchList);
+     void viewSearchAlbum(AlbumSearchData albumSearchData);
     void showMessage(String msg);
     void showFilterSearchProgress(boolean state);
 

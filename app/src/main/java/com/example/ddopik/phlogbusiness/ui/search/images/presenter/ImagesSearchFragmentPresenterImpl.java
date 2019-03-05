@@ -56,7 +56,7 @@ public class ImagesSearchFragmentPresenterImpl implements ImagesSearchFragmentPr
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(imagesSearchResponse -> {
                     imagesSearchFragmentView.viewImagesSearchProgress(false);
-                    imagesSearchFragmentView.viewImagesSearchImages(imagesSearchResponse.data.imageList);
+                    imagesSearchFragmentView.viewImagesSearchImages(imagesSearchResponse.data);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     imagesSearchFragmentView.viewImagesSearchProgress(false);

@@ -9,29 +9,23 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.view.AlbumPreviewActivity;
+import com.example.ddopik.phlogbusiness.ui.search.album.model.AlbumSearchData;
+import com.example.ddopik.phlogbusiness.ui.search.album.presenter.AlbumSearchFragmentImpl;
+import com.example.ddopik.phlogbusiness.ui.search.album.presenter.AlbumSearchPresenter;
+import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.FilterOption;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.ExpandableListAdapter;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.OnSearchTabSelected;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.SearchActivity;
-import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.FilterOption;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
-import com.example.ddopik.phlogbusiness.ui.search.album.presenter.AlbumSearchFragmentImpl;
-import com.example.ddopik.phlogbusiness.ui.search.album.presenter.AlbumSearchPresenter;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.example.softmills.phlog.ui.search.view.album.model.AlbumSearch;
@@ -48,7 +42,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.example.ddopik.phlogbusiness.ui.album.view.AlbumPreviewActivity.ALBUM_PREVIEW_ID;
 
 /**
@@ -105,7 +98,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         if (albumSearch.getText().toString().length() > 0) {
             promptView.setVisibility(View.GONE);
             albumSearchList.clear();
-            albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList,0);
+            albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList, 0);
         } //there is A search query exist
 
     }
@@ -133,8 +126,8 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         //////// setting ExpandableList indicator to RIGHT
         Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
-        filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(),50), width - Utilities.GetPixelFromDips(getContext(),10));
-        filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(),50), width - Utilities.GetPixelFromDips(getContext(),10));
+        filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(), 50), width - Utilities.GetPixelFromDips(getContext(), 10));
+        filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(), 50), width - Utilities.GetPixelFromDips(getContext(), 10));
         ///////////
         searchResultCount.setText(new StringBuilder().append(this.albumSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
@@ -161,14 +154,12 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         );
 
 
-
-
         pagingController = new PagingController(albumSearchRv) {
             @Override
             public void getPagingControllerCallBack(int page) {
                 if (albumSearch.getText().length() > 0) {
                     promptView.setVisibility(View.GONE);
-                    albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList,page);
+                    albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList, page);
                 }
 
             }
@@ -193,7 +184,6 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         };
 
 
-
         albumSearchAdapter.setOnAlbumPreview(albumSearch -> {
             Intent intent = new Intent(getActivity(), AlbumPreviewActivity.class);
             intent.putExtra(ALBUM_PREVIEW_ID, albumSearch.getId());
@@ -216,29 +206,29 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
                 promptView.setVisibility(View.GONE);
                 // user cleared search get default data
                 albumSearchList.clear();
-                albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList,0);
-                Log.e(TAG,"search string: "+albumSearch.getText().toString());
+                albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList, 0);
+                Log.e(TAG, "search string: " + albumSearch.getText().toString());
 
-        }
+            }
 
-        @Override
-        public void onError (Throwable e){
+            @Override
+            public void onError(Throwable e) {
 
-        }
+            }
 
-        @Override
-        public void onComplete () {
+            @Override
+            public void onComplete() {
 
-        }
-    };
-}
+            }
+        };
+    }
 
     @Override
-    public void viewSearchAlbum(List<AlbumSearch> albumSearchList) {
+    public void viewSearchAlbum(AlbumSearchData albumSearchData) {
         filterExpListView.setVisibility(View.GONE);
         albumSearchRv.setVisibility(View.VISIBLE);
 
-        this.albumSearchList.addAll(albumSearchList);
+        this.albumSearchList.addAll(albumSearchData.data);
         albumSearchAdapter.notifyDataSetChanged();
 
         /**
@@ -246,7 +236,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
          * */
         searchResultCount.setVisibility(View.VISIBLE);
         searchResultCount.setTextColor(getResources().getColor(R.color.white));
-        searchResultCount.setText(new StringBuilder().append(this.albumSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
+        searchResultCount.setText(new StringBuilder().append(albumSearchData.total).append(" ").append(getResources().getString(R.string.result)).toString());
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
         Utilities.hideKeyboard(getActivity());
 
@@ -265,8 +255,6 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     }
 
 
-
-
     @Override
     public void showMessage(String msg) {
         showToast(msg);
@@ -282,13 +270,11 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     }
 
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         disposable.clear();
     }
-
 
 
     @Override

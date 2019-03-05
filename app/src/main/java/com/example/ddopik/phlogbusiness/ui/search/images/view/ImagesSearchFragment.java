@@ -29,6 +29,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumGroup;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AlbumAdapter;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
+import com.example.ddopik.phlogbusiness.ui.search.images.model.ImagesSearchData;
 import com.example.ddopik.phlogbusiness.ui.search.images.presenter.ImagesSearchFragmentPresenter;
 import com.example.ddopik.phlogbusiness.ui.search.images.presenter.ImagesSearchFragmentPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.FilterOption;
@@ -235,23 +236,23 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     }
 
     @Override
-    public void viewImagesSearchImages(List<BaseImage> baseImageList) {
+    public void viewImagesSearchImages(ImagesSearchData imagesSearchData) {
 
         /**
          * parsing and loading image into AlbumGroups
          * */
-        if (baseImageList.size() > 0) {
-            for (int i = 0; i < baseImageList.size(); i++) {
+        if (imagesSearchData.imageList.size() > 0) {
+            for (int i = 0; i < imagesSearchData.imageList.size(); i++) {
 
                 if (albumGroupList.size() == 0) {
                     AlbumGroup albumGroup = new AlbumGroup();
-                    albumGroup.albumGroupList.add(baseImageList.get(i));
+                    albumGroup.albumGroupList.add(imagesSearchData.imageList.get(i));
                     albumGroupList.add(albumGroup);
                 } else if (albumGroupList.get(albumGroupList.size() - 1).albumGroupList.size() < 4) {
-                    albumGroupList.get(albumGroupList.size() - 1).albumGroupList.add(baseImageList.get(i));
+                    albumGroupList.get(albumGroupList.size() - 1).albumGroupList.add(imagesSearchData.imageList.get(i));
                 } else {
                     AlbumGroup albumGroup = new AlbumGroup();
-                    albumGroup.albumGroupList.add(baseImageList.get(i));
+                    albumGroup.albumGroupList.add(imagesSearchData.imageList.get(i));
                     albumGroupList.add(albumGroup);
                 }
 
@@ -268,7 +269,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         imageSearchAdapter.notifyDataSetChanged();
         searchResultCount.setVisibility(View.VISIBLE);
         searchResultCount.setTextColor(getResources().getColor(R.color.white));
-        searchResultCount.setText(new StringBuilder().append(getAlbumImagesCount()).append(" ").append(getResources().getString(R.string.result)).toString());
+        searchResultCount.setText(new StringBuilder().append(imagesSearchData.total).append(" ").append(getResources().getString(R.string.result)).toString());
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
         Utilities.hideKeyboard(getActivity());
 
