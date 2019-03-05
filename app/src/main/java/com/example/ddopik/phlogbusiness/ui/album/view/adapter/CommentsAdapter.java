@@ -394,7 +394,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 if (getMentionedBusiness(mentionBusinessIdList.get(i)) != null) {
                     Business business = getMentionedBusiness(mentionBusinessIdList.get(i));
                     if (business != null) {
-                        commentFinalValue = commentFinalValue.replace("@1_" + mentionBusinessIdList.get(i), USER_MENTION_IDENTIFIER+business.firstName + " " + business.lastName );
+                        commentFinalValue = commentFinalValue.replace("@1_" + mentionBusinessIdList.get(i), USER_MENTION_IDENTIFIER + business.firstName + " " + business.lastName);
                         commentView.setText(commentFinalValue);
                     }
                 }
@@ -424,7 +424,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     };
                     String replacement = USER_MENTION_IDENTIFIER + photographer.fullName;
                     int replacementStart = commentFinalValue.indexOf(replacement);
+                    //this flag is required as start index get increased in case multipleUser
                     boolean firstRound = true;
+                    // this loop is required in case multiple occurrence for the same user
                     while (replacementStart >= 0) {
 
                         MentionRange mentionRange = new MentionRange();
@@ -441,6 +443,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                         mentionsPoint.add(mentionRange);
                     }
                     clickableSpanList.add(noUnderLineClickSpan);
+                    //Removing string mentions Identifier
                     commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(1, replacement.length()));
                 }
             }
@@ -475,16 +478,28 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
                     String replacement = USER_MENTION_IDENTIFIER + business.firstName + " " + business.lastName;
                     int replacementStart = commentFinalValue.indexOf(replacement);
+                    //this flag is required as start index get increased in case multipleUser
+                    boolean firstRound = true;
+                    // this loop is required in case multiple occurrence for the same user
                     while (replacementStart >= 0) {
+
                         MentionRange mentionRange = new MentionRange();
-                        mentionRange.startPoint = replacementStart;
+                        if (firstRound) {
+                            mentionRange.startPoint = replacementStart;
+                            firstRound = false;
+
+                        } else {
+                            mentionRange.startPoint = replacementStart - 1;
+
+                        }
                         mentionRange.endPoint = replacementStart + replacement.length();
                         replacementStart = commentFinalValue.indexOf(replacement, replacementStart + 1);
 
                         mentionsPoint.add(mentionRange);
                     }
                     clickableSpanList.add(noUnderLineClickSpan2);
-                    commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(1, replacement.length() ));
+                    //Removing string mentions Identifier
+                    commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(1, replacement.length()));
                 }
             }
 
@@ -512,21 +527,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
             int spannableStartPoint = mentionsList.get(i).startPoint;
             int spannableEndPoint = mentionsList.get(i).endPoint;
-////////////////////////////////////////////////
-//
-//            for (int z=i;z>=0;z--){
-//                if (clickableSpanList.get(i).)
-//            }
-
-            String charBefore = "";
-            if (spannableStartPoint > 0) {
-                charBefore = Character.toString(commentFinalValue.charAt(spannableStartPoint - 1));
-            }
-
-//
-//            if (charBefore.isEmpty()) {
-//                spannableStartPoint --;
-//            }
 
             ///////////////////////
             if (spannableStartPoint <= 0) {
