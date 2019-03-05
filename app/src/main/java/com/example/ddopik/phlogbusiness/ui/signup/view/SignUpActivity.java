@@ -184,7 +184,7 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
         this.industryListObj.clear();
         this.industryListObj.addAll(industries);
         for (int i = 0; i < industries.size(); i++) {
-            this.industryList.add(industries.get(i).name);
+            this.industryList.add(industries.get(i).nameEn);
         }
         industryAdapter.notifyDataSetChanged();
     }
@@ -205,7 +205,7 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
     private int getIndustryId() {
         //select industry id by value inserted  from callBack Array
         for (int i = 0; i < industryListObj.size(); i++) {
-            if (industryListObj.get(i).name.equals(autoCompleteTextView.getText().toString())) {
+            if (industryListObj.get(i).nameEn.equals(autoCompleteTextView.getText().toString())) {
                 return industryListObj.get(i).id;
             }
         }

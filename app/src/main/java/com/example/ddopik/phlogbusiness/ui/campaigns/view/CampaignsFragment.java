@@ -64,6 +64,7 @@ public class CampaignsFragment extends BaseFragment {
         campaignsPagerAdapter = new CampaignsPagerAdapter(getChildFragmentManager(), getCampaignsFragment(), getFragmentTitles());
         campaignsViewPager.setAdapter(campaignsPagerAdapter);
         campaignsTabLayout.setupWithViewPager(campaignsViewPager);
+        mainView.findViewById(R.id.back_btn).setVisibility(View.GONE);
     }
 
     @Override

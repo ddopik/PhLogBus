@@ -45,8 +45,6 @@ public class AddCampaignPresenterImpl implements AddCampaignStepTwoPresenter, Ad
         data.put("end_date", addCampaignRequestModel.campaignEndDate);
         data.put("winners_count", addCampaignRequestModel.winnersNumber);
         data.put("is_draft", addCampaignRequestModel.isDraft);
-        if (addCampaignRequestModel.campaignCoverPhoto == null)
-            data.put("image_cover", addCampaignRequestModel.coverUrl);
 
         for (int i = 0; i < addCampaignRequestModel.tagList.size(); i++) {
             data.put("tags[" + i + "]", addCampaignRequestModel.tagList.get(i).name);

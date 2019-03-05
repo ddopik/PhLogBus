@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,9 +55,10 @@ public class CustomerSupportFragment extends BaseFragment {
                 .load(R.drawable.ic_customer_support)
                 .apply(RequestOptions.circleCropTransform())
                 .into(icon);
-        Glide.with(this)
-                .load(R.drawable.ic_custom_loading)
-                .into(loading);
+
+        mainView.findViewById(R.id.send_email_button).setOnClickListener(v -> {
+            Utilities.sendEmail(getString(R.string.phlog_mail), getContext());
+        });
     }
 
 }

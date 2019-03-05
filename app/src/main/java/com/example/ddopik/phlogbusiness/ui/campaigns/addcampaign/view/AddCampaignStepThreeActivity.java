@@ -160,9 +160,7 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
 
     @Override
     public void onCampaignCompleted() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
+        finish();
     }
 
     @Override
