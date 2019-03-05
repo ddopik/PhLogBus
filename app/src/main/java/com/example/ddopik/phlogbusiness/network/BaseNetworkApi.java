@@ -396,7 +396,7 @@ public class BaseNetworkApi {
     }
 
     public static Observable<AlbumPreviewResponse> getAlbumDetails(String albumId) {
-        return Rx2AndroidNetworking.post(GET_ALBUM_DETAILS)
+        return Rx2AndroidNetworking.post(GET_ALBUM_PREVIEW)
                 .addBodyParameter("album_id", albumId)
                 .setPriority(Priority.HIGH)
                 .build()

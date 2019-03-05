@@ -147,7 +147,6 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
     @Override
     public void viewBrandProfileData(Business business) {
         this.business = business;
-
         if (business.firstName != null)
             brandName.setText(String.format("%1$s %2$s", business.firstName, business.lastName));
         if (business.userName !=null)

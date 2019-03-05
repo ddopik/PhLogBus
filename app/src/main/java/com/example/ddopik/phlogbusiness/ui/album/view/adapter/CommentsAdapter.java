@@ -191,6 +191,17 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentAdapterAction.onAddToCartClick(previewImage);
             });
 
+            commentViewHolder.addToLightBox.setOnClickListener(v -> {
+                commentAdapterAction.onAddToLightBox(previewImage);
+            });
+
+            if (previewImage.isSaved)
+                commentViewHolder.addToLightBox.setVisibility(View.GONE);
+            else commentViewHolder.addToLightBox.setVisibility(View.VISIBLE);
+
+            commentViewHolder.photoRating.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+                commentAdapterAction.onImageRateClick(previewImage, rating);
+            });
 //////////////////////////////////////COMMENT/////////////////////////////////////////
         } else if (getItemViewType(i) == COMMENT || getItemViewType(i) == REPLY_COMMENT) {
             if (commentList.get(i).business != null) {
@@ -617,6 +628,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         //SendCommentCell
         CustomAutoCompleteTextView sendCommentImgVal;
         ImageButton sendCommentBtn;
+        ImageButton addToLightBox;
 
 
         CommentViewHolder(View view, int type) {
@@ -638,7 +650,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 photoRating = view.findViewById(R.id.photo_rating);
                 menu = view.findViewById(R.id.menu_button);
                 chooseWinnerBtn = view.findViewById(R.id.choose_winner_btn);
-
+                addToLightBox = view.findViewById(R.id.add_to_light_box_btn);
             } else if (type == COMMENT) {
                 parentCommentView = view.findViewById(R.id.comment_parent_view);
                 commentVal = view.findViewById(R.id.comment_val);

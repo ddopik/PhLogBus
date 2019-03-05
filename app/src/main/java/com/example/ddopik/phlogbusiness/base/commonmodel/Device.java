@@ -7,7 +7,7 @@ public class Device {
 
     @SerializedName("device_id")
     public final String id;
-    @SerializedName("state")
+    @SerializedName("status")
     public final int status;
     @SerializedName("firebase_token")
     public final String firebaseToken;

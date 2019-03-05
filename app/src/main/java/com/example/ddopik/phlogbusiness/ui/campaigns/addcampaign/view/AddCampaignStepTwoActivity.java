@@ -49,6 +49,7 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
     private CompositeDisposable disposable = new CompositeDisposable();
     private AddCampaignStepTwoPresenter addCampaignStepTwoPresenter;
     private Button nextBtn;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +58,23 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
             addCampaignRequestModel = getIntent().getParcelableExtra(CAMPAIGN_DATA);
             initPresenter();
             initView();
+            setCampaignData();
             initListener();
+        }
+    }
+
+    private void setCampaignData() {
+        if (addCampaignRequestModel != null) {
+            if (addCampaignRequestModel.campaignDescription != null)
+                campaignDescription.setText(addCampaignRequestModel.campaignDescription);
+            if (addCampaignRequestModel.campaignPrize != null)
+                campaignPrize.setText(addCampaignRequestModel.campaignPrize);
+            if (addCampaignRequestModel.tagList != null) {
+                tagList.addAll(addCampaignRequestModel.tagList);
+                tagsAdapter.notifyDataSetChanged();
+            }
+        } else {
+            addCampaignRequestModel = new AddCampaignRequestModel();
         }
     }
 
@@ -84,6 +101,7 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
 
 //        backBtn = findViewById(R.id.back_btn);
     }
+
     private void initListener() {
         tagsAdapter.onSelectedItemClicked = industry -> {
 
@@ -113,7 +131,6 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(searchTagQuery())
         );
-
 
 
         initKeyBoardListener();
@@ -167,9 +184,10 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
 
         return inputStates;
     }
+
     @Override
     public void initPresenter() {
-        addCampaignStepTwoPresenter=new AddCampaignPresenterImpl();
+        addCampaignStepTwoPresenter = new AddCampaignPresenterImpl();
     }
 
 
@@ -240,7 +258,7 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
             @Override
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
                 // user cleared search get default
-                addCampaignStepTwoPresenter.getTags(AddCampaignStepTwoActivity.this, getBaseContext(),autoCompleteTextView.getText().toString().trim());
+                addCampaignStepTwoPresenter.getTags(AddCampaignStepTwoActivity.this, getBaseContext(), autoCompleteTextView.getText().toString().trim());
                 Log.e(TAG, "search string: " + autoCompleteTextView.getText().toString().trim());
 
             }

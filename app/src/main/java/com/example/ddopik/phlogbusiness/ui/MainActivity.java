@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.bottomappbar.BottomAppBar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -20,6 +21,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.fgm.model.FirebaseNotificationData;
 import com.example.ddopik.phlogbusiness.fgm.parse.NotificationParser;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.view.AccountDetailsFragment;
+import com.example.ddopik.phlogbusiness.ui.customersupport.view.CustomerSupportFragment;
 import com.example.ddopik.phlogbusiness.ui.downloads.model.DownloadRequestModel;
 import com.example.ddopik.phlogbusiness.ui.downloads.view.DownloadsFragment;
 import com.example.ddopik.phlogbusiness.ui.lightboxphotos.view.LightBoxPhotosFragment;
@@ -66,6 +68,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         navigationManger.navigate(HOME);
 
         handleIntent(getIntent());
+
+        Log.e("token", PrefUtils.getBrandToken(this));
     }
 
     @Override
@@ -252,7 +256,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     break;
                 }
                 case CALL_SUPPORT: {
-                    callSupport();
+//                    callSupport();
+                    addFragment(R.id.view_container, new CustomerSupportFragment(), CustomerSupportFragment.class.getSimpleName(), false);
                     callSupportBtn.setVisibility(View.VISIBLE);
                     callSupportBtn.setTextColor(getResources().getColor(R.color.text_input_color));
                     callSupportFloatBtn.setImageResource(R.drawable.btn_call_support_selected);

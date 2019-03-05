@@ -314,7 +314,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
     @Override
     public void onImageLiked(BaseImage baseImage) {
-        previewImage = baseImage;
+        previewImage.isLiked = baseImage.isLiked;
         commentsAdapter.notifyDataSetChanged();
 
 

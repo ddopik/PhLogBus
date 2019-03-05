@@ -33,10 +33,24 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
         if (getIntent().getParcelableExtra(CAMPAIGN_DATA) != null) {
             addCampaignRequestModel = getIntent().getParcelableExtra(CAMPAIGN_DATA);
             initView();
+            setCampaignData();
             initPresenter();
             initListeners();
         }
 
+    }
+
+    private void setCampaignData() {
+        if (addCampaignRequestModel != null) {
+            if (addCampaignRequestModel.campaignStartDate != null)
+                campaignStartDate.setText(addCampaignRequestModel.campaignStartDate);
+            if (addCampaignRequestModel.campaignEndDate != null)
+                campaignEndDate.setText(addCampaignRequestModel.campaignEndDate);
+            if (addCampaignRequestModel.winnersNumber != null)
+                numberOfWinneres.setText(addCampaignRequestModel.winnersNumber);
+        } else {
+            addCampaignRequestModel = new AddCampaignRequestModel();
+        }
     }
 
     @Override
@@ -47,7 +61,6 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
         campaignStartDate = findViewById(R.id.campaign_start_date);
         campaignEndDate = findViewById(R.id.campaign_end_date);
         numberOfWinneres = findViewById(R.id.number_of_winner);
-        submitCampaignBtn = findViewById(R.id.add_campaign_step_three_next_btn);
         submitCampaignBtn = findViewById(R.id.add_campaign_step_three_next_btn);
         submitCampaignDraftBtn = findViewById(R.id.set_campaign_draft);
         submitCampaignProgress = findViewById(R.id.submit_campaign_progress);
@@ -147,9 +160,7 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
 
     @Override
     public void onCampaignCompleted() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
+        finish();
     }
 
     @Override

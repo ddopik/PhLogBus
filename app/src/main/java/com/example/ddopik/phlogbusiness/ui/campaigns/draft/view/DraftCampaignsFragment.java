@@ -14,12 +14,10 @@ import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.AddCampaignRequestModel;
+import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.draft.presenter.DraftCampaignsPresenter;
-import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.presenter.CampaignsPresenterImpl;
-import com.example.ddopik.phlogbusiness.ui.campaigns.running.presenter.RunningCampaignPresenter;
-import com.example.ddopik.phlogbusiness.ui.campaigns.running.view.RunningCampaignsAdapter;
-import com.example.ddopik.phlogbusiness.ui.campaigns.running.view.RunningCampaignsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,12 +79,28 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
 //                draftCampaignsPresenter.getDraftCampaign(page, DraftCampaignsFragment.this);
             }
         };
-        draftCampaignsAdapter.campaignLister = campaignID -> {
-            Intent intent = new Intent(getContext(), CampaignInnerActivity.class);
-            intent.putExtra(CampaignInnerActivity.CAMPAIGN_ID, campaignID);
+        draftCampaignsAdapter.campaignLister = campaign -> {
+            Intent intent =new Intent(getContext(),AddCampaignActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            AddCampaignRequestModel model = createModel(campaign);
+            intent.putExtra(AddCampaignActivity.CAMPAIGN_DATA, model);
             startActivity(intent);
         };
 
+    }
+
+    private AddCampaignRequestModel createModel(Campaign campaign) {
+        AddCampaignRequestModel model = new AddCampaignRequestModel();
+        model.winnersNumber = String.valueOf(campaign.winnerCount);
+        model.campaignEndDate = campaign.endDate;
+        model.campaignStartDate = campaign.startDate;
+        model.tagList = campaign.tags;
+        model.campaignPrize = campaign.prize;
+        model.isDraft = "true";
+        model.campaignDescription = campaign.descrptionEn;
+        model.campaignName = campaign.titleEn;
+        model.coverUrl = campaign.imageCover;
+        return model;
     }
 
     @Override

@@ -252,6 +252,7 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
         super.onActivityResult(requestCode, resultCode, data);
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             detailsChanged = true;
+            saveButton.setVisibility(View.VISIBLE);
             switch (whichImage) {
                 case COVER:
                     model.setCoverImage(ImagePicker.getFirstImageOrNull(data).getPath());

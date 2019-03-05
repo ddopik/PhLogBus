@@ -15,6 +15,7 @@ public class AddCampaignRequestModel implements Parcelable {
 
     public String campaignName;
     public File campaignCoverPhoto;
+    public String coverUrl;
     public String campaignDescription;
     public String campaignPrize;
     public String campaignStartDate;
@@ -44,6 +45,7 @@ public class AddCampaignRequestModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.campaignName);
         dest.writeSerializable(this.campaignCoverPhoto);
+        dest.writeString(coverUrl);
         dest.writeString(this.campaignDescription);
         dest.writeString(this.campaignPrize);
         dest.writeString(this.campaignStartDate);
@@ -56,6 +58,7 @@ public class AddCampaignRequestModel implements Parcelable {
     protected AddCampaignRequestModel(Parcel in) {
         this.campaignName = in.readString();
         this.campaignCoverPhoto = (File) in.readSerializable();
+        coverUrl = in.readString();
         this.campaignDescription = in.readString();
         this.campaignPrize = in.readString();
         this.campaignStartDate = in.readString();
