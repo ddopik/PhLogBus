@@ -351,32 +351,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         };
     }
 
-    //
-//    private List<MentionRange> getMentionRanges(String commnetVal,List<String> mentionsPhotoGrapherIdIdList, List<String> mentionBusinessIdList){
-//        List<MentionRange> mentionRangeList=new ArrayList<>();
-//
-//        for (String word : commnetVal.split("\\s+"))
-//        {
-//            MentionRange mentionRange=new MentionRange();
-//            for (String photoGrapherId:mentionsPhotoGrapherIdIdList){
-//                if (word.equals(photoGrapherId)){
-//                    mentionRange.startPoint=
-//                    break;
-//                }
-//
-//            }
-//            for (String bussinessId:mentionBusinessIdList){
-//                if (word.equals(bussinessId)){
-//
-//                    break;
-//                }
-//
-//            }
-//
-//        }
-//
-//        return  mentionRangeList;
-//    };
 
     private void handleCommentBody(TextView commentView, String commentFinalValue) {
 
@@ -407,7 +381,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 Photographer photographer = getMentionedPhotoGrapher(mentionsPhotoGrapherIdIdList.get(i));
                 if (mentionsPhotoGrapherIdIdList.get(i) != null) {
                     if (photographer != null) {
-                        commentFinalValue = commentFinalValue.replace("@0_" + mentionsPhotoGrapherIdIdList.get(i), photographer.fullName + USER_MENTION_IDENTIFIER);
+                        commentFinalValue = commentFinalValue.replace("@0_" + mentionsPhotoGrapherIdIdList.get(i), USER_MENTION_IDENTIFIER + photographer.fullName);
                         commentView.setText(commentFinalValue);
                     }
                 }
@@ -420,7 +394,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 if (getMentionedBusiness(mentionBusinessIdList.get(i)) != null) {
                     Business business = getMentionedBusiness(mentionBusinessIdList.get(i));
                     if (business != null) {
-                        commentFinalValue = commentFinalValue.replace("@1_" + mentionBusinessIdList.get(i), business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER);
+                        commentFinalValue = commentFinalValue.replace("@1_" + mentionBusinessIdList.get(i), USER_MENTION_IDENTIFIER+business.firstName + " " + business.lastName );
                         commentView.setText(commentFinalValue);
                     }
                 }
@@ -448,23 +422,26 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                             ds.setColor(Color.BLUE); // specific color for this link
                         }
                     };
-
-                    ////////////////
-                    String replacement = photographer.fullName + USER_MENTION_IDENTIFIER;
+                    String replacement = USER_MENTION_IDENTIFIER + photographer.fullName;
                     int replacementStart = commentFinalValue.indexOf(replacement);
+                    boolean firstRound = true;
                     while (replacementStart >= 0) {
+
                         MentionRange mentionRange = new MentionRange();
-                        mentionRange.startPoint = replacementStart  ;
-                        mentionRange.endPoint = replacementStart + replacement.length()  ;
+                        if (firstRound) {
+                            mentionRange.startPoint = replacementStart;
+                            firstRound = false;
+
+                        } else {
+                            mentionRange.startPoint = replacementStart - 1;
+
+                        }
+                        mentionRange.endPoint = replacementStart + replacement.length();
                         replacementStart = commentFinalValue.indexOf(replacement, replacementStart + 1);
                         mentionsPoint.add(mentionRange);
                     }
-
-
-                    ////////////////////////////////////////
-
                     clickableSpanList.add(noUnderLineClickSpan);
-                    commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
+                    commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(1, replacement.length()));
                 }
             }
 
@@ -494,23 +471,20 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                             ds.setColor(Color.MAGENTA); // specific color for this link
                         }
                     };
-/////////////////
 
-                    String replacement = business.firstName + " " + business.lastName + USER_MENTION_IDENTIFIER;
+
+                    String replacement = USER_MENTION_IDENTIFIER + business.firstName + " " + business.lastName;
                     int replacementStart = commentFinalValue.indexOf(replacement);
                     while (replacementStart >= 0) {
                         MentionRange mentionRange = new MentionRange();
-                        mentionRange.startPoint = replacementStart  ;
-                        mentionRange.endPoint = replacementStart + replacement.length() ;
+                        mentionRange.startPoint = replacementStart;
+                        mentionRange.endPoint = replacementStart + replacement.length();
                         replacementStart = commentFinalValue.indexOf(replacement, replacementStart + 1);
 
                         mentionsPoint.add(mentionRange);
                     }
-
-
-////////////////////
                     clickableSpanList.add(noUnderLineClickSpan2);
-                    commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(0, replacement.length() - 1));
+                    commentFinalValue = commentFinalValue.replace(replacement, replacement.substring(1, replacement.length() ));
                 }
             }
 
@@ -523,8 +497,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
 
-
-
     /**
      * @param viewHolder        --->view holder contain comment value
      * @param mentionsList      --->replacement user_value flaged with (?*_)
@@ -533,18 +505,35 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
      */
     private void makeLinks(TextView viewHolder, List<MentionRange> mentionsList, List<ClickableSpan> clickableSpanList, String commentFinalValue) {
         SpannableString spannableString = new SpannableString(commentFinalValue);
-
         for (int i = 0; i < mentionsList.size(); i++) {
 
-            int spannableStartPoint = mentionsList.get(i).startPoint-1;
-            int spannableEndPoint = mentionsList.get(i).endPoint;
 
+            int xs = commentFinalValue.length();
+
+            int spannableStartPoint = mentionsList.get(i).startPoint;
+            int spannableEndPoint = mentionsList.get(i).endPoint;
+////////////////////////////////////////////////
+//
+//            for (int z=i;z>=0;z--){
+//                if (clickableSpanList.get(i).)
+//            }
+
+            String charBefore = "";
+            if (spannableStartPoint > 0) {
+                charBefore = Character.toString(commentFinalValue.charAt(spannableStartPoint - 1));
+            }
+
+//
+//            if (charBefore.isEmpty()) {
+//                spannableStartPoint --;
+//            }
+
+            ///////////////////////
             if (spannableStartPoint <= 0) {
                 spannableStartPoint = 0;
             }
 
-            while (spannableEndPoint > commentFinalValue.length())
-            {
+            while (spannableEndPoint > commentFinalValue.length()) {
                 spannableEndPoint--;
             }
 
