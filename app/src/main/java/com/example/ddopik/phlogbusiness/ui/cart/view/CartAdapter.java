@@ -103,6 +103,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(v -> {
             actionListener.onAction(ActionListener.Type.VIEW, item, null);
         });
+        if (!item.canPurchase) {
+            holder.blocker.setVisibility(View.VISIBLE);
+            holder.canBuyReason.setVisibility(View.VISIBLE);
+            holder.canBuyReason.setText(item.canPurchaseReason);
+        } else {
+            holder.blocker.setVisibility(View.GONE);
+            holder.canBuyReason.setVisibility(View.GONE);
+        }
     }
 
     public void setList(List<BaseImage> list) {
@@ -118,7 +126,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image, byWhoImage, exclusiveIcon;
-        TextView price, byWhow, likes;
+        TextView price, byWhow, likes, canBuyReason;
+        View blocker;
         ImageButton remove;
         CheckBox exclusiveCheck;
         RatingBar rating;
@@ -134,6 +143,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             exclusiveIcon = itemView.findViewById(R.id.exclusive_icon);
             exclusiveCheck = itemView.findViewById(R.id.exclusive_check_box);
             rating = itemView.findViewById(R.id.rating);
+            blocker = itemView.findViewById(R.id.blocker);
+            canBuyReason = itemView.findViewById(R.id.can_buy_reason);
         }
     }
 

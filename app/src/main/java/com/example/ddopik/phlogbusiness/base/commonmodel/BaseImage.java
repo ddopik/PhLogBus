@@ -96,6 +96,12 @@ public class BaseImage implements Parcelable {
     @SerializedName("price_exclusive")
     public float priceExclusive;
 
+    @SerializedName("can_purchase")
+    public boolean canPurchase;
+
+    @SerializedName("can_purchase_reason")
+    public String canPurchaseReason;
+
     @Override
     public int describeContents() {
         return 0;
@@ -127,6 +133,8 @@ public class BaseImage implements Parcelable {
         dest.writeString(this.extension);
         dest.writeFloat(price);
         dest.writeFloat(priceExclusive);
+        dest.writeValue(this.canPurchase);
+        dest.writeString(this.canPurchaseReason);
     }
 
     protected BaseImage(Parcel in) {
@@ -154,6 +162,8 @@ public class BaseImage implements Parcelable {
         this.extension = in.readString();
         price = in.readFloat();
         priceExclusive = in.readFloat();
+        canPurchase = (boolean) in.readValue(Boolean.class.getClassLoader());
+        canPurchaseReason = in.readString();
     }
 
     public static final Creator<BaseImage> CREATOR = new Creator<BaseImage>() {

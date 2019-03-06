@@ -39,20 +39,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="@color/gray200" />
 
-            <ImageButton
-                android:id="@+id/cart_items_remove_button"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/ic_close_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent=".2"
-                app:layout_constraintHorizontal_bias="0.98"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.050000012" />
-
             <ImageView
                 android:id="@+id/by_who_image"
                 android:layout_width="0dp"
@@ -163,6 +149,8 @@
             <RatingBar
                 android:id="@+id/rating"
                 style="?android:attr/ratingBarStyleSmall"
+                android:theme="@style/PhlogRatingBarThem"
+                tools:rating="3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isIndicator="true"
@@ -191,6 +179,46 @@
                 app:layout_constraintStart_toEndOf="@+id/cart_item_image"
                 app:layout_constraintTop_toBottomOf="@+id/rating"
                 app:layout_constraintWidth_percent=".4" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black"
+                android:alpha=".75"
+                android:clickable="true"
+                android:id="@+id/blocker"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/can_buy_reason"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_medium_s"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/white"
+                tools:text="Bought exclusive"
+                android:fontFamily="@font/segoe_b"/>
+
+            <ImageButton
+                android:id="@+id/cart_items_remove_button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/ic_close_gray"
+                app:backgroundTint="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".2"
+                app:layout_constraintHorizontal_bias="0.98"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.050000012" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
