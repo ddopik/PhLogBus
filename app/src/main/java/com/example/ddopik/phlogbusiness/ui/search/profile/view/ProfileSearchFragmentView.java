@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.ui.search.profile.view;
 
 
 import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
+import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchData;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface ProfileSearchFragmentView {
 
-    void viewProfileSearchItems(List<Photographer> profileSearchList);
+    void viewProfileSearchItems(ProfileSearchData profileSearchData);
 
     void viewProfileSearchProgress(Boolean state);
 

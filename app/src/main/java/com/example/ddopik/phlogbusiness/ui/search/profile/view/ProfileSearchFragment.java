@@ -22,6 +22,7 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.OnSearchTabSelected;
+import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchData;
 import com.example.ddopik.phlogbusiness.ui.search.profile.presenter.ProfileSearchPresenter;
 import com.example.ddopik.phlogbusiness.ui.search.profile.presenter.ProfileSearchPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
@@ -187,12 +188,12 @@ public class ProfileSearchFragment extends BaseFragment implements ProfileSearch
     }
 
     @Override
-    public void viewProfileSearchItems(List<Photographer> profileSearchList) {
-        this.profileSearchList.addAll(profileSearchList);
+    public void viewProfileSearchItems(ProfileSearchData profileSearchData) {
+        this.profileSearchList.addAll(profileSearchData.data);
         profileSearchAdapter.notifyDataSetChanged();
         searchResultCount.setVisibility(View.VISIBLE);
         searchResultCount.setTextColor(getResources().getColor(R.color.white));
-        searchResultCount.setText(new StringBuilder().append(this.profileSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
+        searchResultCount.setText(new StringBuilder().append(profileSearchData.total).append(" ").append(getResources().getString(R.string.result)).toString());
         hideSoftKeyBoard();
 
 
