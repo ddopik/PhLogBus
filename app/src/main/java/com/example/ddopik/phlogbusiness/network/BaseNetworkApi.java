@@ -152,11 +152,11 @@ public class BaseNetworkApi {
     private static final String REPORT_PHOTO_URL = BASE_URL + "/photo/report";
     private static final String CHOOSE_CAMPAIGN_WINNER_URL = BASE_URL + "/campaign/photo/set_winning";
     public static final String PAYMENT_URL = BASE_SERVER_URL + "/business/payment";
-    public static final String LOGOUT_URL = BASE_URL + "/auth/logout";
     private static final String COMMENT_REPLAY_URL = BASE_URL + "/photo/comment/list";
     private static final String SET_EXCLUSIVE_URL = BASE_URL + "/cart/exclusive";
     private static final String UPDATE_FIREBASE_TOKEN_URL = BASE_URL + "/auth/device/set";
     public static final String BASE_IMAGE_DOWNLOAD_URL = BASE_SERVER_URL + "/photo";
+    private static final String UPDATE_CAMPAIGN_URL = BASE_URL + "/campaign/update";
 
     //Path Parameters
     private static final String PAGER_QUERY_PARAMETER = "page";
@@ -762,8 +762,11 @@ public class BaseNetworkApi {
                 .getObjectObservable(LoginResponse.class);
     }
 
-    public static Observable<String> updateFirebaseToken(Device device) {
+    public static Observable<String> updateFirebaseToken(Device device, String token) {
         return Rx2AndroidNetworking.post(UPDATE_FIREBASE_TOKEN_URL)
+                .addHeaders("x-auth-token", token)
+                .addHeaders("x-user-type", DEFAULT_USER_TYPE)
+                .addHeaders("x-lang-code", "en-us")
                 .addBodyParameter(device)
                 .build()
                 .getStringObservable();
@@ -781,12 +784,6 @@ public class BaseNetworkApi {
                 .build()
                 .getObjectObservable(ImageCommentsResponse.class);
     }
-    public static Observable<String> logout() {
-        return Rx2AndroidNetworking.post(LOGOUT_URL)
-                .setPriority(Priority.HIGH)
-                .build()
-                .getStringObservable();
-    }
 
     public static Observable<String> setImageBuyExclusive(BaseImage image, boolean exclusive) {
         return Rx2AndroidNetworking.post(SET_EXCLUSIVE_URL)
@@ -795,6 +792,20 @@ public class BaseNetworkApi {
                 .addBodyParameter("is_exclusive", String.valueOf(exclusive))
                 .build()
                 .getStringObservable();
+    }
+
+    public static Observable<SubmitCampaignResponse> updateCampaign(String token, HashMap<String,String> data, File campaignCoverPhoto) {
+        Rx2ANRequest.MultiPartBuilder builder = Rx2AndroidNetworking.upload(UPDATE_CAMPAIGN_URL)
+                .addHeaders("x-auth-token", token)
+                .addHeaders("x-user-type", DEFAULT_USER_TYPE)
+                .addHeaders("x-lang-code", "en-us")
+                .addMultipartParameter(data);
+        if (campaignCoverPhoto != null)
+            builder.addMultipartFile("image_cover", campaignCoverPhoto);
+        return builder
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(SubmitCampaignResponse.class);
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

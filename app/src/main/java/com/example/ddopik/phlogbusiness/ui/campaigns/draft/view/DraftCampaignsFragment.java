@@ -100,6 +100,8 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
         model.campaignDescription = campaign.descrptionEn;
         model.campaignName = campaign.titleEn;
         model.coverUrl = campaign.imageCover;
+        model.alreadyAdded = true;
+        model.campaignId = campaign.id;
         return model;
     }
 

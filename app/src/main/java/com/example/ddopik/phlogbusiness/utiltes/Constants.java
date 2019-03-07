@@ -98,6 +98,7 @@ public interface Constants {
         String PAYLOAD = "payload";
         int TO_PROFILE = 1;
         int TO_POPUP = 2;
+        int TO_CAMPAIGNS = 3;
     }
 
     interface PopupType {

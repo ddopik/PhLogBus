@@ -15,6 +15,10 @@ import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.AddCampaignRequestModel;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.presenter.AddCampaignPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.presenter.AddCampaignStepThreePresenter;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class AddCampaignStepThreeActivity extends BaseActivity implements AddCampaignStepThreeActivityView {
 
@@ -78,7 +82,9 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
             pickDateDialog.setOnDateSet(new PickDateDialog.OnDateSet() {
                 @Override
                 public void onDateSet(int year, int month, int day) {
-                    String dateString = year + "-" + (month + 1) + "-" + day;
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(year, month, day);
+                    String dateString = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
                     campaignStartDate.setText(dateString);
                 }
             });
@@ -90,7 +96,9 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
         campaignEndDate.setOnClickListener(v -> {
             PickDateDialog pickDateDialog = new PickDateDialog();
             pickDateDialog.setOnDateSet((year, month, day) -> {
-                String dateString = year + "-" + (month + 1) + "-" + day;
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, day);
+                String dateString = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
                 campaignEndDate.setText(dateString);
             });
             pickDateDialog.show(getSupportFragmentManager(), PickDateDialog.class.getSimpleName());
@@ -160,6 +168,13 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
 
     @Override
     public void onCampaignCompleted() {
+        Intent intents = new Intent(this, MainActivity.class);
+        intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+                | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intents.putExtra(Constants.MainActivityRedirectionValue.VALUE, Constants.MainActivityRedirectionValue.TO_CAMPAIGNS);
+        startActivity(intents);
+        finish();
         finish();
     }
 

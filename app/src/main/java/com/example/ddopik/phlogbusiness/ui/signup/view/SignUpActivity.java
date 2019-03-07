@@ -111,7 +111,7 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
         autoCompleteTextView.setOnFocusChangeListener((v, hasFocus) -> {
             autoCompleteTextView.showDropDown();
         });
-        registerCancel.setOnClickListener(view -> navigateToLogin());
+        registerCancel.setOnClickListener(view -> finish());
     }
 
     private boolean isDataIsValid() {

@@ -69,7 +69,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         handleIntent(getIntent());
 
-        Log.e("token", PrefUtils.getBrandToken(this));
+//        Log.e("token", PrefUtils.getBrandToken(this));
     }
 
     @Override
@@ -91,6 +91,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     navigationManger.navigate(HOME);
                     if (data != null && data.notification.popup != PopupType.NONE)
                         showPopup(data);
+                    break;
+                case MainActivityRedirectionValue.TO_CAMPAIGNS:
+                    navigationManger.navigate(CAMPAIGN);
                     break;
             }
         } else {
@@ -167,10 +170,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private void callSupport(){
-        Utilities.sendEmail(getResources().getString(R.string.phlog_mail),getBaseContext());
+    private void callSupport() {
+        Utilities.sendEmail(getResources().getString(R.string.phlog_mail), getBaseContext());
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();

@@ -23,6 +23,8 @@ public class AddCampaignRequestModel implements Parcelable {
     public String winnersNumber;
     public String isDraft;
     public List<Tag> tagList;
+    public boolean alreadyAdded;
+    public int campaignId;
 
     public HashMap<String, String> getTags() {
         HashMap<String, String> tagsSelected = new HashMap<String, String>();
@@ -53,6 +55,8 @@ public class AddCampaignRequestModel implements Parcelable {
         dest.writeString(this.winnersNumber);
         dest.writeString(this.isDraft);
         dest.writeTypedList(this.tagList);
+        dest.writeValue(alreadyAdded);
+        dest.writeInt(campaignId);
     }
 
     protected AddCampaignRequestModel(Parcel in) {
@@ -66,6 +70,8 @@ public class AddCampaignRequestModel implements Parcelable {
         this.winnersNumber = in.readString();
         this.isDraft = in.readString();
         this.tagList = in.createTypedArrayList(Tag.CREATOR);
+        alreadyAdded = (boolean) in.readValue(Boolean.class.getClassLoader());
+        campaignId = in.readInt();
     }
 
     public static final Creator<AddCampaignRequestModel> CREATOR = new Creator<AddCampaignRequestModel>() {

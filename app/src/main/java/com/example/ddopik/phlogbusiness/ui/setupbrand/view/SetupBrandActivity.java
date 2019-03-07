@@ -110,6 +110,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
         pagerAdapter = new SetupBrandPagerAdapter(getSupportFragmentManager(), subViewActionConsumer, business);
         viewPager.addOnPageChangeListener(pageChangeListener);
         viewPager.setAllowedSwipeDirection(CustomViewPager.SwipeDirection.RIGHT);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setOnSwipeLeftListener(onSwipeLeftListener);
         viewPager.setAdapter(pagerAdapter);
         progressBar = findViewById(R.id.steps_progress_bar);

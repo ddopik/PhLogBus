@@ -131,6 +131,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
                                 switch (which) {
                                     case 0:
                                         brandProfilePresenter.logout();
+                                        brandProfileProgress.setVisibility(View.VISIBLE);
                                         dialog.dismiss();
                                         break;
                                     case 1:

@@ -23,10 +23,10 @@ public class PhlogFirebaseInstanceIdService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         super.onTokenRefresh();
         String token = FirebaseInstanceId.getInstance().getToken();
-        Log.e("Firebase token", token);
+//        Log.e("Firebase token", token);
         PrefUtils.saveFirebaseToken(getApplicationContext(), token);
         if (PrefUtils.isLoginProvided(getApplicationContext()))
-            BaseNetworkApi.updateFirebaseToken(new Device(Utilities.getDeviceName(), true, PrefUtils.getBrandToken(getApplicationContext())))
+            BaseNetworkApi.updateFirebaseToken(new Device(Utilities.getDeviceName(), true, token), PrefUtils.getBrandToken(getApplicationContext()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(s -> {

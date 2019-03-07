@@ -50,17 +50,30 @@ public class AddCampaignPresenterImpl implements AddCampaignStepTwoPresenter, Ad
             data.put("tags[" + i + "]", addCampaignRequestModel.tagList.get(i).name);
         }
 
-
-        BaseNetworkApi.submitCampaign(PrefUtils.getBrandToken(context), data, addCampaignRequestModel.campaignCoverPhoto)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(submitCampaignResponse -> {
-                    addCampaignStepThreeActivityView.viewSubmitCampaignProgress(false);
-                    addCampaignStepThreeActivityView.viewMessage(submitCampaignResponse.msg);
-                    addCampaignStepThreeActivityView.onCampaignCompleted();
-                }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                    addCampaignStepThreeActivityView.viewSubmitCampaignProgress(false);
-                });
+        if (addCampaignRequestModel.alreadyAdded) {
+            data.put("campaign_id", String.valueOf(addCampaignRequestModel.campaignId));
+            BaseNetworkApi.updateCampaign(PrefUtils.getBrandToken(context), data, addCampaignRequestModel.campaignCoverPhoto)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(submitCampaignResponse -> {
+                        addCampaignStepThreeActivityView.viewSubmitCampaignProgress(false);
+                        addCampaignStepThreeActivityView.viewMessage(submitCampaignResponse.msg);
+                        addCampaignStepThreeActivityView.onCampaignCompleted();
+                    }, throwable -> {
+                        CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                        addCampaignStepThreeActivityView.viewSubmitCampaignProgress(false);
+                    });
+        } else
+            BaseNetworkApi.submitCampaign(PrefUtils.getBrandToken(context), data, addCampaignRequestModel.campaignCoverPhoto)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(submitCampaignResponse -> {
+                        addCampaignStepThreeActivityView.viewSubmitCampaignProgress(false);
+                        addCampaignStepThreeActivityView.viewMessage(submitCampaignResponse.msg);
+                        addCampaignStepThreeActivityView.onCampaignCompleted();
+                    }, throwable -> {
+                        CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                        addCampaignStepThreeActivityView.viewSubmitCampaignProgress(false);
+                    });
     }
 }

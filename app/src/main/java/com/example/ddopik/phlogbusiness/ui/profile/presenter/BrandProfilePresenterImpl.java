@@ -50,24 +50,10 @@ public class BrandProfilePresenterImpl implements BrandProfilePresenter {
         PrefUtils.setBrandToken(context, null);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void logout() {
-        BaseNetworkApi.logout()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
-                    if (s != null)
-                        sendFirebaseTokenAsLoggedOut();
-                    else
-                        brandProfileFragmentView.viewMessage(context.getString(R.string.error_logout));
-                }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                    brandProfileFragmentView.viewMessage(context.getString(R.string.error_logout));
-                });
-    }
-
-    private void sendFirebaseTokenAsLoggedOut() {
-        BaseNetworkApi.updateFirebaseToken(new Device(Utilities.getDeviceName(), false, PrefUtils.getFirebaseToken(context)))
+        BaseNetworkApi.updateFirebaseToken(new Device(Utilities.getDeviceName(), false, PrefUtils.getFirebaseToken(context)), PrefUtils.getBrandToken(context))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {

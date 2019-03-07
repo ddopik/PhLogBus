@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.ui.MainActivity;
+import com.example.ddopik.phlogbusiness.ui.login.view.LoginActivity;
 import com.example.ddopik.phlogbusiness.ui.splash.presenter.SplashPresenter;
 import com.example.ddopik.phlogbusiness.ui.splash.presenter.SplashPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.welcome.view.WelcomeActivity;
@@ -73,7 +74,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
     }
 
     private void goToWelcome() {
-        Intent intent = new Intent(SplashActivity.this, WelcomeActivity.class);
+        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
