@@ -7,8 +7,8 @@
 	<ImageView
 			
 			android:id="@+id/light_box_slider_img"
-			android:layout_width="@dimen/img_slider_w"
-			android:layout_height="@dimen/img_slider_h"
+			android:layout_width="@dimen/img_slider_h"
+			android:layout_height="@dimen/img_slider_w"
 			android:scaleType="centerCrop"
 			android:padding="1dp"
 			tools:src="@drawable/default_place_holder"/>

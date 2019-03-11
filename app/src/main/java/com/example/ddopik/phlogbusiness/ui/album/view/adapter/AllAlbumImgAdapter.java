@@ -82,7 +82,11 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
             albumImgViewHolder.albumImgLikeVal.setText(new StringBuilder().append(albumImgList.get(i).likesCount).append(" Likes").toString());
         if (albumImgList.get(i).commentsCount != null)
             albumImgViewHolder.albumImgCommentVal.setText(new StringBuilder().append(albumImgList.get(i).commentsCount).append(" Comments").toString());
-
+        if (!albumImgList.get(i).isLiked) {
+            albumImgViewHolder.albumImgLike.setImageResource(R.drawable.ic_like_off_gray);
+        } else {
+            albumImgViewHolder.albumImgLike.setImageResource(R.drawable.ic_like_on);
+        }
 
         //case this list is for current user and already saved to his profile
         if (albumImgList.get(i).photographer.id != Integer.parseInt(PrefUtils.getUserId(context))) {

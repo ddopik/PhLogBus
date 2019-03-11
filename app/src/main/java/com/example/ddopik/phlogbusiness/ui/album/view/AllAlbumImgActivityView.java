@@ -16,4 +16,6 @@ public interface AllAlbumImgActivityView  {
     void onImageSavedToProfile(BaseImage baseImage,boolean state);
     void onImagePhotoGrapherFollowed(BaseImage baseImage ,boolean state);
     void onImagePhotoGrapherDeleted(BaseImage baseImage ,boolean state);
+    void onImagePhotoGrapherLiked(int photoID ,boolean state);
+
 }

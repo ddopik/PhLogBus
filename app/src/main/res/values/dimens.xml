@@ -52,6 +52,7 @@
     <!--//ViewHolders-->
     <dimen name="view_holder_item_list_height">150dp</dimen>
     <dimen name="view_holder_item_list_height_med">280dp</dimen>
+    <dimen name="view_holder_item_list_height_xl">225dp</dimen>
     <dimen name="icon_view_holder_size_s">35dp</dimen>
     <dimen name="icon_view_holder_size_m">45dp</dimen>
 
@@ -169,6 +170,7 @@
     <!--///ConfirmMailDialog////-->
     <dimen name="confirm_mail_dialog_height">160dp</dimen>
 
+    <dimen name="social_fragment_recycler_height">750dp</dimen>
     <dimen name="img_slider_w">175dp</dimen>
     <dimen name="img_slider_h">280dp</dimen>
     <dimen name="social_img_slider_w">175dp</dimen>

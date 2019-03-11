@@ -15,12 +15,12 @@ import static com.facebook.GraphRequest.TAG;
 /**
  * Created by abdalla_maged On Dec,2018
  */
-public class AllAlbumImgPresnterImpl implements AllAlbumImgPresnter {
+public class AllAlbumImgPresenterImpl implements AllAlbumImgPresenter {
 
     private Context context;
     public AllAlbumImgActivityView allAlbumImgActivityView;
 
-    public AllAlbumImgPresnterImpl(Context context, AllAlbumImgActivityView allAlbumImgActivityView) {
+    public AllAlbumImgPresenterImpl(Context context, AllAlbumImgActivityView allAlbumImgActivityView) {
         this.context = context;
         this.allAlbumImgActivityView = allAlbumImgActivityView;
     }
@@ -55,6 +55,21 @@ public class AllAlbumImgPresnterImpl implements AllAlbumImgPresnter {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
+    @SuppressLint("CheckResult")
+    @Override
+    public void unLikePhoto(String photoId) {
+        allAlbumImgActivityView.viewAlbumImageListProgress(true);
+        BaseNetworkApi.unlikeImage(photoId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(baseStateResponse -> {
+                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                    allAlbumImgActivityView.onImagePhotoGrapherLiked(Integer.parseInt(photoId),false);
+                }, throwable -> {
+                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                });
+    }
 
 
     @SuppressLint("CheckResult")
@@ -68,7 +83,7 @@ public class AllAlbumImgPresnterImpl implements AllAlbumImgPresnter {
                     allAlbumImgActivityView.onImageSavedToProfile(baseImage, true);
                     allAlbumImgActivityView.viewAlbumImageListProgress(false);
                 }, throwable -> {
-                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                    allAlbumImgActivityView.viewAlbumImageListProgress( false);
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
 
                 });

@@ -11,12 +11,8 @@ import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
-import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.AddToLightBoxDialogFragment;
-import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgActivityPresenter;
-import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgActivityPresenterImpl;
-import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgPresnter;
-import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgPresnterImpl;
+import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgPresenter;
+import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AllAlbumImgAdapter;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
@@ -43,7 +39,7 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
     private AllAlbumImgAdapter allAlbumImgAdapter;
     private List<BaseImage> albumImgList = new ArrayList<>();
     private ProgressBar albumImgProgress;
-    private AllAlbumImgPresnter allAlbumImgPresnter;
+    private AllAlbumImgPresenter allAlbumImgPresenter;
 
 
     @Override
@@ -96,7 +92,7 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
     @Override
     public void initPresenter() {
-        allAlbumImgPresnter = new AllAlbumImgPresnterImpl(this, this);
+        allAlbumImgPresenter = new AllAlbumImgPresenterImpl(this, this);
     }
 
     @Override
@@ -117,12 +113,12 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
             @Override
             public void onAlbumImgDeleteClick(BaseImage albumImg) {
-                allAlbumImgPresnter.deleteImage(albumImg);
+                allAlbumImgPresenter.deleteImage(albumImg);
             }
 
             @Override
             public void onAlbumImgLikeClick(BaseImage albumImg) {
-                allAlbumImgPresnter.likePhoto(String.valueOf(albumImg.id));
+                allAlbumImgPresenter.likePhoto(String.valueOf(albumImg.id));
             }
 
             @Override
@@ -137,16 +133,16 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
             public void onAlbumImgSaveClick(BaseImage albumImg) {
 
                 if (albumImg.isSaved) {
-                    allAlbumImgPresnter.saveToProfileImage(albumImg);
+                    allAlbumImgPresenter.saveToProfileImage(albumImg);
                 } else {
-                    allAlbumImgPresnter.unSaveToProfileImage(albumImg);
+                    allAlbumImgPresenter.unSaveToProfileImage(albumImg);
 
                 }
             }
 
             @Override
             public void onAlbumImgFollowClick(BaseImage albumImg) {
-                allAlbumImgPresnter.followImagePhotoGrapher(albumImg);
+                allAlbumImgPresenter.followImagePhotoGrapher(albumImg);
             }
 
             @Override
@@ -206,6 +202,17 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
         }
         allAlbumImgAdapter.notifyDataSetChanged();
     }
+    @Override
+    public void onImagePhotoGrapherLiked(int photoId, boolean state) {
+        for (int i=0;i<albumImgList.size();i++) {
+            if (albumImgList.get(i).id == photoId && state) {
+                albumImgList.get(i).isLiked=state;
+                break;
+            }
+        }
+        allAlbumImgAdapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public void viewAlbumImageListProgress(boolean state) {

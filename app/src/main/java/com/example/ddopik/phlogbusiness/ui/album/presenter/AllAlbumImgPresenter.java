@@ -6,10 +6,11 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 /**
  * Created by abdalla_maged On Dec,2018
  */
-public interface AllAlbumImgPresnter {
+public interface AllAlbumImgPresenter {
 
     void deleteImage(BaseImage baseImage);
     void likePhoto(String photoId);
+    void unLikePhoto(String photoId);
 
     void saveToProfileImage(BaseImage baseImage);
     void unSaveToProfileImage(BaseImage baseImage);
