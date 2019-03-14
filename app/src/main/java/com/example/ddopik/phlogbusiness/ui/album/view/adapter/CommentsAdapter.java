@@ -247,9 +247,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             if (commentAdapterAction != null && getItemViewType(i) != REPLY_COMMENT) {
                 commentViewHolder.imageCommentReplayBtn.setOnClickListener(v -> {
                             if (commentViewHolder.imageCommentReplayBtn.getText().equals(context.getResources().getString(R.string.replay))) {
-                                commentAdapterAction.onReplayClicked(commentList.get(i), REPLAY_ON_COMMENT);
+                                commentAdapterAction.onReplayClicked(commentList.get(i), mentions, REPLAY_ON_COMMENT);
                             } else {
-                                commentAdapterAction.onReplayClicked(commentList.get(i), VIEW_REPLIES);
+                                commentAdapterAction.onReplayClicked(commentList.get(i), mentions, VIEW_REPLIES);
 
                             }
 
@@ -685,7 +685,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         void onReportClicked(BaseImage image);
 
-        void onReplayClicked(Comment comment, Constants.CommentListType commentListType);
+        void onReplayClicked(Comment comment, Mentions mentions, Constants.CommentListType commentListType);
 
         void onChooseWinnerClick(BaseImage previewImage, Consumer<Boolean> success);
     }

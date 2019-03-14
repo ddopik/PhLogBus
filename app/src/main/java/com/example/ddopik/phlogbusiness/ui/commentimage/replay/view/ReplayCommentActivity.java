@@ -41,6 +41,7 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.CommentListType
 
 public class ReplayCommentActivity extends BaseActivity implements ReplayCommentActivityView {
 
+    public static final String MENTIONS = "mentions";
     private String TAG = ReplayCommentActivity.class.getSimpleName();
     public static String COMMENT_IMAGE = "comment_image";
     public static String COMMENT_LIST_TYPE = "comment_list_type";
@@ -63,6 +64,7 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_replay);
+
         initPresenter();
         initView();
         initListener();
@@ -72,14 +74,18 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
             headerComment = (Comment) getIntent().getParcelableExtra(REPLY_HEADER_COMMENT);
             commentListType = (Constants.CommentListType) getIntent().getSerializableExtra(COMMENT_LIST_TYPE);
             Comment comment = new Comment();
-
             commentList.add(headerComment);
             commentList.add(comment);
+            if (getIntent().getParcelableExtra(MENTIONS) != null) {
+                Mentions ms = getIntent().getParcelableExtra(MENTIONS);
+                if (ms.photographers != null)
+                    mentions.photographers.addAll(ms.photographers);
+                if (ms.business != null)
+                    mentions.business.addAll(ms.business);
+            }
             commentsAdapter.notifyDataSetChanged();
             replayCommentPresenter.getReplies(headerComment.id, previewImage.id, 0);
         }
-
-
     }
 
     @Override
@@ -94,6 +100,9 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
             Comment comment = new Comment();
             commentList.add(headerComment);
             commentList.add(comment);
+
+            if (getIntent().getParcelableExtra(MENTIONS) != null)
+                mentions = getIntent().getParcelableExtra(MENTIONS);
             commentsAdapter.notifyDataSetChanged();
             replayCommentPresenter.getReplies(headerComment.id, previewImage.id, 0);
 
@@ -184,11 +193,12 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
             }
 
             @Override
-            public void onReplayClicked(Comment comment, Constants.CommentListType commentListType) {
+            public void onReplayClicked(Comment comment, Mentions mentions, Constants.CommentListType commentListType) {
                 Intent intent = new Intent(getBaseContext(), ReplayCommentActivity.class);
                 intent.putExtra(ReplayCommentActivity.COMMENT_IMAGE, previewImage);
                 intent.putExtra(ReplayCommentActivity.COMMENT_LIST_TYPE, commentListType);
                 intent.putExtra(ReplayCommentActivity.REPLY_HEADER_COMMENT, comment);
+                intent.putExtra(ReplayCommentActivity.MENTIONS, mentions);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
