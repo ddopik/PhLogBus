@@ -129,7 +129,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
             @Override
             public void onCommentAuthorIconClicked(BaseImage baseImage) {
-                if (PrefUtils.getUserId(getBaseContext()).equals(String.valueOf(baseImage.photographer.id))) {
+                if (PrefUtils.getBrandId(getBaseContext()).equals(String.valueOf(baseImage.photographer.id))) {
                     Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
                     intent.putExtra(UserProfileActivity.USER_ID, String.valueOf(baseImage.photographer.id));
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -198,36 +198,38 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             public void onImageCommentClicked() {
 
 
-                if (commentList.size() == 2) {
-                    commentsRv.scrollToPosition(commentList.size() - 1);
-                    CustomAutoCompleteTextView customAutoCompleteTextView = (CustomAutoCompleteTextView) commentsRv.getChildAt(commentList.size() - 1).findViewById(R.id.img_send_comment_val);
-                    customAutoCompleteTextView.requestFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(customAutoCompleteTextView, InputMethodManager.SHOW_IMPLICIT);
+//                if (commentList.size() <= 2) {
+//                    commentsRv.scrollToPosition(commentList.size() - 1);
+//                    CustomAutoCompleteTextView customAutoCompleteTextView = (CustomAutoCompleteTextView) commentsRv.getChildAt(commentList.size() - 1).findViewById(R.id.img_send_comment_val);
+//                    customAutoCompleteTextView.requestFocus();
+//                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.showSoftInput(customAutoCompleteTextView, InputMethodManager.SHOW_IMPLICIT);
+////
+//                }
+
+//                else {
+//                    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+//                        @Override
+//                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                            switch (newState) {
+//                                case SCROLL_STATE_IDLE:
+//                                    //we reached the target position
+//                                    CustomAutoCompleteTextView customAutoCompleteTextView = commentsRv.getChildAt(commentsRv.getChildCount()-1).findViewById(R.id.img_send_comment_val);
+//                                    customAutoCompleteTextView.requestFocus();
+////
+//                                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                                    imm.showSoftInput(customAutoCompleteTextView, InputMethodManager.SHOW_IMPLICIT);
+//                                    recyclerView.removeOnScrollListener(this);
+//                                    break;
+//                            }
+//                        }
+//                    };
 //
-                } else {
-                    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-                        @Override
-                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                            switch (newState) {
-                                case SCROLL_STATE_IDLE:
-                                    //we reached the target position
-                                    CustomAutoCompleteTextView customAutoCompleteTextView = commentsRv.getChildAt(commentsRv.getChildCount()).findViewById(R.id.img_send_comment_val);
-                                    customAutoCompleteTextView.requestFocus();
+//                    commentsRv.addOnScrollListener(onScrollListener);
+//                    commentsRv.getLayoutManager().smoothScrollToPosition(commentsRv, null, commentList.size() - 1);
 //
-                                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                                    imm.showSoftInput(customAutoCompleteTextView, InputMethodManager.SHOW_IMPLICIT);
-                                    recyclerView.removeOnScrollListener(this);
-                                    break;
-                            }
-                        }
-                    };
 
-                    commentsRv.addOnScrollListener(onScrollListener);
-                    commentsRv.getLayoutManager().smoothScrollToPosition(commentsRv, null, commentList.size() - 1);
-
-
-                }
+//                }
             }
 
             @Override

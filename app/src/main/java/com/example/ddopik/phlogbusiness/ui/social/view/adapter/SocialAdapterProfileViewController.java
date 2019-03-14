@@ -161,7 +161,7 @@ public class SocialAdapterProfileViewController {
 
 
         View.OnClickListener onProfileClickListener = v -> {
-            if (photographer.id == Integer.parseInt(PrefUtils.getUserId(context))) {
+            if (photographer.id == Integer.parseInt(PrefUtils.getBrandId(context))) {
 
                 ((MainActivity) context).navigationManger.navigate(Constants.NavigationHelper.PROFILE);
 

@@ -132,7 +132,7 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
 
             @Override
             public void onCommentAuthorIconClicked(BaseImage baseImage) {
-                if (PrefUtils.getUserId(getBaseContext()).equals(String.valueOf(baseImage.photographer.id))) {
+                if (PrefUtils.getBrandId(getBaseContext()).equals(String.valueOf(baseImage.photographer.id))) {
                     Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
                     intent.putExtra(UserProfileActivity.USER_ID, String.valueOf(baseImage.photographer.id));
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

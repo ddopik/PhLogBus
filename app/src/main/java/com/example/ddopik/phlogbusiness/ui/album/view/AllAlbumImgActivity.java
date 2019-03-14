@@ -147,7 +147,7 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
             @Override
             public void onAlbumImgPhotoGrapherIconClick(BaseImage albumImg) {
-                if (PrefUtils.getUserId(getBaseContext()).equals(String.valueOf(albumImg.photographer.id))) {
+                if (PrefUtils.getBrandId(getBaseContext()).equals(String.valueOf(albumImg.photographer.id))) {
                     Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
                     intent.putExtra(UserProfileActivity.USER_ID, String.valueOf(albumImg.photographer.id));
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

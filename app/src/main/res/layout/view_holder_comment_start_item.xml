@@ -164,7 +164,7 @@
                         android:layout_marginStart="@dimen/dp16"
                         android:background="@color/transparent"
                         android:scaleType="centerCrop"
-                        android:visibility="invisible"
+
                         app:srcCompat="@drawable/ic_comment_white" />
 
 

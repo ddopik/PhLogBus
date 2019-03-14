@@ -50,11 +50,13 @@ public abstract class PrefUtils {
     }
 
     public static void setBrandID(Context context, int userID) {
-        getSharedPref(context).edit().putInt(BRAND_ID, userID).apply();
+        getSharedPref(context).edit().putString(BRAND_ID, String.valueOf(userID)).apply();
     }
-    public static String getUserId(Context mContext) {
+
+    public static String getBrandId(Context mContext) {
         return getSharedPref(mContext).getString(BRAND_ID, GUEST_USER_ID);
     }
+
     public static void setBrandToken(Context context, String userToken) {
         getSharedPref(context).edit().putString(BRAND_TOKEN, userToken).apply();
     }
@@ -63,16 +65,18 @@ public abstract class PrefUtils {
         getSharedPref(context).edit().putBoolean(IS_FIRST_LAUNCH, isFirstLaunch).apply();
     }
 
-    public static void setIsBrand(Context context,boolean state) {
+    public static void setIsBrand(Context context, boolean state) {
         getSharedPref(context).edit().putBoolean(IS_BRAND, state).apply();
     }
 
     public static void setAppLang(Context context, String appLang) {
         getSharedPref(context).edit().putString(APP_LANG, appLang).apply();
     }
+
     public static void setIsLanguageSelected(Context context, boolean isSelected) {
         getSharedPref(context).edit().putBoolean(IS_LANGUAGE_SELECTED, isSelected).apply();
     }
+
     public static void setNotificationToken(Context context, String notificationToken) {
         getSharedPref(context).edit().putString(NOTIFICATION_TOKEN, notificationToken).apply();
     }
@@ -81,10 +85,10 @@ public abstract class PrefUtils {
         getSharedPref(context).edit().putBoolean(LOGIN_PROVIDER, state).apply();
 
     }
+
     public static void setBrandSetUp(Context context, int state) {
         getSharedPref(context).edit().putInt(IS_SETUP_BRAND, state).apply();
     }
-
 
 
     public static void setBrandStatus(Context context, int state) {
@@ -101,7 +105,7 @@ public abstract class PrefUtils {
     }
 
 
-    public static void setBrandText(Context context,String brandTxt) {
+    public static void setBrandText(Context context, String brandTxt) {
         getSharedPref(context).edit().putString(IS_BRAND_TEXT, brandTxt).apply();
     }
 
@@ -110,19 +114,10 @@ public abstract class PrefUtils {
     }
 
 
-
-
-
-
-
-
     public static void firstTimeAskingPermission(Context context, String permission, boolean isFirstTime) {
         SharedPreferences sharedPreference = context.getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE);
         sharedPreference.edit().putBoolean(permission, isFirstTime).apply();
     }
-
-
-
 
 
     public static String getBrandID(Context mContext) {
@@ -148,11 +143,9 @@ public abstract class PrefUtils {
     }
 
 
-
     public static boolean isLanguageSelected(Context context) {
         return getSharedPref(context).getBoolean(IS_LANGUAGE_SELECTED, false);
     }
-
 
 
     public static boolean isTokenSaved(Context context) {
@@ -160,11 +153,9 @@ public abstract class PrefUtils {
     }
 
 
-
     public static int getBrandSetUp(Context context) {
         return getSharedPref(context).getInt(IS_SETUP_BRAND, 0);
     }
-
 
 
     public static boolean getIsPhoneVerified(Context context) {
@@ -172,17 +163,14 @@ public abstract class PrefUtils {
     }
 
 
-
     public static boolean getIsMailVerified(Context context) {
         return getSharedPref(context).getBoolean(IS_MAIL_VERIFIED, false);
     }
 
 
-
     public static int getBrandStatus(Context context) {
         return getSharedPref(context).getInt(BRAND_STATUS, 0);
     }
-
 
 
     public static String getBrandHash(Context context) {
@@ -195,20 +183,14 @@ public abstract class PrefUtils {
     }
 
 
-
-
-
     public static String getBrandText(Context context) {
         return getSharedPref(context).getString(IS_BRAND_TEXT, "");
     }
 
 
-
     public static boolean isLoginProvided(Context context) {
         return getSharedPref(context).getBoolean(LOGIN_PROVIDER, false);
     }
-
-
 
 
     public static boolean isFirstTimeAskingPermission(Context context, String permission) {

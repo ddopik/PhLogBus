@@ -89,11 +89,11 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         }
 
         //case this list is for current user and already saved to his profile
-        if (albumImgList.get(i).photographer.id != Integer.parseInt(PrefUtils.getUserId(context))) {
+        if (albumImgList.get(i).photographer.id != Integer.parseInt(PrefUtils.getBrandId(context))) {
 
 
 
-            if (albumImgList.get(i).photographer.id == Integer.parseInt(PrefUtils.getUserId(context))) {
+            if (albumImgList.get(i).photographer.id == Integer.parseInt(PrefUtils.getBrandId(context))) {
                  albumImgViewHolder.albumImgDeleteBtn.setVisibility(View.VISIBLE);
                 albumImgViewHolder.albumImgSaveBtn.setVisibility(View.INVISIBLE);
 
@@ -120,7 +120,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         }
 
         //case this list is specified for multiple users not for only one
-        if (photosListType != null && photosListType == Constants.PhotosListType.SOCIAL_LIST && albumImgList.get(i).photographer.id != Integer.parseInt(PrefUtils.getUserId(context)) && !albumImgList.get(i).photographer.isFollow) {
+        if (photosListType != null && photosListType == Constants.PhotosListType.SOCIAL_LIST && albumImgList.get(i).photographer.id != Integer.parseInt(PrefUtils.getBrandId(context)) && !albumImgList.get(i).photographer.isFollow) {
             albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.VISIBLE);
             if (onAlbumImgClicked != null)
                 albumImgViewHolder.followPhotoGrapherBtn.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgFollowClick(albumImgList.get(i)));
