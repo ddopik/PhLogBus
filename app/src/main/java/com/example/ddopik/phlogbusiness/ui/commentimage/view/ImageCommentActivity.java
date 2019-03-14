@@ -243,13 +243,14 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             }
 
             @Override
-            public void onReplayClicked(Comment comment, Constants.CommentListType commentListType) {
+            public void onReplayClicked(Comment comment, Mentions mentions, Constants.CommentListType commentListType) {
 
                 Intent intent = new Intent(getBaseContext(), ReplayCommentActivity.class);
 
                 intent.putExtra(ReplayCommentActivity.COMMENT_IMAGE, previewImage);
                 intent.putExtra(ReplayCommentActivity.COMMENT_LIST_TYPE, commentListType);
                 intent.putExtra(ReplayCommentActivity.REPLY_HEADER_COMMENT, comment);
+                intent.putExtra(ReplayCommentActivity.MENTIONS, mentions);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
