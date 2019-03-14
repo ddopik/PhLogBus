@@ -19,17 +19,18 @@
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:background="@color/black"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+
                     android:padding="@dimen/widgets_padding">
+
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -41,7 +42,7 @@
                             android:fontFamily="@font/segoe_b"
                             android:text="@string/stories"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_head_xl"/>
+                            android:textSize="@dimen/text_head_xl" />
 
                     <FrameLayout
                             android:layout_width="match_parent"
@@ -65,7 +66,7 @@
                                     app:layout_constraintHorizontal_bias=".97"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    app:srcCompat="@drawable/ic_bell_1"/>
+                                    app:srcCompat="@drawable/ic_bell_1" />
 
                             <TextView
                                     android:id="@+id/notification_count"
@@ -80,7 +81,7 @@
                                     app:layout_constraintHorizontal_bias="0"
                                     app:layout_constraintStart_toStartOf="@id/notification_icon"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias=".9"/>
+                                    app:layout_constraintVertical_bias=".9" />
                         </android.support.constraint.ConstraintLayout>
                     </FrameLayout>
                 </LinearLayout>
@@ -96,7 +97,7 @@
                         android:fontFamily="@font/verdana"
                         android:hint="@string/place_autocomplete_search_hint"
                         android:padding="@dimen/widgets_padding"
-                        android:paddingStart="@dimen/dp10"/>
+                        android:paddingStart="@dimen/dp10" />
 
             </LinearLayout>
 
@@ -108,35 +109,35 @@
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/widgets_padding"
             android:layout_marginTop="@dimen/dp16"
-            android:layout_marginEnd="@dimen/widgets_padding"
             android:layout_marginBottom="@dimen/dp16"
+            android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
                 android:id="@+id/social_mainContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:padding="@dimen/widgets_padding">
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
                     android:id="@+id/social_rv"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/social_fragment_recycler_height"
                     android:layout_marginBottom="@dimen/dp45"
-                    app:orientation="vertical"/>
+                    app:orientation="vertical" />
 
 
-            <ProgressBar
-                    android:id="@+id/social_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-                    toosl:visibility="visible"/>
         </FrameLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
+    <ProgressBar
+            android:id="@+id/social_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            toosl:visibility="visible" />
 
 </android.support.design.widget.CoordinatorLayout>

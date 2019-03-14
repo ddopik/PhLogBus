@@ -51,12 +51,8 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView, 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        mainView = inflater.inflate(R.layout.fragment_home, container, false);
-//        try {
-//            Utilities.intializeData("mina");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        mainView = inflater.inflate(R.layout.fragment_social, container, false);
+
         return mainView;
 
     }
@@ -105,9 +101,14 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView, 
                 socialFragmentPresenter.getSocialData(false);
             }
         };
+
+
+
         View.OnClickListener notificaionClickListener = v -> {
             MainActivity.navigationManger.navigate(Constants.NavigationHelper.NOTIFICATION);
         };
+
+
         notificationButton.setOnClickListener(notificaionClickListener);
         notificationCount.setOnClickListener(notificaionClickListener);
     }
