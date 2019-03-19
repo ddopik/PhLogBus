@@ -34,12 +34,14 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
     public static String SELECTED_IMG_ID = "selected_img_id";
     public static String LIST_TYPE = "list_type";
     public static String LIST_NAME = "list_name";
+
     private ImageButton mainBackBtn;
     private CustomTextView topBarTitle;
     private AllAlbumImgAdapter allAlbumImgAdapter;
     private List<BaseImage> albumImgList = new ArrayList<>();
     private ProgressBar albumImgProgress;
     private AllAlbumImgPresenter allAlbumImgPresenter;
+    private Constants.PhotosListType photosListType;
 
 
     @Override
@@ -60,7 +62,7 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
             albumImgProgress = findViewById(R.id.album_img_list_progress_bar);
             CustomRecyclerView allAlbumImgRv = findViewById(R.id.album_img_list_rv);
 
-            Constants.PhotosListType photosListType = (Constants.PhotosListType) getIntent().getSerializableExtra(LIST_TYPE);
+             photosListType = (Constants.PhotosListType) getIntent().getSerializableExtra(LIST_TYPE);
 
 
             if (getIntent().getStringExtra(LIST_NAME) !=null){
@@ -146,11 +148,16 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
             }
 
             @Override
-            public void onAlbumImgPhotoGrapherIconClick(BaseImage albumImg) {
+            public void onAlbumImgHeaderClick(BaseImage albumImg) {
                 if (PrefUtils.getBrandId(getBaseContext()).equals(String.valueOf(albumImg.photographer.id))) {
                     Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
                     intent.putExtra(UserProfileActivity.USER_ID, String.valueOf(albumImg.photographer.id));
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    getBaseContext().startActivity(intent);
+                }else if ( !photosListType.equals(Constants.PhotosListType.USER_PROFILE_PHOTOS_LIST) ){ //case user already came from photographer Profile list do not navigate
+                    Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
+                    intent.putExtra(UserProfileActivity.USER_ID, String.valueOf(albumImg.photographer.id));
+                    intent.putExtra(UserProfileActivity.USER_TYPE, Constants.UserType.USER_TYPE_BUSINESS);
                     getBaseContext().startActivity(intent);
                 }
             }

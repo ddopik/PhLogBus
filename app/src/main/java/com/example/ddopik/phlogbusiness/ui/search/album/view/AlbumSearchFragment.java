@@ -66,12 +66,11 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     private CompositeDisposable disposable = new CompositeDisposable();
     private PagingController pagingController;
     private OnSearchTabSelected onSearchTabSelected;
-
-
     private ConstraintLayout promptView;
     private ImageView promptImage;
     private TextView promptText;
     private CustomTextView filterIcon, clearFilterBtn;
+    private String totalResultCount="0";
 
 
     public static AlbumSearchFragment getInstance() {
@@ -134,7 +133,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(), 50), width - Utilities.GetPixelFromDips(getContext(), 10));
         filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(), 50), width - Utilities.GetPixelFromDips(getContext(), 10));
         ///////////
-        searchResultCount.setText(new StringBuilder().append(this.albumSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
+        searchResultCount.setText(new StringBuilder().append(getTotalResultCount()).append(" ").append(getResources().getString(R.string.result)).toString());
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
 
         promptView = mainView.findViewById(R.id.prompt_view);
@@ -218,6 +217,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         } else { //handle filter result screen
             filterIcon.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             searchResultCount.setTextColor(getResources().getColor(R.color.white));
+
             filterExpListView.setVisibility(View.VISIBLE);
             clearFilterBtn.setVisibility(View.INVISIBLE);
             albumSearchRv.setVisibility(View.GONE);
@@ -296,6 +296,12 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
 
                 if (textViewTextChangeEvent.getCount() == 0) {
+                    if (textViewTextChangeEvent.getCount() == 0) {
+                        setTotalResultCount("0");
+                        if (searchResultCount != null) {
+                            searchResultCount.setVisibility(View.INVISIBLE);
+                        }
+                    }
                     promptView.setVisibility(View.VISIBLE);
                     promptText.setText(R.string.type_something_album);
                     return;
@@ -322,6 +328,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
 
     @Override
     public void viewSearchAlbum(AlbumSearchData albumSearchData) {
+        setTotalResultCount(String.valueOf(albumSearchData.total));
         if (clearFilterBtn != null) {
             clearFilterBtn.setVisibility(View.INVISIBLE);
         }
@@ -418,12 +425,19 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         filterExpListView.setVisibility(View.GONE);
         albumSearchRv.setVisibility(View.VISIBLE);
 
-        searchResultCount.setText(new StringBuilder().append(this.albumSearchList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
+        searchResultCount.setText(new StringBuilder().append(getTotalResultCount()).append(" ").append(getResources().getString(R.string.result)).toString());
     }
 
 
     public void setAlbumSearchView(OnSearchTabSelected onSearchTabSelected) {
         this.onSearchTabSelected = onSearchTabSelected;
+    }
+
+    private void setTotalResultCount(String count){
+        totalResultCount =count;
+    }
+    private String getTotalResultCount(){
+        return totalResultCount;
     }
 
 }

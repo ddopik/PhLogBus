@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.SELECTED_IMG_ID;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.PhotosListType.SOCIAL_LIST;
 
 
 /**
@@ -41,7 +42,7 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
     private ImageView albumPreviewImg;
     private ProgressBar albumPreviewProgress;
     private CustomRecyclerView albumRv;
-    private CustomTextView albumNameTV, followingNumber, albumToolBarTitle;
+    private CustomTextView albumNameTV, albumToolBarTitle,photosCount;
     private PagingController pagingController;
     private AlbumPreviewActivityPresenter albumPreviewActivityPresenter;
 
@@ -67,7 +68,7 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
         albumRv = findViewById(R.id.album_rv);
         albumPreviewProgress = findViewById(R.id.user_profile_progress_bar);
         albumNameTV = findViewById(R.id.album_name_text_view);
-        followingNumber = findViewById(R.id.following_number_text_view);
+         photosCount=findViewById(R.id.photos_count_text_view);
         // Set adapter object.
         albumAdapter = new AlbumAdapter(getBaseContext(), albumGroupList);
         albumRv.setAdapter(albumAdapter);
@@ -98,6 +99,7 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
             Intent intent = new Intent(this, AllAlbumImgActivity.class);
             intent.putExtra(AllAlbumImgActivity.ALBUM_ID, albumID);
             intent.putExtra(AllAlbumImgActivity.ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) imageList);
+            intent.putExtra(AllAlbumImgActivity.LIST_TYPE, SOCIAL_LIST);
             intent.putExtra(SELECTED_IMG_ID, albumImg.id);
             startActivity(intent);
 
@@ -162,6 +164,7 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
                 .error(R.drawable.default_photographer_profile)
                 .into(albumPreviewImg);
         albumNameTV.setText(albumPreviewResponseData.name);
+        photosCount.setText(getString(R.string.photos_number, albumPreviewResponseData.photosCount));
 
     }
 }

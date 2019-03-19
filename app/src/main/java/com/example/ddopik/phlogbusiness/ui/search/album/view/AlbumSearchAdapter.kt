@@ -69,7 +69,7 @@ class AlbumSearchAdapter(private var albumSearchList: List<AlbumSearch>?) : Recy
             albumSearchViewHolder.albumName.text = it
         }
         albumSearchList?.get(i)?.photosCount?.let {
-            albumSearchViewHolder.albumPhotoCount.text = it.toString()+" "+context?.resources?.getString(R.string.photos)
+            albumSearchViewHolder.albumPhotoCount.text = it.toString()+" "+context?.resources?.getString(R.string.photo)
         }
 
 

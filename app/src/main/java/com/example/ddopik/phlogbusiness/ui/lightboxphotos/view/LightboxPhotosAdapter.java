@@ -63,7 +63,7 @@ public class LightboxPhotosAdapter extends RecyclerView.Adapter<LightboxPhotosAd
             if (image.photographer.userName != null)
                 holder.photographerUsername.setText(String.format("@%1$s", image.photographer.userName));
             if (image.photographer.isFollow)
-                holder.followButton.setText(R.string.unfollow);
+                holder.followButton.setText(R.string.un_follow);
             else holder.followButton.setText(R.string.follow);
         }
         if (image.likesCount != null)

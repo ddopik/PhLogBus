@@ -73,6 +73,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     private CompositeDisposable disposable = new CompositeDisposable();
     private OnSearchTabSelected onSearchTabSelected;
     private CustomTextView filterIcon, clearFilterBtn;
+    private String totalResultCount = "0";
 
     public static ImagesSearchFragment getInstance() {
         ImagesSearchFragment imagesSearchFragment = new ImagesSearchFragment();
@@ -305,10 +306,16 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
                 // user cleared search get default data
                 if (textViewTextChangeEvent.getCount() == 0) {
+                    setTotalResultCount("0");
+                    if (searchResultCount != null) {
+                        searchResultCount.setVisibility(View.INVISIBLE);
+                    }
+
                     promptView.setVisibility(View.VISIBLE);
                     promptText.setText(R.string.type_something_image);
                     return;
                 }
+
                 promptView.setVisibility(View.GONE);
                 albumGroupList.clear();
                 imageSearchAdapter.notifyDataSetChanged();
@@ -332,6 +339,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     @Override
     public void viewImagesSearchImages(ImagesSearchData imagesSearchData) {
 
+        setTotalResultCount(String.valueOf(imagesSearchData.total));
         /**
          * parsing and loading image into AlbumGroups
          * */
@@ -405,7 +413,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         filterExpListView.setVisibility(View.GONE);
         searchImageRv.setVisibility(View.VISIBLE);
 
-        searchResultCount.setText(new StringBuilder().append(this.albumGroupList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
+        searchResultCount.setText(new StringBuilder().append(getTotalResultCount()).append(" ").append(getResources().getString(R.string.result)).toString());
     }
 
     public void setImagesSearchView(OnSearchTabSelected onSearchTabSelected) {
@@ -482,5 +490,12 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         });
     }
 
+    private void setTotalResultCount(String count) {
+        totalResultCount = count;
+    }
+
+    private String getTotalResultCount() {
+        return totalResultCount;
+    }
 
 }

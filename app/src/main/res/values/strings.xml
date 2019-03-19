@@ -227,8 +227,7 @@
     <string name="error_missing_desc">Provide a description</string>
     <string name="image_already_rated">Image already rated</string>
     <string name="please_add_more_tags">Please add at least one tag</string>
-    <string name="unfollow">Unfollow</string>
-    <string name="logout">Logout</string>
+     <string name="logout">Logout</string>
     <string name="downloads">Downloads</string>
     <string name="download">Download</string>
     <string name="purchase_count">%1$d purchased photos</string>
@@ -273,9 +272,9 @@
     <string name="customer_support">Customer Support</string>
     <string name="extend_campaign">Extend Campaign</string>
     <string name="login">Login</string>
-    <string name="login_header">PHLOG Business</string>
+    <string name="login_header">Phlog Business</string>
     <string name="earlier">Earlier</string>
-    <string name="phlog">PHLOG</string>
+    <string name="phlog">Phlog</string>
     <string name="for_business">For Business</string>
     <string name="close">Close</string>
     <string name="report">Report</string>
@@ -302,4 +301,8 @@
     <string name="download_complete">Download Complete</string>
     <string name="send_email">Send Email</string>
     <string name="clear_all">Clear All</string>
+    <string name="photo">Photo</string>
+    <string name="photos_number">%1$d Photo</string>
+    <string name="un_follow">UnFollow</string>
+
 </resources>

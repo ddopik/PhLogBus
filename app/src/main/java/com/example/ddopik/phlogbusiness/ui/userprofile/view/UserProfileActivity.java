@@ -5,12 +5,14 @@ package com.example.ddopik.phlogbusiness.ui.userprofile.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.*;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
@@ -28,6 +30,9 @@ import io.reactivex.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.*;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.PhotosListType.USER_PROFILE_PHOTOS_LIST;
 
 
 public class UserProfileActivity extends BaseActivity implements UserProfileActivityView {
@@ -127,7 +132,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
                         .subscribe(userProfileData -> {
                             following = userProfileData.isFollow();
                             if (userProfileData.isFollow()) {
-                                followUser.setText(R.string.unfollow);
+                                followUser.setText(R.string.un_follow);
                                 userProfileFolloweresCount.setText("" + userProfileData.getFollowersCount());
                             }
                         }, throwable -> {
@@ -136,12 +141,16 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
                 disposables.add(disposable);
             }
         });
-        userProfilePhotosAdapter.setPhotoAction(baseImage -> {
-            Intent intent = new Intent(this, ImageCommentActivity.class);
-            intent.putExtra(ImageCommentActivity.IMAGE_DATA, baseImage);
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivityForResult(intent, ImageCommentActivity.ImageComment_REQUEST_CODE);
-        });
+
+
+        userProfilePhotosAdapter.photoAction = image -> {
+            Intent intent = new Intent(this, AllAlbumImgActivity.class);
+            intent.putExtra(SELECTED_IMG_ID, image.id);
+            intent.putExtra(LIST_NAME, image.photographer.userName);
+            intent.putExtra(LIST_TYPE, USER_PROFILE_PHOTOS_LIST);
+            intent.putParcelableArrayListExtra(ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) userPhotoList);
+            startActivity(intent);
+        };
     }
 
     @Override
@@ -220,7 +229,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     public void setIsFollowing(boolean follow) {
         following = follow;
         if (following) {
-            followUser.setText(R.string.unfollow);
+            followUser.setText(R.string.un_follow);
         } else {
             followUser.setText(R.string.follow);
         }

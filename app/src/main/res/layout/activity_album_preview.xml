@@ -62,12 +62,12 @@
                     android:padding="@dimen/widgets_padding"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_medium"
-                    app:layout_constraintBottom_toTopOf="@+id/following_number_text_view"
-                    app:layout_constraintStart_toStartOf="@+id/following_number_text_view"
+                    app:layout_constraintBottom_toTopOf="@+id/photos_count_text_view"
+                    app:layout_constraintStart_toStartOf="@+id/photos_count_text_view"
                     tools:text="Album Name" />
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                    android:id="@+id/following_number_text_view"
+                    android:id="@+id/photos_count_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/widgets_padding"
