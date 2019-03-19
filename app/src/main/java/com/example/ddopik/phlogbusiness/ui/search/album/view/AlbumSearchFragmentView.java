@@ -11,7 +11,8 @@ import java.util.List;
  */
 public interface AlbumSearchFragmentView {
 
-     void viewSearchAlbum(AlbumSearchData albumSearchData);
+    void viewSearchFilters(List<Filter> filterList);
+    void viewSearchAlbum(AlbumSearchData albumSearchData);
     void showMessage(String msg);
     void showFilterSearchProgress(boolean state);
 

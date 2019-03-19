@@ -9,22 +9,16 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumGroup;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AlbumAdapter;
@@ -40,7 +34,6 @@ import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.jakewharton.rxbinding3.widget.TextViewTextChangeEvent;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
@@ -79,6 +72,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     private PagingController pagingController;
     private CompositeDisposable disposable = new CompositeDisposable();
     private OnSearchTabSelected onSearchTabSelected;
+    private CustomTextView filterIcon, clearFilterBtn;
 
     public static ImagesSearchFragment getInstance() {
         ImagesSearchFragment imagesSearchFragment = new ImagesSearchFragment();
@@ -99,6 +93,8 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             initPresenter();
             initViews();
             initListener();
+
+            imagesSearchFragmentPresenter.getSearchFilters();
 
         }
 
@@ -121,6 +117,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
 //        imageSearch = mainView.findViewById(R.id.search_brand);
         imageSearch = onSearchTabSelected.getSearchView();
         filterExpListView = mainView.findViewById(R.id.images_filters_expand);
+        filterList.clear();
         expandableListAdapter = new ExpandableListAdapter(getActivity(), filterList);
         filterExpListView.setAdapter(expandableListAdapter);
         searchResultCount = onSearchTabSelected.getSearchResultCount();
@@ -144,6 +141,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         searchResultCount.setText(new StringBuilder().append(getAlbumImagesCount()).append(" ").append(getResources().getString(R.string.result)).toString());
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
 
+
     }
 
     private void initListener() {
@@ -158,7 +156,6 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(searchQuery()));
-
 
 
         /**
@@ -181,15 +178,12 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             for (int i = 0; i < filterList.size(); i++) {
                 for (int x = 0; x < filterList.get(i).options.size(); x++) {
                     FilterOption currFilterOption = filterList.get(i).options.get(x);
-
-                    if (currFilterOption.id.equals(filterOption.id)) {
+                    if (currFilterOption.displayName.equals(filterOption.displayName)) {
                         if (currFilterOption.isSelected) {
                             filterList.get(i).options.get(x).isSelected = false;
                         } else {
                             filterList.get(i).options.get(x).isSelected = true;
                         }
-
-
                         expandableListAdapter.notifyDataSetChanged();
                         return;
                     }
@@ -197,12 +191,112 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             }
         };
 
+
         imageSearchAdapter.onAlbumImageClicked = imageSearch -> {
             Intent intent = new Intent(getActivity(), ImageCommentActivity.class);
             intent.putExtra(ImageCommentActivity.IMAGE_DATA, imageSearch);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivityForResult(intent, ImageCommentActivity.ImageComment_REQUEST_CODE);
         };
+
+
+        expandableListAdapter.onChildViewListener = this::setImagesResultStats;
+    }
+
+    @Override
+    public void viewSearchFilters(List<Filter> filterList) {
+        this.filterList.clear();
+        this.filterList.addAll(filterList);
+
+    }
+
+    @Override
+    public void onFilterCleared(CustomTextView clearResultBtn, boolean state) {
+        clearSelectedFilters();
+    }
+
+
+    @Override
+    public void onFilterIconClicked(CustomTextView filterIcon, CustomTextView clearFilterBtn) {
+
+        this.filterIcon = filterIcon;
+        this.clearFilterBtn = clearFilterBtn;
+
+        if (filterExpListView.getVisibility() == View.GONE) { ///handle Search result screen
+
+            filterIcon.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_filter), null);
+            setSearchFilterView();
+
+
+        } else { //handle filter result screen
+
+            filterIcon.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            searchResultCount.setTextColor(getResources().getColor(R.color.white));
+            filterExpListView.setVisibility(View.VISIBLE);
+            clearFilterBtn.setVisibility(View.INVISIBLE);
+            searchImageRv.setVisibility(View.GONE);
+            setImagesSearchView();
+
+            if (albumGroupList.size() == 0) {
+                promptView.setVisibility(View.VISIBLE);
+                promptImage.setBackgroundResource(R.drawable.ic_album_search);
+                promptText.setText(R.string.type_something_album);
+            }
+
+        }
+
+
+    }
+
+    private void setImagesResultStats(FilterOption filterOption) {
+
+        searchResultCount.setVisibility(View.VISIBLE);
+
+        for (int i = 0; i < filterList.size(); i++) {
+            for (int x = 0; x < filterList.get(i).options.size(); x++) {
+                FilterOption currFilterOption = filterList.get(i).options.get(x);
+                if (currFilterOption.displayName.equals(filterOption.displayName)) {
+                    if (currFilterOption.isSelected) {
+                        filterList.get(i).options.get(x).isSelected = false;
+                    } else {
+                        filterList.get(i).options.get(x).isSelected = true;
+                    }
+
+                    expandableListAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+        }
+
+
+        if (filterIcon != null) {
+            filterIcon.setText(new StringBuilder().append(getResources().getString(R.string.filters)).append(" ( ").append(imagesSearchFragmentPresenter.getFilter(filterList).size()).append(" )").toString());
+        }
+
+
+        //// listing for filter list selecting state
+        if (imagesSearchFragmentPresenter.getFilter(filterList).size() > 0) {
+            clearFilterBtn.setVisibility(View.VISIBLE);
+
+        } else {
+            clearFilterBtn.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+    private void clearSelectedFilters() {
+
+        for (int i = 0; i < filterList.size(); i++) {
+            for (int x = 0; x < filterList.get(i).options.size(); x++) {
+                filterList.get(i).options.get(x).isSelected = false;
+
+            }
+            expandableListAdapter.notifyDataSetChanged();
+        }
+
+        filterIcon.setText(getResources().getString(R.string.filters));
+        clearFilterBtn.setVisibility(View.INVISIBLE);
+
     }
 
     private DisposableObserver<TextViewTextChangeEvent> searchQuery() {
@@ -279,6 +373,10 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         } else {
             promptView.setVisibility(View.GONE);
         }
+
+        if (clearFilterBtn != null) {
+            clearFilterBtn.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -302,34 +400,16 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         disposable.clear();
     }
 
-    public void setImagesSearchView(OnSearchTabSelected onSearchTabSelected) {
-        this.onSearchTabSelected = onSearchTabSelected;
+
+    private void setImagesSearchView() {
+        filterExpListView.setVisibility(View.GONE);
+        searchImageRv.setVisibility(View.VISIBLE);
+
+        searchResultCount.setText(new StringBuilder().append(this.albumGroupList.size()).append(" ").append(getResources().getString(R.string.result)).toString());
     }
 
-
-    @Override
-    public void onFilterIconClicked(List<Filter> filterList) {
-        filterExpListView.setVisibility(View.VISIBLE);
-        searchImageRv.setVisibility(View.GONE);
-        promptView.setVisibility(View.GONE);
-
-        if (this.filterList.size() == 0) {
-            this.filterList.addAll(filterList);
-            expandableListAdapter.notifyDataSetChanged();
-        }
-
-
-        searchResultCount.setText(getActivity().getResources().getString(R.string.apply));
-        searchResultCount.setVisibility(View.VISIBLE);
-        searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.text_input_color));
-        searchResultCount.setOnClickListener(v -> {
-            promptView.setVisibility(View.GONE);
-            albumGroupList.clear();
-            imageSearchAdapter.notifyDataSetChanged();
-            imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString(), filterList, 0);
-        });
-
-
+    public void setImagesSearchView(OnSearchTabSelected onSearchTabSelected) {
+        this.onSearchTabSelected = onSearchTabSelected;
     }
 
 
@@ -370,4 +450,37 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         }
 
     }
+
+    private void setSearchFilterView() {
+
+        filterExpListView.setVisibility(View.VISIBLE);
+        searchImageRv.setVisibility(View.GONE);
+        expandableListAdapter.notifyDataSetChanged();
+        promptView.setVisibility(View.GONE);
+
+        //// change state of (Apply and Clear All) Btn --->wither expandable list visible ot not
+        if (imagesSearchFragmentPresenter.getFilter(filterList).size() > 0 && filterExpListView.getVisibility() == View.VISIBLE) {
+            clearFilterBtn.setVisibility(View.VISIBLE);
+
+        } else {
+            clearFilterBtn.setVisibility(View.INVISIBLE);
+        }
+
+
+        searchResultCount.setText(R.string.apply);
+        searchResultCount.setTextColor(getResources().getColor(R.color.text_input_color));
+        searchResultCount.setVisibility(View.VISIBLE);
+        searchResultCount.setOnClickListener(v -> { //searchResultCount switched to Apply in case Filter was visible
+            filterIcon.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            searchResultCount.setTextColor(getResources().getColor(R.color.white));
+            clearFilterBtn.setVisibility(View.INVISIBLE);
+            ////
+            promptView.setVisibility(View.GONE);
+            albumGroupList.clear();
+            imageSearchAdapter.notifyDataSetChanged();
+            imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString(), filterList, 0);
+        });
+    }
+
+
 }

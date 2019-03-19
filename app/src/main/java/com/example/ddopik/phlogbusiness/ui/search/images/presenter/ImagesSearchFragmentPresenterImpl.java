@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.ui.search.images.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.ui.search.images.view.ImagesSearchFragmentView;
@@ -63,5 +64,38 @@ public class ImagesSearchFragmentPresenterImpl implements ImagesSearchFragmentPr
                 });
 
     }
+    @SuppressLint("CheckResult")
+    @Override
+    public void getSearchFilters() {
+        imagesSearchFragmentView.viewImagesSearchProgress(true);
+        BaseNetworkApi.getFilters()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(searchAlbumResponse -> {
+                    imagesSearchFragmentView.viewSearchFilters(searchAlbumResponse.data);
+                    imagesSearchFragmentView.viewImagesSearchProgress(false);
+                }, throwable -> {
+                    Log.e(TAG, "getFilters() --->Error " + throwable.getMessage());
+                    imagesSearchFragmentView.viewImagesSearchProgress(false);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                });
 
+
+    }
+
+    @Override
+    public Map<String,String> getFilter(List<Filter> filterList){
+        int filterCount=0;
+        Map<String,String> filtersMap=new HashMap<String, String>();
+        for (int i = 0; i< filterList.size(); i++){
+            for (int x = 0; x< filterList.get(i).options.size(); x++){
+                if (filterList.get(i).options.get(x).isSelected) {
+                    filtersMap.put("filter["+filterCount+"]", filterList.get(i).options.get(x).id.toString());
+                    filterCount ++;
+                }
+            }
+
+        }
+        return filtersMap;
+    }
 }

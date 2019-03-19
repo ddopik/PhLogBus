@@ -142,7 +142,7 @@ public class SocialAdapterProfileViewController {
         if (photographer.isFollow)
 
         {
-            socialViewHolder.followSocialProfileType3Btn.setText(context.getResources().getString(R.string.following));
+            socialViewHolder.followSocialProfileType3Btn.setText(context.getResources().getString(R.string.unfollow));
         } else
 
         {

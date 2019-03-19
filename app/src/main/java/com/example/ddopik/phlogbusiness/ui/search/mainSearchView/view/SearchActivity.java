@@ -1,6 +1,5 @@
 package com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -12,36 +11,28 @@ import android.widget.TextView;
 
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
-import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.ui.search.album.view.AlbumSearchFragment;
 import com.example.ddopik.phlogbusiness.ui.search.images.view.ImagesSearchFragment;
-import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.presenter.SearchActivityPresenter;
-import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.presenter.SearchActivityPresenterImp;
 import com.example.ddopik.phlogbusiness.ui.search.profile.view.ProfileSearchFragment;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
-
-import java.util.List;
 
 
 /**
  * Created by abdalla_maged on 10/29/2018.
  */
-public class SearchActivity extends BaseActivity implements SearchActivityView {
+public class SearchActivity extends BaseActivity   {
 
     private EditText searchView;
     private CustomTextView toolBarTitle;
     private ImageButton backBtn;
 
-    private CustomTextView imagesTab, profileTab, albumTab, filterTab, searchResult;
+    private CustomTextView imagesTab, profileTab, albumTab, filterTab, searchResult,clearFilterResultBtn;
     private ImageView filterIcon;
     private FrameLayout searchContainer;
     private OnFilterClicked onFilterClicked;
     private OnSearchTabSelected onSearchTabSelected;
 
-    private SearchActivityPresenter searchActivityPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +44,6 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
 
         /////default tap
         setTapSelected(R.id.tab_images);
-        searchActivityPresenter.getSearchFilters();
 
     }
 
@@ -71,12 +61,13 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
         filterTab = findViewById(R.id.filter_ic);
         searchResult = findViewById(R.id.search_result);
         filterIcon = findViewById(R.id.filter_icon);
+        clearFilterResultBtn=findViewById(R.id.clear_filter_result_btn);
 
     }
 
     @Override
     public void initPresenter() {
-        searchActivityPresenter = new SearchActivityPresenterImp(this, this);
+
     }
 
     private void initListener() {
@@ -110,6 +101,17 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
 
         });
 
+        filterTab.setOnClickListener(v -> {
+            if (onFilterClicked != null) {
+                onFilterClicked.onFilterIconClicked(filterTab,clearFilterResultBtn);
+            }
+        });
+
+        clearFilterResultBtn.setOnClickListener(v->{
+            if (onFilterClicked != null) {
+                onFilterClicked.onFilterCleared(clearFilterResultBtn,true);
+            }
+        });
 
         backBtn.setOnClickListener(v -> {
             Utilities.hideKeyboard(this);
@@ -137,7 +139,9 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
             case R.id.tab_images:
                 imagesTab.setTextColor(getResources().getColor(R.color.white));
                 imagesTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange_fill));
-
+                clearFilterResultBtn.setVisibility(View.INVISIBLE);
+                filterTab.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                filterTab.setText(getResources().getString(R.string.filters));
                 filterTab.setVisibility(View.VISIBLE);
                 ImagesSearchFragment imagesSearchFragment = ImagesSearchFragment.getInstance();
                 onFilterClicked = imagesSearchFragment;
@@ -161,7 +165,9 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
             case R.id.tab_album:
                 albumTab.setTextColor(getResources().getColor(R.color.white));
                 albumTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange_fill));
-
+                clearFilterResultBtn.setVisibility(View.INVISIBLE);
+                filterTab.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                filterTab.setText(getResources().getString(R.string.filters));
                 filterTab.setVisibility(View.VISIBLE);
                 AlbumSearchFragment albumSearchFragment = AlbumSearchFragment.getInstance();
                 onFilterClicked = albumSearchFragment;
@@ -174,19 +180,13 @@ public class SearchActivity extends BaseActivity implements SearchActivityView {
 
     }
 
-    @Override
-    public void setFilters(List<Filter> filterList) {
 
 
-        filterTab.setOnClickListener(v -> {
-            if (onFilterClicked != null) {
-                onFilterClicked.onFilterIconClicked(filterList);
-            }
-        });
-    }
+
 
     public interface OnFilterClicked {
-        void onFilterIconClicked(List<Filter> filterList);
+        void onFilterIconClicked(CustomTextView filterIcon,CustomTextView clearFilterBtn);
+        void onFilterCleared(CustomTextView clearResultBtn,boolean state);
     }
 
 

@@ -45,7 +45,7 @@
     <string name="camera_and_location_rationale">Need camera and storage permation</string>
     <string name="email_missing">Email is missing</string>
     <string name="saved">saved</string>
-    <string name="following">Following</string>
+    <string name="following"  >Following</string>
     <string name="campaigns">campaigns</string>
     <string name="error_login">Error login</string>
     <string name="upload_your_profile_image">Upload profile picture</string>
@@ -57,7 +57,7 @@
     <string name="select_img">Select Image</string>
     <string name="me">profile</string>
     <string name="Notification">Notification</string>
-    <string name="home">home</string>
+    <string name="home">Stories</string>
     <string name="stories">Stories</string>
     <string name="filters">Filters</string>
     <string name="remind_me">REMIND ME</string>
@@ -301,4 +301,5 @@
     <string name="error_exclusive">Error. Try again later.</string>
     <string name="download_complete">Download Complete</string>
     <string name="send_email">Send Email</string>
+    <string name="clear_all">Clear All</string>
 </resources>

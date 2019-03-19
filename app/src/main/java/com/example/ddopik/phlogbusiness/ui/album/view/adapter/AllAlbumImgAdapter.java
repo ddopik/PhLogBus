@@ -120,11 +120,14 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         }
 
         //case this list is specified for multiple users not for only one
-        if (photosListType != null && photosListType == Constants.PhotosListType.SOCIAL_LIST && albumImgList.get(i).photographer.id != Integer.parseInt(PrefUtils.getBrandId(context)) && !albumImgList.get(i).photographer.isFollow) {
-            albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.VISIBLE);
-            if (onAlbumImgClicked != null)
-                albumImgViewHolder.followPhotoGrapherBtn.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgFollowClick(albumImgList.get(i)));
-        } else {
+//        if (photosListType != null && photosListType == Constants.PhotosListType.SOCIAL_LIST && albumImgList.get(i).photographer.id != Integer.parseInt(PrefUtils.getBrandId(context)) && !albumImgList.get(i).photographer.isFollow) {
+        if (photosListType != null && photosListType == Constants.PhotosListType.SOCIAL_LIST  ) {
+            albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.GONE);
+            albumImgViewHolder.albumImgSaveBtn.setVisibility(View.GONE);
+//            if (onAlbumImgClicked != null)
+//                albumImgViewHolder.followPhotoGrapherBtn.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgFollowClick(albumImgList.get(i)));
+        }
+        else {
             albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.GONE);
             albumImgViewHolder.albumImgDeleteBtn.setVisibility(View.GONE);
         }
