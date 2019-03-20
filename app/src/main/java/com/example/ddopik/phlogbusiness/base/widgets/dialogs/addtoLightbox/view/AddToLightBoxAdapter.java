@@ -90,8 +90,6 @@ public class AddToLightBoxAdapter extends RecyclerView.Adapter<AddToLightBoxAdap
             lightBoxPhotosCount = view.findViewById(R.id.light_box_photos_count);
             addToLightBoxContainer = view.findViewById(R.id.add_to_light_box_container);
             addImgToLightBoxRadioBtn = view.findViewById(R.id.add_img_to_light_box_rb);
-
-
         }
     }
 

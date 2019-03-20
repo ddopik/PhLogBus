@@ -2,7 +2,6 @@ package com.example.ddopik.phlogbusiness.ui.album.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivityView;
@@ -25,86 +24,75 @@ public class AllAlbumImgPresenterImpl implements AllAlbumImgPresenter {
         this.allAlbumImgActivityView = allAlbumImgActivityView;
     }
 
-    @SuppressLint("CheckResult")
-    @Override
-    public void deleteImage(BaseImage baseImage) {
-        allAlbumImgActivityView.viewAlbumImageListProgress(true);
-        BaseNetworkApi.deleteImage(String.valueOf(baseImage.id))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseStateResponse -> {
-                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-                    allAlbumImgActivityView.onImagePhotoGrapherDeleted(baseImage,true);
-                }, throwable -> {
-                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                });
-    }
 
     @SuppressLint("CheckResult")
     @Override
-    public void likePhoto(String photoId) {
+    public void likePhoto(BaseImage baseImage) {
         allAlbumImgActivityView.viewAlbumImageListProgress(true);
-        BaseNetworkApi.likePhotoGrapherPhotoPhoto(photoId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseStateResponse -> {
-                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-                }, throwable -> {
-                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                });
-    }
-    @SuppressLint("CheckResult")
-    @Override
-    public void unLikePhoto(String photoId) {
-        allAlbumImgActivityView.viewAlbumImageListProgress(true);
-        BaseNetworkApi.unlikeImage(photoId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseStateResponse -> {
-                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-                    allAlbumImgActivityView.onImagePhotoGrapherLiked(Integer.parseInt(photoId),false);
-                }, throwable -> {
-                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                });
+
+
+        if (baseImage.isLiked) {
+            BaseNetworkApi.unlikeImage(String.valueOf(baseImage.id))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(baseStateResponse -> {
+                        allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                        allAlbumImgActivityView.onImagePhotoGrapherLiked(baseImage.id,false);
+                    }, throwable -> {
+                        allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                        CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                    });
+        } else {
+            BaseNetworkApi.likeImage(String.valueOf(baseImage.id))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(baseStateResponse -> {
+                        allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                        allAlbumImgActivityView.onImagePhotoGrapherLiked(baseImage.id,true);
+                    }, throwable -> {
+                        allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                        CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                    });
+        }
+
+
     }
 
 
     @SuppressLint("CheckResult")
     @Override
-    public void saveToProfileImage(BaseImage baseImage) {
+    public void addAlbumImageToCart(BaseImage baseImage) {
         allAlbumImgActivityView.viewAlbumImageListProgress(true);
-        BaseNetworkApi.savePhoto(baseImage.id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(savePhotoResponse -> {
-                    allAlbumImgActivityView.onImageSavedToProfile(baseImage, true);
-                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-                }, throwable -> {
-                    allAlbumImgActivityView.viewAlbumImageListProgress( false);
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
 
-                });
+        if (baseImage.isCart) {
+            BaseNetworkApi.removeCartItem(baseImage.id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(savePhotoResponse -> {
+                        allAlbumImgActivityView.onImageAddedToCard(baseImage, false);
+                        allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                    }, throwable -> {
+                        allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                        CustomErrorUtil.Companion.setError(context, TAG, throwable);
+
+                    });
+        } else {
+            BaseNetworkApi.addImageToCart(String.valueOf(baseImage.id))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(savePhotoResponse -> {
+                        allAlbumImgActivityView.onImageAddedToCard(baseImage, true);
+                        allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                    }, throwable -> {
+                        allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                        CustomErrorUtil.Companion.setError(context, TAG, throwable);
+
+                    });
+        }
+
+
     }
 
-    @SuppressLint("CheckResult")
-    @Override
-    public void unSaveToProfileImage(BaseImage baseImage) {
-        allAlbumImgActivityView.viewAlbumImageListProgress(true);
-        BaseNetworkApi.unSavePhoto(baseImage.id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(savePhotoResponse -> {
-                    allAlbumImgActivityView.onImageSavedToProfile(baseImage, false);
-                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-                }, throwable -> {
-                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-
-                });
-    }
 
     @SuppressLint("CheckResult")
     @Override

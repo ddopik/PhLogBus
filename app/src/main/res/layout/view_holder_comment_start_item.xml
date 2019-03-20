@@ -246,8 +246,9 @@
                         android:scaleType="centerInside"
                         app:srcCompat="@drawable/ic_light_box_white" />
                 </FrameLayout>
-                <!--style="?android:attr/ratingBarStyleSmall"-->
-                <RatingBar
+
+
+                 <RatingBar
                     android:id="@+id/photo_rating"
                     style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"

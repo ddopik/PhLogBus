@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ProgressBar;
-
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
@@ -129,8 +128,9 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
     private CampaignInnerPhotosAdapter.PhotoAction action = baseImage -> {
         Intent intent = new Intent(getContext(), ImageCommentActivity.class);
         intent.putExtra(ImageCommentActivity.IMAGE_DATA, baseImage);
-        if (status == Constants.CampaignStatus.CAMPAIGN_STATUS_APPROVED || status == Constants.CampaignStatus.CAMPAIGN_STATUS_RUNNING)
+        if (status == Constants.CampaignStatus.CAMPAIGN_STATUS_APPROVED || status == Constants.CampaignStatus.CAMPAIGN_STATUS_RUNNING) {
             intent.putExtra(ImageCommentActivity.SHOULD_SHOW_CHOOSE_WINNER, true);
+        }
         intent.putExtra(ImageCommentActivity.CAMPAIGN_ID, Integer.valueOf(campaignID));
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);

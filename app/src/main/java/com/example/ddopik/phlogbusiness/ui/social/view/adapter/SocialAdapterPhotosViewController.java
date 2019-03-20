@@ -8,7 +8,6 @@ import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
 import com.example.ddopik.phlogbusiness.ui.social.model.SocialData;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 
-
 import java.util.ArrayList;
 
 import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.*;
@@ -26,11 +25,9 @@ public class SocialAdapterPhotosViewController {
     public void setPhotosViewType5(SocialAdapter.SocialViewHolder socialViewHolder, SocialData socialData, SocialAdapter.OnSocialItemListener onSocialItemListener) {
 
 
-
-
         socialViewHolder.socialImageSliderType5.setVisibility(View.VISIBLE);
-         socialViewHolder.socialImageName.setText(socialData.title);
-//        socialViewHolder.storyTitle.setText(socialData.title);
+        socialViewHolder.socialImageName.setText(socialData.title);
+        socialViewHolder.storyTitle.setPadding(0, 0, 0, 0);
 
 
         SocialImagesAdapter socialImagesAdapter = new SocialImagesAdapter(socialData.photos);
@@ -38,18 +35,18 @@ public class SocialAdapterPhotosViewController {
         socialViewHolder.socialImgSlideRv.setAdapter(socialImagesAdapter);
 
 
-            socialImagesAdapter.onSocialSliderImgClick = img -> {
-                Intent intent = new Intent(context, AllAlbumImgActivity.class);
+        socialImagesAdapter.onSocialSliderImgClick = img -> {
+            Intent intent = new Intent(context, AllAlbumImgActivity.class);
 
-                intent.putParcelableArrayListExtra(ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) socialData.photos);
-                intent.putExtra(SELECTED_IMG_ID,socialData.photos.get(0).id);
-                intent.putExtra(LIST_TYPE, Constants.PhotosListType.SOCIAL_LIST);
-                intent.putExtra(LIST_NAME, socialData.title);
+            intent.putParcelableArrayListExtra(ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) socialData.photos);
+            intent.putExtra(SELECTED_IMG_ID, socialData.photos.get(0).id);
+            intent.putExtra(LIST_TYPE, Constants.PhotosListType.SOCIAL_LIST);
+            intent.putExtra(LIST_NAME, socialData.title);
 
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                context.startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            context.startActivity(intent);
 
-            };
+        };
 
     }
 

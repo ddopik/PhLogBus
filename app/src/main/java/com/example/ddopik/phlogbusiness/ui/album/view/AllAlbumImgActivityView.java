@@ -13,9 +13,8 @@ public interface AllAlbumImgActivityView  {
     void viewAlbumImageList(List<BaseImage> albumImgList);
     void viewAlbumImageListProgress(boolean state);
 
-    void onImageSavedToProfile(BaseImage baseImage,boolean state);
-    void onImagePhotoGrapherFollowed(BaseImage baseImage ,boolean state);
-    void onImagePhotoGrapherDeleted(BaseImage baseImage ,boolean state);
-    void onImagePhotoGrapherLiked(int photoID ,boolean state);
+    void onImageAddedToCard(BaseImage baseImage, boolean state);
+     void onImagePhotoGrapherFollowed(BaseImage baseImage ,boolean state);
+     void onImagePhotoGrapherLiked(int photoID ,boolean state);
 
 }

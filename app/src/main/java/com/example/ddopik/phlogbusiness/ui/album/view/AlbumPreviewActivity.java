@@ -18,6 +18,7 @@ import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponseData;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AlbumPreviewActivityPresenter;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AlbumPreviewActivityPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AlbumAdapter;
+import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 
 
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.SELECTED_IMG_ID;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.PhotosListType.ALBUM_PREVIEW_LIST;
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.PhotosListType.SOCIAL_LIST;
 
 
@@ -96,12 +98,17 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
         albumAdapter.onAlbumImageClicked = albumImg -> {
 
 
-            Intent intent = new Intent(this, AllAlbumImgActivity.class);
-            intent.putExtra(AllAlbumImgActivity.ALBUM_ID, albumID);
-            intent.putExtra(AllAlbumImgActivity.ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) imageList);
-            intent.putExtra(AllAlbumImgActivity.LIST_TYPE, SOCIAL_LIST);
-            intent.putExtra(SELECTED_IMG_ID, albumImg.id);
+            Intent intent = new Intent(getBaseContext(), ImageCommentActivity.class);
+            intent.putExtra(ImageCommentActivity.IMAGE_DATA, albumImg);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
+
+//            Intent intent = new Intent(this, AllAlbumImgActivity.class);
+//            intent.putExtra(AllAlbumImgActivity.ALBUM_ID, albumID);
+//            intent.putExtra(AllAlbumImgActivity.ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) imageList);
+//            intent.putExtra(AllAlbumImgActivity.LIST_TYPE, ALBUM_PREVIEW_LIST);
+//            intent.putExtra(SELECTED_IMG_ID, albumImg.id);
+//            startActivity(intent);
 
         };
     }

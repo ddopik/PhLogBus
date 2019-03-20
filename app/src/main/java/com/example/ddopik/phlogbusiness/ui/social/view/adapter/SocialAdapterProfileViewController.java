@@ -176,7 +176,8 @@ public class SocialAdapterProfileViewController {
         };
 
         socialViewHolder.socialProfileAlbumType3PhotosContainer.setOnClickListener(onProfileClickListener);
-        socialViewHolder.socialProfileAlbumType3PhotosContainer.setOnClickListener(onProfileClickListener);
+        socialViewHolder.socialProfileType3ItemHeader.setOnClickListener(onProfileClickListener);
+
 
     }
 

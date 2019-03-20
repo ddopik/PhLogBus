@@ -85,7 +85,7 @@ public class BaseNetworkApi {
     private static final String BASE_URL = BASE_SERVER_URL + "/api/business";
     private static final String BASE_URL_COMMON = BASE_SERVER_URL + "/api/common";
 
-    private static final String WELCOME_SLIDES_IMAGES = BASE_URL + "/photographer/init_slider";
+    private static final String WELCOME_SLIDES_IMAGES = BASE_URL + "/init_slider";
     private static final String USER_SEARCH_FILTERS = BASE_URL_COMMON + "/filters/list";
     private static final String SEARCH_ALBUM = BASE_URL + "/album/search";
     private static final String SEARCH_IMAGES = BASE_URL + "/photo/search";
@@ -105,11 +105,11 @@ public class BaseNetworkApi {
     private static final String ALL_DRAFT_CAMPAIGN_URL = BASE_URL + "/campaign/draft";
     private static final String CAMPAIGN_PHOTOS_URL = BASE_URL + "/campaign/photos";
     private static final String CAMPAIGN_DETAILS_URL = BASE_URL + "/campaign/details";
-    private static final String USER_PROFILE_URL = BASE_URL + "/photographer/details";
-    private static final String USER_PROFILE_PHOTOS = BASE_URL + "/photographer/photos";
-    private static final String PHOTOGRAPHER_UN_FOLLOW_USER_URL = BASE_URL + "/photographer/unfollow";
-    private static final String PHOTOGRAPHER_FOLLOW_USER_URL = BASE_URL + "/photographer/follow";
-    private static final String GET_ALBUM_DETAILS = BASE_URL + "/photographer/album/details";
+    private static final String USER_PROFILE_URL = BASE_URL + "/details";
+    private static final String USER_PROFILE_PHOTOS = BASE_URL + "/photos";
+    private static final String PHOTOGRAPHER_UN_FOLLOW_USER_URL = BASE_URL + "/unfollow";
+    private static final String PHOTOGRAPHER_FOLLOW_USER_URL = BASE_URL + "/follow";
+    private static final String GET_ALBUM_DETAILS = BASE_URL + "/album/details";
     private static final String PHOTOGRAPHER_SEARCH_URL = BASE_URL + "/photographer/list";
     private static final String GET_ALBUM_PREVIEW = BASE_URL +"/album/details";
     private static final String GET_ALBUM_IMAGES_PREVIEW = BASE_URL +"/album/photos";
@@ -136,7 +136,7 @@ public class BaseNetworkApi {
     private static final String REMOVE_FROM_CART_URL = BASE_URL + "/cart/remove";
     private static final String SOCIAL_AUTO_COMPLETE = BASE_URL_COMMON + "/social/search";
     private static final String DELETE_PHOTOGRAPHER_PHOTO = BASE_URL + "/photographer/photo/delete";
-    private static final String LIKE_PHOTOGRAPHER_PHOTO = BASE_URL + "/photographer/photo/like";
+
 
     private static final String UPDATE_PROFILE_URL = BASE_URL + "/profile/update";
     private static final String UNFOLLOW_USER_URL = BASE_URL + "/photographer/unfollow";
@@ -146,8 +146,8 @@ public class BaseNetworkApi {
     private static final String CHANGE_CAMPAIGN_END_DATE_URL = BASE_URL + "/campaign/extend";
     private static final String DUMMY_SOCIAL = "http://178.128.162.10/public/api/photographer/social/dummy";
     private static final String REQUEST_VERIFICATION_BRAND_URL = BASE_URL + "/brand/request_verify";
-    private static final String SAVE_PHOTO_URL = BASE_URL + "/photographer/photo/save";
-    private static final String UNSAVE_PHOTO_URL = BASE_URL + "/photographer/photo/unsave";
+    private static final String SAVE_PHOTO_URL = BASE_URL + "/photo/save";
+    private static final String UNSAVE_PHOTO_URL = BASE_URL + "/photo/unsave";
     private static final String REPORT_REASONS_LIST_URL = BASE_URL_COMMON + "/reports/reasons";
     private static final String REPORT_PHOTO_URL = BASE_URL + "/photo/report";
     private static final String CHOOSE_CAMPAIGN_WINNER_URL = BASE_URL + "/campaign/photo/set_winning";
@@ -709,22 +709,8 @@ public class BaseNetworkApi {
         .getObjectSingle(RequestVerificationResponse.class);
     }
 
-    public static io.reactivex.Observable<BaseStateResponse> deleteImage(String imageId) {
-        return Rx2AndroidNetworking.post(DELETE_PHOTOGRAPHER_PHOTO)
-                .addBodyParameter("photo_id", imageId)
-                .getResponseOnlyFromNetwork()
-                .setPriority(Priority.HIGH)
-                .build()
-                .getObjectObservable(BaseStateResponse.class);
-    }
-    public static io.reactivex.Observable<BaseStateResponse> likePhotoGrapherPhotoPhoto(String imageId) {
-        return Rx2AndroidNetworking.post(LIKE_PHOTOGRAPHER_PHOTO)
-                .addBodyParameter("photo_id", imageId)
-                .getResponseOnlyFromNetwork()
-                .setPriority(Priority.HIGH)
-                .build()
-                .getObjectObservable(BaseStateResponse.class);
-    }
+
+
 
     public static Observable<ReportReasonsResponse> getReportReasons() {
         return Rx2AndroidNetworking.get(REPORT_REASONS_LIST_URL)

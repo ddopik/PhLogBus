@@ -55,6 +55,10 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
         socialViewHolder.socialCampaignType1.setVisibility(View.GONE);
         socialViewHolder.socialBrandType1.setVisibility(View.GONE);
         socialViewHolder.socialAlbumType4.setVisibility(View.GONE);
+        /// reInstall socialViewHolder  Header  and padding  as "ENTITY_IMAGE"  is clear it
+        socialViewHolder.storyTitle.setPadding(16, 16, 16, 16);
+        socialViewHolder.storyTitle.setText("");
+        ////
 
         if (socialDataList.size() > 0)
             switch (socialDataList.get(i).entityId) {
@@ -107,7 +111,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
         TextView socialProfileType3FullName, socialProfileType3UserName;
         Button followSocialProfileType3Btn;
 
-        LinearLayout socialAlbumImgGroupContainer, socialProfileAlbumType3PhotosContainer;
+        LinearLayout socialAlbumImgGroupContainer, socialProfileAlbumType3PhotosContainer,socialProfileType3ItemHeader;
 
 
         /////
@@ -172,6 +176,8 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
 
             /////profileItemView type_1
             socialProfileType3Icon = view.findViewById(R.id.social_profile_type_3_icon_img);
+            socialProfileType3ItemHeader = view.findViewById(R.id.social_profile_item_header);
+
             socialProfileType3FullName = view.findViewById(R.id.social_profile_full_name);
             socialProfileType3UserName = view.findViewById(R.id.social_profile_user_name);
             followSocialProfileType3Btn = view.findViewById(R.id.follow_social_profile);
