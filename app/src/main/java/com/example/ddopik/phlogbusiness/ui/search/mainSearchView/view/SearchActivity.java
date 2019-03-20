@@ -79,7 +79,7 @@ public class SearchActivity extends BaseActivity   {
             }
 
             @Override
-            public TextView getSearchResultCount() {
+            public TextView getSearchResultCountView() {
                 return searchResult;
             }
 

@@ -121,7 +121,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         filterList.clear();
         expandableListAdapter = new ExpandableListAdapter(getActivity(), filterList);
         filterExpListView.setAdapter(expandableListAdapter);
-        searchResultCount = onSearchTabSelected.getSearchResultCount();
+        searchResultCount = onSearchTabSelected.getSearchResultCountView();
         searchImageRv = mainView.findViewById(R.id.search_images_rv);
         searchImageProgress = mainView.findViewById(R.id.search_images_progress_bar);
         imageSearchAdapter = new AlbumAdapter(getContext(), albumGroupList);

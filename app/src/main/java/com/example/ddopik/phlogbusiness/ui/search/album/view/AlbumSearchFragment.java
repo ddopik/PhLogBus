@@ -117,7 +117,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     protected void initViews() {
 
         albumSearch = onSearchTabSelected.getSearchView();
-        searchResultCount = onSearchTabSelected.getSearchResultCount();
+        searchResultCount = onSearchTabSelected.getSearchResultCountView();
         progressBar = mainView.findViewById(R.id.album_search_filter_progress);
         filterExpListView = mainView.findViewById(R.id.filters_expand);
         albumSearchRv = mainView.findViewById(R.id.album_search_rv);

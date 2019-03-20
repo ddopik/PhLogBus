@@ -29,17 +29,16 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
     private Button addToLightBoxBtn, cancelBtn;
     private CustomRecyclerView addToLightBoxRv;
     private AddToLightBoxAdapter addToLightBoxAdapter;
-    private List<LightBox> lightBoxList=new ArrayList<>();
+    private List<LightBox> lightBoxList = new ArrayList<>();
     private ProgressBar addImgToLightBoxProgress;
     private BaseImage selectedImage;
 
     private AddNewLightBoxDialogPresenter addNewLightBoxDialogPresenter;
 
 
-
     public static AddToLightBoxDialogFragment getInstance(BaseImage image) {
         AddToLightBoxDialogFragment addToLightBoxDialogFragment = new AddToLightBoxDialogFragment();
-        addToLightBoxDialogFragment.selectedImage=image;
+        addToLightBoxDialogFragment.selectedImage = image;
         return addToLightBoxDialogFragment;
     }
 
@@ -63,7 +62,7 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
     }
 
     private void initView() {
-        addImgToLightBoxProgress=mainDialogView.findViewById(R.id.add_img_to_light_box_progress);
+        addImgToLightBoxProgress = mainDialogView.findViewById(R.id.add_img_to_light_box_progress);
         addToLightBoxRv = mainDialogView.findViewById(R.id.add_to_light_box_rv);
         addToLightBoxBtn = mainDialogView.findViewById(R.id.add_light_to_box_dialog_btn);
         cancelBtn = mainDialogView.findViewById(R.id.cancel_add_to_light_box_dialog_btn);
@@ -72,7 +71,7 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
     }
 
     private void initPresenter() {
-        addNewLightBoxDialogPresenter=new AddNewLightBoxDialogPresenterImpl(getContext(),this);
+        addNewLightBoxDialogPresenter = new AddNewLightBoxDialogPresenterImpl(getContext(), this);
     }
 
     private void initListeners() {
@@ -97,36 +96,32 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
         };
 
 
+        addToLightBoxBtn.setOnClickListener(v -> {
 
+            /**
+             * No LightBox preferred try add newOne
+             * */
+            if (lightBoxList.size() == 0) {
+                AddNewLightBoxDialogFragment addNewLightBoxDialogFragment = AddNewLightBoxDialogFragment.getInstance();
+                addNewLightBoxDialogFragment.setOnDialogAdd(lightBoxName -> {
+                    addNewLightBoxDialogPresenter.addLightBox(lightBoxName, "desc");
+                    addNewLightBoxDialogFragment.dismiss();
+                });
+                addNewLightBoxDialogFragment.show(getChildFragmentManager(), AddToLightBoxDialogFragment.class.getSimpleName());
+                return;
+            }
 
-
-        addToLightBoxBtn.setOnClickListener(v->{
-
-
-                for ( int i=0;i<lightBoxList.size();i++) {
-                    /**
-                     * send if at least on lightBox checked
-                     * */
-                    if (lightBoxList.get(i).isChecked) {
-                        addNewLightBoxDialogPresenter.addImagesToLightBox(lightBoxList, selectedImage.id, this);
-                        break;
-                    }
-                    /**
-                     * No LightBox preferred try add newOne
-                     * */
-                    if(i==lightBoxList.size()-1){
-                        AddNewLightBoxDialogFragment addNewLightBoxDialogFragment=AddNewLightBoxDialogFragment.getInstance();
-                        addNewLightBoxDialogFragment.setOnDialogAdd(lightBoxName -> {
-                            addNewLightBoxDialogPresenter.addLightBox(lightBoxName, "desc");
-                            addNewLightBoxDialogFragment.dismiss();
-                        });
-                        addNewLightBoxDialogFragment.show(getChildFragmentManager(),AddToLightBoxDialogFragment.class.getSimpleName());
-                        break;
-                    }
-
+            for (int i = 0; i < lightBoxList.size(); i++) {
+                /**
+                 * send if at least on lightBox checked
+                 * */
+                if (lightBoxList.get(i).isChecked) {
+                    addNewLightBoxDialogPresenter.addImagesToLightBox(lightBoxList, selectedImage.id, this);
+                    break;
                 }
 
 
+            }
 
 
         });
@@ -144,17 +139,17 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
     @Override
     public void onImageAddedToLightBox(boolean state) {
 
-            if(onLighBoxImageComplete !=null){
-                onLighBoxImageComplete.onImageAdded(state);
+        if (onLighBoxImageComplete != null) {
+            onLighBoxImageComplete.onImageAdded(state);
 
         }
     }
 
     @Override
     public void viewLightBoxProgress(Boolean state) {
-        if (state){
+        if (state) {
             addImgToLightBoxProgress.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             addImgToLightBoxProgress.setVisibility(View.GONE);
         }
 
@@ -162,12 +157,11 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
 
     @Override
     public void viewMessage(String message) {
-        Toast.makeText(getContext(),message,Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
 
-
-    public interface OnLighBoxImageComplete{
+    public interface OnLighBoxImageComplete {
         void onImageAdded(boolean state);
     }
 

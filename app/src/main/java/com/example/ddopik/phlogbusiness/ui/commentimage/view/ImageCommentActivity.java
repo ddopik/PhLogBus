@@ -186,7 +186,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             @Override
             public void onImageRateClick(BaseImage baseImage, float rating) {
 
-                if (!previewImage.isRated) {
+                if (previewImage.isRated !=null|| !previewImage.isRated) {
                     imageCommentActivityPresenter.rateImage(baseImage, rating);
                 } else {
                     showToast(getResources().getString(R.string.image_already_rated));
@@ -318,6 +318,12 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     @Override
     public void onImageLiked(BaseImage baseImage) {
         previewImage.isLiked = baseImage.isLiked;
+        if (baseImage.isLiked) {
+            previewImage.likesCount++;
+        } else {
+            previewImage.likesCount--;
+        }
+
         commentsAdapter.notifyDataSetChanged();
 
 

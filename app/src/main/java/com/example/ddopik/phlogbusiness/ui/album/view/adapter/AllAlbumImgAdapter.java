@@ -136,8 +136,13 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 //            }
             case USER_PROFILE_PHOTOS_LIST: {
                 albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
-                albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.VISIBLE);
-                albumImgViewHolder.albumImgAddToLightBox.setVisibility(View.VISIBLE);
+                albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.INVISIBLE);
+                 if (albumImgList.get(i).isSaved) {
+                    albumImgViewHolder.albumImgAddToLightBox.setVisibility(View.INVISIBLE);
+                } else {
+                    albumImgViewHolder.albumImgAddToLightBox.setVisibility(View.VISIBLE);
+                }
+
                 break;
             }
 //            currently not available
@@ -168,7 +173,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         TextView albumName, albumAuthor, imageCommentTagVal, albumImgLikeVal, albumImgCommentVal;
         ImageButton albumImgLike, albumImgComment, albumImgAddToLightBox;
         Button followPhotoGrapherBtn;
-        FrameLayout  albumImgAddToCartBtn;
+        FrameLayout albumImgAddToCartBtn;
 
         AlbumImgViewHolder(View view) {
             super(view);

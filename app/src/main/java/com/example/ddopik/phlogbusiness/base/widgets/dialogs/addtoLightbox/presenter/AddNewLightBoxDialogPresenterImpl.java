@@ -60,8 +60,7 @@ public class AddNewLightBoxDialogPresenterImpl implements AddNewLightBoxDialogPr
         BaseNetworkApi.addImageToLightBox(data).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(addToLightBoxResponse -> {
-                    addToLightBoxDialogFragmentView.viewMessage(addToLightBoxResponse.msg);
-                    addToLightBoxDialogFragmentView.onImageAddedToLightBox(true);
+                     addToLightBoxDialogFragmentView.onImageAddedToLightBox(true);
                     addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
                     addToLightBoxDialogFragment.dismiss();
 

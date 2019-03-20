@@ -9,24 +9,21 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.*;
-
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
-import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
-import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
-import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
 import com.example.ddopik.phlogbusiness.ui.userprofile.presenter.UserProfilePresenter;
 import com.example.ddopik.phlogbusiness.ui.userprofile.presenter.UserProfilePresenterImpl;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +37,8 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
 
     private static final String TAG = UserProfileActivity.class.getSimpleName();
 
-    public static String USER_ID="user_id";
-    public static String USER_TYPE="user_type";
+    public static String USER_ID = "user_id";
+    public static String USER_TYPE = "user_type";
 
     private String userID;
     private TextView userProfileLevel, userProfileUserName, userProfileFullName, userProfilePhotosCount, userProfileFolloweresCount, userProfileFollowingCount;
@@ -78,38 +75,38 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     public void initView() {
 
 
-        if(getIntent().getStringExtra(USER_ID) != null)
-            this.userID=getIntent().getStringExtra(USER_ID);
-            userProfileLevel = findViewById(R.id.user_profile_level);
-            userProfileRating = findViewById(R.id.profile_rating);
-            userProfileImg = findViewById(R.id.user_profile_img);
-            userProfileFullName = findViewById(R.id.user_profile_full_name);
-            userProfileUserName = findViewById(R.id.user_profile_username);
-            userProfilePhotosCount = findViewById(R.id.photos_val);
-            userProfileFolloweresCount = findViewById(R.id.followers_val);
-            userProfileFollowingCount = findViewById(R.id.following_val);
-            userProfilePhotosRv = findViewById(R.id.user_profile_photos);
-            userProfilePhotosProgressBar = findViewById(R.id.user_profile_photos_progress_bar);
-            followUser=findViewById(R.id.follow_user);
-            userProfilePhotosAdapter = new UserProfilePhotosAdapter(this, userPhotoList);
-            userProfilePhotosRv.setAdapter(userProfilePhotosAdapter);
-            userProfilePresenter.getUserProfileData(userID);
-            userProfilePresenter.getUserPhotos(userID,0);
+        if (getIntent().getStringExtra(USER_ID) != null)
+            this.userID = getIntent().getStringExtra(USER_ID);
+        userProfileLevel = findViewById(R.id.user_profile_level);
+        userProfileRating = findViewById(R.id.profile_rating);
+        userProfileImg = findViewById(R.id.user_profile_img);
+        userProfileFullName = findViewById(R.id.user_profile_full_name);
+        userProfileUserName = findViewById(R.id.user_profile_username);
+        userProfilePhotosCount = findViewById(R.id.photos_val);
+        userProfileFolloweresCount = findViewById(R.id.followers_val);
+        userProfileFollowingCount = findViewById(R.id.following_val);
+        userProfilePhotosRv = findViewById(R.id.user_profile_photos);
+        userProfilePhotosProgressBar = findViewById(R.id.user_profile_photos_progress_bar);
+        followUser = findViewById(R.id.follow_user);
+        userProfilePhotosAdapter = new UserProfilePhotosAdapter(this, userPhotoList);
+        userProfilePhotosRv.setAdapter(userProfilePhotosAdapter);
+        userProfilePresenter.getUserProfileData(userID);
+        userProfilePresenter.getUserPhotos(userID, 0);
 
-            userCoverImg = findViewById(R.id.user_cover_img);
+        userCoverImg = findViewById(R.id.user_cover_img);
 
     }
 
 
-    private void initListener(){
-        pagingController=new PagingController(userProfilePhotosRv) {
+    private void initListener() {
+        pagingController = new PagingController(userProfilePhotosRv) {
             @Override
             public void getPagingControllerCallBack(int page) {
-                userProfilePresenter.getUserPhotos(userID,page+1);
+                userProfilePresenter.getUserPhotos(userID, page + 1);
             }
         };
         followUser.setOnClickListener(v -> {
-            if(userID ==null)
+            if (userID == null)
                 return;
             if (following) {
                 Disposable disposable = userProfilePresenter.unfollow(userID)
@@ -149,6 +146,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
             intent.putExtra(LIST_NAME, image.photographer.userName);
             intent.putExtra(LIST_TYPE, USER_PROFILE_PHOTOS_LIST);
             intent.putParcelableArrayListExtra(ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) userPhotoList);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         };
     }
@@ -206,8 +204,8 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     @Override
     public void viewUserPhotos(List<BaseImage> userPhotoList) {
         this.userPhotoList.addAll(userPhotoList);
-        this.userPhotoList.addAll(userPhotoList);
         userProfilePhotosAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -225,6 +223,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     }
 
     private boolean following;
+
     @Override
     public void setIsFollowing(boolean follow) {
         following = follow;

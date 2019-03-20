@@ -99,16 +99,30 @@ public class AllAlbumImgPresenterImpl implements AllAlbumImgPresenter {
     public void followImagePhotoGrapher(BaseImage baseImage) {
         allAlbumImgActivityView.viewAlbumImageListProgress(true);
 
-        BaseNetworkApi.followUser(String.valueOf(baseImage.photographer.id))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(followUserResponse -> {
-                    allAlbumImgActivityView.onImagePhotoGrapherFollowed(baseImage, true);
-                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-                }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
-                });
+        if (baseImage.photographer.isFollow){
+            BaseNetworkApi.unFollowUser(String.valueOf(baseImage.photographer.id))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(followUserResponse -> {
+                        allAlbumImgActivityView.onImagePhotoGrapherFollowed(baseImage, false);
+                        allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                    }, throwable -> {
+                        CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                        allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                    });
+        }else {
+            BaseNetworkApi.followUser(String.valueOf(baseImage.photographer.id))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(followUserResponse -> {
+                        allAlbumImgActivityView.onImagePhotoGrapherFollowed(baseImage, true);
+                        allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                    }, throwable -> {
+                        CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                        allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                    });
+        }
+
 
     }
 

@@ -145,10 +145,11 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
                         if (mBaseImage.id == albumImg.id) {
                             mBaseImage.isSaved = state;
+                            allAlbumImgAdapter.notifyDataSetChanged();
                             break;
                         }
                     }
-                    allAlbumImgAdapter.notifyDataSetChanged();
+
                 };
 
 
@@ -203,7 +204,6 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
     }
 
 
-
     @Override
     public void onImagePhotoGrapherFollowed(BaseImage baseImage, boolean state) {
         for (BaseImage mBaseImage : albumImgList) {
@@ -219,11 +219,19 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
     @Override
     public void onImagePhotoGrapherLiked(int photoId, boolean state) {
         for (int i = 0; i < albumImgList.size(); i++) {
-            if (albumImgList.get(i).id == photoId && state) {
+            if (albumImgList.get(i).id == photoId) {
                 albumImgList.get(i).isLiked = state;
+
+                if (state) {
+                    albumImgList.get(i).likesCount++;
+                } else {
+                    albumImgList.get(i).likesCount--;
+                }
+
                 break;
             }
         }
+
         allAlbumImgAdapter.notifyDataSetChanged();
     }
 

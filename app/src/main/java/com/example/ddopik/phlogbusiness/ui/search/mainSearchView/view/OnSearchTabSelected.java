@@ -12,6 +12,6 @@ import android.widget.TextView;
  * **/
 public interface OnSearchTabSelected {
     EditText getSearchView();
-    TextView getSearchResultCount();
+    TextView getSearchResultCountView();
 
 }
