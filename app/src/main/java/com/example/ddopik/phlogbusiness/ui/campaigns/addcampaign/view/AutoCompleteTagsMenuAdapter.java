@@ -74,7 +74,7 @@ public class AutoCompleteTagsMenuAdapter extends ArrayAdapter<Tag> {
 
             @Override
             public String convertResultToString(Object resultValue) {
-                return ((Industry) resultValue).nameEn;
+                return ((Tag) resultValue).name;
             }
 
             @Override

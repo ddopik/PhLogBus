@@ -25,7 +25,7 @@ public class AddCampaignPresenterImpl implements AddCampaignStepTwoPresenter, Ad
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(allTagsResponse -> {
                     //todo suspended
-//                    addCampaignStepTwoActivityView.viewTags(allTagsResponse.industryList);
+                    addCampaignStepTwoActivityView.viewTags(allTagsResponse.data);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
