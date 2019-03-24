@@ -33,8 +33,14 @@ public class CartActivity extends BaseActivity implements CartView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         initView();
-        initPresenter();
+
         initListeners();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initPresenter();
     }
 
     @Override
@@ -65,6 +71,8 @@ public class CartActivity extends BaseActivity implements CartView {
     @Override
     public void initPresenter() {
         presenter = new CartPresenterImpl();
+
+
         presenter.loadCartItems(objects -> {
             if (objects == null || objects.isEmpty()) {
                 itemsNumberTV.setText(getString(R.string.cart_item_count, 0));

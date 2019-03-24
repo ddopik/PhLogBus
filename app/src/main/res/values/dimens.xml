@@ -29,6 +29,7 @@
     <dimen name="map_location_marker_icon_height">500dp</dimen>
     <dimen name="logo_width">60dp</dimen>
     <dimen name="logo_height">60dp</dimen>
+    <dimen name="logo_size_small">50dp</dimen>
     <dimen name="activity_search_tab_h">35dp</dimen>
     <dimen name="activity_search_tab_h_large">45dp</dimen>
     <dimen name="circle_indicator_pager_height">8dp</dimen>
@@ -40,7 +41,7 @@
     <dimen name="dialog_card_corner_radius">12dp</dimen>
     <dimen name="item_card_elevation">2dp</dimen>
     <dimen name="dialog_card_elevation">2dp</dimen>
-    <dimen name="splash_logo_size">85dp</dimen>
+    <dimen name="splash_logo_size">120dp</dimen>
     <dimen name="widgets_cap">8dp</dimen>
     <dimen name="widgets_padding">8dp</dimen>
     <dimen name="widgets_padding_s">4dp</dimen>

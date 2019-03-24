@@ -1,115 +1,130 @@
-<FrameLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools"
-		android:id="@+id/view_v"
-		android:layout_gravity="bottom"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-	<android.support.design.bottomappbar.BottomAppBar
-			
-			
-			android:id="@+id/bottom_navigation"
-			android:layout_width="match_parent"
-			android:layout_height="50dp"
-			
-			android:background="@color/gray400"
-			app:fabCradleVerticalOffset="12dp"
-			app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-			app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-			tools:ignore="BottomAppBar">
-		
-		
-		<RelativeLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:baselineAligned="false"
-				android:paddingTop="@dimen/bottom_bar_item_padding"
-				android:paddingStart="@dimen/bottom_bar_item_padding"
-				android:paddingBottom="@dimen/bottom_bar_item_padding"
-				android:orientation="horizontal">
-			
-			<LinearLayout
-					android:id="@+id/navigation_home_container"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentStart="true"
-					android:layout_marginEnd="@dimen/dp18"
-					android:gravity="center">
-				
-				<Button
-						android:id="@+id/navigation_home"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:background="@color/transparent"
-						android:drawableTop="@drawable/ic_tab_home_on"
-						android:gravity="center"
-						android:text="@string/home"
-						android:fontFamily="@font/ph_log_font"
-						android:textAlignment="center"
-						android:textColor="@color/gray677078"/>
-			</LinearLayout>
-			
-			<LinearLayout
-					android:id="@+id/navigation_missions_container"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_toEndOf="@+id/navigation_home_container"
-					android:layout_marginEnd="@dimen/dp18"
-					android:gravity="center">
-				
-				<Button
-						android:id="@+id/navigation_missions"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:background="@color/transparent"
-						android:drawableTop="@drawable/ic_tab_missions_off"
-						android:text="@string/campaigns"
-						android:fontFamily="@font/ph_log_font"
-						android:textAlignment="center"
-						android:textColor="@color/gray677078"/>
-			</LinearLayout>
-			
-			
-			<LinearLayout
-					android:id="@+id/navigation_profile_container"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_toEndOf="@+id/navigation_missions_container"
-					android:gravity="center">
-				
-				<Button
-						android:id="@+id/navigation_profile"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:background="@color/transparent"
-						android:drawableTop="@drawable/ic_tab_profile_off"
-						android:gravity="center"
-						android:fontFamily="@font/ph_log_font"
-						android:text="@string/me"
-						android:textAlignment="center"
-						android:textColor="@color/gray677078"/>
-			</LinearLayout>
-			
-			<LinearLayout
-					android:id="@+id/navigation_notification_container"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:layout_toEndOf="@id/navigation_profile_container"
-			
-			>
-				
-				<com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-						android:id="@+id/navigation_call_support"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:background="@color/transparent"
-						android:text="@string/call_support"
-						android:gravity="bottom"
-						android:layout_marginStart="@dimen/dp6"
-						android:paddingBottom="2dp"
-						android:textColor="@color/gray677078"/>
-			</LinearLayout>
-		</RelativeLayout>
-	</android.support.design.bottomappbar.BottomAppBar>
-</FrameLayout>
+<android.support.design.bottomappbar.BottomAppBar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_navigation"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:layout_gravity="bottom"
+    android:background="@color/gray400"
+    app:fabCradleVerticalOffset="12dp"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp1"
+            android:background="@color/gray400"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+                android:id="@+id/navigation_home"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/widgets_padding_s"
+                android:background="@color/transparent"
+                android:drawableTop="@drawable/ic_social_off"
+                android:fontFamily="@font/segoe_sb"
+                android:gravity="center|bottom"
+                android:lines="1"
+                android:padding="@dimen/widgets_padding_s"
+                android:text="@string/home"
+                android:textColor="@color/gray677078"
+                android:textSize="@dimen/font_very_small"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/navigation_missions"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".2" app:layout_constraintHorizontal_chainStyle="packed"/>
+
+        <Button
+            android:id="@+id/navigation_missions"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/widgets_padding_s"
+            android:background="@color/transparent"
+            android:drawableTop="@drawable/ic_campaigns_off"
+            android:fontFamily="@font/segoe_sb"
+            android:gravity="center|bottom"
+            android:lines="1"
+            android:padding="@dimen/widgets_padding_s"
+            android:text="@string/campaigns"
+            android:textColor="@color/gray677078"
+            android:textSize="@dimen/font_very_small"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/navigation_profile"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/navigation_home"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".2" />
+
+        <Button
+            android:id="@+id/navigation_profile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/widgets_padding_s"
+            android:background="@color/transparent"
+            android:drawableTop="@drawable/ic_profile_off"
+            android:fontFamily="@font/segoe_sb"
+            android:gravity="center|bottom"
+            android:lines="1"
+            android:padding="@dimen/widgets_padding_s"
+            android:text="@string/me"
+            android:textColor="@color/gray677078"
+            android:textSize="@dimen/font_very_small"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/navigation_downloads"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/navigation_missions"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".2" />
+
+        <Button
+            android:id="@+id/navigation_downloads"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:drawableTop="@drawable/ic_downloads_off"
+            android:fontFamily="@font/segoe_sb"
+            android:gravity="center|bottom"
+            android:lines="1"
+            android:padding="@dimen/widgets_padding_s"
+            android:layout_marginTop="@dimen/widgets_padding_s"
+            android:text="@string/downloads"
+            android:textColor="@color/gray677078"
+            android:textSize="@dimen/font_very_small"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/navigation_call_support"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/navigation_profile"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".2" />
+
+        <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+            android:id="@+id/navigation_call_support"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:gravity="center|bottom"
+            android:layout_marginTop="@dimen/widgets_padding_s"
+            android:lines="1"
+            android:padding="@dimen/widgets_padding_s"
+            android:text="@string/customer_support"
+            android:textColor="@color/gray677078"
+            android:textSize="@dimen/customer_support_font_size"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/navigation_downloads"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".2" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.design.bottomappbar.BottomAppBar>

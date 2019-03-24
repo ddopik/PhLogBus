@@ -84,7 +84,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="@string/full_name"
+                        android:hint="@string/first_name"
                         android:theme="@style/TextLabel"
                         app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
@@ -93,7 +93,7 @@
                             android:id="@+id/first_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/first_name"
+
                             android:inputType="textPersonName"
                             android:singleLine="true"
                             android:textAlignment="textStart"

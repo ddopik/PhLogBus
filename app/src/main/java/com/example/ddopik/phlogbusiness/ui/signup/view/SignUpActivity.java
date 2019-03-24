@@ -1,9 +1,11 @@
 package com.example.ddopik.phlogbusiness.ui.signup.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Patterns;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -11,13 +13,13 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.ConfirmEmailDialog;
 import com.example.ddopik.phlogbusiness.ui.login.view.LoginActivity;
 import com.example.ddopik.phlogbusiness.ui.signup.presenter.SignUpPresenter;
 import com.example.ddopik.phlogbusiness.ui.signup.presenter.SignUpPresenterImp;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -211,6 +213,7 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
         }
         return 0;
     }
+
 
 
     @Override
