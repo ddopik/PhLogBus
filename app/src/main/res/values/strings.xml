@@ -267,7 +267,7 @@
     <string name="change_profile_image">Change profile picture</string>
     <string name="change_cover_image">Change cover picture</string>
     <string name="my_studios">My Studios</string>
-    <string name="studios">Studios</string>
+    <string name="studios">My Studios</string>
     <string name="delete_confirmation">Are you sure?</string>
     <string name="customer_support">Customer Support</string>
     <string name="extend_campaign">Extend Campaign</string>
@@ -305,5 +305,6 @@
     <string name="photos_number">%1$d Photo</string>
     <string name="un_follow">UnFollow</string>
     <string name="dates_not_valid">End date must be after start date.</string>
+    <string name="new_studio">New Studio</string>
 
 </resources>

@@ -25,15 +25,15 @@ public class LightBoxAdapter extends RecyclerView.Adapter<LightBoxAdapter.LightB
 
 
     public LightBoxAdapter(List<LightBox> lightBoxList) {
-        this.lightBoxList=lightBoxList;
+        this.lightBoxList = lightBoxList;
     }
 
     @NonNull
     @Override
     public LightBoxViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        LayoutInflater layoutInflater=LayoutInflater.from(viewGroup.getContext());
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         this.context = viewGroup.getContext();
-        View view=layoutInflater.inflate(R.layout.view_holder_light_box,viewGroup,false);
+        View view = layoutInflater.inflate(R.layout.view_holder_light_box, viewGroup, false);
         return new LightBoxViewHolder(view);
     }
 
@@ -41,50 +41,48 @@ public class LightBoxAdapter extends RecyclerView.Adapter<LightBoxAdapter.LightB
     public void onBindViewHolder(@NonNull LightBoxViewHolder lightBoxViewHolder, int i) {
 
 
-
         lightBoxViewHolder.lightBoxName.setText(lightBoxList.get(i).name);
-        lightBoxViewHolder.lightBoxPhotosCount.setText(new StringBuilder().append(lightBoxList.get(i).photosCount).append(" ").append(context.getResources().getString(R.string.photos)).toString());
+        lightBoxViewHolder.lightBoxPhotosCount.setText(new StringBuilder().append(lightBoxList.get(i).photosCount).append(" ").append(context.getString(R.string.photos)).toString());
 
         LightBoxSliderAdapter lightBoxSliderAdapter = new LightBoxSliderAdapter(lightBoxList.get(i).photos);
         lightBoxViewHolder.lightBoxSliderRv.setAdapter(lightBoxSliderAdapter);
-
-
-
+        lightBoxSliderAdapter.OnLightBoxImgSliderClick = baseImage -> {
+            if (onLightBoxClickListener != null)
+                onLightBoxClickListener.onLightBoxClick(lightBoxList.get(i));
+        };
         //this block acts as Adapter placeHolder
-        if(this.lightBoxList.get(i).photos.size()==0){
-            BaseImage baseImage=new BaseImage();
-            baseImage.id=-1;
-            baseImage.url="";
-            List tempList=new ArrayList<BaseImage>();
+        if (this.lightBoxList.get(i).photos.size() == 0) {
+            BaseImage baseImage = new BaseImage();
+            baseImage.id = -1;
+            baseImage.url = "";
+            List tempList = new ArrayList<BaseImage>();
             tempList.add(baseImage);
             LightBoxSliderAdapter tempLightBoxSliderAdapter = new LightBoxSliderAdapter(tempList);
             lightBoxViewHolder.lightBoxSliderRv.setAdapter(tempLightBoxSliderAdapter);
         }
         if (onLightBoxClickListener != null) {
 
-            lightBoxViewHolder.lightBoxContainer.setOnClickListener(v->{
+            lightBoxViewHolder.lightBoxContainer.setOnClickListener(v -> {
                 onLightBoxClickListener.onLightBoxClick(lightBoxList.get(i));
             });
 
-            lightBoxViewHolder.lightBoxSliderRv.setOnClickListener(v->{
+            lightBoxViewHolder.lightBoxSliderRv.setOnClickListener(v -> {
                 onLightBoxClickListener.onSliderContainerClicked(lightBoxList.get(i));
 
             });
 
 
-
         }
 
-        lightBoxViewHolder.LightBoxMenuBrn.setOnClickListener(v->{
-
+        lightBoxViewHolder.LightBoxMenuBrn.setOnClickListener(v -> {
 
 
             PopupMenu popupMenu = new PopupMenu(context, lightBoxViewHolder.LightBoxMenuBrn);
             popupMenu.setOnMenuItemClickListener(menuItem -> {
 
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId()) {
 
-                    case R.id.delete_light_box:{
+                    case R.id.delete_light_box: {
                         onLightBoxClickListener.onDeleteLightBoxClicked(lightBoxList.get(i));
                         break;
                     }
