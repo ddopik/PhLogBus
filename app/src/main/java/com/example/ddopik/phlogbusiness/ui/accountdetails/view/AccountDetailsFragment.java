@@ -58,6 +58,7 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
     private EditText firstNameET, lastNameET, phoneET, emailET, passwordET;
     private ProgressBar loading;
     private Button saveButton;
+    private ImageButton back;
     private Toolbar toolbar;
     private TextView title;
     private ImageButton backButton;
@@ -136,6 +137,7 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
         saveButton = mainView.findViewById(R.id.save_button);
         backButton = mainView.findViewById(R.id.back_btn);
         title = mainView.findViewById(R.id.toolbar_title);
+        back = mainView.findViewById(R.id.back_btn);
         title.setText(R.string.profile);
     }
 
@@ -193,8 +195,9 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
         phoneET.addTextChangedListener(textWatcher);
         emailET.addTextChangedListener(textWatcher);
         passwordET.addTextChangedListener(textWatcher);
-    }
 
+        back.setOnClickListener(v -> getActivity().onBackPressed());
+    }
 
     private void openPickerDialog() {
         CharSequence photoChooserOptions[] = new CharSequence[]{getResources().getString(R.string.general_photo_chooser_camera), getResources().getString(R.string.general_photo_chooser_gallery)};

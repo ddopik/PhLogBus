@@ -71,7 +71,7 @@ public class StepTwoFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         if (selectedIndustry != null) {
-            industryET.setText(selectedIndustry.name);
+            industryET.setText(selectedIndustry.nameEn);
         }
         if (model.phone != null)
             phone.setText(model.phone);

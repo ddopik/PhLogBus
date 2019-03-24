@@ -47,7 +47,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/dp45"
                         android:max="100"
-                        android:progress="45"
+                        android:progress="33"
                         android:progressDrawable="@drawable/progress_horizontal_custom" />
 
                 </LinearLayout>

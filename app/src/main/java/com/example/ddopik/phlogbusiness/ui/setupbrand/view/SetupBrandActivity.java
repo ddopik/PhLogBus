@@ -99,7 +99,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
             model.industryId = business.industry.id;
         model.phone = business.brandPhone;
         model.address = business.brandAddress;
-        model.email = business.email;
+//        model.email = business.email;
         model.webSite = business.website;
         model.desc = business.description;
     }
@@ -134,12 +134,14 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                     break;
                 case 2:
                     if (changed) {
-                        if (result.shouldProceed)
-                            presenter.setupBrand(model, this, aBoolean -> {
-                                if (aBoolean)
+                        if (result.shouldProceed) {
+                            loading.setVisibility(View.VISIBLE);
+                            presenter.setupBrand(model, this, success -> {
+                                loading.setVisibility(View.GONE);
+                                if (success)
                                     viewPager.setCurrentItem(2);
                             });
-                        else
+                        } else
                             showErrorMessage(result);
                     } else
                         viewPager.setCurrentItem(2);
