@@ -304,5 +304,6 @@
     <string name="photo">Photo</string>
     <string name="photos_number">%1$d Photo</string>
     <string name="un_follow">UnFollow</string>
+    <string name="dates_not_valid">End date must be after start date.</string>
 
 </resources>
