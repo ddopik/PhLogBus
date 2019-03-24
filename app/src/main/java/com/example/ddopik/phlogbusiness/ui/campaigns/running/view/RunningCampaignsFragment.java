@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.completed.presenter.CompleteCampaignPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.draft.presenter.DraftCampaignsPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerActivity;
@@ -26,7 +28,7 @@ import java.util.List;
 /**
  * Created by abdalla_maged on 10/1/2018.
  */
-public class RunningCampaignsFragment extends BaseFragment implements RunningCampaignFragmentView{
+public class RunningCampaignsFragment extends BaseFragment implements RunningCampaignFragmentView {
 
 
     private View mainView;
@@ -37,12 +39,11 @@ public class RunningCampaignsFragment extends BaseFragment implements RunningCam
     private RunningCampaignPresenter runningCampaignPresenter;
     private PagingController pagingController;
 
+    private ConstraintLayout noCampaignsPrompt;
 
 
-
-
-    public static RunningCampaignsFragment getInstance(){
-        RunningCampaignsFragment runningCampaignsFragment=new RunningCampaignsFragment();
+    public static RunningCampaignsFragment getInstance() {
+        RunningCampaignsFragment runningCampaignsFragment = new RunningCampaignsFragment();
         return runningCampaignsFragment;
     }
 
@@ -59,7 +60,7 @@ public class RunningCampaignsFragment extends BaseFragment implements RunningCam
         initPresenter();
         initViews();
         initListener();
-        runningCampaignPresenter.getRunningCampaign(0,this);
+        runningCampaignPresenter.getRunningCampaign(0, this);
     }
 
 
@@ -69,8 +70,7 @@ public class RunningCampaignsFragment extends BaseFragment implements RunningCam
         allCampaignsRv = mainView.findViewById(R.id.all_campaigns_rv);
         runningCampaignsAdapter = new RunningCampaignsAdapter(getContext(), runningCampaignList);
         allCampaignsRv.setAdapter(runningCampaignsAdapter);
-
-
+        noCampaignsPrompt = mainView.findViewById(R.id.no_added_campaign_prompt);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class RunningCampaignsFragment extends BaseFragment implements RunningCam
         pagingController = new PagingController(allCampaignsRv) {
             @Override
             public void getPagingControllerCallBack(int page) {
-                runningCampaignPresenter.getRunningCampaign(page,RunningCampaignsFragment.this);
+                runningCampaignPresenter.getRunningCampaign(page, RunningCampaignsFragment.this);
             }
         };
         runningCampaignsAdapter.campaignLister = campaignID -> {
@@ -91,10 +91,13 @@ public class RunningCampaignsFragment extends BaseFragment implements RunningCam
             intent.putExtra(CampaignInnerActivity.CAMPAIGN_ID, campaignID);
             startActivity(intent);
         };
+        noCampaignsPrompt.setOnClickListener(v -> {
 
+            Intent intent = new Intent(getContext(), AddCampaignActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
     }
-
-
 
 
     @Override
@@ -102,7 +105,9 @@ public class RunningCampaignsFragment extends BaseFragment implements RunningCam
         allCampaignsRv.setVisibility(View.VISIBLE);
         this.runningCampaignList.addAll(runningCampaignList);
         runningCampaignsAdapter.notifyDataSetChanged();
-
+        if (this.runningCampaignList.isEmpty()) {
+            noCampaignsPrompt.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

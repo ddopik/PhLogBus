@@ -306,5 +306,6 @@
     <string name="un_follow">UnFollow</string>
     <string name="dates_not_valid">End date must be after start date.</string>
     <string name="new_studio">New Studio</string>
+    <string name="no_campaigns_prompt">You havn\'t added any campaigns.\nClick here to add a new campaign.</string>
 
 </resources>
