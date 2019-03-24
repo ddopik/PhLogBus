@@ -1,9 +1,13 @@
 package com.example.ddopik.phlogbusiness.utiltes
 
 import android.content.Context
+import android.content.DialogInterface
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.widget.Toast
 import com.androidnetworking.error.ANError
+import com.example.ddopik.phlogbusiness.R
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseErrorResponse
 import com.example.ddopik.phlogbusiness.base.commonmodel.ErrorMessageResponse
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi.*
 import com.example.ddopik.phlogbusiness.utiltes.rxeventbus.RxEvent
@@ -44,6 +48,7 @@ class CustomErrorUtil {
                             STATUS_404 -> {
                                 Log.e(TAG, contextTAG + "------>" + STATUS_404 + "---" + throwable.response)
                             }
+
                             STATUS_401 -> {
                                 Log.e(TAG, contextTAG + "------>" + STATUS_401 + "---" + throwable.response)
                             }
@@ -71,8 +76,8 @@ class CustomErrorUtil {
                 if (errorMessageResponse.errors[i].code != null)
                     when (errorMessageResponse.errors[i].code) {
                         ERROR_STATE_1 -> {
-                            Toast.makeText(context, errorMessageResponse.errors[i].message, Toast.LENGTH_SHORT).show()
-                        }
+                            viewErrorMessage(context,errorMessageResponse.errors[i].message)
+                         }
                         else -> {
                             Log.e(TAG, contextTAG + "------>" + errorMessageResponse.errors[i].message)
                         }
@@ -80,6 +85,25 @@ class CustomErrorUtil {
             }
 
         }
+       private fun viewErrorMessage(context:Context,message: String) {
+            AlertDialog.Builder(context)
+
+                .setMessage(message)
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton(context.resources.getString(R.string.ok),
+                    DialogInterface.OnClickListener { dialog, which ->
+                        // Continue with delete operation
+                    })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show()
+        }
     }
+
+
 }
 // CustomErrorUtil.setError(context, TAG, throwable);

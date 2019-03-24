@@ -10,7 +10,7 @@
     <string name="general_photo_chooser_gallery">Gallery</string>
     <string name="map_fragment_unspecified_user_location">UnSpecified userLocation</string>
     <string name="sign_in">Sign in</string>
-    <string name="sign_up">SignUp</string>
+    <string name="sign_up">Sign Up</string>
     <string name="create_an_account">Create an account</string>
     <string name="full_name">Name</string>
     <string name="password">Password</string>
@@ -46,7 +46,7 @@
     <string name="email_missing">Email is missing</string>
     <string name="saved">saved</string>
     <string name="following"  >Following</string>
-    <string name="campaigns">campaigns</string>
+    <string name="campaigns">Campaigns</string>
     <string name="error_login">Error login</string>
     <string name="upload_your_profile_image">Upload profile picture</string>
     <string name="upload">Upload</string>
@@ -55,7 +55,7 @@
     <string name="last_name">Last Name</string>
     <string name="industry">Industry</string>
     <string name="select_img">Select Image</string>
-    <string name="me">profile</string>
+    <string name="me">Profile</string>
     <string name="Notification">Notification</string>
     <string name="home">Stories</string>
     <string name="stories">Stories</string>

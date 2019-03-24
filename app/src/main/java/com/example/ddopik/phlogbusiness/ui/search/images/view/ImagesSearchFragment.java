@@ -136,8 +136,8 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         //////// setting ExpandableList indicator to right
         Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
-        filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(), 50), width - Utilities.GetPixelFromDips(getContext(), 10));
-        filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(getContext(), 50), width - Utilities.GetPixelFromDips(getContext(), 10));
+        filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(Objects.requireNonNull(getContext()), 50), width - Utilities.GetPixelFromDips(getContext(), 10));
+        filterExpListView.setIndicatorBoundsRelative(width - Utilities.GetPixelFromDips(Objects.requireNonNull(getContext()), 50), width - Utilities.GetPixelFromDips(getContext(), 10));
         ///////////
         searchResultCount.setText(new StringBuilder().append(getAlbumImagesCount()).append(" ").append(getResources().getString(R.string.result)).toString());
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
@@ -372,7 +372,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         searchResultCount.setVisibility(View.VISIBLE);
         searchResultCount.setTextColor(getResources().getColor(R.color.white));
         searchResultCount.setText(new StringBuilder().append(imagesSearchData.total).append(" ").append(getResources().getString(R.string.result)).toString());
-        searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
+        searchResultCount.setTextColor(Objects.requireNonNull(getActivity()).getResources().getColor(R.color.white));
         Utilities.hideKeyboard(getActivity());
 
         if (albumGroupList.size() == 0) {

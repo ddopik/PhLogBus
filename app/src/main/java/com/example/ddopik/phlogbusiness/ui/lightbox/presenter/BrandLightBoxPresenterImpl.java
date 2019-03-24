@@ -72,8 +72,7 @@ public class BrandLightBoxPresenterImpl implements BrandLightBoxPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(addLightBoxResponse -> {
                     brandLightBoxFragmentView.viewLightBoxProgress(false);
-                    brandLightBoxFragmentView.showMessage(addLightBoxResponse.msg);
-                    brandLightBoxFragmentView.onLightBoxLightDeleted();
+                     brandLightBoxFragmentView.onLightBoxLightDeleted();
                 },throwable -> {
                     brandLightBoxFragmentView.viewLightBoxProgress(false);
                     CustomErrorUtil.Companion.setError(context,TAG,throwable);
