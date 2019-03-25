@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.userprofile.view;
 
 import android.content.Context;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,7 @@ public class UserProfilePhotosAdapter extends RecyclerView.Adapter<UserProfilePh
                 .load(userPhotoList.get(i).url)
                 .centerCrop()
 //                .override(450,450)
-                .placeholder(R.drawable.ic_launcher_foreground)
+//                .placeholder(AppCompatResources.getDrawable(context, R.drawable.ic_launcher_foreground))
                 .into(campaignsViewHolder.photographerPhoto);
         if (photoAction != null)
             campaignsViewHolder.photographerPhoto.setOnClickListener(view -> {

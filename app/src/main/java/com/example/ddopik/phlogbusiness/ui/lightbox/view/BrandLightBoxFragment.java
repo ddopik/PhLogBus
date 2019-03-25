@@ -90,8 +90,10 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
         lightBoxAdapter.onLightBoxClickListener = new LightBoxAdapter.OnLightBoxClickListener() {
             @Override
             public void onLightBoxClick(LightBox lightBox) {
-                MainActivity.navigationManger.setMessageToFragment(lightBox);
-                MainActivity.navigationManger.navigate(Constants.NavigationHelper.LIGHT_BOX_PHOTOS);
+                if (!lightBox.photos.isEmpty()) {
+                    MainActivity.navigationManger.setMessageToFragment(lightBox);
+                    MainActivity.navigationManger.navigate(Constants.NavigationHelper.LIGHT_BOX_PHOTOS);
+                }
             }
 
             @Override
@@ -135,7 +137,6 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
         }
         this.lightBoxList.addAll(lightBoxes);
         lightBoxAdapter.notifyDataSetChanged();
-
 
 
     }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.bottomappbar.BottomAppBar;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -197,16 +198,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             int myProfileBtnImg_off = R.drawable.ic_profile_off;
 
             homeBrn.setTextColor(getResources().getColor(R.color.gray677078));
-            homeBrn.setCompoundDrawablesWithIntrinsicBounds(0, homeBrnImg_off, 0, 0);
+            homeBrn.setCompoundDrawablesWithIntrinsicBounds(null, AppCompatResources.getDrawable(getBaseContext(), homeBrnImg_off), null, null);
             homeBrn.setCompoundDrawablePadding(8);
 
             campaignBtn.setTextColor(getResources().getColor(R.color.gray677078));
-            campaignBtn.setCompoundDrawablesWithIntrinsicBounds(0, campaignBtnImg_off, 0, 0);
+            campaignBtn.setCompoundDrawablesWithIntrinsicBounds(null, AppCompatResources.getDrawable(getBaseContext(), campaignBtnImg_off), null, null);
             campaignBtn.setCompoundDrawablePadding(8);
 
 
             myProfileBtn.setTextColor(getResources().getColor(R.color.gray677078));
-            myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg_off, 0, 0);
+            myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(null, AppCompatResources.getDrawable(getBaseContext(), myProfileBtnImg_off), null, null);
             myProfileBtn.setCompoundDrawablePadding(8);
 
             callSupportBtn.setVisibility(View.INVISIBLE);
@@ -216,7 +217,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
             downloadsBtn.setTextColor(getResources().getColor(R.color.gray677078));
-            downloadsBtn.setCompoundDrawablesWithIntrinsicBounds(0, downloadsBtnImg_off, 0, 0);
+            downloadsBtn.setCompoundDrawablesWithIntrinsicBounds(null, AppCompatResources.getDrawable(getBaseContext(), downloadsBtnImg_off), null, null);
             downloadsBtn.setCompoundDrawablePadding(8);
         }
 
@@ -231,7 +232,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case HOME: {
                     addFragment(R.id.view_container, new SocialFragment(), SocialFragment.class.getSimpleName(), false);
                     homeBrn.setTextColor(getResources().getColor(R.color.text_input_color));
-                    homeBrn.setCompoundDrawablesWithIntrinsicBounds(0, homeBrnImg, 0, 0);
+                    homeBrn.setCompoundDrawablesWithIntrinsicBounds(null, AppCompatResources.getDrawable(getBaseContext(), homeBrnImg), null, null);
                     homeBrn.setCompoundDrawablePadding(8);
                     toolbar.setVisibility(View.GONE);
                     currentTab = HOME;
@@ -241,7 +242,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case CAMPAIGN: {
                     addFragment(R.id.view_container, CampaignsFragment.getInstance(), CampaignsFragment.class.getSimpleName(), false);
                     campaignBtn.setTextColor(getResources().getColor(R.color.text_input_color));
-                    campaignBtn.setCompoundDrawablesWithIntrinsicBounds(0, campaignBtnImg, 0, 0);
+                    campaignBtn.setCompoundDrawablesWithIntrinsicBounds(null, AppCompatResources.getDrawable(getBaseContext(), campaignBtnImg), null, null);
                     campaignBtn.setCompoundDrawablePadding(8);
                     toolbar.setVisibility(View.GONE);
                     toolBarTitle.setText(getResources().getString(R.string.campaigns));
@@ -275,7 +276,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     addFragment(R.id.view_container, new BusinessProfileFragment(), BusinessProfileFragment.class.getSimpleName(), false);
 
                     myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
-                    myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
+                    myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(null, AppCompatResources.getDrawable(getBaseContext(), myProfileBtnImg), null, null);
                     myProfileBtn.setCompoundDrawablePadding(8);
                     toolbar.setVisibility(View.GONE);
                     toolBarTitle.setText(getResources().getString(R.string.profile));
@@ -288,7 +289,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //
                     addFragment(R.id.view_container, BrandLightBoxFragment.getInstance(), BrandLightBoxFragment.class.getSimpleName(), true);
                     myProfileBtn.setTextColor(getResources().getColor(R.color.text_input_color));
-                    myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(0, myProfileBtnImg, 0, 0);
+                    myProfileBtn.setCompoundDrawablesWithIntrinsicBounds(null, AppCompatResources.getDrawable(getBaseContext(), myProfileBtnImg), null, null);
                     myProfileBtn.setCompoundDrawablePadding(8);
                     toolbar.setVisibility(View.GONE);
 //                    toolBarTitle.setText(getResources().getString(R.string.light_box));
@@ -303,7 +304,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case DOWNLOADS:
                     addFragment(R.id.view_container, new DownloadsFragment(), AccountDetailsFragment.TAG, true);
                     downloadsBtn.setTextColor(getResources().getColor(R.color.text_input_color));
-                    downloadsBtn.setCompoundDrawablesWithIntrinsicBounds(0, downloadsBtnImg, 0, 0);
+                    downloadsBtn.setCompoundDrawablesWithIntrinsicBounds(null, AppCompatResources.getDrawable(getBaseContext(), downloadsBtnImg), null, null);
                     downloadsBtn.setCompoundDrawablePadding(8);
                     toolbar.setVisibility(View.VISIBLE);
                     toolBarTitle.setText(R.string.downloads);

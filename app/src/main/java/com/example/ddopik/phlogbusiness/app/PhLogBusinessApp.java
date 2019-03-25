@@ -9,6 +9,8 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 
 
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
@@ -35,7 +37,7 @@ import okhttp3.OkHttpClient;
  */
 
 
-public class PhLogBusinessApp extends Application {
+public class PhLogBusinessApp extends MultiDexApplication {
 
 
     public static Realm realm;
@@ -55,6 +57,8 @@ public class PhLogBusinessApp extends Application {
 //        intializeSteatho();
 //        deleteCache(app);   ///for developing        ##################
 //        initializeDepInj(); ///intializing Dagger Dependancy
+
+        MultiDex.install(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             networkStateChangeManager = new NetworkStateChangeManager(this);

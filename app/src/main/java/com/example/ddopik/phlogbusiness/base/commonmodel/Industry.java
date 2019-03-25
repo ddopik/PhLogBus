@@ -76,6 +76,6 @@ public class Industry implements Parcelable, SelectFromStringListDialogFragment.
 
     @Override
     public String getStringForShowingInList() {
-        return name;
+        return nameEn;
     }
 }

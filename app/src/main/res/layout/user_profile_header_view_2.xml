@@ -9,7 +9,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1.2"
+        app:layout_constraintDimensionRatio="1:1.25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -31,14 +31,13 @@
         <TextView
             android:id="@+id/user_profile_level"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/level_background"
             android:gravity="center"
             android:padding="@dimen/widgets_padding_s"
             android:fontFamily="@font/segoe_sb"
-            android:textColor="@color/user_profile_text_header_color"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_small"
             app:layout_constraintBottom_toTopOf="@+id/guideline3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".06"
@@ -70,7 +69,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/user_profile_img"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".29"
+            app:layout_constraintHeight_percent=".24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/user_profile_img" />
 
@@ -82,10 +81,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".27"
+            app:layout_constraintHeight_percent=".22"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.100000024"
+            app:layout_constraintVertical_bias="0.2"
             tools:src="@drawable/phlog_logo" />
 
         <TextView
@@ -95,8 +94,7 @@
             android:fontFamily="@font/segoe_b"
             android:gravity="center"
             android:textColor="@color/white"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform"
+            android:textSize="@dimen/font_normal"
             app:layout_constraintBottom_toTopOf="@+id/user_profile_username"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".06"
@@ -112,9 +110,8 @@
             android:layout_height="0dp"
             android:fontFamily="@font/segoe_sb"
             android:gravity="center"
-            android:textColor="@color/user_profile_text_header_color"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_small"
             app:layout_constraintBottom_toTopOf="@+id/profile_rating"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".05"
@@ -128,14 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".65" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".83" />
+            app:layout_constraintGuide_percent=".7" />
 
         <TextView
             android:id="@+id/photos_val"
@@ -144,8 +134,7 @@
             android:fontFamily="@font/segoe_sb"
             android:gravity="center"
             android:textColor="@color/user_profile_text_header_color"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform"
+            android:textSize="@dimen/font_small"
             app:layout_constraintBottom_toTopOf="@+id/total_photos_tag"
             app:layout_constraintEnd_toStartOf="@+id/followers_val"
             app:layout_constraintHeight_percent=".055"
@@ -160,13 +149,11 @@
             android:id="@+id/total_photos_tag"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:gravity="center"
             android:fontFamily="@font/segoe_sb"
+            android:gravity="center"
             android:text="@string/total_photos"
             android:textColor="@color/user_profile_text_header_color"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toTopOf="@+id/guideline4"
+            android:textSize="@dimen/font_small"
             app:layout_constraintEnd_toEndOf="@+id/photos_val"
             app:layout_constraintHeight_percent=".055"
             app:layout_constraintStart_toStartOf="@+id/photos_val"
@@ -180,8 +167,7 @@
             android:gravity="center"
             android:fontFamily="@font/segoe_sb"
             android:textColor="@color/user_profile_text_header_color"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform"
+            android:textSize="@dimen/font_small"
             app:layout_constraintBottom_toBottomOf="@+id/photos_val"
             app:layout_constraintEnd_toStartOf="@+id/following_val"
             app:layout_constraintHeight_percent=".055"
@@ -198,8 +184,7 @@
             android:text="@string/followers"
             android:fontFamily="@font/segoe_sb"
             android:textColor="@color/user_profile_text_header_color"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform"
+            android:textSize="@dimen/font_small"
             app:layout_constraintBottom_toBottomOf="@+id/total_photos_tag"
             app:layout_constraintEnd_toEndOf="@+id/followers_val"
             app:layout_constraintHeight_percent=".055"
@@ -213,8 +198,7 @@
             android:layout_height="0dp"
             android:gravity="center"
             android:textColor="@color/user_profile_text_header_color"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform"
+            android:textSize="@dimen/font_small"
             android:fontFamily="@font/segoe_sb"
             app:layout_constraintBottom_toBottomOf="@+id/followers_val"
             app:layout_constraintEnd_toEndOf="parent"
@@ -232,8 +216,7 @@
             android:text="@string/following"
             android:fontFamily="@font/segoe_sb"
             android:textColor="@color/user_profile_text_header_color"
-            app:autoSizeMinTextSize="1sp"
-            app:autoSizeTextType="uniform"
+            android:textSize="@dimen/font_small"
             app:layout_constraintBottom_toBottomOf="@+id/followers_tag"
             app:layout_constraintEnd_toEndOf="@+id/following_val"
             app:layout_constraintHeight_percent=".055"
@@ -241,21 +224,20 @@
             app:layout_constraintTop_toTopOf="@+id/followers_tag"
             app:layout_constraintWidth_percent=".2" />
 
-        <Button
+        <com.o_bdreldin.loadingbutton.LoadingButton
             android:id="@+id/follow_user"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:fontFamily="@font/segoe_sb"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_blue_btn"
+            android:layout_height="wrap_content"
+            app:background_color="@color/text_input_color"
+            app:font_family="@font/segoe_sb"
             android:text="@string/follow"
             android:textColor="@color/white"
+            app:text_size="@dimen/font_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".07"
-            app:layout_constraintVertical_bias=".3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline4"
-            app:layout_constraintWidth_percent=".3" />
+            app:padding="@dimen/dp4"
+            app:layout_constraintTop_toBottomOf="@+id/followers_tag"
+            app:layout_constraintWidth_percent=".25" />
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

@@ -11,7 +11,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.*;
+
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
@@ -23,6 +23,7 @@ import com.example.ddopik.phlogbusiness.ui.userprofile.presenter.UserProfilePres
 import com.example.ddopik.phlogbusiness.ui.userprofile.presenter.UserProfilePresenterImpl;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
+import com.o_bdreldin.loadingbutton.LoadingButton;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -55,7 +56,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     private UserProfilePresenter userProfilePresenter;
     private List<BaseImage> userPhotoList = new ArrayList<BaseImage>();
     private ProgressBar userProfilePhotosProgressBar;
-    private Button followUser;
+    private LoadingButton followUser;
     private ImageButton backBtn;
     private PagingController pagingController;
 
@@ -242,10 +243,10 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     public void setIsFollowing(boolean follow) {
         following = follow;
         if (following) {
-            followUser.setText(R.string.un_follow);
+            followUser.setText(getString(R.string.un_follow));
             userProfileFollowTitle.setText(R.string.un_follow);
         } else {
-            followUser.setText(R.string.follow);
+            followUser.setText(getString(R.string.follow));
             userProfileFollowTitle.setText(R.string.follow);
         }
     }

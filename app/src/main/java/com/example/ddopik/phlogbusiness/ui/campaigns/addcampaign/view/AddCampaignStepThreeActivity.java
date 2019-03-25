@@ -17,8 +17,10 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.presenter.AddCa
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.presenter.AddCampaignStepThreePresenter;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddCampaignStepThreeActivity extends BaseActivity implements AddCampaignStepThreeActivityView {
 
@@ -153,7 +155,29 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
             numberOfWinneresInput.setErrorEnabled(false);
         }
 
+        if (!datesAreValid(campaignStartDate.getText().toString(), campaignEndDate.getText().toString())) {
+            inputState = false;
+            showToast(getString(R.string.dates_not_valid));
+        }
+
         return inputState;
+    }
+
+    private boolean datesAreValid(String start, String end) {
+        try {
+            Date startDate = getDate(start);
+            Date endDate = getDate(end);
+            return startDate.before(endDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private Date getDate(String d) throws ParseException {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return simpleDateFormat.parse(d);
     }
 
     @Override

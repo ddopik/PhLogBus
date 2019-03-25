@@ -48,7 +48,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/dp45"
                         android:max="100"
-                        android:progress="75"
+                        android:progress="66"
                         android:progressDrawable="@drawable/progress_horizontal_custom" />
 
                 </LinearLayout>
@@ -82,7 +82,6 @@
                             android:fontFamily="@font/verdana"
                             android:hint="@string/campaign_description"
                             android:inputType="textPersonName"
-                            android:singleLine="true"
                             android:textAlignment="textStart"
                             android:textColor="@color/black677078"
                             android:textSize="@dimen/sign_up_text_size"
@@ -104,7 +103,6 @@
                             android:fontFamily="@font/verdana"
                             android:hint="@string/campaign_prize"
                             android:inputType="textPersonName"
-                            android:singleLine="true"
                             android:textAlignment="textStart"
                             android:textColor="@color/black677078"
                             android:textSize="@dimen/sign_up_text_size"

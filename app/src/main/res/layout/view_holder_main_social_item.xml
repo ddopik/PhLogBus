@@ -1,82 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-            android:id="@+id/story_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_large"
-            android:textStyle="bold"
-            android:padding="@dimen/dp16"
-            tools:text="Story title"/>
-
+        android:id="@+id/story_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp16"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_large"
+        android:textStyle="bold"
+        tools:text="Story title" />
 
     <android.support.v7.widget.CardView
-            android:id="@+id/social_profile_container"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/view_holder_item_list_height_med"
-            android:layout_below="@+id/story_title"
-
-            app:cardCornerRadius="@dimen/item_card_corner_radius"
-            app:cardElevation="@dimen/item_card_elevation">
+        android:id="@+id/social_profile_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_holder_item_list_height_med"
+        android:layout_below="@+id/story_title"
+        app:cardCornerRadius="@dimen/item_card_corner_radius"
+        app:cardElevation="@dimen/item_card_elevation">
 
         <FrameLayout
-                android:id="@+id/social_profile_type_3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
+            android:id="@+id/social_profile_type_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <include
 
-                    layout="@layout/view_holder_social_profile_type_3" />
+                layout="@layout/view_holder_social_profile_type_3" />
 
         </FrameLayout>
 
 
         <FrameLayout
-                android:id="@+id/images_slider_type_5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
+            android:id="@+id/images_slider_type_5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <include layout="@layout/view_holder_social_images_slider_type_5" />
         </FrameLayout>
 
         <FrameLayout
-                android:id="@+id/social_campaign_type_1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                android:visibility="gone">
+            android:id="@+id/social_campaign_type_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <include layout="@layout/view_holder_social_campaign_type_1" />
         </FrameLayout>
 
         <FrameLayout
-                android:id="@+id/social_brand_type_1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                android:visibility="gone">
+            android:id="@+id/social_brand_type_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <include layout="@layout/view_holder_social_brand_type_1" />
         </FrameLayout>
 
 
         <FrameLayout
-                android:id="@+id/social_album_type_4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                tools:visibility="visible">
+            android:id="@+id/social_album_type_4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <include layout="@layout/view_holder_social_album_type_4" />
         </FrameLayout>
