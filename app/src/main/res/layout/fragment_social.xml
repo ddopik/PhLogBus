@@ -92,7 +92,7 @@
                     android:layout_height="@dimen/activity_search_tab_h_large"
                     android:layout_margin="@dimen/widgets_padding"
                     android:background="@drawable/search_edit_text_home"
-                    android:drawableStart="@drawable/ic_search"
+                    android:drawableStart="@drawable/places_ic_search"
                     android:focusable="false"
                     android:fontFamily="@font/verdana"
                     android:hint="@string/place_autocomplete_search_hint"

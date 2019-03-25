@@ -3,6 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.draft.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,10 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
     public void onBindViewHolder(@NonNull DraftCampaignsAdapter.DraftCampaignViewHolder campaignViewHolder, int i) {
 
         Campaign homeCampaign = draftCampaignList.get(i);
+
+        campaignViewHolder.campaignDayLeft.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(context, R.drawable.ic_time_white), null, null, null);
+        campaignViewHolder.campaignJoined.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(context, R.drawable.ic_joined), null, null, null);
+
         campaignViewHolder.campaignImage.setOnClickListener(v -> {
             if (campaignLister != null) {
                 campaignLister.onCampaignClicked(homeCampaign);

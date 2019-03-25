@@ -104,7 +104,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center"
-                    android:background="@drawable/ic_menu_dots" />
+                    android:background="@color/transparent"
+                    app:srcCompat="@drawable/ic_menu_dots" />
             </FrameLayout>
         </LinearLayout>
 

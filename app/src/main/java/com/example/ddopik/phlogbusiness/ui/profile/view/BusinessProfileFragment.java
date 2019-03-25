@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -150,7 +147,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         this.business = business;
         if (business.firstName != null)
             brandName.setText(String.format("%1$s %2$s", business.firstName, business.lastName));
-        if (business.userName !=null)
+        if (business.userName != null)
             brandUserMail.setText(business.email);
         if (business.website != null)
             brandWebSite.setText(business.website);

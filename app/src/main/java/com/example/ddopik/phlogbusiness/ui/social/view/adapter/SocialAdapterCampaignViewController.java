@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.support.v7.content.res.AppCompatResources;
 import android.view.View;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -44,6 +45,7 @@ public class SocialAdapterCampaignViewController {
 
         socialViewHolder.socialCampaignType1.setVisibility(View.VISIBLE);
         socialViewHolder.storyTitle.setText(socialData.title);
+        socialViewHolder.socialCampaignDayLeft.setCompoundDrawablesWithIntrinsicBounds(null, null, AppCompatResources.getDrawable(context, R.drawable.ic_time_white), null);
         GlideApp.with(context)
 //                .load(socialData.campaigns.get(0).business.thumbnail)
                 .load(socialData.campaigns.get(0).imageCover)
