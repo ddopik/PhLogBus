@@ -11,5 +11,8 @@ public interface AllAlbumImgPresenter {
     void likePhoto(BaseImage baseImage);
 
     void addAlbumImageToCart(BaseImage baseImage);
-     void followImagePhotoGrapher(BaseImage baseImage);
+
+    void followImagePhotoGrapher(BaseImage baseImage);
+
+    void getPhotoDetails(int imgId);
 }

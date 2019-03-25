@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.PhotosListType.SOCIAL_LIST;
+
 /**
  * Created by abdalla_maged on 11/5/2018.
  */
@@ -107,10 +109,20 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
         allAlbumImgAdapter.onAlbumImgClicked = new AllAlbumImgAdapter.OnAlbumImgClicked() {
             @Override
             public void onAlbumImgClick(BaseImage albumImg) {
-                Intent intent = new Intent(getBaseContext(), ImageCommentActivity.class);
-                intent.putExtra(ImageCommentActivity.IMAGE_DATA, albumImg);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
+
+
+                if (photosListType == SOCIAL_LIST) {
+                    allAlbumImgPresenter.getPhotoDetails(albumImg.id);
+
+                } else {
+
+                    Intent intent = new Intent(getBaseContext(), ImageCommentActivity.class);
+                    intent.putExtra(ImageCommentActivity.IMAGE_DATA, albumImg);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                }
+
+
             }
 
 
@@ -235,6 +247,13 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
         allAlbumImgAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void navigateToImageDetails(BaseImage baseImage) {
+        Intent intent = new Intent(getBaseContext(), ImageCommentActivity.class);
+        intent.putExtra(ImageCommentActivity.IMAGE_DATA, baseImage);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
 
     @Override
     public void viewAlbumImageListProgress(boolean state) {

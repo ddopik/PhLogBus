@@ -3,12 +3,12 @@ package com.example.ddopik.phlogbusiness.ui.brand.view;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
@@ -16,13 +16,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
-
 import com.example.ddopik.phlogbusiness.R;
-import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerData;
 import com.example.ddopik.phlogbusiness.ui.brand.presenter.BrandInnerDataPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.brand.presenter.BrandInnerPresenter;
+import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import io.reactivex.annotations.NonNull;
 
 /**
@@ -30,10 +29,14 @@ import io.reactivex.annotations.NonNull;
  */
 public class BrandInnerActivity extends BaseActivity implements BrandInnerActivityView {
 
-    public static String BRAND_ID="brand_id";
+    public static String BRAND_ID = "brand_id";
+    private Toolbar brandProfileToolBar;
+    private AppBarLayout mAppBarLayout;
+    private CollapsingToolbarLayout brandProfileCollapsingToolbarLayout;
     private FrameLayout brandHeaderImg;
     private ImageView brandIconImg;
-    private TextView brandName, brandNumFollowers, brandType, aboutBrand, brandData, brandWebsite, brandMail, brandCampaign;
+    private ImageButton backBtn;
+    private TextView brandName, brandNumFollowers, brandType, aboutBrand, brandData, brandWebsite, brandMail, brandCampaign, brandProfileToolbarTitle;
     private BrandInnerPresenter brandInnerPresenter;
     private ProgressBar progressBar;
 
@@ -54,9 +57,14 @@ public class BrandInnerActivity extends BaseActivity implements BrandInnerActivi
     @Override
     public void initView() {
 
+        mAppBarLayout = findViewById(R.id.brand_profile_appBar);
+        brandProfileCollapsingToolbarLayout = findViewById(R.id.brand_profile_collapsing_layout);
+        brandProfileToolBar = findViewById(R.id.brand_profile_toolbar);
+        brandProfileToolbarTitle = findViewById(R.id.brand_profile_toolbar_title);
+         backBtn = findViewById(R.id.back_btn);
         brandHeaderImg = findViewById(R.id.header_background_img);
         brandIconImg = findViewById(R.id.brand_img_icon);
-         brandName = findViewById(R.id.brand_name);
+        brandName = findViewById(R.id.brand_name);
         brandNumFollowers = findViewById(R.id.brand_num_followers);
         brandType = findViewById(R.id.brand_type);
         aboutBrand = findViewById(R.id.about_brand);
@@ -111,6 +119,8 @@ public class BrandInnerActivity extends BaseActivity implements BrandInnerActivi
 
         if (brandInnerData.nameEn != null) {
             brandName.setText(brandInnerData.nameEn);
+            brandProfileToolbarTitle.setText(brandInnerData.nameEn);
+
             aboutBrand.setText(new StringBuilder().append(getResources().getString(R.string.about_brand)).append(" : ").append(brandInnerData.nameEn).toString());
         }
         if (brandInnerData.numberOfFollowers != null) {
@@ -134,7 +144,26 @@ public class BrandInnerActivity extends BaseActivity implements BrandInnerActivi
 
     private void intiListeners() {
 
+        brandProfileCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.black));
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
 
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    isShow = true;
+                    brandProfileToolBar.setVisibility(View.VISIBLE);
+                } else if (isShow) {
+                    isShow = false;
+                    brandProfileToolBar.setVisibility(View.GONE);
+                }
+            }
+        });
+        backBtn.setOnClickListener(v -> onBackPressed());
     }
 
 

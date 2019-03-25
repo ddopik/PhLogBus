@@ -126,4 +126,21 @@ public class AllAlbumImgPresenterImpl implements AllAlbumImgPresenter {
 
     }
 
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getPhotoDetails(int imgId) {
+        allAlbumImgActivityView.viewAlbumImageListProgress(true);
+        BaseNetworkApi.getImageDetails(String.valueOf(imgId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(albumPreviewResponse -> {
+                    allAlbumImgActivityView.navigateToImageDetails(albumPreviewResponse.data);
+                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                    allAlbumImgActivityView.viewAlbumImageListProgress(false);
+                });
+
+    }
 }

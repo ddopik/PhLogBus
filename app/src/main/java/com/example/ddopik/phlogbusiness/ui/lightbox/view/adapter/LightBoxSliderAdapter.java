@@ -39,7 +39,7 @@ public class LightBoxSliderAdapter extends RecyclerView.Adapter<LightBoxSliderAd
         GlideApp.with(context)
                 .load(baseImageList.get(i).url)
                 .placeholder(R.drawable.default_place_holder)
-                .error(R.drawable.default_error_img)
+                .error(R.drawable.default_ligh_box_slide_img)
                 .into(lightBoxSliderViewHolder.lightBoxSliderImg);
 
         if (OnLightBoxImgSliderClick != null) {

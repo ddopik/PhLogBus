@@ -12,6 +12,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.model
 import com.example.ddopik.phlogbusiness.ui.accountdetails.model.AccountDetailsModel;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewImagesResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponse;
+import com.example.ddopik.phlogbusiness.ui.album.model.ImageDetailsResponse;
 import com.example.ddopik.phlogbusiness.ui.album.model.SavePhotoResponse;
 import com.example.ddopik.phlogbusiness.ui.brand.model.BrandInnerResponse;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.SubmitCampaignResponse;
@@ -150,6 +151,7 @@ public class BaseNetworkApi {
     private static final String UPDATE_FIREBASE_TOKEN_URL = BASE_URL + "/auth/device/set";
     public static final String BASE_IMAGE_DOWNLOAD_URL = BASE_SERVER_URL + "/photo";
     private static final String UPDATE_CAMPAIGN_URL = BASE_URL + "/campaign/update";
+    private static final String IMAGE_DETAILS_URL = BASE_URL + "/photo/details";
 
     //Path Parameters
     private static final String PAGER_QUERY_PARAMETER = "page";
@@ -787,6 +789,14 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(SubmitCampaignResponse.class);
+    }
+
+
+    public static Observable<ImageDetailsResponse> getImageDetails(String imgId) {
+        return Rx2AndroidNetworking.post(IMAGE_DETAILS_URL)
+                .addBodyParameter("photo_id", imgId)
+                .build()
+                .getObjectObservable(ImageDetailsResponse.class);
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

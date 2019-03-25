@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.*;
 import com.bumptech.glide.request.RequestOptions;
@@ -41,7 +44,10 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     public static String USER_TYPE = "user_type";
 
     private String userID;
-    private TextView userProfileLevel, userProfileUserName, userProfileFullName, userProfilePhotosCount, userProfileFolloweresCount, userProfileFollowingCount;
+    private Toolbar userProfileToolBar;
+    private AppBarLayout mAppBarLayout;
+    private CollapsingToolbarLayout userProfileCollapsingToolbarLayout;
+    private TextView userProfileLevel, userProfileUserName, userProfileFullName, userProfilePhotosCount, userProfileFolloweresCount, userProfileFollowingCount, userProfileToolbarTitle, userProfileFollowTitle;
     private RatingBar userProfileRating;
     private ImageView userProfileImg, userCoverImg;
     private CustomRecyclerView userProfilePhotosRv;
@@ -50,7 +56,9 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     private List<BaseImage> userPhotoList = new ArrayList<BaseImage>();
     private ProgressBar userProfilePhotosProgressBar;
     private Button followUser;
+    private ImageButton backBtn;
     private PagingController pagingController;
+
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -59,9 +67,12 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        initPresenter();
-        initView();
-        initListener();
+        if (getIntent().getStringExtra(USER_ID) != null) {
+            this.userID = getIntent().getStringExtra(USER_ID);
+            initPresenter();
+            initView();
+            initListener();
+        }
     }
 
 
@@ -75,8 +86,12 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     public void initView() {
 
 
-        if (getIntent().getStringExtra(USER_ID) != null)
-            this.userID = getIntent().getStringExtra(USER_ID);
+        mAppBarLayout = findViewById(R.id.user_profile_appBar);
+        userProfileCollapsingToolbarLayout = findViewById(R.id.user_profile_collapsing_layout);
+        userProfileToolBar = findViewById(R.id.user_profile_toolbar);
+        userProfileToolbarTitle = findViewById(R.id.user_profile_toolbar_title);
+        userProfileFollowTitle = findViewById(R.id.tool_bar_follow_user);
+        backBtn = findViewById(R.id.back_btn);
         userProfileLevel = findViewById(R.id.user_profile_level);
         userProfileRating = findViewById(R.id.profile_rating);
         userProfileImg = findViewById(R.id.user_profile_img);
@@ -106,39 +121,13 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
             }
         };
         followUser.setOnClickListener(v -> {
-            if (userID == null)
-                return;
-            if (following) {
-                Disposable disposable = userProfilePresenter.unfollow(userID)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(userProfileData -> {
-                            following = userProfileData.isFollow();
-                            if (!userProfileData.isFollow()) {
-                                followUser.setText(R.string.follow);
-                                userProfileFolloweresCount.setText("" + userProfileData.getFollowersCount());
-                            }
-                        }, throwable -> {
-                            CustomErrorUtil.Companion.setError(this, TAG, throwable);
-                        });
-                disposables.add(disposable);
-            } else {
-                Disposable disposable = userProfilePresenter.followUser(userID)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(userProfileData -> {
-                            following = userProfileData.isFollow();
-                            if (userProfileData.isFollow()) {
-                                followUser.setText(R.string.un_follow);
-                                userProfileFolloweresCount.setText("" + userProfileData.getFollowersCount());
-                            }
-                        }, throwable -> {
-                            CustomErrorUtil.Companion.setError(this, TAG, throwable);
-                        });
-                disposables.add(disposable);
-            }
+            setFollowUser();
         });
 
+
+        userProfileFollowTitle.setOnClickListener(v -> {
+            setFollowUser();
+        });
 
         userProfilePhotosAdapter.photoAction = image -> {
             Intent intent = new Intent(this, AllAlbumImgActivity.class);
@@ -149,6 +138,28 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         };
+
+
+        userProfileCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.black));
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    isShow = true;
+                    userProfileToolBar.setVisibility(View.VISIBLE);
+                } else if (isShow) {
+                    isShow = false;
+                    userProfileToolBar.setVisibility(View.GONE);
+                }
+            }
+        });
+        backBtn.setOnClickListener(v -> onBackPressed());
     }
 
     @Override
@@ -179,11 +190,14 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     @Override
     public void viewUserProfileFullName(String fullName) {
         userProfileFullName.setText(fullName);
+        userProfileToolbarTitle.setText(fullName);
     }
 
     @Override
     public void viewUserProfileUserName(String userName) {
         userProfileUserName.setText(userName);
+
+
     }
 
     @Override
@@ -229,10 +243,49 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
         following = follow;
         if (following) {
             followUser.setText(R.string.un_follow);
+            userProfileFollowTitle.setText(R.string.un_follow);
         } else {
             followUser.setText(R.string.follow);
+            userProfileFollowTitle.setText(R.string.follow);
         }
     }
+
+    private void setFollowUser() {
+
+        if (following) {
+            Disposable disposable = userProfilePresenter.unfollow(userID)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(userProfileData -> {
+                        following = userProfileData.isFollow();
+                        if (!userProfileData.isFollow()) {
+                            followUser.setText(R.string.follow);
+                            userProfileFollowTitle.setText(R.string.follow);
+                            userProfileFolloweresCount.setText("" + userProfileData.getFollowersCount());
+                        }
+                    }, throwable -> {
+                        CustomErrorUtil.Companion.setError(this, TAG, throwable);
+                    });
+            disposables.add(disposable);
+        } else {
+            Disposable disposable = userProfilePresenter.followUser(userID)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(userProfileData -> {
+                        following = userProfileData.isFollow();
+                        if (userProfileData.isFollow()) {
+                            followUser.setText(R.string.un_follow);
+                            userProfileFollowTitle.setText(R.string.un_follow);
+                            userProfileFolloweresCount.setText("" + userProfileData.getFollowersCount());
+                        }
+                    }, throwable -> {
+                        CustomErrorUtil.Companion.setError(this, TAG, throwable);
+                    });
+            disposables.add(disposable);
+        }
+
+    }
+
 
     @Override
     protected void onDestroy() {
