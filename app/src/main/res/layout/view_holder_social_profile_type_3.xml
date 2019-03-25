@@ -1,135 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                    xmlns:tools="http://schemas.android.com/tools"
-                                    android:id="@+id/social_profile_container"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@color/white"
-                                    app:cardCornerRadius="@dimen/item_card_corner_radius"
-                                    app:cardElevation="@dimen/item_card_elevation">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/social_profile_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    app:cardCornerRadius="@dimen/item_card_corner_radius"
+    app:cardElevation="@dimen/item_card_elevation">
 
     <LinearLayout
 
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="@dimen/widgets_padding">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/widgets_padding">
 
         <LinearLayout
-                android:id="@+id/social_profile_item_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/widgets_padding">
+            android:id="@+id/social_profile_item_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/widgets_padding">
 
             <ImageView
-                    android:id="@+id/social_profile_type_3_icon_img"
-                    android:layout_width="@dimen/icon_view_holder_size_s"
-                    android:layout_height="@dimen/icon_view_holder_size_s"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/dp4"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/default_user_pic" />
+                android:id="@+id/social_profile_type_3_icon_img"
+                android:layout_width="@dimen/icon_view_holder_size_s"
+                android:layout_height="@dimen/icon_view_holder_size_s"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dp4"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/default_user_pic" />
 
             <LinearLayout
-                    android:layout_width="0dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/dp16">
+
+                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                    android:id="@+id/social_profile_full_name"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/dp16">
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_medium"
+                    tools:text="Brand text" />
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                        android:id="@+id/social_profile_full_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_medium"
-                        tools:text="Brand text" />
-
-                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                        android:id="@+id/social_profile_user_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="user name" />
+                    android:id="@+id/social_profile_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="user name" />
             </LinearLayout>
 
-            <Button
-                    android:id="@+id/follow_social_profile"
-                    android:layout_width="@dimen/dp45"
-                    android:layout_height="35dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_blue_btn"
-                    android:fontFamily="@font/segoe_sb"
-                    android:text="@string/follow"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white" />
+            <com.o_bdreldin.loadingbutton.LoadingButton
+                android:id="@+id/follow_social_profile"
+                android:layout_width="@dimen/dp45"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/segoe_sb"
+                app:text="@string/follow"
+                app:text_size="@dimen/font_normal"
+                app:text_color="@color/white"
+                app:padding="@dimen/dp4"
+                app:background_color="@color/text_input_color" />
         </LinearLayout>
 
         <FrameLayout
 
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
             <!--/////-->
 
             <LinearLayout
-                    android:id="@+id/social_profile_album_type_3_photos_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                android:id="@+id/social_profile_album_type_3_photos_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
 
-                        android:orientation="horizontal">
-
-                    <ImageView
-                            android:id="@+id/social_profile_img_1"
-                            android:layout_width="@dimen/social_profile_img_w"
-                            android:layout_height="@dimen/profile_search_icon_h"
-                            android:layout_margin="@dimen/dp4"
-                            android:scaleType="centerCrop"
-                            tools:background="@color/orangeF58624" />
+                    android:orientation="horizontal">
 
                     <ImageView
-                            android:id="@+id/social_profile_img_2"
-                            android:layout_width="@dimen/social_profile_img_w"
-                            android:layout_height="@dimen/profile_search_icon_h"
-                            android:layout_margin="@dimen/dp4"
-                            android:scaleType="centerCrop"
-                            tools:background="@color/colorRed" />
+                        android:id="@+id/social_profile_img_1"
+                        android:layout_width="@dimen/social_profile_img_w"
+                        android:layout_height="@dimen/profile_search_icon_h"
+                        android:layout_margin="@dimen/dp4"
+                        android:scaleType="centerCrop"
+                        tools:background="@color/orangeF58624" />
+
+                    <ImageView
+                        android:id="@+id/social_profile_img_2"
+                        android:layout_width="@dimen/social_profile_img_w"
+                        android:layout_height="@dimen/profile_search_icon_h"
+                        android:layout_margin="@dimen/dp4"
+                        android:scaleType="centerCrop"
+                        tools:background="@color/colorRed" />
                 </LinearLayout>
 
 
                 <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
 
-                        android:orientation="horizontal">
-
-                    <ImageView
-                            android:id="@+id/social_profile_img_3"
-                            android:layout_width="@dimen/social_profile_img_w"
-                            android:layout_height="@dimen/profile_search_icon_h"
-                            android:layout_margin="@dimen/dp4"
-                            android:scaleType="centerCrop"
-                            tools:background="@color/gray2B2E00" />
+                    android:orientation="horizontal">
 
                     <ImageView
-                            android:id="@+id/social_profile_img_4"
-                            android:layout_width="@dimen/social_profile_img_w"
-                            android:layout_height="@dimen/profile_search_icon_h"
-                            android:layout_margin="@dimen/dp4"
-                            android:scaleType="centerCrop"
-                            tools:background="@color/blue3E549C" />
+                        android:id="@+id/social_profile_img_3"
+                        android:layout_width="@dimen/social_profile_img_w"
+                        android:layout_height="@dimen/profile_search_icon_h"
+                        android:layout_margin="@dimen/dp4"
+                        android:scaleType="centerCrop"
+                        tools:background="@color/gray2B2E00" />
+
+                    <ImageView
+                        android:id="@+id/social_profile_img_4"
+                        android:layout_width="@dimen/social_profile_img_w"
+                        android:layout_height="@dimen/profile_search_icon_h"
+                        android:layout_margin="@dimen/dp4"
+                        android:scaleType="centerCrop"
+                        tools:background="@color/blue3E549C" />
                 </LinearLayout>
 
 

@@ -81,7 +81,7 @@
     <string name="activity_title_main">Filters</string>
     <string name="action_settings">Settings</string>
 
-    <string name="total_photos">Total Photos</string>
+    <string name="total_photos">Photos</string>
     <string name="followers">Followers</string>
     <string name="lbl_brightness">BRIGHTNESS</string>
     <string name="lbl_contrast">CONTRAST</string>
@@ -303,7 +303,7 @@
     <string name="clear_all">Clear All</string>
     <string name="photo">Photo</string>
     <string name="photos_number">%1$d Photo</string>
-    <string name="un_follow">UnFollow</string>
+    <string name="un_follow">Unfollow</string>
     <string name="dates_not_valid">End date must be after start date.</string>
     <string name="new_studio">New Studio</string>
     <string name="no_campaigns_prompt">You havn\'t added any campaigns.\nClick here to add a new campaign.</string>

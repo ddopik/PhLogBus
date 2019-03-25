@@ -20,6 +20,7 @@ import com.example.ddopik.phlogbusiness.ui.userprofile.presenter.UserProfilePres
 import com.example.ddopik.phlogbusiness.ui.userprofile.presenter.UserProfilePresenterImpl;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
+import com.o_bdreldin.loadingbutton.LoadingButton;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -49,7 +50,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     private UserProfilePresenter userProfilePresenter;
     private List<BaseImage> userPhotoList = new ArrayList<BaseImage>();
     private ProgressBar userProfilePhotosProgressBar;
-    private Button followUser;
+    private LoadingButton followUser;
     private PagingController pagingController;
 
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -108,14 +109,16 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
         followUser.setOnClickListener(v -> {
             if (userID == null)
                 return;
+            followUser.setLoading(true);
             if (following) {
                 Disposable disposable = userProfilePresenter.unfollow(userID)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .doFinally(() -> followUser.setLoading(false))
                         .subscribe(userProfileData -> {
                             following = userProfileData.isFollow();
                             if (!userProfileData.isFollow()) {
-                                followUser.setText(R.string.follow);
+                                followUser.setText(getString(R.string.follow));
                                 userProfileFolloweresCount.setText("" + userProfileData.getFollowersCount());
                             }
                         }, throwable -> {
@@ -126,10 +129,11 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
                 Disposable disposable = userProfilePresenter.followUser(userID)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .doFinally(() -> followUser.setLoading(false))
                         .subscribe(userProfileData -> {
                             following = userProfileData.isFollow();
                             if (userProfileData.isFollow()) {
-                                followUser.setText(R.string.un_follow);
+                                followUser.setText(getString(R.string.un_follow));
                                 userProfileFolloweresCount.setText("" + userProfileData.getFollowersCount());
                             }
                         }, throwable -> {
@@ -228,9 +232,9 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     public void setIsFollowing(boolean follow) {
         following = follow;
         if (following) {
-            followUser.setText(R.string.un_follow);
+            followUser.setText(getString(R.string.un_follow));
         } else {
-            followUser.setText(R.string.follow);
+            followUser.setText(getString(R.string.follow));
         }
     }
 
