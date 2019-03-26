@@ -71,7 +71,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     private ImageView promptImage;
     private TextView promptText;
     private CustomTextView filterIcon, clearFilterBtn;
-    private String totalResultCount="0";
+    private String totalResultCount = "0";
 
 
     public static AlbumSearchFragment getInstance() {
@@ -297,11 +297,9 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
 
                 if (textViewTextChangeEvent.getCount() == 0) {
-                    if (textViewTextChangeEvent.getCount() == 0) {
-                        setTotalResultCount("0");
-                        if (searchResultCount != null) {
-                            searchResultCount.setVisibility(View.INVISIBLE);
-                        }
+//                        setTotalResultCount("0");
+                    if (searchResultCount != null) {
+                        searchResultCount.setVisibility(View.INVISIBLE);
                     }
                     promptView.setVisibility(View.VISIBLE);
                     promptText.setText(R.string.type_something_album);
@@ -434,10 +432,11 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         this.onSearchTabSelected = onSearchTabSelected;
     }
 
-    private void setTotalResultCount(String count){
-        totalResultCount =count;
+    private void setTotalResultCount(String count) {
+        totalResultCount = count;
     }
-    private String getTotalResultCount(){
+
+    private String getTotalResultCount() {
         return totalResultCount;
     }
 

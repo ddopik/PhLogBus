@@ -307,11 +307,10 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
                 // user cleared search get default data
                 if (textViewTextChangeEvent.getCount() == 0) {
-                    setTotalResultCount("0");
+//                    setTotalResultCount("0");
                     if (searchResultCount != null) {
                         searchResultCount.setVisibility(View.INVISIBLE);
                     }
-
                     promptView.setVisibility(View.VISIBLE);
                     promptText.setText(R.string.type_something_image);
                     return;
