@@ -12,6 +12,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import android.widget.*;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
@@ -87,11 +88,11 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     public void initView() {
 
 
-        mAppBarLayout = findViewById(R.id.user_profile_appBar);
-        userProfileCollapsingToolbarLayout = findViewById(R.id.user_profile_collapsing_layout);
-        userProfileToolBar = findViewById(R.id.user_profile_toolbar);
-        userProfileToolbarTitle = findViewById(R.id.user_profile_toolbar_title);
-        userProfileFollowTitle = findViewById(R.id.tool_bar_follow_user);
+//        mAppBarLayout = findViewById(R.id.user_profile_appBar);
+//        userProfileCollapsingToolbarLayout = findViewById(R.id.user_profile_collapsing_layout);
+//        userProfileToolBar = findViewById(R.id.user_profile_toolbar);
+//        userProfileToolbarTitle = findViewById(R.id.user_profile_toolbar_title);
+//        userProfileFollowTitle = findViewById(R.id.tool_bar_follow_user);
         backBtn = findViewById(R.id.back_btn);
         userProfileLevel = findViewById(R.id.user_profile_level);
         userProfileRating = findViewById(R.id.profile_rating);
@@ -141,26 +142,26 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
         };
 
 
-        userProfileCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.black));
-        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    isShow = true;
-                    userProfileToolBar.setVisibility(View.VISIBLE);
-                } else if (isShow) {
-                    isShow = false;
-                    userProfileToolBar.setVisibility(View.GONE);
-                }
-            }
-        });
-        backBtn.setOnClickListener(v -> onBackPressed());
+//        userProfileCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.black));
+//        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            boolean isShow = false;
+//            int scrollRange = -1;
+//
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                if (scrollRange == -1) {
+//                    scrollRange = appBarLayout.getTotalScrollRange();
+//                }
+//                if (scrollRange + verticalOffset == 0) {
+//                    isShow = true;
+//                    userProfileToolBar.setVisibility(View.VISIBLE);
+//                } else if (isShow) {
+//                    isShow = false;
+//                    userProfileToolBar.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//        backBtn.setOnClickListener(v -> onBackPressed());
     }
 
     @Override
@@ -260,8 +261,8 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
                     .subscribe(userProfileData -> {
                         following = userProfileData.isFollow();
                         if (!userProfileData.isFollow()) {
-                            followUser.setText(R.string.follow);
-                            userProfileFollowTitle.setText(R.string.follow);
+                            followUser.setText(getString(R.string.follow));
+//                            userProfileFollowTitle.setText(R.string.follow);
                             userProfileFolloweresCount.setText("" + userProfileData.getFollowersCount());
                         }
                     }, throwable -> {
@@ -275,8 +276,8 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
                     .subscribe(userProfileData -> {
                         following = userProfileData.isFollow();
                         if (userProfileData.isFollow()) {
-                            followUser.setText(R.string.un_follow);
-                            userProfileFollowTitle.setText(R.string.un_follow);
+                            followUser.setText(getString(R.string.un_follow));
+//                            userProfileFollowTitle.setText(R.string.un_follow);
                             userProfileFolloweresCount.setText("" + userProfileData.getFollowersCount());
                         }
                     }, throwable -> {
