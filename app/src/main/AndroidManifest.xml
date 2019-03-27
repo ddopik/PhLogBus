@@ -16,7 +16,9 @@
         android:roundIcon="@mipmap/phlog_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="m">
         <activity android:name=".ui.splash.view.SplashActivity">
 
             <intent-filter>
