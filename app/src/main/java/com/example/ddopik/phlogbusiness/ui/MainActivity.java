@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         handleIntent(getIntent());
 
-//        Log.e("token", PrefUtils.getBrandToken(this));
+//        Log.e("token", PrefUtils.getFirebaseToken(this));
     }
 
     @Override

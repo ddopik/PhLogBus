@@ -50,7 +50,7 @@ public class SocialAdapterBrandController {
                 .into(socialViewHolder.socialBrandImg);
 
         socialViewHolder.socialBrandName.setText(socialData.brands.get(0).fullName);
-        socialViewHolder.socialBrandFollowing.setText(socialData.brands.get(0).followingsCount);
+        socialViewHolder.socialBrandFollowing.setText("" + socialData.brands.get(0).followingsCount);
 
         if (onSocialItemListener != null) {
             socialViewHolder.socialBrandImg.setOnClickListener(new View.OnClickListener() {
