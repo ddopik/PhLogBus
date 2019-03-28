@@ -1,73 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:minWidth="@dimen/custom_dialog_width"
-		android:minHeight="400dp"
-		android:layout_gravity="top|center"
-		app:cardCornerRadius="@dimen/dialog_card_corner_radius"
-		app:cardElevation="@dimen/dialog_card_elevation">
-	
-	
-	<LinearLayout android:layout_width="match_parent"
-				  android:layout_height="match_parent"
-				  android:orientation="vertical"
-				  android:padding="@dimen/dp16"
-	>
-		<com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-			android:fontFamily="@font/segoe_b"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/choose_light_box"
-				android:layout_marginBottom="@dimen/dp18"
-				android:textSize="@dimen/text_title_head"
-				android:textStyle="bold"/>
-		
-		
-		<com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
-				android:id="@+id/add_to_light_box_rv"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				app:orientation="vertical"
-				android:layout_marginBottom="@dimen/dp16"
-		/>
-	
-	
-	</LinearLayout>
-	<LinearLayout android:layout_width="match_parent"
-				  android:layout_height="wrap_content"
-				  android:orientation="vertical"
-				
-				  android:padding="@dimen/dp16"
-				  android:layout_gravity="bottom">
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/dialog_card_corner_radius"
+    app:cardElevation="@dimen/dialog_card_elevation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="@dimen/custom_dialog_width"
+        android:minHeight="400dp"
+         android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:orientation="vertical"
+            android:padding="@dimen/dp16">
+
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp18"
+                android:fontFamily="@font/segoe_b"
+                android:text="@string/choose_light_box"
+                android:textSize="@dimen/text_title_head"
+                android:textStyle="bold" />
 
 
-		<Button android:id="@+id/add_light_to_box_dialog_btn"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:fontFamily="@font/segoe_sb"
-				android:text="@string/add_new_light_box"
-				android:textColor="@color/white"
-				android:layout_weight="1"
-				android:background="@color/text_input_color"/>
-		
-		<Button
-				android:id="@+id/cancel_add_to_light_box_dialog_btn"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@color/white"
-				android:layout_weight="1"
-				android:fontFamily="@font/segoe_sb"
-				android:textColor="@color/text_input_color"
-				android:text="@string/cancel"/>
-	
-	</LinearLayout>
-	<ProgressBar
-			android:id="@+id/add_img_to_light_box_progress"
-			android:layout_width="wrap_content"
-				 android:layout_height="wrap_content"
-				 android:layout_gravity="center"/>
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
+                android:id="@+id/add_to_light_box_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp16"
+                app:orientation="vertical" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+
+            android:orientation="vertical"
+            android:padding="@dimen/dp16">
+
+
+            <Button
+                android:id="@+id/add_light_to_box_dialog_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/text_input_color"
+                android:fontFamily="@font/segoe_sb"
+                android:text="@string/add_new_light_box"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/cancel_add_to_light_box_dialog_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:fontFamily="@font/segoe_sb"
+                android:text="@string/cancel"
+                android:textColor="@color/text_input_color" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/add_img_to_light_box_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
 </android.support.v7.widget.CardView>

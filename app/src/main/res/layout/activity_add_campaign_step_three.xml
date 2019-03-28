@@ -156,6 +156,7 @@
                         android:background="@drawable/square_frame"
                         android:fontFamily="@font/segoe_sb"
                         android:text="@string/save_as_draft"
+                        android:textAllCaps="false"
                         android:textColor="@color/text_input_color"
                         android:textSize="@dimen/sign_up_text_size_meduim" />
 
@@ -168,7 +169,8 @@
                         android:layout_marginBottom="@dimen/dp16"
                         android:background="@color/text_input_color"
                         android:fontFamily="@font/segoe_sb"
-                        android:text="@string/submit"
+                        android:text="@string/publish"
+                        android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/sign_up_text_size_meduim" />
                 </RelativeLayout>

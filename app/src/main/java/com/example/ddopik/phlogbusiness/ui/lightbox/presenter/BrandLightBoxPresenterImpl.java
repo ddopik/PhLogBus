@@ -49,7 +49,7 @@ public class BrandLightBoxPresenterImpl implements BrandLightBoxPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(deleteLightBoxResponse -> {
-                    brandLightBoxFragmentView.showMessage(context.getResources().getString(R.string.light_box_deleted));
+//                    brandLightBoxFragmentView.showMessage(context.getResources().getString(R.string.light_box_deleted));
                     brandLightBoxFragmentView.viewLightBoxProgress(false);
                     brandLightBoxFragmentView.onLightBoxLightDeleted();
                 }, throwable -> {

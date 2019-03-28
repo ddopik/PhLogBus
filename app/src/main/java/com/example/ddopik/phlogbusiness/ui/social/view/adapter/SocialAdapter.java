@@ -57,8 +57,13 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
         socialViewHolder.socialBrandType1.setVisibility(View.GONE);
         socialViewHolder.socialAlbumType4.setVisibility(View.GONE);
         /// reInstall socialViewHolder  Header  and padding  as "ENTITY_IMAGE"  is clear it
-        socialViewHolder.storyTitle.setPadding(18, 18, 18, 18);
         socialViewHolder.storyTitle.setText("");
+        if (i !=0){
+            socialViewHolder.storyTitle.setPadding(32, 100, 32, 50);
+
+        }else {
+            socialViewHolder.storyTitle.setPadding(32, 16, 32, 32);
+        }
         ////
 
         if (socialDataList.size() > 0)

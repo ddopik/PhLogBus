@@ -142,6 +142,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         ///////////
         searchResultCount.setText(new StringBuilder().append(getAlbumImagesCount()).append(" ").append(getResources().getString(R.string.result)).toString());
         searchResultCount.setTextColor(getActivity().getResources().getColor(R.color.white));
+        searchResultCount.setVisibility(View.INVISIBLE);
 
 
     }
@@ -252,7 +253,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
 
     private void setImagesResultStats(FilterOption filterOption) {
 
-        searchResultCount.setVisibility(View.VISIBLE);
+//        searchResultCount.setVisibility(View.VISIBLE);
 
         for (int i = 0; i < filterList.size(); i++) {
             for (int x = 0; x < filterList.get(i).options.size(); x++) {
@@ -343,7 +344,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         /**
          * parsing and loading image into AlbumGroups
          * */
-        if (imagesSearchData.imageList.size() > 0) {
+        if ( imagesSearchData.imageList !=null &&  imagesSearchData.imageList.size() > 0) {
             for (int i = 0; i < imagesSearchData.imageList.size(); i++) {
 
                 if (albumGroupList.size() == 0) {
@@ -486,7 +487,12 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             promptView.setVisibility(View.GONE);
             albumGroupList.clear();
             imageSearchAdapter.notifyDataSetChanged();
-            imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString(), filterList, 0);
+            if (imagesSearchFragmentPresenter.getFilter(filterList).size() > 0) {
+                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString(), filterList, 0);
+            } else {
+                viewImagesSearchImages(new ImagesSearchData());
+                searchResultCount.setVisibility(View.INVISIBLE);
+            }
         });
     }
 

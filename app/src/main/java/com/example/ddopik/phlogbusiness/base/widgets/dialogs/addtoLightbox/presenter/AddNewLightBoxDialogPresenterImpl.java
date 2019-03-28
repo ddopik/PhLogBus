@@ -14,15 +14,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddNewLightBoxDialogPresenterImpl implements AddNewLightBoxDialogPresenter{
+public class AddNewLightBoxDialogPresenterImpl implements AddNewLightBoxDialogPresenter {
 
-    private String TAG=AddNewLightBoxDialogPresenterImpl.class.getSimpleName();
+    private String TAG = AddNewLightBoxDialogPresenterImpl.class.getSimpleName();
     private Context context;
     private AddToLightBoxDialogFragmentView addToLightBoxDialogFragmentView;
 
-    public AddNewLightBoxDialogPresenterImpl(Context context,AddToLightBoxDialogFragmentView addToLightBoxDialogFragmentView){
-        this.context=context;
-        this.addToLightBoxDialogFragmentView=addToLightBoxDialogFragmentView;
+    public AddNewLightBoxDialogPresenterImpl(Context context, AddToLightBoxDialogFragmentView addToLightBoxDialogFragmentView) {
+        this.context = context;
+        this.addToLightBoxDialogFragmentView = addToLightBoxDialogFragmentView;
 
     }
 
@@ -37,35 +37,35 @@ public class AddNewLightBoxDialogPresenterImpl implements AddNewLightBoxDialogPr
                     addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
                 }, throwable -> {
 
-                    CustomErrorUtil.Companion.setError(context,TAG,throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
                 });
     }
 
     @SuppressLint("CheckResult")
     @Override
-    public void addImagesToLightBox(List<LightBox> lightBoxId, int imageID,AddToLightBoxDialogFragment addToLightBoxDialogFragment) {
+    public void addImagesToLightBox(List<LightBox> lightBoxId, int imageID, AddToLightBoxDialogFragment addToLightBoxDialogFragment) {
 
 
-        Map<String,String> data=new HashMap<String, String>();
+        Map<String, String> data = new HashMap<String, String>();
 
-        for ( int i=0;i<lightBoxId.size();i++){
+        for (int i = 0; i < lightBoxId.size(); i++) {
             if (lightBoxId.get(i).isChecked)
-            data.put("lightbox_id["+i+"]",lightBoxId.get(i).id.toString());
+                data.put("lightbox_id[" + i + "]", lightBoxId.get(i).id.toString());
         }
 
-        data.put("photo_id",String.valueOf(imageID));
+        data.put("photo_id", String.valueOf(imageID));
 
         addToLightBoxDialogFragmentView.viewLightBoxProgress(true);
         BaseNetworkApi.addImageToLightBox(data).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(addToLightBoxResponse -> {
-                     addToLightBoxDialogFragmentView.onImageAddedToLightBox(true);
+                    addToLightBoxDialogFragmentView.onImageAddedToLightBox(true);
                     addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
                     addToLightBoxDialogFragment.dismiss();
 
                 }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context,TAG,throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     addToLightBoxDialogFragmentView.onImageAddedToLightBox(false);
                     addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
                 });
@@ -74,23 +74,22 @@ public class AddNewLightBoxDialogPresenterImpl implements AddNewLightBoxDialogPr
 
     @SuppressLint("CheckResult")
     @Override
-    public void addLightBox(String name,String description) {
+    public void addLightBox(String name, String description) {
 
         addToLightBoxDialogFragmentView.viewLightBoxProgress(true);
-        HashMap<String,String> data=new HashMap<String, String>();
-        data.put("name",name);
-        data.put("description",description);
+        HashMap<String, String> data = new HashMap<String, String>();
+        data.put("name", name);
+        data.put("description", description);
         BaseNetworkApi.addLightBox(data)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(addLightBoxResponse -> {
                     addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
-                    addToLightBoxDialogFragmentView.viewMessage(addLightBoxResponse.msg);
                     getLightBoxes();
 
-                },throwable -> {
+                }, throwable -> {
                     addToLightBoxDialogFragmentView.viewLightBoxProgress(false);
-                    CustomErrorUtil.Companion.setError(context,TAG,throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 }
