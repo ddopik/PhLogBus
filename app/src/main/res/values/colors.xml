@@ -51,9 +51,11 @@
     <color name="user_profile_text_header_color">#96A0AA</color>
     <color name="default_tool_bar_color">#2f343a</color>
 
-        <color name="color_option_menu">#FF3990</color>
-        <color name="filter_label_normal">#EEEEEE</color>
-        <color name="filter_label_selected">#FFFFFF</color>
+    <color name="color_option_menu">#FF3990</color>
+    <color name="filter_label_normal">#EEEEEE</color>
+    <color name="filter_label_selected">#FFFFFF</color>
     <color name="transparent_black_80">#CC000000</color>
     <color name="green">#ADFF39</color>
+    <color name="brown">#FFB1705B</color>
+
 </resources>

@@ -213,10 +213,10 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
 
                 if (lastVisibleDecorViewHeight != 0) {
                     if (lastVisibleDecorViewHeight > visibleDecorViewHeight + MIN_KEYBOARD_HEIGHT_PX) {
-
-
+                        nextBtn.setVisibility(View.INVISIBLE); //causing un desired view
                     } else if (lastVisibleDecorViewHeight + MIN_KEYBOARD_HEIGHT_PX < visibleDecorViewHeight) {
                         //Key board is visible
+                        nextBtn.setVisibility(View.VISIBLE);//causing un desired view
                         Tag newTag = new Tag();
                         newTag.name = autoCompleteTextView.getText().toString().toLowerCase();
                         boolean tagAlreadyExist = false;

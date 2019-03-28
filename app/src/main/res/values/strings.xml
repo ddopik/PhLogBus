@@ -171,7 +171,7 @@
     <string name="choose_light_box">Choose lightBox</string>
     <string name="save">Save</string>
     <string name="add_to_light_box">Add to lightBox</string>
-    <string name="add_new_light_box">Add new LightBox</string>
+    <string name="add_new_light_box">Add new Studios</string>
     <string name="images">Image</string>
     <string name="like">Like</string>
     <string name="comment">Commnet</string>
@@ -307,5 +307,6 @@
     <string name="dates_not_valid">End date must be after start date.</string>
     <string name="new_studio">New Studio</string>
     <string name="no_campaigns_prompt">You havn\'t added any campaigns.\nClick here to add a new campaign.</string>
+    <string name="publish">Publish</string>
 
 </resources>

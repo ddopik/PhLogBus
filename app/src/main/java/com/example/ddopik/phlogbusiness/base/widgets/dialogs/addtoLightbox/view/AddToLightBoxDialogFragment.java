@@ -88,7 +88,7 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
             }
             addToLightBoxAdapter.notifyDataSetChanged();
 
-            if (lightBoxList.size() > 0) {
+            if (isLightBoxChecked()) {
                 addToLightBoxBtn.setText(getResources().getString(R.string.save));
             } else {
                 addToLightBoxBtn.setText(getResources().getString(R.string.add_new_light_box));
@@ -98,10 +98,11 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
 
         addToLightBoxBtn.setOnClickListener(v -> {
 
+
             /**
              * No LightBox preferred try add newOne
              * */
-            if (lightBoxList.size() == 0) {
+            if (!isLightBoxChecked()) {
                 AddNewLightBoxDialogFragment addNewLightBoxDialogFragment = AddNewLightBoxDialogFragment.getInstance();
                 addNewLightBoxDialogFragment.setOnDialogAdd(lightBoxName -> {
                     addNewLightBoxDialogPresenter.addLightBox(lightBoxName, "desc");
@@ -163,6 +164,16 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
 
     public interface OnLighBoxImageComplete {
         void onImageAdded(boolean state);
+    }
+
+    private boolean isLightBoxChecked() {
+ 
+        for (LightBox lightBox : lightBoxList) {
+            if (lightBox.isChecked) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
