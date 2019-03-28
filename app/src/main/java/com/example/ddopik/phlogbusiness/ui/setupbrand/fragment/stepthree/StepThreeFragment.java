@@ -129,23 +129,28 @@ public class StepThreeFragment extends BaseFragment {
 
     private DocsAdapter.ActionListener actionListener = (type, objects) -> {
         switch (type) {
-            case UPLOAD:if (objects != null && objects.length != 0) {
-                if (objects[0] instanceof Doc) {
-                    Doc doc = (Doc) objects[0];
-                    if (doc.path == null)
-                        break;
-                    Message message = new Message();
-                    message.what = UploaderService.UPLOAD_FILE;
-                    message.obj = objects[0];
-                    if (!started) {
-                        shouldUploadOnBind = true;
-                        pendingMessage = message;
-                        getActivity().startService(intent);
-                        getActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE);
-                    } else
-                        sendMessageToService(message);
+            case UPLOAD:
+                if (objects != null && objects.length != 0) {
+                    if (objects[0] instanceof Doc) {
+                        Doc doc = (Doc) objects[0];
+                        if (doc.path == null)
+                            break;
+                        Message message = new Message();
+                        message.what = UploaderService.UPLOAD_FILE;
+                        message.obj = objects[0];
+                        if (!started) {
+                            shouldUploadOnBind = true;
+                            pendingMessage = message;
+                            if (getActivity() != null) {
+//                                getActivity().startService(intent);
+                                getActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE);
+                                started = true;
+                            }
+                        } else {
+                            sendMessageToService(message);
+                        }
+                    }
                 }
-            }
                 break;
             case SELECT:
                 if (objects != null && objects.length >= 1) {
