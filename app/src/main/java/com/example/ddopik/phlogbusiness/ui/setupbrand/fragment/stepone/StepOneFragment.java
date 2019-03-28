@@ -74,11 +74,14 @@ public class StepOneFragment extends BaseFragment {
         setViews();
     }
 
+    private boolean setting = false;
+
     @Override
     public void onResume() {
         super.onResume();
         if (model == null)
             return;
+        setting = true;
         if (model.cover != null) {
             GlideApp.with(this)
                     .load(model.cover)
@@ -105,6 +108,7 @@ public class StepOneFragment extends BaseFragment {
         model.thumbnail = business.brandThumbnail;
         model.arabicBrandName = business.nameAr;
         model.englishBrandName = business.nameEn;
+        setting = false;
     }
 
     @Override
@@ -144,8 +148,10 @@ public class StepOneFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                model.arabicBrandName = s.toString();
-                consumer.accept(new SubViewAction(ActionType.ARABIC_NAME, model.arabicBrandName));
+                if (!setting) {
+                    model.arabicBrandName = s.toString();
+                    consumer.accept(new SubViewAction(ActionType.ARABIC_NAME, model.arabicBrandName));
+                }
             }
         };
         arabicName.addTextChangedListener(arabicTextWatcher);
@@ -160,8 +166,9 @@ public class StepOneFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (!setting) {
                 model.englishBrandName = s.toString();
-                consumer.accept(new SubViewAction(ActionType.ENGLISH_NAME, model.englishBrandName));
+                consumer.accept(new SubViewAction(ActionType.ENGLISH_NAME, model.englishBrandName));}
             }
         };
         englishName.addTextChangedListener(englishTextWatcher);

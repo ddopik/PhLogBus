@@ -46,7 +46,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
         BaseImage item = items.get(i);
         Context context = holder.itemView.getContext();
-        holder.exclusiveIcon.setVisibility(View.INVISIBLE);
         holder.exclusiveCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked)
                 holder.exclusiveIcon.setVisibility(View.VISIBLE);
@@ -87,10 +86,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     .load(item.photographer.imageProfile)
                     .apply(RequestOptions.circleCropTransform().error(R.drawable.ic_photographer))
                     .into(holder.byWhoImage);
-        if (item.exclusive)
+        if (item.exclusive) {
             holder.price.setText(context.getString(R.string.price_value, item.priceExclusive));
-        else
+            holder.exclusiveIcon.setVisibility(View.VISIBLE);
+        } else {
             holder.price.setText(context.getString(R.string.price_value, item.price));
+            holder.exclusiveIcon.setVisibility(View.INVISIBLE);
+        }
         holder.remove.setOnClickListener(v -> {
             actionListener.onAction(ActionListener.Type.REMOVE, item, success -> {
                 if (success) {

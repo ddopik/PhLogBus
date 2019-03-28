@@ -149,8 +149,8 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
             brandName.setText(String.format("%1$s %2$s", business.firstName, business.lastName));
         if (business.userName != null)
             brandUserMail.setText(business.email);
-        if (business.website != null)
-            brandWebSite.setText(business.website);
+//        if (business.website != null)
+//            brandWebSite.setText(business.website);
         if (business.industry != null && business.industry.nameEn != null)
             brandIndustry.setText(business.industry.nameEn);
 

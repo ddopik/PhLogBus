@@ -37,7 +37,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/cover_image_view"
             app:layout_constraintTop_toTopOf="@+id/cover_image_view"
-            app:layout_constraintWidth_percent=".5" />
+            app:layout_constraintHeight_percent=".12"/>
 
         <ImageView
             android:id="@+id/thumbnail_image_view"
@@ -93,6 +93,7 @@
             app:layout_constraintHeight_percent=".1"
             app:layout_constraintHorizontal_bias="0.5"
             app:autoSizeTextType="uniform"
+            app:backgroundTint="@color/gray400"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             app:layout_constraintVertical_chainStyle="spread" />
@@ -106,6 +107,7 @@
             android:inputType="textPersonName"
             android:textColor="@color/black"
             app:autoSizeTextType="uniform"
+            app:backgroundTint="@color/gray400"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".1"

@@ -190,10 +190,12 @@ public class SocialAdapterProfileViewController {
         BaseNetworkApi.followUser(String.valueOf(userId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(followUserResponse -> {
-                    socialData.profiles.get(0).isFollow = followUserResponse.data.isFollow();
+                .doFinally(() -> {
                     int index = socialDataList.indexOf(socialData);
                     socialAdapter.notifyItemChanged(index);
+                })
+                .subscribe(followUserResponse -> {
+                    socialData.profiles.get(0).isFollow = followUserResponse.data.isFollow();
 //                    onSocialItemListener.onSocialPhotoGrapherFollowed(Integer.parseInt(userId), true);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
@@ -205,12 +207,13 @@ public class SocialAdapterProfileViewController {
         BaseNetworkApi.unFollowUser(String.valueOf(userID))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-
+                .doFinally(() -> {
+                    int index = socialDataList.indexOf(socialData);
+                    socialAdapter.notifyItemChanged(index);
+                })
                 .subscribe(followUserResponse -> {
 
                     socialData.profiles.get(0).isFollow = followUserResponse.data.isFollow();
-                    int index = socialDataList.indexOf(socialData);
-                    socialAdapter.notifyItemChanged(index);
 //                    onSocialItemListener.onSocialPhotoGrapherFollowed(Integer.parseInt(userID), false);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);

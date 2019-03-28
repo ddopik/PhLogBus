@@ -112,6 +112,7 @@ public class DocsAdapter extends RecyclerView.Adapter<DocsAdapter.ViewHolderX> {
             }
         };
         consumers.put(i, biConsumer);
+        holder.progress.setProgress(0);
     }
 
     @Override

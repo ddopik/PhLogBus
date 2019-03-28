@@ -47,6 +47,7 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
         return mainView;
     }
 
+    private boolean loadedFirstPage;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
