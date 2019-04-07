@@ -21,7 +21,6 @@ public class CampaignInnerPhotosAdapter extends RecyclerView.Adapter<CampaignInn
 
     private List<BaseImage> photoGrapherPhotosList;
     private Context context;
-    private CampaignInnerPhotosAdapter.PhotosViewHolder photosViewHolder;
     public PhotoAction photoAction;
 
     public CampaignInnerPhotosAdapter(Context context, List<BaseImage> photoGrapherPhotosList) {
@@ -34,22 +33,25 @@ public class CampaignInnerPhotosAdapter extends RecyclerView.Adapter<CampaignInn
     public CampaignInnerPhotosAdapter.PhotosViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        return new PhotosViewHolder(layoutInflater.inflate(R.layout.view_holder_photo_square, viewGroup, false));
+        return new PhotosViewHolder(layoutInflater.inflate(R.layout.view_holder_photo_square_badge, viewGroup, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CampaignInnerPhotosAdapter.PhotosViewHolder campaignsViewHolder, int i) {
+    public void onBindViewHolder(@NonNull CampaignInnerPhotosAdapter.PhotosViewHolder viewHolder, int i) {
 
 
         GlideApp.with(context)
                 .load(photoGrapherPhotosList.get(i).url)
 //                .override(450,450)
                 .placeholder(R.drawable.ic_launcher_foreground)
-                .into(campaignsViewHolder.photographerPhoto);
+                .into(viewHolder.photographerPhoto);
         if (photoAction != null)
-            campaignsViewHolder.photographerPhoto.setOnClickListener(view -> {
+            viewHolder.photographerPhoto.setOnClickListener(view -> {
                 photoAction.onPhotoClicked(photoGrapherPhotosList.get(i));
             });
+
+        if (photoGrapherPhotosList.get(i).isWon) viewHolder.isWonBadge.setVisibility(View.VISIBLE);
+        else viewHolder.isWonBadge.setVisibility(View.GONE);
     }
 
     @Override
@@ -60,11 +62,12 @@ public class CampaignInnerPhotosAdapter extends RecyclerView.Adapter<CampaignInn
 
     class PhotosViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView photographerPhoto;
+        ImageView photographerPhoto, isWonBadge;
 
         public PhotosViewHolder(View view) {
             super(view);
             photographerPhoto = view.findViewById(R.id.photographer_photo);
+            isWonBadge = view.findViewById(R.id.is_won_badge);
         }
     }
 

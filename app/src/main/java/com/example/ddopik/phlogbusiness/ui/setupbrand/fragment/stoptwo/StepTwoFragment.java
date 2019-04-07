@@ -67,9 +67,12 @@ public class StepTwoFragment extends BaseFragment {
         setListeners();
     }
 
+    private boolean setting = false;
+
     @Override
     public void onResume() {
         super.onResume();
+        setting = true;
         if (selectedIndustry != null) {
             industryET.setText(selectedIndustry.nameEn);
         }
@@ -84,6 +87,7 @@ public class StepTwoFragment extends BaseFragment {
         if (model.desc != null)
             descET.setText(model.desc);
         descET.requestFocus();
+        setting = false;
     }
 
     @Override
@@ -132,8 +136,10 @@ public class StepTwoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                model.phone = phone.getText().toString();
-                consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(ActionType.PHONE, model.phone));
+                if (!setting) {
+                    model.phone = phone.getText().toString();
+                    consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(ActionType.PHONE, model.phone));
+                }
             }
         };
         phone.addTextChangedListener(phoneWatcher);
@@ -150,8 +156,10 @@ public class StepTwoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                model.address = address.getText().toString();
-                consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(ActionType.ADDRESS, model.address));
+                if (!setting) {
+                    model.address = address.getText().toString();
+                    consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(ActionType.ADDRESS, model.address));
+                }
             }
         };
         address.addTextChangedListener(addressWatcher);
@@ -168,8 +176,10 @@ public class StepTwoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                model.email = email.getText().toString();
-                consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(ActionType.EMAIL, model.email));
+                if (!setting) {
+                    model.email = email.getText().toString();
+                    consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(ActionType.EMAIL, model.email));
+                }
             }
         };
         email.addTextChangedListener(emailWatcher);
@@ -186,8 +196,10 @@ public class StepTwoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                model.webSite = website.getText().toString();
-                consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(ActionType.WEBSITE, model.webSite));
+                if (!setting) {
+                    model.webSite = website.getText().toString();
+                    consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(ActionType.WEBSITE, model.webSite));
+                }
             }
         };
         website.addTextChangedListener(websiteWatcher);
@@ -197,7 +209,7 @@ public class StepTwoFragment extends BaseFragment {
                     SelectFromStringListDialogFragment fragment = SelectFromStringListDialogFragment.newInstance(industries);
                     fragment.setConsumer(model -> {
                         selectedIndustry = (Industry) model;
-                        industryET.setText(selectedIndustry.name);
+                        industryET.setText(selectedIndustry.nameEn);
                         phone.requestFocus();
                         consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(ActionType.INDUSTRY, selectedIndustry));
                         fragment.dismiss();
@@ -219,8 +231,10 @@ public class StepTwoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                model.desc = descET.getText().toString();
-                consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(SetupBrandActivity.SubViewActionConsumer.ActionType.DESC, model.desc));
+                if (!setting) {
+                    model.desc = descET.getText().toString();
+                    consumer.accept(new SetupBrandActivity.SubViewActionConsumer.SubViewAction(SetupBrandActivity.SubViewActionConsumer.ActionType.DESC, model.desc));
+                }
             }
         };
         descET.addTextChangedListener(descWatcher);
@@ -234,8 +248,8 @@ public class StepTwoFragment extends BaseFragment {
             for (Industry industry : industries) {
                 if (industry.id.equals(selectedIndustry.id)) {
                     selectedIndustry = industry;
-                    if (selectedIndustry.name != null)
-                        industryET.setText(selectedIndustry.name);
+                    if (selectedIndustry.nameEn != null)
+                        industryET.setText(selectedIndustry.nameEn);
                     break;
                 }
             }

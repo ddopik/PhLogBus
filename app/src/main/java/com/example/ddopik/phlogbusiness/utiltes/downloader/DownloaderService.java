@@ -50,7 +50,7 @@ public class DownloaderService extends Service {
             case DOWNLOAD_FILE:
                 if (message.obj instanceof BaseImage) {
                     BaseImage image = (BaseImage) message.obj;
-                    downloading ++;
+                    downloading++;
                     File f = new File(Environment.getExternalStorageDirectory(), SUB_DIR);
                     if (!f.exists()) {
                         f.mkdirs();
@@ -84,10 +84,11 @@ public class DownloaderService extends Service {
                                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                     PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext()
                                             , (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                                    notificationFactory.changeNotificationPendingIntent(getApplicationContext()
-                                            , getString(R.string.permanent_notification_channel_id)
-                                            , getString(R.string.permanent_notification_id), pendingIntent
-                                            , getString(R.string.download_complete), R.drawable.phlog_logo);
+                                    if (downloading == 0)
+                                        notificationFactory.changeNotificationPendingIntent(getApplicationContext()
+                                                , getString(R.string.permanent_notification_channel_id)
+                                                , getString(R.string.permanent_notification_id), pendingIntent
+                                                , getString(R.string.download_complete), R.drawable.phlog_logo);
                                     checkAndStop();
                                     Toast.makeText(getApplicationContext(), R.string.download_complete, Toast.LENGTH_SHORT).show();
                                 }

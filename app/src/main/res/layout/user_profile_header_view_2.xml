@@ -89,8 +89,8 @@
 
         <TextView
             android:id="@+id/user_profile_full_name"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/segoe_b"
             android:gravity="center"
             android:textColor="@color/white"
@@ -106,8 +106,8 @@
 
         <TextView
             android:id="@+id/user_profile_username"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/segoe_sb"
             android:gravity="center"
             android:textColor="@color/white"

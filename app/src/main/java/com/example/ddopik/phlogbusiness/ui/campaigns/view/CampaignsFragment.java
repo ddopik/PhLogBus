@@ -63,6 +63,7 @@ public class CampaignsFragment extends BaseFragment {
         addCampaignBtn=mainView.findViewById(R.id.add_campaign_btn);
         campaignsPagerAdapter = new CampaignsPagerAdapter(getChildFragmentManager(), getCampaignsFragment(), getFragmentTitles());
         campaignsViewPager.setAdapter(campaignsPagerAdapter);
+        campaignsViewPager.setOffscreenPageLimit(2);
         campaignsTabLayout.setupWithViewPager(campaignsViewPager);
         mainView.findViewById(R.id.back_btn).setVisibility(View.GONE);
     }

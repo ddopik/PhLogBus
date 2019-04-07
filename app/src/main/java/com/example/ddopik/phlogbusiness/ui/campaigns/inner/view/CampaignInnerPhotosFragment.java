@@ -180,7 +180,7 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
     private CampaignInnerPhotosAdapter.PhotoAction action = baseImage -> {
         Intent intent = new Intent(getContext(), ImageCommentActivity.class);
         intent.putExtra(ImageCommentActivity.IMAGE_DATA, baseImage);
-        if (status == Constants.CampaignStatus.CAMPAIGN_STATUS_APPROVED || status == Constants.CampaignStatus.CAMPAIGN_STATUS_RUNNING) {
+        if (baseImage.canWin && !baseImage.isWon) {
             intent.putExtra(ImageCommentActivity.SHOULD_SHOW_CHOOSE_WINNER, true);
         }
         intent.putExtra(ImageCommentActivity.CAMPAIGN_ID, Integer.valueOf(campaignID));

@@ -19,7 +19,7 @@ public class Doc {
 	@SerializedName("uploaded_file")
 	private UploadedFile uploadedFile;
 
-	public int progress;
+	public int progress = 0;
 
 	public String path;
 
