@@ -141,7 +141,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 });
 
 
-                if (!previewImage.isLiked) {
+                if (previewImage.isLiked != null && !previewImage.isLiked) {
                     commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_off_white);
                 } else {
                     commentViewHolder.imageLikeBtn.setImageResource(R.drawable.ic_like_on);
@@ -197,7 +197,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentAdapterAction.onAddToLightBox(previewImage);
             });
 
-            if (previewImage.isSaved)
+            if (previewImage.isSaved != null && previewImage.isSaved)
                 commentViewHolder.addToLightBox.setVisibility(View.GONE);
             else commentViewHolder.addToLightBox.setVisibility(View.VISIBLE);
 

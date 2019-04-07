@@ -18,6 +18,7 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.AddCampai
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.draft.presenter.DraftCampaignsPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.presenter.CampaignsPresenterImpl;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
     }
 
     private boolean loadedFirstPage;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -81,11 +83,13 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
             }
         };
         draftCampaignsAdapter.campaignLister = campaign -> {
-            Intent intent =new Intent(getContext(),AddCampaignActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            AddCampaignRequestModel model = createModel(campaign);
-            intent.putExtra(AddCampaignActivity.CAMPAIGN_DATA, model);
-            startActivity(intent);
+            if (campaign.status.equals(Constants.CampaignStatus.CAMPAIGN_STATUS_DRAFT)) {
+                Intent intent = new Intent(getContext(), AddCampaignActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                AddCampaignRequestModel model = createModel(campaign);
+                intent.putExtra(AddCampaignActivity.CAMPAIGN_DATA, model);
+                startActivity(intent);
+            }
         };
 
     }

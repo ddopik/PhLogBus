@@ -28,11 +28,13 @@ public class SignUpPresenterImp implements SignUpPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void signUpUser(HashMap<String, String> signUpData) {
+        signUpView.setLoading(true);
 
         signUpData.put("firebase_token", PrefUtils.getFirebaseToken(context));
         BaseNetworkApi.signUpUser(signUpData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(() -> signUpView.setLoading(false))
                 .subscribe(signUpResponse -> {
                     signUpView.signUpSuccess();
                 }, throwable -> {

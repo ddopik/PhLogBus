@@ -35,7 +35,7 @@
     <string name="skip">Skip</string>
     <string name="invailde_name">Invalid name</string>
     <string name="invalid_last_name">Invalid user name</string>
-    <string name="invalid_mail">Invalid mail</string>
+    <string name="invalid_mail">Invalid email</string>
     <string name="invalid_password">Invalid Password</string>
     <string name="password_limit">Password can not be less than 6 Char</string>
     <string name="invalid_phone_number">invalid Phone Number</string>
@@ -308,5 +308,9 @@
     <string name="new_studio">New Studio</string>
     <string name="no_campaigns_prompt">You havn\'t added any campaigns.\nClick here to add a new campaign.</string>
     <string name="publish">Publish</string>
+    <string name="start_date_cant_be_past">Start date can\'t be in the past</string>
+    <string name="winners_cant_be_zero">Number of winners can\'t be zero</string>
+    <string name="draft">Draft</string>
+    <string name="pending_approval">Pending approval</string>
 
 </resources>

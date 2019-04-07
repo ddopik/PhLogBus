@@ -81,6 +81,7 @@ public interface Constants {
     }
 
     interface CampaignStatus {
+        int CAMPAIGN_STATUS_DECLINED = -2;
         int CAMPAIGN_STATUS_CANCELLED = -1;
         int CAMPAIGN_STATUS_DRAFT = 0;
         int CAMPAIGN_STATUS_REQUEST = 1;

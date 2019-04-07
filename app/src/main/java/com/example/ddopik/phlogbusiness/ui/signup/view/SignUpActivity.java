@@ -7,11 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Patterns;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.*;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
@@ -38,6 +36,8 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
     //industry List invoked in AutoComplete Adapter
     private ArrayList<String> industryList = new ArrayList<>();
     private SignUpPresenter signUpPresenter;
+
+    private ProgressBar loading;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
         autoCompleteTextView = findViewById(R.id.industry);
         autoCompleteTextView.setAdapter(industryAdapter);
 
-
+        loading = findViewById(R.id.sign_up_loading);
     }
 
     @Override
@@ -89,7 +89,6 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
 
         register_signUp.setOnClickListener(view -> {
             if (isDataIsValid()) {
-
 
                 HashMap<String, String> signUpData = new HashMap<>();
 
@@ -219,5 +218,11 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
     @Override
     public void showMessage(String msg) {
         showToast(msg);
+    }
+
+    @Override
+    public void setLoading(boolean b) {
+        if (b)
+            loading.setVisibility(View.VISIBLE);
     }
 }

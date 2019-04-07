@@ -17,8 +17,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/dp8"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:layout_marginBottom="@dimen/dp8">
 
             <ImageView
                 android:id="@+id/campaign_icon"
@@ -28,15 +28,27 @@
                 tools:src="@drawable/phlog_logo" />
 
             <TextView
-                android:fontFamily="@font/segoe_b"
                 android:id="@+id/campaign_name"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/icon_view_holder_size_m"
                 android:layout_toEndOf="@+id/campaign_icon"
+                android:fontFamily="@font/segoe_b"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 tools:text="Toyota" />
+
+            <ImageButton
+                android:id="@+id/delete_button"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                app:srcCompat="@drawable/ic_close"
+                android:layout_marginTop="@dimen/widgets_padding_s"
+                android:layout_marginBottom="@dimen/widgets_padding_s"
+                android:background="@color/colorRed"/>
         </RelativeLayout>
 
         <FrameLayout
@@ -49,7 +61,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                tools:src="@drawable/default_place_holder"/>
+                tools:src="@drawable/default_place_holder" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -67,20 +79,64 @@
                     android:id="@+id/campaign_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/arial_rounded_font"
+                    android:fontFamily="@font/segoe_sb"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_title_head"
                     tools:text="campaign" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/widgets_padding"
+                    android:orientation="horizontal"
+                    android:id="@+id/status_view"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+                    <ImageView
+                        android:id="@+id/status_indicator"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintDimensionRatio="1:1"
+                        android:background="@drawable/circle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:backgroundTint="@color/colorRed"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="assad asda"
+                        android:id="@+id/status_val"
+                        android:layout_marginStart="@dimen/widgets_padding_s"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/status_indicator"
+                        android:textColor="@color/white"/>
+                </android.support.constraint.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/campaign_day_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:drawableStart="@drawable/ic_time_white"
-                    android:drawablePadding="@dimen/campaign_drawable_padding"
                     android:layout_marginStart="@dimen/widgets_padding"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:fontFamily="@font/segoe_sb"
+                    android:drawablePadding="@dimen/campaign_drawable_padding"
                     android:textColor="@color/white"
+                    tools:drawableStart="@drawable/ic_time_white"
                     tools:text="5 day left" />
+
+                <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:layout_marginStart="@dimen/widgets_padding"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:textColor="@color/white"
+                    android:drawablePadding="@dimen/campaign_drawable_padding"
+                    tools:drawableStart="@drawable/ic_prize_white"
+                    android:id="@+id/campaign_prize"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -90,16 +146,17 @@
                     android:gravity="bottom|start"
                     android:orientation="horizontal">
 
-          <TextView
-              android:id="@+id/campaign_joined"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="@dimen/widgets_padding"
-              android:textColor="@color/white"
-              tools:drawableStart="@drawable/ic_joined"
-              android:drawablePadding="@dimen/widgets_padding"
-              tools:text="10 people joined"
-              android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/campaign_joined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/widgets_padding"
+                        android:drawablePadding="@dimen/widgets_padding"
+                        android:fontFamily="@font/segoe_sb"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        tools:drawableStart="@drawable/ic_joined"
+                        tools:text="10 people joined" />
 
                 </LinearLayout>
 

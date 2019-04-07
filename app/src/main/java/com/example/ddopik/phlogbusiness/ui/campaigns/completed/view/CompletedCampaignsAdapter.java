@@ -3,6 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.completed.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,9 @@ public class CompletedCampaignsAdapter extends RecyclerView.Adapter<CompletedCam
     public void onBindViewHolder(@NonNull CompletedCampaignsAdapter.CompletedCampaignViewHolder campaignViewHolder, int i) {
 
         Campaign homeCampaign = completedCampaignCampaignList.get(i);
+        if (homeCampaign == null)
+            return;
+
         campaignViewHolder.campaignImage.setOnClickListener(v -> {
             if (campaignLister != null) {
                 campaignLister.onCampaignClicked(homeCampaign.id.toString());
@@ -59,6 +63,9 @@ public class CompletedCampaignsAdapter extends RecyclerView.Adapter<CompletedCam
         campaignViewHolder.campaignBusinessName.setText(homeCampaign.business.fullName);
         campaignViewHolder.campaignTitle.setText(homeCampaign.titleEn);
 
+        campaignViewHolder.campaignPrize.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(context, R.drawable.ic_prize_white), null, null, null);
+        if (homeCampaign.prize != null)
+            campaignViewHolder.campaignPrize.setText(homeCampaign.prize);
         campaignViewHolder.campaignDayLeft.setText(String.valueOf(homeCampaign.daysLeft));
         campaignViewHolder.campaignDayLeft.append(" " + context.getResources().getString(R.string.days_left));
 
@@ -80,7 +87,7 @@ public class CompletedCampaignsAdapter extends RecyclerView.Adapter<CompletedCam
     public class CompletedCampaignViewHolder extends RecyclerView.ViewHolder {
         private ImageView campaignImage;
         private ImageView campaignBusinessIcon;
-        private TextView campaignBusinessName, campaignTitle, campaignDayLeft, campaignJoind;
+        private TextView campaignBusinessName, campaignTitle, campaignDayLeft, campaignJoind, campaignPrize;
         private Button joinCampaignBtn;
 
         public CompletedCampaignViewHolder(View view) {
@@ -93,6 +100,7 @@ public class CompletedCampaignsAdapter extends RecyclerView.Adapter<CompletedCam
             campaignDayLeft = view.findViewById(R.id.campaign_day_left);
             campaignJoind = view.findViewById(R.id.campaign_joined);
 
+            campaignPrize = view.findViewById(R.id.campaign_prize);
         }
     }
 

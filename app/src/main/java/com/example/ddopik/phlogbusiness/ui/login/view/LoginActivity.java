@@ -17,6 +17,7 @@ import com.example.ddopik.phlogbusiness.ui.login.presenter.LoginPresenter;
 import com.example.ddopik.phlogbusiness.ui.login.presenter.LoginPresenterImp;
 import com.example.ddopik.phlogbusiness.ui.signup.view.SignUpActivity;
 import com.example.ddopik.phlogbusiness.ui.signup.view.UploadSignUpPhotoActivity;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -85,6 +86,9 @@ public class LoginActivity extends BaseActivity implements LoginView {
             if (mail.getText().toString().isEmpty()) {
                 mailInput.setError(getResources().getString(R.string.email_missing));
                 return;
+            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mail.getText().toString()).matches()) {
+                mailInput.setError(getResources().getString(R.string.invalid_mail));
+                return;
             }
             Disposable disposable = loginPresenter.forgotPassword(getBaseContext(), mail.getText().toString())
                     .subscribeOn(Schedulers.io())
@@ -92,9 +96,8 @@ public class LoginActivity extends BaseActivity implements LoginView {
                     .subscribe(success -> {
                         if (success)
                             showToast(getString(R.string.check_your_mail));
-                        else showToast(getString(R.string.error_occured));
                     }, throwable -> {
-                         showToast(getString(R.string.error_occured));
+                        CustomErrorUtil.Companion.setError(this, TAG ,throwable);
                     });
             disposables.add(disposable);
         });

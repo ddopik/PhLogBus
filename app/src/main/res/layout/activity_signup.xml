@@ -49,7 +49,8 @@
                         android:layout_marginStart="@dimen/dp45"
                         android:max="100"
                         android:progress="45"
-                        android:progressDrawable="@drawable/progress_horizontal_custom" />
+                        android:progressDrawable="@drawable/progress_horizontal_custom"
+                        android:visibility="invisible" />
 
                 </LinearLayout>
 
@@ -116,7 +117,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/verdana"
-                            android:hint="@string/last_name"
                             android:inputType="textPersonName"
                             android:singleLine="true"
                             android:textAlignment="textStart"
@@ -162,7 +162,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
-                        android:hint="@string/email"
                         android:fontFamily="@font/verdana"
                         android:textAlignment="textStart"
                         android:textColor="@color/black677078"
@@ -209,7 +208,6 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/verdana"
                         android:inputType="phone"
-                        android:hint="@string/mobile"
                         android:textAlignment="textStart"
                         android:textColor="@color/black677078"
                         android:textSize="@dimen/sign_up_text_size"
@@ -233,7 +231,6 @@
                         android:fontFamily="@font/verdana"
                         android:inputType="textAutoComplete"
                         android:textAlignment="textStart"
-                        android:hint="@string/industry"
                         android:textColor="@color/black677078"
                         android:textSize="@dimen/sign_up_text_size"
                         android:textStyle="bold" />
@@ -292,5 +289,12 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/sign_up_loading"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>
