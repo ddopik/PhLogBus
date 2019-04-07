@@ -308,5 +308,10 @@
     <string name="new_studio">New Studio</string>
     <string name="no_campaigns_prompt">You havn\'t added any campaigns.\nClick here to add a new campaign.</string>
     <string name="publish">Publish</string>
+    <string name="change_password">Change password</string>
+    <string name="new_password">New Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password_required">New password is required</string>
+    <string name="old_password_required">Old password is required</string>
 
 </resources>

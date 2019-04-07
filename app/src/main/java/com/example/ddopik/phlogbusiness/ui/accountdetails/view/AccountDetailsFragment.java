@@ -14,14 +14,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
@@ -33,7 +26,6 @@ import com.example.ddopik.phlogbusiness.ui.accountdetails.model.AccountDetailsMo
 import com.example.ddopik.phlogbusiness.ui.accountdetails.presenter.AccountDetailsPresenter;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.presenter.AccountDetailsPresenterImpl;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
-
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -55,14 +47,16 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
 
     private View mainView;
     private ImageView profileImage, coverImage;
-    private EditText firstNameET, lastNameET, phoneET, emailET, passwordET;
+    private EditText firstNameET, lastNameET, phoneET, emailET;
     private ProgressBar loading;
     private Button saveButton;
     private ImageButton back;
     private Toolbar toolbar;
     private TextView title;
+
     private ImageButton backButton;
     private boolean detailsChanged;
+    private Button changePassword;
 
     public AccountDetailsFragment() {
         // Required empty public constructor
@@ -131,13 +125,14 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
         lastNameET = mainView.findViewById(R.id.username_edit_text);
         emailET = mainView.findViewById(R.id.email_edit_text);
         phoneET = mainView.findViewById(R.id.phone_edit_text);
-        passwordET = mainView.findViewById(R.id.password_edit_text);
-        loading = mainView.findViewById(R.id.loading);
+         loading = mainView.findViewById(R.id.loading);
         loading.setVisibility(View.GONE);
         saveButton = mainView.findViewById(R.id.save_button);
         backButton = mainView.findViewById(R.id.back_btn);
         title = mainView.findViewById(R.id.toolbar_title);
         back = mainView.findViewById(R.id.back_btn);
+        changePassword = mainView.findViewById(R.id.change_password_button);
+
         title.setText(R.string.profile);
     }
 
@@ -152,17 +147,17 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
         });
         saveButton.setOnClickListener(v -> {
             saveButton.setEnabled(false);
-            loading.setVisibility(View.VISIBLE);
             model.setFirstName(firstNameET.getText().toString());
             model.setLastName(lastNameET.getText().toString());
             model.setEmail(emailET.getText().toString());
-            model.setPassword(passwordET.getText().toString());
-            AccountDetailsPresenter.ValidationResult result = presenter.validate(model);
+             AccountDetailsPresenter.ValidationResult result = presenter.validate(model);
             if (result.valid) {
                 presenter.saveProfile(getContext(), model);
             } else {
-                if (result.errorMessage != 0)
-                    Toast.makeText(getContext(), result.errorMessage, Toast.LENGTH_LONG).show();
+                if (result.errorMessage != 0) {
+                    new AlertDialog.Builder(getContext()).setTitle("error").setMessage(result.errorMessage).setCancelable(true).show();
+                    saveButton.setEnabled(true);
+                }
             }
         });
         TextWatcher textWatcher = new TextWatcher() {
@@ -194,7 +189,12 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
         lastNameET.addTextChangedListener(textWatcher);
         phoneET.addTextChangedListener(textWatcher);
         emailET.addTextChangedListener(textWatcher);
-        passwordET.addTextChangedListener(textWatcher);
+
+        changePassword.setOnClickListener(v -> {
+            ChangePasswordDialogFragment.getInstance((oldPassword, newPassword) -> {
+                presenter.changePassword(getContext(), oldPassword, newPassword);
+            }).show(getChildFragmentManager(), ChangePasswordDialogFragment.class.getSimpleName());
+        });
 
         back.setOnClickListener(v -> getActivity().onBackPressed());
     }
@@ -277,19 +277,21 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
     }
 
     @Override
-    public void setLoading(boolean b) {
-        if (b)
+    public void setLoading(boolean state) {
+        if (state) {
             loading.setVisibility(View.VISIBLE);
-        else loading.setVisibility(View.GONE);
+        } else {
+            loading.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void updateSuccess(boolean b) {
         saveButton.setEnabled(true);
-        if (b)
-            Toast.makeText(getContext(), R.string.profile_update_success, Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(getContext(), R.string.profile_update_error, Toast.LENGTH_LONG).show();
+//        if (b)
+//            Toast.makeText(getContext(), R.string.profile_update_success, Toast.LENGTH_LONG).show();
+//        else
+//            Toast.makeText(getContext(), R.string.profile_update_error, Toast.LENGTH_LONG).show();
     }
 
     private WhichImage whichImage;

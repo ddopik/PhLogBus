@@ -54,10 +54,12 @@ import com.rx2androidnetworking.Rx2ANRequest;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import okhttp3.OkHttpClient;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by abdalla-maged on 3/29/18.
@@ -655,6 +657,22 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(LoginResponse.class);
+    }
+
+    public static io.reactivex.Observable<String> updateProfile(String userToken,HashMap<String, String> data) {
+        Rx2ANRequest.MultiPartBuilder builder = Rx2AndroidNetworking.upload(UPDATE_PROFILE_URL).setPriority(Priority.HIGH);
+
+        builder.addMultipartParameter(data);
+        return builder
+                .setOkHttpClient(new OkHttpClient.Builder()
+//                        .connectTimeout(5, TimeUnit.MINUTES)
+                        .readTimeout(1, TimeUnit.MINUTES)
+                        .writeTimeout(1, TimeUnit.MINUTES)
+                        .build())
+                .addHeaders("x-auth-token", userToken)
+                .addHeaders("x-user-type", DEFAULT_USER_TYPE)
+                .addHeaders("x-lang-code", "en-us")
+                .build().getStringObservable();
     }
 
     public static Observable<FollowUserResponse> unfollowUser(String userID) {
