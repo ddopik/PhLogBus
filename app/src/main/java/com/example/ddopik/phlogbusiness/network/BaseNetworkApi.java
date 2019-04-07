@@ -652,8 +652,7 @@ public class BaseNetworkApi {
         builder.addMultipartParameter("last_name", model.getLastName());
         builder.addMultipartParameter("phone", model.getPhone());
         builder.addMultipartParameter("email", model.getEmail());
-        builder.addMultipartParameter("password", model.getPassword());
-        return builder
+         return builder
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(LoginResponse.class);

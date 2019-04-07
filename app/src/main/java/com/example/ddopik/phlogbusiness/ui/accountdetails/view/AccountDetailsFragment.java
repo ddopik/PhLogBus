@@ -51,8 +51,7 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
     private EditText firstNameET, lastNameET, phoneET, emailET;
     private ProgressBar loading;
     private Button saveButton;
-    private ImageButton back;
-    private Toolbar toolbar;
+     private Toolbar toolbar;
     private TextView title;
 
     private ImageButton backButton;
@@ -128,11 +127,10 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
         phoneET = mainView.findViewById(R.id.phone_edit_text);
         loading = mainView.findViewById(R.id.loading);
         loading.setVisibility(View.GONE);
-        saveButton = mainView.findViewById(R.id.save_button);
+        saveButton = mainView.findViewById(R.id.profile_save_button);
         backButton = mainView.findViewById(R.id.back_btn);
         title = mainView.findViewById(R.id.toolbar_title);
-        back = mainView.findViewById(R.id.back_btn);
-        changePassword = mainView.findViewById(R.id.change_password_button);
+         changePassword = mainView.findViewById(R.id.change_password_button);
 
         title.setText(R.string.profile);
     }
@@ -147,10 +145,12 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
             openPickerDialog(WhichImage.COVER);
         });
         saveButton.setOnClickListener(v -> {
+
             saveButton.setEnabled(false);
             model.setFirstName(firstNameET.getText().toString());
             model.setLastName(lastNameET.getText().toString());
             model.setEmail(emailET.getText().toString());
+            model.setPhone(phoneET.getText().toString());
             AccountDetailsPresenter.ValidationResult result = presenter.validate(model);
             if (result.valid) {
                 presenter.saveProfile(getContext(), model);
@@ -197,7 +197,7 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
             }).show(getChildFragmentManager(), ChangePasswordDialogFragment.class.getSimpleName());
         });
 
-        back.setOnClickListener(v -> getActivity().onBackPressed());
+        backButton.setOnClickListener(v -> getActivity().onBackPressed());
     }
 
     private void openPickerDialog(WhichImage whichImage) {
