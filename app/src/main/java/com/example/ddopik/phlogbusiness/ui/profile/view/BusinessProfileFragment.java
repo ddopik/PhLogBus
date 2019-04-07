@@ -6,33 +6,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.*;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.*;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
+import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenter;
+import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.Constants.BrandStatus;
-import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
-import com.example.ddopik.phlogbusiness.base.BaseFragment;
-import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
-import com.example.ddopik.phlogbusiness.ui.MainActivity;
-import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenter;
-import com.example.ddopik.phlogbusiness.ui.profile.presenter.BrandProfilePresenterImpl;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-
-import static com.example.ddopik.phlogbusiness.ui.downloads.presenter.DownloadsPresenterImpl.TAG;
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.ACCOUNT_DETAILS;
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.LIGHT_BOX;
 
@@ -51,7 +43,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
     private LinearLayout accountDetailsBtn, setupBrandBtn, cartBtn, myLightBoxBtn, logoutBtn;
     private ProgressBar brandProfileProgress;
     private ImageButton menuButton;
-
+    private Business business;
     private BrandProfilePresenter brandProfilePresenter;
 
     @Nullable
@@ -66,7 +58,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         super.onViewCreated(view, savedInstanceState);
         initPresenter();
         initViews();
-        initListeners();
+
         brandProfilePresenter.getProfileBrandData();
     }
 
@@ -139,7 +131,6 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         });
     }
 
-    private Business business;
 
     @SuppressLint("CheckResult")
     @Override
@@ -181,6 +172,10 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         GlideApp.with(this)
                 .load(business.imageCover)
                 .into(brandProfileCoverImg);
+
+
+        // late initialize to make sure no null message
+        initListeners();
 
     }
 

@@ -22,6 +22,7 @@ import com.esafirm.imagepicker.features.ReturnMode;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
+import com.example.ddopik.phlogbusiness.base.widgets.dialogs.UploadPhotosDialog1Fragment;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.model.AccountDetailsModel;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.presenter.AccountDetailsPresenter;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.presenter.AccountDetailsPresenterImpl;
@@ -125,7 +126,7 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
         lastNameET = mainView.findViewById(R.id.username_edit_text);
         emailET = mainView.findViewById(R.id.email_edit_text);
         phoneET = mainView.findViewById(R.id.phone_edit_text);
-         loading = mainView.findViewById(R.id.loading);
+        loading = mainView.findViewById(R.id.loading);
         loading.setVisibility(View.GONE);
         saveButton = mainView.findViewById(R.id.save_button);
         backButton = mainView.findViewById(R.id.back_btn);
@@ -139,18 +140,18 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
     private void setListeners() {
         profileImage.setOnClickListener(v -> {
             whichImage = WhichImage.PROFILE;
-            openPickerDialog();
+            openPickerDialog(WhichImage.PROFILE);
         });
         coverImage.setOnClickListener(v -> {
             whichImage = WhichImage.COVER;
-            openPickerDialog();
+            openPickerDialog(WhichImage.COVER);
         });
         saveButton.setOnClickListener(v -> {
             saveButton.setEnabled(false);
             model.setFirstName(firstNameET.getText().toString());
             model.setLastName(lastNameET.getText().toString());
             model.setEmail(emailET.getText().toString());
-             AccountDetailsPresenter.ValidationResult result = presenter.validate(model);
+            AccountDetailsPresenter.ValidationResult result = presenter.validate(model);
             if (result.valid) {
                 presenter.saveProfile(getContext(), model);
             } else {
@@ -199,17 +200,54 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
         back.setOnClickListener(v -> getActivity().onBackPressed());
     }
 
-    private void openPickerDialog() {
-        CharSequence photoChooserOptions[] = new CharSequence[]{getResources().getString(R.string.general_photo_chooser_camera), getResources().getString(R.string.general_photo_chooser_gallery)};
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(getResources().getString(R.string.general_photo_chooser_title));
-        builder.setItems(photoChooserOptions, (dialog, option) -> {
-            if (option == 0) {
-                RequestCameraPermutations();
-            } else if (option == 1) {
-                requestGalleryPermutations();
-            }
-        }).show();
+    private void openPickerDialog(WhichImage whichImage) {
+
+
+        int photoType = 0;
+
+        switch (whichImage) {
+            case COVER:
+                photoType = R.string.upload_your_profile_image;
+                break;
+            case PROFILE:
+                photoType = R.string.upload_your_cover_image;
+                break;
+
+                default:{
+                    break;
+                }
+        }
+
+        new UploadPhotosDialog1Fragment.Builder(this)
+                .title(photoType)
+                .message(R.string.select_option)
+                .option0(R.string.general_photo_chooser_camera)
+                .option1(R.string.general_photo_chooser_gallery)
+                .cancelable(true)
+                .optionConsumer((uploadPhotosDialog1Fragment, integer) -> {
+                    switch (integer) {
+                        case 0:
+                            RequestCameraPermutations();
+                            uploadPhotosDialog1Fragment.dismiss();
+                            break;
+                        case 1:
+                            requestGalleryPermutations();
+                            uploadPhotosDialog1Fragment.dismiss();
+                            break;
+                    }
+                    return null;
+                }).show();
+
+//        CharSequence photoChooserOptions[] = new CharSequence[]{getResources().getString(R.string.general_photo_chooser_camera), getResources().getString(R.string.general_photo_chooser_gallery)};
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//        builder.setTitle(getResources().getString(R.string.general_photo_chooser_title));
+//        builder.setItems(photoChooserOptions, (dialog, option) -> {
+//            if (option == 0) {
+//                RequestCameraPermutations();
+//            } else if (option == 1) {
+//                requestGalleryPermutations();
+//            }
+//        }).show();
     }
 
 
