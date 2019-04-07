@@ -2,7 +2,6 @@ package com.example.ddopik.phlogbusiness.ui.album.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,7 +11,7 @@ import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumGroup;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumPreviewResponseData;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AlbumPreviewActivityPresenter;
@@ -24,10 +23,6 @@ import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity.SELECTED_IMG_ID;
-import static com.example.ddopik.phlogbusiness.utiltes.Constants.PhotosListType.ALBUM_PREVIEW_LIST;
-import static com.example.ddopik.phlogbusiness.utiltes.Constants.PhotosListType.SOCIAL_LIST;
 
 
 /**
@@ -46,6 +41,9 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
     private CustomRecyclerView albumRv;
     private CustomTextView albumNameTV, albumToolBarTitle,photosCount;
     private PagingController pagingController;
+    private String nextPageUrl="1";
+    private boolean isLoading;
+
     private AlbumPreviewActivityPresenter albumPreviewActivityPresenter;
 
 
@@ -74,8 +72,8 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
         // Set adapter object.
         albumAdapter = new AlbumAdapter(getBaseContext(), albumGroupList);
         albumRv.setAdapter(albumAdapter);
-        albumPreviewActivityPresenter.getSelectedSearchAlbum(albumID, "0");
-        albumPreviewActivityPresenter.getAlbumPreviewImages(albumID, 0);
+        albumPreviewActivityPresenter.getPhotoDetails(albumID);
+        albumPreviewActivityPresenter.getAlbumPreviewImages(albumID, nextPageUrl);
 
 
     }
@@ -88,11 +86,34 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
     private void initListener() {
 
 
+
+
         pagingController = new PagingController(albumRv) {
+
+
             @Override
-            public void getPagingControllerCallBack(int page) {
-                albumPreviewActivityPresenter.getAlbumPreviewImages(albumID, page);
+            protected void loadMoreItems() {
+
+                albumPreviewActivityPresenter.getAlbumPreviewImages(albumID, nextPageUrl);
             }
+
+            @Override
+            public boolean isLastPage() {
+
+                if (nextPageUrl ==null){
+                    return  true;
+                }else {
+                    return false;
+                }
+
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+
         };
 
         albumAdapter.onAlbumImageClicked = albumImg -> {
@@ -151,6 +172,7 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
 
     @Override
     public void viewAlbumPreviewProgress(boolean state) {
+        isLoading=state;
         if (state) {
             albumPreviewProgress.setVisibility(View.VISIBLE);
 
@@ -160,7 +182,10 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
         }
 
     }
-
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl=page;
+    }
     @Override
     public void viewAlumPreview(AlbumPreviewResponseData albumPreviewResponseData) {
 

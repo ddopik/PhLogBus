@@ -9,7 +9,7 @@ public interface Constants {
     int REQUEST_CODE_GALLERY = 1224;
     int REQUEST_CODE_CAMERA = 1225;
     int REQUEST_CODE_LOCATION = 1225;
- int SOCIAL_FRAGMENT_PAGING_THRESHOLD =3;
+    int SOCIAL_FRAGMENT_PAGING_THRESHOLD = 5;
 
 
     int QUERY_SEARCH_TIME_OUT = 600;
@@ -22,11 +22,11 @@ public interface Constants {
 
 
     ///////////////////////Entity-type For socialFragment
-     int ENTITY_PROFILE=1;
-    int ENTITY_CAMPAIGN=2;
-    int ENTITY_ALBUM=4;
-    int ENTITY_IMAGE=3;
-    int ENTITY_BRAND=5;
+    int ENTITY_PROFILE = 1;
+    int ENTITY_CAMPAIGN = 2;
+    int ENTITY_ALBUM = 4;
+    int ENTITY_IMAGE = 3;
+    int ENTITY_BRAND = 5;
     ///////////////Entity Display-types
     String PROFILE_DISPLAY_TYPE_1 = "101";
     String PROFILE_DISPLAY_TYPE_2 = "102";
@@ -67,12 +67,13 @@ public interface Constants {
 
         USER_TYPE_BUSINESS, USER_TYPE_PHOTOGRAPHER;
     }
-    enum PhotosListType{
-        SOCIAL_LIST,CURRENT_PHOTOGRAPHER_PHOTOS_LIST,CURRENT_PHOTOGRAPHER_SAVED_LIST,USER_PROFILE_PHOTOS_LIST,ALBUM_PREVIEW_LIST,CAMPAIGN_IMAGES_LIST
+
+    enum PhotosListType {
+        SOCIAL_LIST, CURRENT_PHOTOGRAPHER_PHOTOS_LIST, CURRENT_PHOTOGRAPHER_SAVED_LIST, USER_PROFILE_PHOTOS_LIST, ALBUM_PREVIEW_LIST, CAMPAIGN_IMAGES_LIST
     }
 
-    enum CommentListType{
-        VIEW_REPLIES, MAIN_COMMENT,REPLAY_ON_COMMENT;
+    enum CommentListType {
+        VIEW_REPLIES, MAIN_COMMENT, REPLAY_ON_COMMENT;
     }
 
     interface UploadPermanentNotificationConfig {

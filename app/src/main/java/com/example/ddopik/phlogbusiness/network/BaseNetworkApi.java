@@ -292,10 +292,10 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<ProfileSearchResponse> getProfileSearch(String key, int page) {
+    public static io.reactivex.Observable<ProfileSearchResponse> getProfileSearch(String key, String page) {
         return Rx2AndroidNetworking.post(PHOTOGRAPHER_SEARCH_URL)
                 .addBodyParameter("keyword", key)
-                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .getResponseOnlyFromNetwork()
                 .setPriority(Priority.HIGH)
                 .build()
@@ -312,35 +312,35 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<CampaignResponse> getAllCompleteCampaign(int page) {
+    public static io.reactivex.Observable<CampaignResponse> getAllCompleteCampaign(String page) {
         return Rx2AndroidNetworking.post(ALL_COMPLETED_CAMPAIGN_URL)
-                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignResponse.class);
     }
 
-    public static io.reactivex.Observable<CampaignResponse> getAllDraftCampaign(int page) {
+    public static io.reactivex.Observable<CampaignResponse> getAllDraftCampaign(String page) {
         return Rx2AndroidNetworking.post(ALL_DRAFT_CAMPAIGN_URL)
-                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignResponse.class);
     }
 
-    public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(int page) {
+    public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(String page) {
         return Rx2AndroidNetworking.post(ALL_RUNNING_CAMPAIGN_URL)
-                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignResponse.class);
     }
 
-    public static io.reactivex.Observable<CampaignInnerPhotosResponse> getCampaignInnerPhotos(String token, String campaignID, int page) {
+    public static io.reactivex.Observable<CampaignInnerPhotosResponse> getCampaignInnerPhotos(String token, String campaignID, String page) {
         return Rx2AndroidNetworking.post(CAMPAIGN_PHOTOS_URL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
                 .addBodyParameter("campaign_id", campaignID)
-                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignInnerPhotosResponse.class);
@@ -366,7 +366,7 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<UserPhotosResponse> getUserProfilePhotos(String userID, int page) {
+    public static io.reactivex.Observable<UserPhotosResponse> getUserProfilePhotos(String userID, String page) {
         return Rx2AndroidNetworking.post(USER_PROFILE_PHOTOS)
                 .addBodyParameter("photographer_id", userID)
                 .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))

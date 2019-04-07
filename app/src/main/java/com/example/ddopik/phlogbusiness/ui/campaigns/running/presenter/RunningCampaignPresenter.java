@@ -7,6 +7,6 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.running.view.RunningCampaig
  */
 public interface RunningCampaignPresenter {
 
-    void getRunningCampaign (int page,RunningCampaignFragmentView runningCampaignFragmentView);
+    void getRunningCampaign (String page,RunningCampaignFragmentView runningCampaignFragmentView);
 
 }

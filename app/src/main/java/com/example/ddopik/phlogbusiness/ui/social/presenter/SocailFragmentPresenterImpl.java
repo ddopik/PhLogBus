@@ -7,6 +7,7 @@ import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.social.model.SocialResponse;
 import com.example.ddopik.phlogbusiness.ui.social.view.SocialFragmentView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.google.gson.Gson;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -34,6 +35,15 @@ public class SocailFragmentPresenterImpl implements SocialFragmentPresenter {
                 .subscribe(socialResponse -> {
                     socialFragmentView.viewSocialData(socialResponse.data);
                     socialFragmentView.viewSocialDataProgress(false);
+
+
+                    if (socialResponse.data.size() > 0) {
+                        socialFragmentView.loadMore(true);
+
+                    } else {
+                        socialFragmentView.loadMore(false);
+                    }
+
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     socialFragmentView.viewSocialDataProgress(false);

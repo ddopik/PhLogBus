@@ -9,7 +9,10 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.*;
@@ -18,7 +21,7 @@ import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
 import com.example.ddopik.phlogbusiness.ui.userprofile.presenter.UserProfilePresenter;
 import com.example.ddopik.phlogbusiness.ui.userprofile.presenter.UserProfilePresenterImpl;
@@ -60,7 +63,8 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     private LoadingButton followUser;
     private ImageButton backBtn;
     private PagingController pagingController;
-
+    private String nextPageUrl="1";
+    private boolean isLoading;
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -108,7 +112,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
         userProfilePhotosAdapter = new UserProfilePhotosAdapter(this, userPhotoList);
         userProfilePhotosRv.setAdapter(userProfilePhotosAdapter);
         userProfilePresenter.getUserProfileData(userID);
-        userProfilePresenter.getUserPhotos(userID, 0);
+        userProfilePresenter.getUserPhotos(userID, null);
 
         userCoverImg = findViewById(R.id.user_cover_img);
 
@@ -116,12 +120,60 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
 
 
     private void initListener() {
+
+
+
+        ////// initial block works by forcing then next Api for Each ScrollTop
+        // cause recycler listener won't work until mainView ported with items
+        userProfilePhotosRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            LinearLayoutManager mLayoutManager = (LinearLayoutManager) userProfilePhotosRv.getLayoutManager();
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (firstVisibleItemPosition == 0) {
+                        if (nextPageUrl != null) {
+                            Log.e(UserProfileActivity.class.getSimpleName(), "Page--->" + nextPageUrl);
+                            userProfilePresenter.getUserPhotos(userID, nextPageUrl);
+                        }
+
+                    }
+                }
+            }
+        });
+
+        ////////////////
+
         pagingController = new PagingController(userProfilePhotosRv) {
             @Override
-            public void getPagingControllerCallBack(int page) {
-                userProfilePresenter.getUserPhotos(userID, page);
+            protected void loadMoreItems() {
+
+                userProfilePresenter.getUserPhotos(userID, nextPageUrl);
+
             }
+
+            @Override
+            public boolean isLastPage() {
+
+                if (nextPageUrl == null) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+
         };
+
         followUser.setOnClickListener(v -> {
             setFollowUser();
         });
@@ -226,6 +278,8 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
 
     @Override
     public void viewUserPhotosProgress(boolean state) {
+        isLoading=state;
+
         if (state) {
             userProfilePhotosProgressBar.setVisibility(View.VISIBLE);
         } else {
@@ -291,6 +345,10 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     }
 
 
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl=page;
+    }
     @Override
     protected void onDestroy() {
         disposables.dispose();

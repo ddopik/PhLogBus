@@ -5,5 +5,5 @@ package com.example.ddopik.phlogbusiness.ui.search.profile.presenter;
  */
 public interface ProfileSearchPresenter {
 
-    void getProfileSearchList(String key, int page);
+    void getProfileSearchList(String key, String page);
 }

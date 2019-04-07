@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Created by ddopik @_@....
@@ -330,9 +331,7 @@ public class Utilities {
     }
 
 
-    public static List<String> getMentionsList(String comment)
-
-    {
+    public static List<String> getMentionsList(String comment) {
         String regex = "@+([a-zA-Z0-9_]+)";
         List<String> authorListId = new ArrayList<>();
 
@@ -348,9 +347,7 @@ public class Utilities {
 
     }
 
-    public static List<String> getCommentMentionsList(String comment)
-
-    {
+    public static List<String> getCommentMentionsList(String comment) {
         String regex = "_+([0-9]+%+)";
         List<String> authorListId = new ArrayList<>();
 
@@ -366,9 +363,7 @@ public class Utilities {
 
     }
 
-    public static List<Integer> getCommentMentionsUserOccuranceNumber(String comment, String mentionedString)
-
-    {
+    public static List<Integer> getCommentMentionsUserOccuranceNumber(String comment, String mentionedString) {
         List<Integer> mentionedUserOccuranceList = new ArrayList<>();
         int index = comment.indexOf(mentionedString);
         while (index >= 0) {
@@ -500,6 +495,20 @@ public class Utilities {
             return decryptedString;
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getNextPageNumber(Context context, String url) {
+        try {
+            Pattern p = Pattern.compile("(?<=page=).*?(?=&|$)");
+            Matcher m = p.matcher(url);
+            while (m.find()) {
+                String pp = m.group();
+                return pp;
+            }
+        } catch (PatternSyntaxException ex) {
+            CustomErrorUtil.Companion.setError(context, TAG, ex);
         }
         return null;
     }

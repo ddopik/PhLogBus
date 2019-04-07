@@ -16,7 +16,7 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.*;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentData;
@@ -57,6 +57,8 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
     private Mentions mentions = new Mentions();
     private CommentsAdapter commentsAdapter;
     private PagingController pagingController;
+    private String nextPageUrl="1";
+    private boolean isLoading;
     private ReplayCommentPresenter replayCommentPresenter;
 
 
@@ -84,7 +86,7 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
                     mentions.business.addAll(ms.business);
             }
             commentsAdapter.notifyDataSetChanged();
-            replayCommentPresenter.getReplies(headerComment.id, previewImage.id, 0);
+            replayCommentPresenter.getReplies(headerComment.id, previewImage.id, nextPageUrl);
         }
     }
 
@@ -104,7 +106,7 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
             if (getIntent().getParcelableExtra(MENTIONS) != null)
                 mentions = getIntent().getParcelableExtra(MENTIONS);
             commentsAdapter.notifyDataSetChanged();
-            replayCommentPresenter.getReplies(headerComment.id, previewImage.id, 0);
+            replayCommentPresenter.getReplies(headerComment.id, previewImage.id, nextPageUrl);
 
         }
     }
@@ -129,14 +131,35 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
 
     private void initListener() {
 
+
         pagingController = new PagingController(repliesRv) {
+
+
             @Override
-            public void getPagingControllerCallBack(int page) {
-                replayCommentPresenter.getReplies(headerComment.id, previewImage.id, page);
+            protected void loadMoreItems() {
+
+                replayCommentPresenter.getReplies(headerComment.id, previewImage.id, nextPageUrl);
+
             }
+
+            @Override
+            public boolean isLastPage() {
+
+                if (nextPageUrl ==null){
+                    return  true;
+                }else {
+                    return false;
+                }
+
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+
         };
-
-
         commentsAdapter.commentAdapterAction = new CommentsAdapter.CommentAdapterAction() {
 
             @Override
@@ -296,7 +319,7 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
 
     @Override
     public void viewRepliesProgress(boolean state) {
-
+        isLoading=state;
         if (state) {
             repliesProgressBar.setVisibility(View.VISIBLE);
         } else {
@@ -305,6 +328,10 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
 
     }
 
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl=page;
+    }
 
     private Observable<Mentions> reSortMentionList(Mentions mentionsNew) {
 
@@ -345,4 +372,6 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
         });
 
     }
+
+
 }

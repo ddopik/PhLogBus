@@ -35,8 +35,7 @@ public class CampaignInnerPresenterImpl implements CampaignInnerPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(campaignInnerResponse -> {
-                            if (campaignInnerResponse == null)
-                                return;
+
                             if (campaignInnerResponse.campaign != null) {
                                 campaignInnerActivityView.viewCampaignTitle(campaignInnerResponse.campaign.titleEn);
                                 campaignInnerActivityView.viewCampaignLeftDays(String.valueOf(campaignInnerResponse.campaign.daysLeft));

@@ -6,6 +6,7 @@ import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.lightbox.view.BrandLightBoxFragmentView;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -27,7 +28,7 @@ public class BrandLightBoxPresenterImpl implements BrandLightBoxPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void getLightBoxes(int page,boolean forceReFresh) {
+    public void getLightBoxes(String page,boolean forceReFresh) {
         brandLightBoxFragmentView.viewLightBoxProgress(true);
         BaseNetworkApi.getBrandLightBoxes(String.valueOf(page))
                 .subscribeOn(Schedulers.io())
@@ -35,6 +36,12 @@ public class BrandLightBoxPresenterImpl implements BrandLightBoxPresenter {
                 .subscribe(brandLightBoxResponse -> {
                     brandLightBoxFragmentView.viewLightBoxes(brandLightBoxResponse.data,forceReFresh);
                     brandLightBoxFragmentView.viewLightBoxProgress(false);
+                    if (brandLightBoxResponse.nextPageUrl != null) {
+                        brandLightBoxFragmentView.setNextPageUrl(Utilities.getNextPageNumber(context, brandLightBoxResponse.nextPageUrl));
+
+                    } else {
+                        brandLightBoxFragmentView.setNextPageUrl(null);
+                    }
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context,TAG,throwable);
                     brandLightBoxFragmentView.viewLightBoxProgress(false);

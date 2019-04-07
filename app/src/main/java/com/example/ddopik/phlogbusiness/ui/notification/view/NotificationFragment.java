@@ -9,13 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationData;
 import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationList;
 import com.example.ddopik.phlogbusiness.ui.notification.presenter.NotificationPresenter;
 import com.example.ddopik.phlogbusiness.ui.notification.presenter.NotificationPresenterImp;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +30,8 @@ public class NotificationFragment extends BaseFragment implements NotificationFr
     private List<NotificationList> notificationItemList = new ArrayList<>();
     private NotifiationAdapter notifiationAdapter;
     private PagingController pagingController;
+    private String nextPageUrl = "1";
+    private boolean isLoading;
 
     @Nullable
     @Override
@@ -45,7 +46,7 @@ public class NotificationFragment extends BaseFragment implements NotificationFr
         initPresenter();
         initViews();
         initListener();
-        notificationPresenter.getNotification("0");
+        notificationPresenter.getNotification(nextPageUrl);
     }
 
     @Override
@@ -64,9 +65,9 @@ public class NotificationFragment extends BaseFragment implements NotificationFr
     protected void initViews() {
         notificationRv = mainView.findViewById(R.id.notification_rv);
         notificationProgress = mainView.findViewById(R.id.notification_progress);
-        NotificationList notificationList =new NotificationList();
-        notificationList.message=getContext().getResources().getString(R.string.earlier);
-        notificationList.entityId= NotifiationAdapter.itemType_NOTIFICATION_HEAD;
+        NotificationList notificationList = new NotificationList();
+        notificationList.message = getContext().getResources().getString(R.string.earlier);
+        notificationList.entityId = NotifiationAdapter.itemType_NOTIFICATION_HEAD;
         notificationItemList.add(notificationList);
         notifiationAdapter = new NotifiationAdapter(notificationItemList);
         notificationRv.setAdapter(notifiationAdapter);
@@ -74,13 +75,36 @@ public class NotificationFragment extends BaseFragment implements NotificationFr
     }
 
     private void initListener() {
-//        pagingController = new PagingController(notificationRv) {
-//            @Override
-//            public void getPagingControllerCallBack(int page) {
-//                notificationPresenter.getNotification(String.valueOf(page));
-//            }
-//        };
+
+
+        pagingController = new PagingController(notificationRv) {
+
+
+            @Override
+            protected void loadMoreItems() {
+                notificationPresenter.getNotification(nextPageUrl);
+            }
+
+            @Override
+            public boolean isLastPage() {
+
+                if (nextPageUrl == null) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+
+        };
     }
+
 
     @Override
     public void viewNotificationList(NotificationData notificationData) {
@@ -90,11 +114,19 @@ public class NotificationFragment extends BaseFragment implements NotificationFr
 
     @Override
     public void viewNotificationProgress(boolean state) {
+        isLoading = state;
+
         if (state) {
             notificationProgress.setVisibility(View.VISIBLE);
         } else {
             notificationProgress.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl = page;
+    }
+
 }
 

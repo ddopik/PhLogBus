@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.search.profile.view.ProfileSearchFragmentView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -25,7 +26,7 @@ public class ProfileSearchPresenterImpl implements ProfileSearchPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void getProfileSearchList(String key, int page) {
+    public void getProfileSearchList(String key, String page) {
         profileSearchFragmentView.viewProfileSearchProgress(true);
         BaseNetworkApi.getProfileSearch(key, page)
                 .subscribeOn(Schedulers.io())
@@ -33,6 +34,12 @@ public class ProfileSearchPresenterImpl implements ProfileSearchPresenter {
                 .subscribe(profileSearchResponse -> {
                     profileSearchFragmentView.viewProfileSearchProgress(false);
                     profileSearchFragmentView.viewProfileSearchItems(profileSearchResponse.data);
+                    if (profileSearchResponse.data.nextPageUrl != null) {
+                        profileSearchFragmentView.setNextPageUrl(Utilities.getNextPageNumber(context, profileSearchResponse.data.nextPageUrl));
+
+                    } else {
+                        profileSearchFragmentView.setNextPageUrl(null);
+                    }
                 }, throwable -> {
                     profileSearchFragmentView.viewProfileSearchProgress(false);
                     CustomErrorUtil.Companion.setError(context,TAG,throwable);

@@ -18,5 +18,6 @@ public interface AlbumPreviewActivityView {
     void viewAlbumPreviewProgress(boolean state);
     void viwAlbumPreviewImages(List<BaseImage> baseImageList);
 
+    void setNextPageUrl(String page);
 
 }

@@ -13,7 +13,7 @@ import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.AddCampaignRequestModel;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.draft.presenter.DraftCampaignsPresenter;
@@ -34,6 +34,8 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
     private List<Campaign> draftCampaignList = new ArrayList<>();
     private DraftCampaignsPresenter draftCampaignsPresenter;
     private PagingController pagingController;
+    private String nextPageUrl="1";
+    private boolean isLoading;
 
     public static DraftCampaignsFragment getInstance() {
         DraftCampaignsFragment draftCampaignsFragment = new DraftCampaignsFragment();
@@ -54,7 +56,7 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
         initPresenter();
         initViews();
         initListener();
-        draftCampaignsPresenter.getDraftCampaign(0, this);
+        draftCampaignsPresenter.getDraftCampaign(nextPageUrl, this);
     }
 
     @Override
@@ -74,11 +76,33 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
     private void initListener() {
 
         pagingController = new PagingController(draftCampaignsRv) {
+
+
             @Override
-            public void getPagingControllerCallBack(int page) {
-//                draftCampaignsPresenter.getDraftCampaign(page, DraftCampaignsFragment.this);
+            protected void loadMoreItems() {
+
+                draftCampaignsPresenter.getDraftCampaign(nextPageUrl, DraftCampaignsFragment.this);
             }
+
+            @Override
+            public boolean isLastPage() {
+
+                if (nextPageUrl ==null){
+                    return  true;
+                }else {
+                    return false;
+                }
+
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+
         };
+
         draftCampaignsAdapter.campaignLister = campaign -> {
             Intent intent =new Intent(getContext(),AddCampaignActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -114,11 +138,16 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
 
     @Override
     public void showDraftCampaignProgress(boolean state) {
+        isLoading=state;
 
         if (state) {
             progressBar.setVisibility(View.VISIBLE);
         } else {
             progressBar.setVisibility(View.GONE);
         }
+    }
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl=page;
     }
 }

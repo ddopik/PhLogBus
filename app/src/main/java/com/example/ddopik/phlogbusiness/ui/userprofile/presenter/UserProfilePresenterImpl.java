@@ -2,12 +2,12 @@ package com.example.ddopik.phlogbusiness.ui.userprofile.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-
-import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
-import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.userprofile.model.UserProfileData;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivityView;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -31,17 +31,17 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userProfileResponse -> {
 
-                        UserProfileData userProfileData = userProfileResponse.data;
-                        userProfileActivityView.viewUserProfileUserName(userProfileData.getUserName());
-                        userProfileActivityView.viewUserProfileFullName(userProfileData.getFullName());
-                        userProfileActivityView.viewUserProfileRating(userProfileData.getRate());
-                        userProfileActivityView.viewUserProfileLevel(userProfileData.getLevel());
-                        userProfileActivityView.viewUserProfileProfileImg(userProfileData.getImageProfile());
+                    UserProfileData userProfileData = userProfileResponse.data;
+                    userProfileActivityView.viewUserProfileUserName(userProfileData.getUserName());
+                    userProfileActivityView.viewUserProfileFullName(userProfileData.getFullName());
+                    userProfileActivityView.viewUserProfileRating(userProfileData.getRate());
+                    userProfileActivityView.viewUserProfileLevel(userProfileData.getLevel());
+                    userProfileActivityView.viewUserProfileProfileImg(userProfileData.getImageProfile());
 //                        userProfileActivityView.setUserCoverImg(userProfileData.) // TODO: where's the user cover image??
-                        userProfileActivityView.viewUserProfileFollowersCount(""+userProfileData.getFollowersCount());
-                        userProfileActivityView.viewUserProfileFollowingCount(""+userProfileData.getFollowingsCount());
-                        userProfileActivityView.viewUserProfilePhotosCount(""+userProfileData.getPhotosCount());
-                        userProfileActivityView.setIsFollowing(userProfileResponse.data.isFollow());
+                    userProfileActivityView.viewUserProfileFollowersCount("" + userProfileData.getFollowersCount());
+                    userProfileActivityView.viewUserProfileFollowingCount("" + userProfileData.getFollowingsCount());
+                    userProfileActivityView.viewUserProfilePhotosCount("" + userProfileData.getPhotosCount());
+                    userProfileActivityView.setIsFollowing(userProfileResponse.data.isFollow());
 
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
@@ -51,16 +51,19 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void getUserPhotos(String userID, int page) {
+    public void getUserPhotos(String userID, String page) {
         userProfileActivityView.viewUserPhotosProgress(true);
-        BaseNetworkApi.getUserProfilePhotos( userID, page)
+        BaseNetworkApi.getUserProfilePhotos(userID, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userPhotosResponse -> {
                     userProfileActivityView.viewUserPhotosProgress(false);
-
-                        userProfileActivityView.viewUserPhotos(userPhotosResponse.data.data);
-
+                    userProfileActivityView.viewUserPhotos(userPhotosResponse.data.data);
+                    if (userPhotosResponse.data.nextPageUrl != null) {
+                        userProfileActivityView.setNextPageUrl(Utilities.getNextPageNumber(context, userPhotosResponse.data.nextPageUrl));
+                    } else {
+                        userProfileActivityView.setNextPageUrl(null);
+                    }
 
                 }, throwable -> {
                     userProfileActivityView.viewUserPhotosProgress(false);
@@ -72,7 +75,7 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
     @SuppressLint("CheckResult")
     @Override
     public Observable<UserProfileData> followUser(String userId) {
-        return BaseNetworkApi.followUser( userId)
+        return BaseNetworkApi.followUser(userId)
                 .map(response -> response.data);
     }
 

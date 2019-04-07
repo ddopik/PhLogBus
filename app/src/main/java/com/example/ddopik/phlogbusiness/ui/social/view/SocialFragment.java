@@ -11,12 +11,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.SearchActivity;
 import com.example.ddopik.phlogbusiness.ui.social.model.SocialData;
@@ -24,8 +23,6 @@ import com.example.ddopik.phlogbusiness.ui.social.presenter.SocailFragmentPresen
 import com.example.ddopik.phlogbusiness.ui.social.presenter.SocialFragmentPresenter;
 import com.example.ddopik.phlogbusiness.ui.social.view.adapter.SocialAdapter;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
-import com.example.ddopik.phlogbusiness.utiltes.Utilities;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +40,8 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView, 
     private SocialAdapter socialAdapter;
     private List<SocialData> socialDataList = new ArrayList<>();
     private PagingController pagingController;
-
+    private boolean loadMore =false;
+    private boolean isLoading;
     private ImageButton notificationButton;
     private TextView notificationCount;
 
@@ -94,15 +92,28 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView, 
             startActivity(intent);
         });
 
-        pagingController = new PagingController(socailRv, SOCIAL_FRAGMENT_PAGING_THRESHOLD) {
+
+        pagingController = new PagingController(socailRv,SOCIAL_FRAGMENT_PAGING_THRESHOLD) {
+
 
             @Override
-            public void getPagingControllerCallBack(int page) {
+            protected void loadMoreItems() {
                 socialFragmentPresenter.getSocialData(false);
             }
+
+            @Override
+            public boolean isLastPage() {
+
+                return !loadMore;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+
         };
-
-
 
         View.OnClickListener notificaionClickListener = v -> {
             MainActivity.navigationManger.navigate(Constants.NavigationHelper.NOTIFICATION);
@@ -122,6 +133,7 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView, 
 
     @Override
     public void viewSocialDataProgress(boolean state) {
+        isLoading = state;
         if (state) {
             socialProgress.setVisibility(View.VISIBLE);
         } else {
@@ -170,7 +182,10 @@ public class SocialFragment extends BaseFragment implements SocialFragmentView, 
         }
         socialAdapter.notifyDataSetChanged();
     }
-
+    @Override
+    public void loadMore(boolean loadMore) {
+        this.loadMore=loadMore;
+    }
 
     @Override
     public void showMessage(String msg) {

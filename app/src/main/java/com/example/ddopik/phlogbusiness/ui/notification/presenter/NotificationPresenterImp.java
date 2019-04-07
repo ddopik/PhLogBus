@@ -8,6 +8,7 @@ import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.notification.view.NotificationFragmentView;
 
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
@@ -33,6 +34,13 @@ public class NotificationPresenterImp implements NotificationPresenter {
                 .subscribe(notificationResponse -> {
                     notificationFragmentView.viewNotificationList(notificationResponse.notificationData);
                     notificationFragmentView.viewNotificationProgress(false);
+                    if (notificationResponse.notificationData.nextPageUrl != null) {
+                        notificationFragmentView.setNextPageUrl(Utilities.getNextPageNumber(context, notificationResponse.notificationData.nextPageUrl));
+
+                    } else {
+                        notificationFragmentView.setNextPageUrl(null);
+                    }
+
 
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable.toString());

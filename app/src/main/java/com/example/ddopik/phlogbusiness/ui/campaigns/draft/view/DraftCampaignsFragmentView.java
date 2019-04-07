@@ -11,4 +11,6 @@ public interface DraftCampaignsFragmentView {
     void viewDraftCampaign(List<Campaign> draftCampaignsList);
 
     void showDraftCampaignProgress(boolean state);
+    void setNextPageUrl(String page);
+
 }

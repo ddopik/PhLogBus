@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.commentimage.replay.view.ReplayCommentActivityView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -22,7 +23,7 @@ public class ReplayCommentPresenterImpl implements ReplayCommentPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void getReplies(int parentCommentId, int imageID,int page) {
+    public void getReplies(int parentCommentId, int imageID,String page) {
         replayCommentActivityView.viewRepliesProgress(true);
         BaseNetworkApi.getCommentReplies(parentCommentId, imageID, String.valueOf(page))
                 .subscribeOn(Schedulers.io())
@@ -30,6 +31,12 @@ public class ReplayCommentPresenterImpl implements ReplayCommentPresenter {
                 .subscribe(repliesResponse -> {
                     replayCommentActivityView.viewRepliesProgress(false);
                     replayCommentActivityView.viewReplies(repliesResponse.data);
+                    if (repliesResponse.data.nextPageUrl != null) {
+                        replayCommentActivityView.setNextPageUrl(Utilities.getNextPageNumber(context, repliesResponse.data.nextPageUrl));
+
+                    } else {
+                        replayCommentActivityView.setNextPageUrl(null);
+                    }
                 }, throwable -> {
                     replayCommentActivityView.viewRepliesProgress(false);
                 });

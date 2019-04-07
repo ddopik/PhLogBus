@@ -13,13 +13,10 @@ import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.ui.campaigns.completed.presenter.CompleteCampaignPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.presenter.CampaignsPresenterImpl;
-import com.example.ddopik.phlogbusiness.ui.campaigns.running.presenter.RunningCampaignPresenter;
-import com.example.ddopik.phlogbusiness.ui.campaigns.running.view.RunningCampaignsAdapter;
-import com.example.ddopik.phlogbusiness.ui.campaigns.running.view.RunningCampaignsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +33,8 @@ public class CompleteCampaignsFragment extends BaseFragment implements CompleteC
     private List<Campaign> completedCampaignList = new ArrayList<>();
     private CompleteCampaignPresenter completeCampaignPresenter;
     private PagingController pagingController;
+    private String nextPageUrl="1";
+    private boolean isLoading;
 
 
     public static CompleteCampaignsFragment getInstance(){
@@ -56,7 +55,7 @@ public class CompleteCampaignsFragment extends BaseFragment implements CompleteC
         initPresenter();
         initViews();
         initListener();
-        completeCampaignPresenter.getCompletedCampaign(0,this);
+        completeCampaignPresenter.getCompletedCampaign(nextPageUrl,this);
     }
 
     @Override
@@ -74,11 +73,33 @@ public class CompleteCampaignsFragment extends BaseFragment implements CompleteC
     }
     private void initListener() {
 
+
+
         pagingController = new PagingController(allCampaignsRv) {
+
+
             @Override
-            public void getPagingControllerCallBack(int page) {
-                completeCampaignPresenter.getCompletedCampaign(page,CompleteCampaignsFragment.this);
+            protected void loadMoreItems() {
+                 completeCampaignPresenter.getCompletedCampaign(nextPageUrl,CompleteCampaignsFragment.this);
             }
+
+            @Override
+            public boolean isLastPage() {
+
+                if (nextPageUrl ==null){
+                    return  true;
+                }else {
+                    return false;
+                }
+
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+
         };
         completedCampaignsAdapter.campaignLister = campaignID -> {
             Intent intent = new Intent(getContext(), CampaignInnerActivity.class);
@@ -95,9 +116,13 @@ public class CompleteCampaignsFragment extends BaseFragment implements CompleteC
         this.completedCampaignList.addAll(campaignList);
         completedCampaignsAdapter.notifyDataSetChanged();
     }
-
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl=page;
+    }
     @Override
     public void showAllCompletedCampaignProgress(boolean state) {
+        isLoading=state;
         if (state) {
             progressBar.setVisibility(View.VISIBLE);
         } else {

@@ -15,5 +15,6 @@ public interface AlbumSearchFragmentView {
     void viewSearchAlbum(AlbumSearchData albumSearchData);
     void showMessage(String msg);
     void showFilterSearchProgress(boolean state);
+    void setNextPageUrl(String page);
 
 }

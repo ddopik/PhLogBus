@@ -12,10 +12,9 @@ import android.widget.ProgressBar;
 
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.AddNewLightBoxDialogFragment;
 import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.lightbox.presenter.BrandLightBoxPresenter;
@@ -35,6 +34,8 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
     private CustomRecyclerView lightBoxRv;
     private LightBoxAdapter lightBoxAdapter;
     private PagingController pagingController;
+    private String nextPageUrl="1";
+    private boolean isLoading;
     private List<LightBox> lightBoxList = new ArrayList<LightBox>();
     private ProgressBar lightBoxProgressBar;
     private ImageButton lightBoxBackBtn, addLightBoxBtn;
@@ -58,7 +59,7 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
         initPresenter();
         initViews();
         initListeners();
-        brandLightBoxPresenter.getLightBoxes(0, true);
+        brandLightBoxPresenter.getLightBoxes(nextPageUrl, true);
     }
 
 
@@ -80,12 +81,35 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
     }
 
     private void initListeners() {
+
+//
 //        pagingController = new PagingController(lightBoxRv) {
+//
+//
 //            @Override
-//            public void getPagingControllerCallBack(int page) {
-//                brandLightBoxPresenter.getLightBoxes(page,false);
+//            protected void loadMoreItems() {
+//                 brandLightBoxPresenter.getLightBoxes(nextPageUrl,false);
 //            }
+//
+//            @Override
+//            public boolean isLastPage() {
+//
+//                if (nextPageUrl ==null){
+//                    return  true;
+//                }else {
+//                    return false;
+//                }
+//
+//            }
+//
+//            @Override
+//            public boolean isLoading() {
+//                return isLoading;
+//            }
+//
+//
 //        };
+
 
         lightBoxAdapter.onLightBoxClickListener = new LightBoxAdapter.OnLightBoxClickListener() {
             @Override
@@ -148,6 +172,7 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
 
     @Override
     public void viewLightBoxProgress(Boolean state) {
+        isLoading=state;
         if (state) {
             lightBoxProgressBar.setVisibility(View.VISIBLE);
         } else {
@@ -155,14 +180,17 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
         }
 
     }
-
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl=page;
+    }
     @Override
     public void onLightBoxLightDeleted() {
-        brandLightBoxPresenter.getLightBoxes(0, true);
+        brandLightBoxPresenter.getLightBoxes(null, true);
     }
 
     @Override
     public void onLightBoxLightAdded() {
-        brandLightBoxPresenter.getLightBoxes(0, true);
+        brandLightBoxPresenter.getLightBoxes(null, true);
     }
 }

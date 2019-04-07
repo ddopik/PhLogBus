@@ -6,5 +6,5 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.completed.view.CompleteCamp
  * Created by abdalla_maged on 12/25/2018.
  */
 public interface CompleteCampaignPresenter {
-    void getCompletedCampaign(int page,CompleteCampaignsFragmentView completeCampaignsFragmentView);
+    void getCompletedCampaign(String page,CompleteCampaignsFragmentView completeCampaignsFragmentView);
 }

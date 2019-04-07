@@ -7,7 +7,7 @@ public interface UserProfilePresenter {
 
     void getUserProfileData(String userID);
 
-    void getUserPhotos(String userID, int page);
+    void getUserPhotos(String userID, String page);
 
     Observable<UserProfileData> followUser(String userId);
 
