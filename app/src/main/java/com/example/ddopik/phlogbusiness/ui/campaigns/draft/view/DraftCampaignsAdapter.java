@@ -1,10 +1,12 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.draft.view;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -90,13 +92,13 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
                     .CAMPAIGN_STATUS_DRAFT:
                 campaignViewHolder.deleteButton.setVisibility(View.VISIBLE);
                 campaignViewHolder.statusVal.setText(R.string.draft);
-                campaignViewHolder.statusIndicator.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.text_input_color));
+                campaignViewHolder.statusIndicator.setBackgroundResource(R.drawable.circle_blue);
                 break;
             case Constants.CampaignStatus.CAMPAIGN_STATUS_REQUEST:
             case Constants.CampaignStatus.CAMPAIGN_STATUS_PENDING:
                 campaignViewHolder.deleteButton.setVisibility(View.INVISIBLE);
                 campaignViewHolder.statusVal.setText(R.string.pending_approval);
-                campaignViewHolder.statusIndicator.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.text_input_color));
+                campaignViewHolder.statusIndicator.setBackgroundResource(R.drawable.circle_orange);
                 break;
         }
     }
@@ -137,6 +139,8 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
     public interface CampaignLister {
 
         void onCampaignClicked(Campaign campaign);
+
+        void onDeleteClicked(Campaign campaign);
 
     }
 }

@@ -82,13 +82,21 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
 //                draftCampaignsPresenter.getDraftCampaign(page, DraftCampaignsFragment.this);
             }
         };
-        draftCampaignsAdapter.campaignLister = campaign -> {
-            if (campaign.status.equals(Constants.CampaignStatus.CAMPAIGN_STATUS_DRAFT)) {
-                Intent intent = new Intent(getContext(), AddCampaignActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                AddCampaignRequestModel model = createModel(campaign);
-                intent.putExtra(AddCampaignActivity.CAMPAIGN_DATA, model);
-                startActivity(intent);
+        draftCampaignsAdapter.campaignLister = new DraftCampaignsAdapter.CampaignLister() {
+            @Override
+            public void onCampaignClicked(Campaign campaign) {
+                if (campaign.status.equals(Constants.CampaignStatus.CAMPAIGN_STATUS_DRAFT)) {
+                    Intent intent = new Intent(getContext(), AddCampaignActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    AddCampaignRequestModel model = createModel(campaign);
+                    intent.putExtra(AddCampaignActivity.CAMPAIGN_DATA, model);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onDeleteClicked(Campaign campaign) {
+
             }
         };
 

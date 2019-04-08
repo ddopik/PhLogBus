@@ -54,10 +54,12 @@ import com.rx2androidnetworking.Rx2ANRequest;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import okhttp3.OkHttpClient;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by abdalla-maged on 3/29/18.
@@ -328,10 +330,18 @@ public class BaseNetworkApi {
                 .getObjectObservable(CampaignResponse.class);
     }
 
-    public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(int page) {
+    public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(int page, String token) {
         return Rx2AndroidNetworking.post(ALL_RUNNING_CAMPAIGN_URL)
                 .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
                 .setPriority(Priority.HIGH)
+                .addHeaders("x-auth-token", token)
+                .addHeaders("x-user-type", DEFAULT_USER_TYPE)
+                .addHeaders("x-lang-code", "en-us")
+                .setOkHttpClient(new OkHttpClient.Builder()
+//                        .connectTimeout(5, TimeUnit.MINUTES)
+                        .readTimeout(1, TimeUnit.MINUTES)
+                        .writeTimeout(1, TimeUnit.MINUTES)
+                        .build())
                 .build()
                 .getObjectObservable(CampaignResponse.class);
     }

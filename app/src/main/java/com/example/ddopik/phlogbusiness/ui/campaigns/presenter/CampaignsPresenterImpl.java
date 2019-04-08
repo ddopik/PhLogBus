@@ -80,7 +80,7 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
     @Override
     public void getRunningCampaign(int page,RunningCampaignFragmentView runningCampaignFragmentView) {
         runningCampaignFragmentView.showAllCampaignProgress(true);
-        BaseNetworkApi.getAllRunningCampaign(page)
+        BaseNetworkApi.getAllRunningCampaign(page, PrefUtils.getBrandToken(context))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(campaignResponse -> {

@@ -83,7 +83,7 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
         pagingController = new PagingController(campaignInnerRv) {
             @Override
             public void getPagingControllerCallBack(int page) {
-//                campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, page);
+                campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, page);
             }
         };
     }
@@ -109,8 +109,21 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
 
     @Override
     public void addPhotos(List<DataItem> data) {
-        photoGrapherPhotoList.addAll(data);
-        groupAdapter.notifyDataSetChanged();
+        if (!data.isEmpty()) {
+            int insertPosition = photoGrapherPhotoList.size() -1;
+            DataItem firstInNew = data.remove(0);
+            DataItem lastInOld = photoGrapherPhotoList.get(photoGrapherPhotoList.size() - 1);
+            if (lastInOld != null) {
+                if (lastInOld.getHummanDate().equals(firstInNew.getHummanDate())) {
+                    lastInOld.getPhotos().addAll(firstInNew.getPhotos());
+                    photoGrapherPhotoList.addAll(data);
+                } else {
+                    data.add(0, firstInNew);
+                    photoGrapherPhotoList.addAll(data);
+                }
+                groupAdapter.notifyItemInserted(insertPosition);
+            }
+        }
 
     }
 
