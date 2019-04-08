@@ -6,8 +6,8 @@ package com.example.ddopik.phlogbusiness.ui.album.presenter;
 public interface AlbumPreviewActivityPresenter {
 
 
-    void getSelectedSearchAlbum(int albumID, String pageNum);
+    void getPhotoDetails(int albumID);
 
-    void getAlbumPreviewImages(int albumId, int page);
+    void getAlbumPreviewImages(int albumId, String page);
 
 }

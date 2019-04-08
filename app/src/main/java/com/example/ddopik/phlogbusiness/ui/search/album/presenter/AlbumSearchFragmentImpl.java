@@ -7,6 +7,7 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.search.album.view.AlbumSearchFragmentView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -34,7 +35,7 @@ public class AlbumSearchFragmentImpl implements AlbumSearchPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void getAlbumSearch(String key, List<Filter> filterList, int page) {
+    public void getAlbumSearch(String key, List<Filter> filterList, String page) {
 
 
         int filterCount=0;
@@ -56,6 +57,12 @@ public class AlbumSearchFragmentImpl implements AlbumSearchPresenter {
                 .subscribe(albumSearchResponse -> {
                     albumSearchFragmentView.viewSearchAlbum(albumSearchResponse.data);
                     albumSearchFragmentView.showFilterSearchProgress(false);
+                    if (albumSearchResponse.data.nextPageUrl != null) {
+                        albumSearchFragmentView.setNextPageUrl(Utilities.getNextPageNumber(context, albumSearchResponse.data.nextPageUrl));
+
+                    } else {
+                        albumSearchFragmentView.setNextPageUrl(null);
+                    }
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     albumSearchFragmentView.showFilterSearchProgress(false);

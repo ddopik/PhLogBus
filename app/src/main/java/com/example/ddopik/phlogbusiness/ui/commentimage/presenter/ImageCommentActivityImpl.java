@@ -9,12 +9,12 @@ import com.example.ddopik.phlogbusiness.ui.commentimage.model.ReportModel;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ReportReason;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivityView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
-
-import java.util.List;
-
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+
+import java.util.List;
 
 /**
  * Created by abdalla_maged On Nov,2018
@@ -42,6 +42,13 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                 .subscribe(albumImgCommentResponse -> {
                     imageCommentActivityView.viewPhotoComment(albumImgCommentResponse.data);
                     imageCommentActivityView.viewImageProgress(false);
+                    if (albumImgCommentResponse.data.nextPageUrl != null) {
+                        imageCommentActivityView.setNextPageUrl(Utilities.getNextPageNumber(context, albumImgCommentResponse.data.nextPageUrl));
+
+                    } else {
+                        imageCommentActivityView.setNextPageUrl(null);
+                    }
+
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     imageCommentActivityView.viewImageProgress(false);
@@ -57,7 +64,7 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(submitImageCommentResponse -> {
-                     imageCommentActivityView.onImageCommented(submitImageCommentResponse.data);
+                    imageCommentActivityView.onImageCommented(submitImageCommentResponse.data);
                     imageCommentActivityView.viewImageProgress(false);
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
@@ -72,17 +79,16 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
         imageCommentActivityView.viewImageProgress(true);
 
 
-
-            BaseNetworkApi.likeImage(String.valueOf(baseImage.id))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(likeImageResponse -> {
-                        imageCommentActivityView.onImageLiked(likeImageResponse.data);
-                        imageCommentActivityView.viewImageProgress(false);
-                    }, throwable -> {
-                        imageCommentActivityView.viewImageProgress(false);
-                        CustomErrorUtil.Companion.setError(context, TAG, throwable);
-                    });
+        BaseNetworkApi.likeImage(String.valueOf(baseImage.id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(likeImageResponse -> {
+                    imageCommentActivityView.onImageLiked(likeImageResponse.data);
+                    imageCommentActivityView.viewImageProgress(false);
+                }, throwable -> {
+                    imageCommentActivityView.viewImageProgress(false);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                });
 
 
     }

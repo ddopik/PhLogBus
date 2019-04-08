@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +14,8 @@ import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.model.DataItem;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPhotosFragmentPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPhotosFragmentPresenterImpl;
@@ -36,6 +38,8 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
     private List<DataItem> photoGrapherPhotoList = new ArrayList<>();
     private GroupAdapter groupAdapter;
     private PagingController pagingController;
+    private String nextPageUrl = "1";
+    private boolean isLoading;
     private CampaignInnerPhotosFragmentPresenter campaignInnerPhotosFragmentPresenter;
 
     public static CampaignInnerPhotosFragment getInstance(String campaignID, Integer status) {
@@ -80,12 +84,58 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
     }
 
     private void initLister() {
-        pagingController = new PagingController(campaignInnerRv) {
+
+
+        ////// initial block works by forcing then next Api for Each ScrollTop
+        // cause recycler listener won't work until mainView ported with items
+        campaignInnerRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            LinearLayoutManager mLayoutManager = (LinearLayoutManager) campaignInnerRv.getLayoutManager();
+
             @Override
-            public void getPagingControllerCallBack(int page) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (firstVisibleItemPosition == 0) {
+                        if (nextPageUrl != null) {
+//                            campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, nextPageUrl);
+
+                        }
+
+                    }
+                }
+            }
+        });
+
+        ////////////////
+        pagingController = new PagingController(campaignInnerRv) {
+
+
+            @Override
+            protected void loadMoreItems() {
                 campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, page);
             }
+
+            @Override
+            public boolean isLastPage() {
+
+                if (nextPageUrl ==null){
+                    return  true;
+                }else {
+                    return false;
+                }
+
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+
         };
+
     }
 
     public static void setHeightDynamically(GridView listView) {
@@ -130,6 +180,8 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
 
     @Override
     public void viewCampaignInnerPhotosProgress(boolean state) {
+        isLoading=state;
+
         if (state) {
             campaignInnerProgressBar.setVisibility(View.VISIBLE);
         } else {
@@ -148,4 +200,8 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     };
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl=page;
+    }
 }

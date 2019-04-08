@@ -36,7 +36,6 @@ class CustomErrorUtil {
             try {
                 throwable.takeIf { it is ANError }.apply {
                     (throwable as ANError).errorBody?.let {
-                        //                (throwable as ANError).errorBody?.let {
                         val errorData = throwable.errorBody
                         val statusCode = throwable.errorCode
                         val gson = Gson()
@@ -48,7 +47,6 @@ class CustomErrorUtil {
                             STATUS_404 -> {
                                 Log.e(TAG, contextTAG + "------>" + STATUS_404 + "---" + throwable.response)
                             }
-
                             STATUS_401 -> {
                                 Log.e(TAG, contextTAG + "------>" + STATUS_401 + "---" + throwable.response)
                             }
@@ -59,14 +57,13 @@ class CustomErrorUtil {
                                 Log.e(TAG, contextTAG + "--------------->" + throwable.response)
                             }
                         }
+                        return
                     }
-
+                    Log.e(TAG, contextTAG + "--------------->" + throwable.message)
                 }
-//                throwable.takeIf { it is ConnectException } .apply{
-//                    RxEventBus.getInstance().post(RxEvent(RxEvent.Type.CONNECTIVITY, false));
-//                }
-            }catch (e: Exception){
-                Log.e(TAG, contextTAG + "--------------->" +throwable?.message )
+
+            } catch (e: Exception) {
+                Log.e(TAG, contextTAG + "--------------->" + throwable?.message)
             }
         }
 

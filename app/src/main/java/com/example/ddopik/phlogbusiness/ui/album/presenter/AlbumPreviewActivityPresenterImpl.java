@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.album.view.AlbumPreviewActivityView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -25,7 +26,7 @@ public class AlbumPreviewActivityPresenterImpl implements AlbumPreviewActivityPr
 
     @SuppressLint("CheckResult")
     @Override
-    public void getSelectedSearchAlbum(int albumID, String pageNum) {
+    public void getPhotoDetails(int albumID) {
         albumPreviewActivityView.viewAlbumPreviewProgress(true);
         BaseNetworkApi.getAlbumDetails(String.valueOf(albumID))
                 .subscribeOn(Schedulers.io())
@@ -43,7 +44,7 @@ public class AlbumPreviewActivityPresenterImpl implements AlbumPreviewActivityPr
 
     @SuppressLint("CheckResult")
     @Override
-    public void getAlbumPreviewImages(int albumId, int page) {
+    public void getAlbumPreviewImages(int albumId, String page) {
         albumPreviewActivityView.viewAlbumPreviewProgress(true);
         BaseNetworkApi.getAlbumImagesPreview(String.valueOf(albumId), String.valueOf(page))
                 .subscribeOn(Schedulers.io())
@@ -51,6 +52,13 @@ public class AlbumPreviewActivityPresenterImpl implements AlbumPreviewActivityPr
                 .subscribe(response -> {
                     albumPreviewActivityView.viewAlbumPreviewProgress(false);
                     albumPreviewActivityView.viwAlbumPreviewImages(response.data.imagesList);
+                    if (response.data.nextPageUrl != null) {
+                        albumPreviewActivityView.setNextPageUrl(Utilities.getNextPageNumber(context, response.data.nextPageUrl));
+
+                    } else {
+                        albumPreviewActivityView.setNextPageUrl(null);
+                    }
+
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     albumPreviewActivityView.viewAlbumPreviewProgress(false);

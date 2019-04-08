@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface AlbumSearchPresenter {
 
-     void getAlbumSearch(String key, List<Filter> filterList, int page);
+     void getAlbumSearch(String key, List<Filter> filterList, String page);
      Map<String,String> getFilter(List<Filter> filterList);
 
      void getSearchFilters();

@@ -10,4 +10,6 @@ public interface CampaignInnerPhotosFragmentView {
 
     void addPhotos(List<DataItem> data);
     void viewCampaignInnerPhotosProgress(boolean state);
+    void setNextPageUrl(String page);
+
 }

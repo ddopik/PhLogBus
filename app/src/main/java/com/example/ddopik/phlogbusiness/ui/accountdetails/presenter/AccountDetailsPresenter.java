@@ -15,6 +15,8 @@ public interface AccountDetailsPresenter {
 
     void terminate();
 
+      void changePassword(Context context, String oldPassword, String newPassword) ;
+
     class ValidationResult {
         public final boolean valid;
         public final int errorMessage;

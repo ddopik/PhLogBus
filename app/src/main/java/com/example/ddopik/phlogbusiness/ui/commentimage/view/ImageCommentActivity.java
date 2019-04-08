@@ -1,22 +1,18 @@
 package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.base.commonmodel.*;
-import com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.AddToLightBoxDialogFragment;
 import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivity;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.CommentsAdapter;
@@ -41,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.CommentListType.MAIN_COMMENT;
 
 /**
@@ -59,14 +54,14 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     private BaseImage previewImage;
     private boolean shouldShowChooseWinnerButton;
     private int campaignId;
-
-
     private FrameLayout addCommentProgress;
     private CustomRecyclerView commentsRv;
     private List<Comment> commentList = new ArrayList<>();
     private Mentions mentions = new Mentions();
     private CommentsAdapter commentsAdapter;
     private PagingController pagingController;
+    private String nextPageUrl = "1";
+    private boolean isLoading;
     private ImageCommentActivityPresenter imageCommentActivityPresenter;
 
 
@@ -105,7 +100,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         commentsAdapter = new CommentsAdapter(previewImage, commentList, mentions, MAIN_COMMENT);
         commentsAdapter.setShouldShowChooseWinnerButton(shouldShowChooseWinnerButton);
         commentsRv.setAdapter(commentsAdapter);
-        imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), "0");
+        imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), null);
 
     }
 
@@ -117,11 +112,31 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
     private void initListener() {
 
+
         pagingController = new PagingController(commentsRv) {
+
+
             @Override
-            public void getPagingControllerCallBack(int page) {
-                imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), String.valueOf(page));
+            protected void loadMoreItems() {
+                imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), nextPageUrl);
             }
+            @Override
+            public boolean isLastPage() {
+
+                if (nextPageUrl == null) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+
         };
 
 
@@ -186,7 +201,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             @Override
             public void onImageRateClick(BaseImage baseImage, float rating) {
 
-                if (previewImage.isRated !=null|| !previewImage.isRated) {
+                if (previewImage.isRated != null || !previewImage.isRated) {
                     imageCommentActivityPresenter.rateImage(baseImage, rating);
                 } else {
                     showToast(getResources().getString(R.string.image_already_rated));
@@ -353,7 +368,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
     @Override
     public void viewOnImagedAddedToCart(boolean state) {
-
+        isLoading = state;
         if (state) {
             previewImage.isCart = true;
         }
@@ -424,6 +439,11 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             return mentions;
         });
 
+    }
+
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl = page;
     }
 
     @Override

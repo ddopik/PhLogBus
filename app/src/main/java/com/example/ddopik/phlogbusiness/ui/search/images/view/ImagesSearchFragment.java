@@ -16,11 +16,11 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.model.AlbumGroup;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AlbumAdapter;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
@@ -71,6 +71,8 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     private List<AlbumGroup> albumGroupList = new ArrayList<>();
     private ImagesSearchFragmentPresenter imagesSearchFragmentPresenter;
     private PagingController pagingController;
+    private String nextPageUrl = "1";
+    private boolean isLoading;
     private CompositeDisposable disposable = new CompositeDisposable();
     private OnSearchTabSelected onSearchTabSelected;
     private CustomTextView filterIcon, clearFilterBtn;
@@ -102,7 +104,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
 
         if (imageSearch.getText().toString().length() > 0) {
             promptView.setVisibility(View.GONE);
-            imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, 0);
+            imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, null);
         }
     }
 
@@ -161,22 +163,32 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
                 .subscribeWith(searchQuery()));
 
 
-        /**
-         * visibleThreshold =3 --> is a Special case for ImagesSearchFragment Adapter
-         * */
-        pagingController = new PagingController(searchImageRv, 3) {
+        pagingController = new PagingController(searchImageRv) {
+
 
             @Override
-            public void getPagingControllerCallBack(int page) {
+            protected void loadMoreItems() {
+                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, nextPageUrl);
+            }
 
-                promptView.setVisibility(View.GONE);
-                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, page);
+            @Override
+            public boolean isLastPage() {
 
+                if (nextPageUrl == null) {
+                    return true;
+                } else {
+                    return false;
+                }
 
             }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+
         };
-
-
         expandableListAdapter.onChildViewListener = filterOption -> {
             for (int i = 0; i < filterList.size(); i++) {
                 for (int x = 0; x < filterList.get(i).options.size(); x++) {
@@ -320,7 +332,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
                 promptView.setVisibility(View.GONE);
                 albumGroupList.clear();
                 imageSearchAdapter.notifyDataSetChanged();
-                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, 0);
+                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString().trim(), filterList, null);
                 Log.e(TAG, "search string: " + imageSearch.getText().toString());
 
             }
@@ -344,7 +356,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         /**
          * parsing and loading image into AlbumGroups
          * */
-        if ( imagesSearchData.imageList !=null &&  imagesSearchData.imageList.size() > 0) {
+        if (imagesSearchData.imageList != null && imagesSearchData.imageList.size() > 0) {
             for (int i = 0; i < imagesSearchData.imageList.size(); i++) {
 
                 if (albumGroupList.size() == 0) {
@@ -389,7 +401,8 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
     }
 
     @Override
-    public void viewImagesSearchProgress(boolean state) {
+    public void viewImagesSearchFilterProgress(boolean state) {
+
         if (state) {
             searchImageProgress.setVisibility(View.VISIBLE);
         } else {
@@ -397,6 +410,23 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
         }
 
     }
+
+    @Override
+    public void viewImagesSearchImagesProgress(boolean state) {
+        isLoading = state;
+
+        if (state) {
+            searchImageProgress.setVisibility(View.VISIBLE);
+        } else {
+            searchImageProgress.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl = page;
+    }
+
 
     @Override
     public void showMessage(String msg) {
@@ -488,7 +518,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             albumGroupList.clear();
             imageSearchAdapter.notifyDataSetChanged();
             if (imagesSearchFragmentPresenter.getFilter(filterList).size() > 0) {
-                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString(), filterList, 0);
+                imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString(), filterList, nextPageUrl);
             } else {
                 viewImagesSearchImages(new ImagesSearchData());
                 searchResultCount.setVisibility(View.INVISIBLE);

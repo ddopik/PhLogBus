@@ -11,7 +11,7 @@ import java.util.Map;
 public interface ImagesSearchFragmentPresenter {
 
 
-     void getSearchImages(String key, List<Filter> filterList, int page);
+     void getSearchImages(String key, List<Filter> filterList, String page);
      Map<String,String> getFilter(List<Filter> filterList);
 
      void getSearchFilters();

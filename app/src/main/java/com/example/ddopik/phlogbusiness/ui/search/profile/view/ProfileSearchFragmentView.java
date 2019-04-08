@@ -16,5 +16,6 @@ public interface ProfileSearchFragmentView {
     void viewProfileSearchProgress(Boolean state);
 
     void showMessage(String msg);
+    void setNextPageUrl(String page);
 
 }

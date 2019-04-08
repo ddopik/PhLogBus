@@ -11,16 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignActivity;
-import com.example.ddopik.phlogbusiness.ui.campaigns.completed.presenter.CompleteCampaignPresenter;
-import com.example.ddopik.phlogbusiness.ui.campaigns.draft.presenter.DraftCampaignsPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.presenter.CampaignsPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.campaigns.running.presenter.RunningCampaignPresenter;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +35,8 @@ public class RunningCampaignsFragment extends BaseFragment implements RunningCam
     private List<Campaign> runningCampaignList = new ArrayList<>();
     private RunningCampaignPresenter runningCampaignPresenter;
     private PagingController pagingController;
-
+    private String nextPageUrl = "1";
+    private boolean isLoading;
     private ConstraintLayout noCampaignsPrompt;
 
 
@@ -62,7 +60,7 @@ public class RunningCampaignsFragment extends BaseFragment implements RunningCam
         initPresenter();
         initViews();
         initListener();
-        runningCampaignPresenter.getRunningCampaign(0, this);
+        runningCampaignPresenter.getRunningCampaign(nextPageUrl, this);
     }
 
 
@@ -82,12 +80,32 @@ public class RunningCampaignsFragment extends BaseFragment implements RunningCam
 
     private void initListener() {
 
+
         pagingController = new PagingController(allCampaignsRv) {
+
+
             @Override
-            public void getPagingControllerCallBack(int page) {
-                runningCampaignPresenter.getRunningCampaign(page, RunningCampaignsFragment.this);
+            protected void loadMoreItems() {
+                runningCampaignPresenter.getRunningCampaign(nextPageUrl, RunningCampaignsFragment.this);
+            }
+
+            @Override
+            public boolean isLastPage() {
+
+                if (nextPageUrl == null) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
             }
         };
+
         runningCampaignsAdapter.campaignLister = campaignID -> {
             Intent intent = new Intent(getContext(), CampaignInnerActivity.class);
             intent.putExtra(CampaignInnerActivity.CAMPAIGN_ID, campaignID);
@@ -114,11 +132,18 @@ public class RunningCampaignsFragment extends BaseFragment implements RunningCam
 
     @Override
     public void showAllCampaignProgress(boolean state) {
+        isLoading = state;
+
         if (state) {
             progressBar.setVisibility(View.VISIBLE);
         } else {
             progressBar.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl = page;
     }
 }

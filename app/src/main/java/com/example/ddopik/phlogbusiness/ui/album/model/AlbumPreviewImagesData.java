@@ -28,7 +28,7 @@ public class AlbumPreviewImagesData {
     public String lastPageUrl;
     @SerializedName("next_page_url")
     @Expose
-    public Object nextPageUrl;
+    public String nextPageUrl;
     @SerializedName("path")
     @Expose
     public String path;

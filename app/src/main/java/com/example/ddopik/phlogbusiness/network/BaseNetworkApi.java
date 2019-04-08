@@ -294,10 +294,10 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<ProfileSearchResponse> getProfileSearch(String key, int page) {
+    public static io.reactivex.Observable<ProfileSearchResponse> getProfileSearch(String key, String page) {
         return Rx2AndroidNetworking.post(PHOTOGRAPHER_SEARCH_URL)
                 .addBodyParameter("keyword", key)
-                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .getResponseOnlyFromNetwork()
                 .setPriority(Priority.HIGH)
                 .build()
@@ -314,17 +314,17 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<CampaignResponse> getAllCompleteCampaign(int page) {
+    public static io.reactivex.Observable<CampaignResponse> getAllCompleteCampaign(String page) {
         return Rx2AndroidNetworking.post(ALL_COMPLETED_CAMPAIGN_URL)
-                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignResponse.class);
     }
 
-    public static io.reactivex.Observable<CampaignResponse> getAllDraftCampaign(int page) {
+    public static io.reactivex.Observable<CampaignResponse> getAllDraftCampaign(String page) {
         return Rx2AndroidNetworking.post(ALL_DRAFT_CAMPAIGN_URL)
-                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignResponse.class);
@@ -346,11 +346,11 @@ public class BaseNetworkApi {
                 .getObjectObservable(CampaignResponse.class);
     }
 
-    public static io.reactivex.Observable<CampaignInnerPhotosResponse> getCampaignInnerPhotos(String token, String campaignID, int page) {
+    public static io.reactivex.Observable<CampaignInnerPhotosResponse> getCampaignInnerPhotos(String token, String campaignID, String page) {
         return Rx2AndroidNetworking.post(CAMPAIGN_PHOTOS_URL)
                 .addBodyParameter(TOKEN_BODY_PARAMETER, token)
                 .addBodyParameter("campaign_id", campaignID)
-                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(CampaignInnerPhotosResponse.class);
@@ -376,7 +376,7 @@ public class BaseNetworkApi {
     }
 
 
-    public static io.reactivex.Observable<UserPhotosResponse> getUserProfilePhotos(String userID, int page) {
+    public static io.reactivex.Observable<UserPhotosResponse> getUserProfilePhotos(String userID, String page) {
         return Rx2AndroidNetworking.post(USER_PROFILE_PHOTOS)
                 .addBodyParameter("photographer_id", userID)
                 .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
@@ -660,11 +660,26 @@ public class BaseNetworkApi {
         builder.addMultipartParameter("last_name", model.getLastName());
         builder.addMultipartParameter("phone", model.getPhone());
         builder.addMultipartParameter("email", model.getEmail());
-        builder.addMultipartParameter("password", model.getPassword());
-        return builder
+         return builder
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(LoginResponse.class);
+    }
+
+    public static io.reactivex.Observable<String> updateProfile(String userToken,HashMap<String, String> data) {
+        Rx2ANRequest.MultiPartBuilder builder = Rx2AndroidNetworking.upload(UPDATE_PROFILE_URL).setPriority(Priority.HIGH);
+
+        builder.addMultipartParameter(data);
+        return builder
+                .setOkHttpClient(new OkHttpClient.Builder()
+//                        .connectTimeout(5, TimeUnit.MINUTES)
+                        .readTimeout(1, TimeUnit.MINUTES)
+                        .writeTimeout(1, TimeUnit.MINUTES)
+                        .build())
+                .addHeaders("x-auth-token", userToken)
+                .addHeaders("x-user-type", DEFAULT_USER_TYPE)
+                .addHeaders("x-lang-code", "en-us")
+                .build().getStringObservable();
     }
 
     public static Observable<FollowUserResponse> unfollowUser(String userID) {

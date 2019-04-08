@@ -19,4 +19,6 @@ public interface UserProfileActivityView {
     void showMessage(String msg);
 
     void setIsFollowing(boolean follow);
+    void setNextPageUrl(String page);
+
 }

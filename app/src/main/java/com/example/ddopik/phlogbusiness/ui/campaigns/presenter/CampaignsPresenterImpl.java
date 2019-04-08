@@ -15,6 +15,7 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.running.presenter.RunningCa
 import com.example.ddopik.phlogbusiness.ui.campaigns.running.view.RunningCampaignFragmentView;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -45,7 +46,7 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
 
     @SuppressLint("CheckResult")
     @Override
-    public void getCompletedCampaign(int page,CompleteCampaignsFragmentView completeCampaignsFragmentView) {
+    public void getCompletedCampaign(String page,CompleteCampaignsFragmentView completeCampaignsFragmentView) {
         completeCampaignsFragmentView.showAllCompletedCampaignProgress(true);
         BaseNetworkApi.getAllCompleteCampaign(page)
                 .subscribeOn(Schedulers.io())
@@ -53,6 +54,12 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
                 .subscribe(campaignResponse -> {
                     completeCampaignsFragmentView.showAllCompletedCampaignProgress(false);
                     completeCampaignsFragmentView.viewAllCompletedCampaign(campaignResponse.data.data);
+                    if (campaignResponse.data.nextPageUrl != null) {
+                        completeCampaignsFragmentView.setNextPageUrl(Utilities.getNextPageNumber(context, campaignResponse.data.nextPageUrl));
+
+                    } else {
+                        completeCampaignsFragmentView.setNextPageUrl(null);
+                    }
                  }, throwable -> {
                     completeCampaignsFragmentView.showAllCompletedCampaignProgress(false);
                     CustomErrorUtil.Companion.setError(context,TAG,throwable);
@@ -61,7 +68,7 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
 
     @SuppressLint("CheckResult")
     @Override
-    public void getDraftCampaign(int page, DraftCampaignsFragmentView draftCampaignsFragmentView) {
+    public void getDraftCampaign(String page, DraftCampaignsFragmentView draftCampaignsFragmentView) {
         draftCampaignsFragmentView.showDraftCampaignProgress(true);
         BaseNetworkApi.getAllDraftCampaign(page)
                 .subscribeOn(Schedulers.io())
@@ -69,6 +76,12 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
                 .subscribe(campaignResponse -> {
                     draftCampaignsFragmentView.showDraftCampaignProgress(false);
                     draftCampaignsFragmentView.viewDraftCampaign(campaignResponse.data.data);
+                    if (campaignResponse.data.nextPageUrl != null) {
+                        draftCampaignsFragmentView.setNextPageUrl(Utilities.getNextPageNumber(context, campaignResponse.data.nextPageUrl));
+
+                    } else {
+                        draftCampaignsFragmentView.setNextPageUrl(null);
+                    }
 
                 }, throwable -> {
                     draftCampaignsFragmentView.showDraftCampaignProgress(false);
@@ -78,7 +91,7 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
 
     @SuppressLint("CheckResult")
     @Override
-    public void getRunningCampaign(int page,RunningCampaignFragmentView runningCampaignFragmentView) {
+    public void getRunningCampaign(String page,RunningCampaignFragmentView runningCampaignFragmentView) {
         runningCampaignFragmentView.showAllCampaignProgress(true);
         BaseNetworkApi.getAllRunningCampaign(page, PrefUtils.getBrandToken(context))
                 .subscribeOn(Schedulers.io())
@@ -86,6 +99,13 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
                 .subscribe(campaignResponse -> {
                     runningCampaignFragmentView.showAllCampaignProgress(false);
                     runningCampaignFragmentView.viewAllCampaign(campaignResponse.data.data);
+                    if (campaignResponse.data.nextPageUrl != null) {
+                        runningCampaignFragmentView.setNextPageUrl(Utilities.getNextPageNumber(context, campaignResponse.data.nextPageUrl));
+
+                    } else {
+                        runningCampaignFragmentView.setNextPageUrl(null);
+                    }
+
 
                 }, throwable -> {
                     runningCampaignFragmentView.showAllCampaignProgress(false);

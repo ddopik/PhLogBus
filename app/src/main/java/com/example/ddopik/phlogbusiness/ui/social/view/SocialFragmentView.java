@@ -9,4 +9,6 @@ public interface SocialFragmentView {
     void viewSocialData(List<SocialData> socialDataList);
     void viewSocialDataProgress(boolean state);
     void showMessage(String msg);
+    void loadMore(boolean loadMore);
+
 }

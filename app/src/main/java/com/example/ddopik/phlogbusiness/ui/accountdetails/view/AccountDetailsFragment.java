@@ -14,14 +14,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.esafirm.imagepicker.features.ImagePicker;
@@ -29,11 +22,11 @@ import com.esafirm.imagepicker.features.ReturnMode;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
+import com.example.ddopik.phlogbusiness.base.widgets.dialogs.UploadPhotosDialog1Fragment;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.model.AccountDetailsModel;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.presenter.AccountDetailsPresenter;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.presenter.AccountDetailsPresenterImpl;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
-
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -55,14 +48,15 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
 
     private View mainView;
     private ImageView profileImage, coverImage;
-    private EditText firstNameET, lastNameET, phoneET, emailET, passwordET;
+    private EditText firstNameET, lastNameET, phoneET, emailET;
     private ProgressBar loading;
     private Button saveButton;
-    private ImageButton back;
-    private Toolbar toolbar;
+     private Toolbar toolbar;
     private TextView title;
+
     private ImageButton backButton;
     private boolean detailsChanged;
+    private Button changePassword;
 
     public AccountDetailsFragment() {
         // Required empty public constructor
@@ -131,38 +125,40 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
         lastNameET = mainView.findViewById(R.id.username_edit_text);
         emailET = mainView.findViewById(R.id.email_edit_text);
         phoneET = mainView.findViewById(R.id.phone_edit_text);
-        passwordET = mainView.findViewById(R.id.password_edit_text);
         loading = mainView.findViewById(R.id.loading);
         loading.setVisibility(View.GONE);
-        saveButton = mainView.findViewById(R.id.save_button);
+        saveButton = mainView.findViewById(R.id.profile_save_button);
         backButton = mainView.findViewById(R.id.back_btn);
         title = mainView.findViewById(R.id.toolbar_title);
-        back = mainView.findViewById(R.id.back_btn);
+         changePassword = mainView.findViewById(R.id.change_password_button);
+
         title.setText(R.string.profile);
     }
 
     private void setListeners() {
         profileImage.setOnClickListener(v -> {
             whichImage = WhichImage.PROFILE;
-            openPickerDialog();
+            openPickerDialog(WhichImage.PROFILE);
         });
         coverImage.setOnClickListener(v -> {
             whichImage = WhichImage.COVER;
-            openPickerDialog();
+            openPickerDialog(WhichImage.COVER);
         });
         saveButton.setOnClickListener(v -> {
+
             saveButton.setEnabled(false);
-            loading.setVisibility(View.VISIBLE);
             model.setFirstName(firstNameET.getText().toString());
             model.setLastName(lastNameET.getText().toString());
             model.setEmail(emailET.getText().toString());
-            model.setPassword(passwordET.getText().toString());
+            model.setPhone(phoneET.getText().toString());
             AccountDetailsPresenter.ValidationResult result = presenter.validate(model);
             if (result.valid) {
                 presenter.saveProfile(getContext(), model);
             } else {
-                if (result.errorMessage != 0)
-                    Toast.makeText(getContext(), result.errorMessage, Toast.LENGTH_LONG).show();
+                if (result.errorMessage != 0) {
+                    new AlertDialog.Builder(getContext()).setTitle("error").setMessage(result.errorMessage).setCancelable(true).show();
+                    saveButton.setEnabled(true);
+                }
             }
         });
         TextWatcher textWatcher = new TextWatcher() {
@@ -194,22 +190,64 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
         lastNameET.addTextChangedListener(textWatcher);
         phoneET.addTextChangedListener(textWatcher);
         emailET.addTextChangedListener(textWatcher);
-        passwordET.addTextChangedListener(textWatcher);
 
-        back.setOnClickListener(v -> getActivity().onBackPressed());
+        changePassword.setOnClickListener(v -> {
+            ChangePasswordDialogFragment.getInstance((oldPassword, newPassword) -> {
+                presenter.changePassword(getContext(), oldPassword, newPassword);
+            }).show(getChildFragmentManager(), ChangePasswordDialogFragment.class.getSimpleName());
+        });
+
+        backButton.setOnClickListener(v -> getActivity().onBackPressed());
     }
 
-    private void openPickerDialog() {
-        CharSequence photoChooserOptions[] = new CharSequence[]{getResources().getString(R.string.general_photo_chooser_camera), getResources().getString(R.string.general_photo_chooser_gallery)};
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(getResources().getString(R.string.general_photo_chooser_title));
-        builder.setItems(photoChooserOptions, (dialog, option) -> {
-            if (option == 0) {
-                RequestCameraPermutations();
-            } else if (option == 1) {
-                requestGalleryPermutations();
-            }
-        }).show();
+    private void openPickerDialog(WhichImage whichImage) {
+
+
+        int photoType = 0;
+
+        switch (whichImage) {
+            case COVER:
+                photoType = R.string.upload_your_profile_image;
+                break;
+            case PROFILE:
+                photoType = R.string.upload_your_cover_image;
+                break;
+
+                default:{
+                    break;
+                }
+        }
+
+        new UploadPhotosDialog1Fragment.Builder(this)
+                .title(photoType)
+                .message(R.string.select_option)
+                .option0(R.string.general_photo_chooser_camera)
+                .option1(R.string.general_photo_chooser_gallery)
+                .cancelable(true)
+                .optionConsumer((uploadPhotosDialog1Fragment, integer) -> {
+                    switch (integer) {
+                        case 0:
+                            RequestCameraPermutations();
+                            uploadPhotosDialog1Fragment.dismiss();
+                            break;
+                        case 1:
+                            requestGalleryPermutations();
+                            uploadPhotosDialog1Fragment.dismiss();
+                            break;
+                    }
+                    return null;
+                }).show();
+
+//        CharSequence photoChooserOptions[] = new CharSequence[]{getResources().getString(R.string.general_photo_chooser_camera), getResources().getString(R.string.general_photo_chooser_gallery)};
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//        builder.setTitle(getResources().getString(R.string.general_photo_chooser_title));
+//        builder.setItems(photoChooserOptions, (dialog, option) -> {
+//            if (option == 0) {
+//                RequestCameraPermutations();
+//            } else if (option == 1) {
+//                requestGalleryPermutations();
+//            }
+//        }).show();
     }
 
 
@@ -277,19 +315,21 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
     }
 
     @Override
-    public void setLoading(boolean b) {
-        if (b)
+    public void setLoading(boolean state) {
+        if (state) {
             loading.setVisibility(View.VISIBLE);
-        else loading.setVisibility(View.GONE);
+        } else {
+            loading.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void updateSuccess(boolean b) {
         saveButton.setEnabled(true);
-        if (b)
-            Toast.makeText(getContext(), R.string.profile_update_success, Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(getContext(), R.string.profile_update_error, Toast.LENGTH_LONG).show();
+//        if (b)
+//            Toast.makeText(getContext(), R.string.profile_update_success, Toast.LENGTH_LONG).show();
+//        else
+//            Toast.makeText(getContext(), R.string.profile_update_error, Toast.LENGTH_LONG).show();
     }
 
     private WhichImage whichImage;

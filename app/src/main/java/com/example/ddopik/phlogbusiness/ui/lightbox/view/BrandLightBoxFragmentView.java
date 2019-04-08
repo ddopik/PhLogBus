@@ -11,4 +11,6 @@ public interface BrandLightBoxFragmentView {
     void onLightBoxLightAdded();
     void showMessage(String msg);
     void viewLightBoxProgress(Boolean state);
+    void setNextPageUrl(String page);
+
 }

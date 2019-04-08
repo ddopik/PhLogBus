@@ -15,6 +15,7 @@ public interface ReplayCommentActivityView {
 
 
     void onCommentReplied(SubmitImageCommentData submitImageCommentData);
+    void setNextPageUrl(String page);
 
 
 }

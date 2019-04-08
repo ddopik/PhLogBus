@@ -6,5 +6,5 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.draft.view.DraftCampaignsFr
  * Created by abdalla_maged on 12/25/2018.
  */
 public interface DraftCampaignsPresenter {
-    void getDraftCampaign(int page, DraftCampaignsFragmentView draftCampaignsFragmentView);
+    void getDraftCampaign(String page, DraftCampaignsFragmentView draftCampaignsFragmentView);
 }

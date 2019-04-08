@@ -57,5 +57,6 @@
     <color name="transparent_black_80">#CC000000</color>
     <color name="green">#ADFF39</color>
     <color name="brown">#FFB1705B</color>
+    <color name="black_transparent">#80000000</color>
 
 </resources>

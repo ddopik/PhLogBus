@@ -19,7 +19,7 @@ import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Filter;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.ui.album.view.AlbumPreviewActivity;
 import com.example.ddopik.phlogbusiness.ui.search.album.model.AlbumSearchData;
 import com.example.ddopik.phlogbusiness.ui.search.album.presenter.AlbumSearchFragmentImpl;
@@ -66,6 +66,9 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
     private AlbumSearchAdapter albumSearchAdapter;
     private CompositeDisposable disposable = new CompositeDisposable();
     private PagingController pagingController;
+    private String nextPageUrl="1";
+    private boolean isLoading;
+
     private OnSearchTabSelected onSearchTabSelected;
     private ConstraintLayout promptView;
     private ImageView promptImage;
@@ -102,7 +105,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         if (albumSearch.getText().toString().length() > 0) {
             promptView.setVisibility(View.GONE);
             albumSearchList.clear();
-            albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList, 0);
+            albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList, null);
         } //there is A search query exist
 
     }
@@ -163,13 +166,30 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
 
         pagingController = new PagingController(albumSearchRv) {
             @Override
-            public void getPagingControllerCallBack(int page) {
+            protected void loadMoreItems() {
                 if (albumSearch.getText().length() > 0) {
                     promptView.setVisibility(View.GONE);
-                    albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList, page);
+                    albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList, nextPageUrl);
+                }
+            }
+
+            @Override
+            public boolean isLastPage() {
+
+                if (nextPageUrl ==null){
+                    return  true;
+                }else {
+                    return false;
                 }
 
             }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+
         };
 
 
@@ -310,7 +330,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
                 promptView.setVisibility(View.GONE);
                 // user cleared search get default data
                 albumSearchList.clear();
-                albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList, 0);
+                albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString().trim(), filterList, null);
                 Log.e(TAG, "search string: " + albumSearch.getText().toString());
 
             }
@@ -370,6 +390,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
 
     @Override
     public void showFilterSearchProgress(boolean state) {
+        isLoading=state;
         if (state) {
             progressBar.setVisibility(View.VISIBLE);
         } else {
@@ -377,6 +398,11 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
         }
     }
 
+
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl=page;
+    }
 
     @Override
     public void onDestroy() {
@@ -420,7 +446,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
             albumSearchList.clear();
             albumSearchAdapter.notifyDataSetChanged();
             if (albumSearchPresenter.getFilter(filterList).size() > 0) {
-                albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString(), filterList, 0);
+                albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString(), filterList, null);
             } else {
                 viewSearchAlbum(new AlbumSearchData());
                 searchResultCount.setVisibility(View.INVISIBLE);

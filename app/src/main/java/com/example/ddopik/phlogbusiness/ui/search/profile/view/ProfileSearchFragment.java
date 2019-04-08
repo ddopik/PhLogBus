@@ -6,11 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,14 +18,13 @@ import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
-import com.example.ddopik.phlogbusiness.base.widgets.PagingController;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.view.OnSearchTabSelected;
 import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchData;
 import com.example.ddopik.phlogbusiness.ui.search.profile.presenter.ProfileSearchPresenter;
 import com.example.ddopik.phlogbusiness.ui.search.profile.presenter.ProfileSearchPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
-import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.jakewharton.rxbinding3.widget.TextViewTextChangeEvent;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -39,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -63,7 +59,8 @@ public class ProfileSearchFragment  extends BaseFragment implements ProfileSearc
     private ImageView promptImage;
     private TextView promptText;
     private String totalResultCount = "0";
-
+    private String nextPageUrl="1";
+    private boolean isLoading;
     private ProfileSearchPresenter profileSearchPresenter;
     private CompositeDisposable disposable = new CompositeDisposable();
 
@@ -94,7 +91,7 @@ public class ProfileSearchFragment  extends BaseFragment implements ProfileSearc
             if (profileSearch.getText().toString().length() > 0) {
                 promptView.setVisibility(View.GONE);
                 profileSearchList.clear();
-                profileSearchPresenter.getProfileSearchList(onSearchTabSelected.getSearchView().getText().toString().trim(), 0);
+                profileSearchPresenter.getProfileSearchList(onSearchTabSelected.getSearchView().getText().toString().trim(), null);
             }
 
         }
@@ -137,17 +134,33 @@ public class ProfileSearchFragment  extends BaseFragment implements ProfileSearc
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(searchQuery()));
 
+
         pagingController = new PagingController(profileSearchRv) {
+
+
             @Override
-            public void getPagingControllerCallBack(int page) {
-                if (profileSearch.getText().length() > 0) {
-                    promptView.setVisibility(View.GONE);
-                    profileSearchPresenter.getProfileSearchList(profileSearch.getText().toString().trim(), page);
+            protected void loadMoreItems() {
+                profileSearchPresenter.getProfileSearchList(profileSearch.getText().toString().trim(), nextPageUrl);
+            }
+
+            @Override
+            public boolean isLastPage() {
+
+                if (nextPageUrl ==null){
+                    return  true;
+                }else {
+                    return false;
                 }
 
             }
-        };
 
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+
+        };
 
         profileSearchAdapter.profileAdapterListener = profileSearch -> {
             Intent intent = new Intent(getActivity(), UserProfileActivity.class);
@@ -170,7 +183,7 @@ public class ProfileSearchFragment  extends BaseFragment implements ProfileSearc
                 }
                 promptView.setVisibility(View.GONE);
                 profileSearchList.clear();
-                profileSearchPresenter.getProfileSearchList(profileSearch.getText().toString().trim(), 0);
+                profileSearchPresenter.getProfileSearchList(profileSearch.getText().toString().trim(), null);
                 Log.e(TAG, "search string: " + profileSearch.getText().toString());
 
             }
@@ -206,6 +219,7 @@ public class ProfileSearchFragment  extends BaseFragment implements ProfileSearc
 
     @Override
     public void viewProfileSearchProgress(Boolean state) {
+        isLoading=state;
         if (state) {
             profileSearchProgress.setVisibility(View.VISIBLE);
         } else {
@@ -214,6 +228,11 @@ public class ProfileSearchFragment  extends BaseFragment implements ProfileSearc
 
     }
 
+
+    @Override
+    public void setNextPageUrl(String page) {
+        this.nextPageUrl=page;
+    }
     @Override
     public void showMessage(String msg) {
         showMessage(msg);

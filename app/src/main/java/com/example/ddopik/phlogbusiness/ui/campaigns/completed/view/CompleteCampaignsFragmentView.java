@@ -11,4 +11,6 @@ public interface CompleteCampaignsFragmentView {
     void viewAllCompletedCampaign(List<Campaign> campaignList);
 
     void showAllCompletedCampaignProgress(boolean state);
+    void setNextPageUrl(String page);
+
 }

@@ -23,4 +23,7 @@ public interface ImageCommentActivityView {
     void viewOnImageRate(BaseImage baseImage);
 
     void viewMessage(String msg);
+
+    void setNextPageUrl(String page);
+
 }

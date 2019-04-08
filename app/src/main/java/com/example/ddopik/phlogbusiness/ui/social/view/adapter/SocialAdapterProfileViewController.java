@@ -76,7 +76,7 @@ public class SocialAdapterProfileViewController {
                 .into(socialViewHolder.socialProfileType3Icon);
 
 
-        if (photographer.photoGrapherPhotos.size() >= 3) {
+        if (photographer.photoGrapherPhotos.size() >= 4) {
             socialViewHolder.socialProfileAlbumType3PhotosContainer.setBackgroundResource(0);
             GlideApp.with(context)
                     .load(photographer.photoGrapherPhotos.get(0).url)
@@ -225,7 +225,7 @@ public class SocialAdapterProfileViewController {
     private void getUserPhotos(int userId, SocialData socialData) {
 
 
-        BaseNetworkApi.getUserProfilePhotos(String.valueOf(userId), 0)
+        BaseNetworkApi.getUserProfilePhotos(String.valueOf(userId), null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userPhotosResponse -> {
