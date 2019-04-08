@@ -74,18 +74,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 }
             }
         });
-        holder.byWhow.setText(item.photographer.fullName);
         holder.likes.setText("" + item.likesCount);
 //        holder.price.setText(item.);
         if (item.url != null)
             Glide.with(context)
                     .load(item.url)
                     .into(holder.image);
-        if (item.photographer.imageProfile != null)
-            Glide.with(context)
-                    .load(item.photographer.imageProfile)
-                    .apply(RequestOptions.circleCropTransform().error(R.drawable.ic_photographer))
-                    .into(holder.byWhoImage);
+        if (item.photographer != null) {
+            if (item.photographer.fullName != null)
+                holder.byWhow.setText(item.photographer.fullName);
+            if (item.photographer.imageProfile != null)
+                Glide.with(context)
+                        .load(item.photographer.imageProfile)
+                        .apply(RequestOptions.circleCropTransform().error(R.drawable.ic_photographer))
+                        .into(holder.byWhoImage);
+        }
         if (item.exclusive) {
             holder.price.setText(context.getString(R.string.price_value, item.priceExclusive));
             holder.exclusiveIcon.setVisibility(View.VISIBLE);
