@@ -36,13 +36,10 @@ public class CampaignInnerPhotosFragmentPresenterImpl implements CampaignInnerPh
                 .subscribe(campaignInnerPhotosResponse -> {
                     campaignInnerPhotosFragmentView.viewCampaignInnerPhotosProgress(false);
                     if (campaignInnerPhotosResponse != null || campaignInnerPhotosResponse.data != null) {
-                        campaignInnerPhotosFragmentView.addPhotos(campaignInnerPhotosResponse.data);
-//                        if (campaignInnerPhotosResponse.data.nextPageUrl != null) {
-//                            campaignInnerPhotosFragmentView.setNextPageUrl(Utilities.getNextPageNumber(context, campaignInnerPhotosResponse.data.nextPageUrl));
-//
-//                        } else {
-//                            campaignInnerPhotosFragmentView.setNextPageUrl(null);
-//                        }
+                        campaignInnerPhotosFragmentView.addPhotos(campaignInnerPhotosResponse.data.getData());
+                        if (campaignInnerPhotosResponse.data.getNextPageUrl() != null) {
+                            campaignInnerPhotosFragmentView.setNextPageUrl(Utilities.getNextPageNumber(context, campaignInnerPhotosResponse.data.getNextPageUrl()));
+                        }
                     }
 
                 }, throwable -> {

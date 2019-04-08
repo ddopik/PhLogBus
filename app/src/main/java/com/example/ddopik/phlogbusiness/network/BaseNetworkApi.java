@@ -154,6 +154,7 @@ public class BaseNetworkApi {
     public static final String BASE_IMAGE_DOWNLOAD_URL = BASE_SERVER_URL + "/photo";
     private static final String UPDATE_CAMPAIGN_URL = BASE_URL + "/campaign/update";
     private static final String IMAGE_DETAILS_URL = BASE_URL + "/photo/details";
+    private static final String DELETE_CAMPAIGN_URL = BASE_URL + "/campaign/cancel";
 
     //Path Parameters
     private static final String PAGER_QUERY_PARAMETER = "page";
@@ -330,9 +331,9 @@ public class BaseNetworkApi {
                 .getObjectObservable(CampaignResponse.class);
     }
 
-    public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(int page, String token) {
+    public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(String page, String token) {
         return Rx2AndroidNetworking.post(ALL_RUNNING_CAMPAIGN_URL)
-                .addQueryParameter(PAGER_QUERY_PARAMETER, String.valueOf(page))
+                .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .setPriority(Priority.HIGH)
                 .addHeaders("x-auth-token", token)
                 .addHeaders("x-user-type", DEFAULT_USER_TYPE)
@@ -822,6 +823,13 @@ public class BaseNetworkApi {
                 .addBodyParameter("photo_id", imgId)
                 .build()
                 .getObjectObservable(ImageDetailsResponse.class);
+    }
+
+    public static Observable<String> deleteCampaign(int id) {
+        return Rx2AndroidNetworking.post(DELETE_CAMPAIGN_URL)
+                .addBodyParameter("campaign_id", String.valueOf(id))
+                .setPriority(Priority.HIGH)
+                .build().getStringObservable();
     }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){

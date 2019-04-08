@@ -1,139 +1,92 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.inner.model;
 
 import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 
 public class CampaignPhotosData {
 
-	@SerializedName("first_page_url")
-	private String firstPageUrl;
+    @SerializedName("first_page_url")
+    private String firstPageUrl;
 
-	@SerializedName("path")
-	private String path;
+    @SerializedName("path")
+    private String path;
 
-	@SerializedName("per_page")
-	private int perPage;
+    @SerializedName("per_page")
+    private int perPage;
 
-	@SerializedName("total")
-	private int total;
+    @SerializedName("total")
+    private int total;
 
-	@SerializedName("data")
-	private List<DataItem> data;
+    @SerializedName("data")
+    private List<DataItem> data;
 
-	@SerializedName("last_page")
-	private int lastPage;
+    @SerializedName("last_page")
+    private int lastPage;
 
-	@SerializedName("last_page_url")
-	private String lastPageUrl;
+    @SerializedName("last_page_url")
+    private String lastPageUrl;
 
-	@SerializedName("next_page_url")
-	private Object nextPageUrl;
+    @SerializedName("next_page_url")
+    private String nextPageUrl;
 
-	@SerializedName("from")
-	private int from;
+    @SerializedName("from")
+    private int from;
 
-	@SerializedName("to")
-	private int to;
+    @SerializedName("to")
+    private int to;
 
-	@SerializedName("prev_page_url")
-	private Object prevPageUrl;
+    @SerializedName("prev_page_url")
+    private String prevPageUrl;
 
-	@SerializedName("current_page")
-	private int currentPage;
+    @SerializedName("current_page")
+    private int currentPage;
 
-	public void setFirstPageUrl(String firstPageUrl){
-		this.firstPageUrl = firstPageUrl;
-	}
+    public String getFirstPageUrl() {
+        return firstPageUrl;
+    }
 
-	public String getFirstPageUrl(){
-		return firstPageUrl;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public void setPath(String path){
-		this.path = path;
-	}
+    public int getPerPage() {
+        return perPage;
+    }
 
-	public String getPath(){
-		return path;
-	}
+    public int getTotal() {
+        return total;
+    }
 
-	public void setPerPage(int perPage){
-		this.perPage = perPage;
-	}
+    public List<DataItem> getData() {
+        return data;
+    }
 
-	public int getPerPage(){
-		return perPage;
-	}
+    public int getLastPage() {
+        return lastPage;
+    }
 
-	public void setTotal(int total){
-		this.total = total;
-	}
+    public String getLastPageUrl() {
+        return lastPageUrl;
+    }
 
-	public int getTotal(){
-		return total;
-	}
+    public String getNextPageUrl() {
+        return nextPageUrl;
+    }
 
-	public void setData(List<DataItem> data){
-		this.data = data;
-	}
+    public int getFrom() {
+        return from;
+    }
 
-	public List<DataItem> getData(){
-		return data;
-	}
+    public int getTo() {
+        return to;
+    }
 
-	public void setLastPage(int lastPage){
-		this.lastPage = lastPage;
-	}
+    public String getPrevPageUrl() {
+        return prevPageUrl;
+    }
 
-	public int getLastPage(){
-		return lastPage;
-	}
-
-	public void setLastPageUrl(String lastPageUrl){
-		this.lastPageUrl = lastPageUrl;
-	}
-
-	public String getLastPageUrl(){
-		return lastPageUrl;
-	}
-
-	public void setNextPageUrl(Object nextPageUrl){
-		this.nextPageUrl = nextPageUrl;
-	}
-
-	public Object getNextPageUrl(){
-		return nextPageUrl;
-	}
-
-	public void setFrom(int from){
-		this.from = from;
-	}
-
-	public int getFrom(){
-		return from;
-	}
-
-	public void setTo(int to){
-		this.to = to;
-	}
-
-	public int getTo(){
-		return to;
-	}
-
-	public void setPrevPageUrl(Object prevPageUrl){
-		this.prevPageUrl = prevPageUrl;
-	}
-
-	public Object getPrevPageUrl(){
-		return prevPageUrl;
-	}
-
-	public void setCurrentPage(int currentPage){
-		this.currentPage = currentPage;
-	}
-
-	public int getCurrentPage(){
-		return currentPage;
-	}
+    public int getCurrentPage() {
+        return currentPage;
+    }
 }

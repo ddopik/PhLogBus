@@ -43,7 +43,6 @@
     <style name="TextLabel" parent="Widget.Design.TextInputLayout">
         <!-- Hint color and label color in FALSE state -->
         <item name="android:textColorHint">@color/gray400</item>
-        <item name="android:textSize">20sp</item>
         <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
         <item name="colorAccent">@color/cyan93E2</item>
         <item name="colorControlNormal">@color/gray400</item>

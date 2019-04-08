@@ -101,6 +101,10 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
                 campaignViewHolder.statusIndicator.setBackgroundResource(R.drawable.circle_orange);
                 break;
         }
+        campaignViewHolder.deleteButton.setOnClickListener(v -> {
+            if (campaignLister != null)
+                campaignLister.onDeleteClicked(homeCampaign, i);
+        });
     }
 
     @Override
@@ -140,7 +144,7 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
 
         void onCampaignClicked(Campaign campaign);
 
-        void onDeleteClicked(Campaign campaign);
+        void onDeleteClicked(Campaign campaign, int position);
 
     }
 }

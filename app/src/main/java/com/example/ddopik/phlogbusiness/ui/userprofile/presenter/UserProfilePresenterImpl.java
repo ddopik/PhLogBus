@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.ui.userprofile.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.userprofile.model.UserProfileData;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivityView;
@@ -31,17 +32,17 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userProfileResponse -> {
 
-                    UserProfileData userProfileData = userProfileResponse.data;
-                    userProfileActivityView.viewUserProfileUserName(userProfileData.getUserName());
-                    userProfileActivityView.viewUserProfileFullName(userProfileData.getFullName());
-                    userProfileActivityView.viewUserProfileRating(userProfileData.getRate());
-                    userProfileActivityView.viewUserProfileLevel(userProfileData.getLevel());
-                    userProfileActivityView.viewUserProfileProfileImg(userProfileData.getImageProfile());
-//                        userProfileActivityView.setUserCoverImg(userProfileData.) // TODO: where's the user cover image??
-                    userProfileActivityView.viewUserProfileFollowersCount("" + userProfileData.getFollowersCount());
-                    userProfileActivityView.viewUserProfileFollowingCount("" + userProfileData.getFollowingsCount());
-                    userProfileActivityView.viewUserProfilePhotosCount("" + userProfileData.getPhotosCount());
-                    userProfileActivityView.setIsFollowing(userProfileResponse.data.isFollow());
+                    Photographer userProfileData = userProfileResponse.data;
+                    userProfileActivityView.viewUserProfileUserName(userProfileData.userName);
+                    userProfileActivityView.viewUserProfileFullName(userProfileData.fullName);
+                    userProfileActivityView.viewUserProfileRating(userProfileData.rate);
+                    userProfileActivityView.viewUserProfileLevel(userProfileData.level);
+                    userProfileActivityView.viewUserProfileProfileImg(userProfileData.imageProfile);
+                        userProfileActivityView.setUserCoverImg(userProfileData.imageCover); // TODO: where's the user cover image??
+                    userProfileActivityView.viewUserProfileFollowersCount("" + userProfileData.followersCount);
+                    userProfileActivityView.viewUserProfileFollowingCount("" + userProfileData.followingCount);
+                    userProfileActivityView.viewUserProfilePhotosCount("" + userProfileData.photosCount);
+                    userProfileActivityView.setIsFollowing(userProfileData.isFollow);
 
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);

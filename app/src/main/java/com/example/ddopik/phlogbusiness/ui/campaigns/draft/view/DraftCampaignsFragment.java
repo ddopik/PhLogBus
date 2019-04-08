@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,9 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaig
 import com.example.ddopik.phlogbusiness.ui.campaigns.draft.presenter.DraftCampaignsPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.presenter.CampaignsPresenterImpl;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,8 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
     private PagingController pagingController;
     private String nextPageUrl="1";
     private boolean isLoading;
+
+    public static final String TAG = DraftCampaignsFragment.class.getSimpleName();
 
     public static DraftCampaignsFragment getInstance() {
         DraftCampaignsFragment draftCampaignsFragment = new DraftCampaignsFragment();
@@ -118,8 +124,25 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
             }
 
             @Override
-            public void onDeleteClicked(Campaign campaign) {
-
+            public void onDeleteClicked(Campaign campaign, int position) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.delete_confirmation)
+                        .setPositiveButton(R.string.yes, (dialog, which) -> {
+                            dialog.dismiss();
+                            progressBar.setVisibility(View.VISIBLE);
+                            draftCampaignsPresenter.deleteCampaign(campaign)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .doFinally(() -> progressBar.setVisibility(View.INVISIBLE))
+                                    .subscribe(success -> {
+                                        if (success) {
+                                            draftCampaignList.remove(campaign);
+                                            draftCampaignsAdapter.notifyItemRemoved(position);
+                                        }
+                                    }, throwable -> {
+                                        CustomErrorUtil.Companion.setError(getContext(), TAG, throwable);
+                                    });
+                        }).setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss()).show();
             }
         };
 

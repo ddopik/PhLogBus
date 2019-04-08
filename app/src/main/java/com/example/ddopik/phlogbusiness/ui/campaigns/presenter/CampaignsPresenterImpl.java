@@ -3,8 +3,8 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 
+import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.campaigns.completed.view.CompleteCampaignsFragmentView;
@@ -16,6 +16,7 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.running.view.RunningCampaig
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -114,4 +115,9 @@ public class CampaignsPresenterImpl implements DraftCampaignsPresenter,CompleteC
     }
 
 
+    @Override
+    public Observable<Boolean> deleteCampaign(Campaign campaign) {
+        return BaseNetworkApi.deleteCampaign(campaign.id)
+                .map(response -> response != null);
+    }
 }

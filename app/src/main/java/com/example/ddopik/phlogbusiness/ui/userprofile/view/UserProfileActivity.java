@@ -242,6 +242,14 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     }
 
     @Override
+    public void setUserCoverImg(String imageCover) {
+        GlideApp.with(this)
+                .load(imageCover)
+                .placeholder(R.drawable.default_user_profile)
+                .into(userCoverImg);
+    }
+
+    @Override
     public void viewUserProfileFullName(String fullName) {
         userProfileFullName.setText(fullName);
         userProfileToolbarTitle.setText(fullName);
