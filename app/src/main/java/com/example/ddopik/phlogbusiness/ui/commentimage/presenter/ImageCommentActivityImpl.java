@@ -3,13 +3,17 @@ package com.example.ddopik.phlogbusiness.ui.commentimage.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
+import com.androidnetworking.error.ANError;
+import com.example.ddopik.phlogbusiness.base.commonmodel.BaseErrorResponse;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
+import com.example.ddopik.phlogbusiness.base.commonmodel.ErrorMessageResponse;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ReportModel;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ReportReason;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivityView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
+import com.google.gson.Gson;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -145,6 +149,7 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
 
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void getReportReasons(Consumer<List<ReportReason>> consumer) {
         imageCommentActivityView.viewImageProgress(true);
@@ -161,6 +166,7 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                 });
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void submitReport(Consumer<Boolean> success, ReportModel model) {
         BaseNetworkApi.submitReport(model)
@@ -177,6 +183,7 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                 });
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void chooseWinner(int campaignId, BaseImage image, Consumer<Boolean> success) {
         imageCommentActivityView.viewImageProgress(true);
@@ -193,4 +200,23 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
+
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getImageDetails(int imageId) {
+
+        imageCommentActivityView.viewImageProgress(true);
+        BaseNetworkApi.getPhotoGrapherPhotoDetails(String.valueOf(imageId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(imageDetailsResponse -> {
+                    imageCommentActivityView.viewImageDetails(imageDetailsResponse.data);
+                    imageCommentActivityView.viewImageProgress(false);
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                    imageCommentActivityView.viewImageProgress(false);
+                });
+    }
+
 }

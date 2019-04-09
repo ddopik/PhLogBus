@@ -442,6 +442,15 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     }
 
     @Override
+    public void viewImageDetails(BaseImage baseImage) {
+        previewImage = baseImage;
+        initView();
+        initListener();
+        imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), nextPageUrl);
+
+    }
+
+    @Override
     public void setNextPageUrl(String page) {
         this.nextPageUrl = page;
     }

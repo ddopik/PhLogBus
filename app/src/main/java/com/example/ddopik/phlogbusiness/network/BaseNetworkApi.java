@@ -154,6 +154,7 @@ public class BaseNetworkApi {
     public static final String BASE_IMAGE_DOWNLOAD_URL = BASE_SERVER_URL + "/photo";
     private static final String UPDATE_CAMPAIGN_URL = BASE_URL + "/campaign/update";
     private static final String IMAGE_DETAILS_URL = BASE_URL + "/photo/details";
+    private static final String PHOTO_GRAPHER_PHOTO_DETAILS = BASE_URL + "/photo/details";
 
     //Path Parameters
     private static final String PAGER_QUERY_PARAMETER = "page";
@@ -815,6 +816,16 @@ public class BaseNetworkApi {
                 .build()
                 .getObjectObservable(ImageDetailsResponse.class);
     }
+    public static io.reactivex.Observable<ImageDetailsResponse> getPhotoGrapherPhotoDetails(String image_id ) {
+        return Rx2AndroidNetworking.post(PHOTO_GRAPHER_PHOTO_DETAILS)
+                .addBodyParameter("photo_id", image_id)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(ImageDetailsResponse.class);
+    }
+
+
+
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){
 //        return Rx2AndroidNetworking.get()

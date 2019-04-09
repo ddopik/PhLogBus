@@ -3,6 +3,8 @@ package com.example.ddopik.phlogbusiness.ui.album.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -87,6 +89,29 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
 
 
 
+
+        ////// initial block works by forcing then next Api for Each ScrollTop
+        // cause recycler listener won't work until mainView ported with items
+        albumRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            LinearLayoutManager mLayoutManager = (LinearLayoutManager) albumRv.getLayoutManager();
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (firstVisibleItemPosition == 0) {
+                        if (nextPageUrl != null) {
+                            albumPreviewActivityPresenter.getAlbumPreviewImages(albumID, nextPageUrl);
+                        }
+
+                    }
+                }
+            }
+        });
+
+        ////////////////
 
         pagingController = new PagingController(albumRv) {
 

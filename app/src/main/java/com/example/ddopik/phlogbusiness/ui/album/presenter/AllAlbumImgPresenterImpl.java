@@ -59,6 +59,7 @@ public class AllAlbumImgPresenterImpl implements AllAlbumImgPresenter {
     }
 
 
+
     @SuppressLint("CheckResult")
     @Override
     public void addAlbumImageToCart(BaseImage baseImage) {

@@ -26,4 +26,7 @@ public interface ImageCommentActivityView {
 
     void setNextPageUrl(String page);
 
+    void viewImageDetails(BaseImage baseImage);
+
+
 }
