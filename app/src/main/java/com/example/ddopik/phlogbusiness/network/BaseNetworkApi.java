@@ -662,13 +662,13 @@ public class BaseNetworkApi {
         builder.addMultipartParameter("last_name", model.getLastName());
         builder.addMultipartParameter("phone", model.getPhone());
         builder.addMultipartParameter("email", model.getEmail());
-         return builder
+        return builder
                 .setPriority(Priority.HIGH)
                 .build()
                 .getObjectObservable(LoginResponse.class);
     }
 
-    public static io.reactivex.Observable<String> updateProfile(String userToken,HashMap<String, String> data) {
+    public static io.reactivex.Observable<String> updateProfile(String userToken, HashMap<String, String> data) {
         Rx2ANRequest.MultiPartBuilder builder = Rx2AndroidNetworking.upload(UPDATE_PROFILE_URL).setPriority(Priority.HIGH);
 
         builder.addMultipartParameter(data);
@@ -744,12 +744,15 @@ public class BaseNetworkApi {
     }
 
     public static Observable<String> submitReport(ReportModel model) {
-        return Rx2AndroidNetworking.post(REPORT_PHOTO_URL)
+        Rx2ANRequest.PostRequestBuilder builder = Rx2AndroidNetworking.post(REPORT_PHOTO_URL)
                 .setPriority(Priority.HIGH)
                 .addBodyParameter("photo_id", String.valueOf(model.imageId))
-                .addBodyParameter("report_id", String.valueOf(model.selectedReason.getId()))
-                .addBodyParameter("details", model.extra)
-                .build()
+                .addBodyParameter("details", model.extra);
+        if (model.selectedReason == null)
+            builder.addBodyParameter("report_id", String.valueOf(-1));
+        else
+            builder.addBodyParameter("report_id", String.valueOf(model.selectedReason.getId()));
+        return builder.build()
                 .getStringObservable();
     }
 
