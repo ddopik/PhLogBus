@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.album.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -110,6 +111,33 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
     private void initListener() {
 
         allAlbumImgAdapter.onAlbumImgClicked = new AllAlbumImgAdapter.OnAlbumImgClicked() {
+
+
+            @SuppressLint("CheckResult")
+            @Override
+            public void onAlbumImgAddToCartClick(BaseImage albumImg, int position) {
+                if (albumImg == null || albumImg.isCart == null)
+                    return;
+                if (!albumImg.isCart) {
+                    albumImgProgress.setVisibility(View.VISIBLE);
+                    allAlbumImgPresenter.addImageToCart(albumImg)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doFinally(() -> albumImgProgress.setVisibility(View.GONE))
+                            .subscribe(success -> {
+                                if (success) {
+                                    albumImg.isCart = true;
+                                    allAlbumImgAdapter.notifyItemChanged(position);
+                                }
+                            });
+                } else {
+                    Intent intent = new Intent(AllAlbumImgActivity.this, CartActivity.class);
+                    startActivity(intent);
+                }
+
+            }
+
+
             @Override
             public void onAlbumImgClick(BaseImage albumImg) {
 
@@ -142,38 +170,7 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
                 startActivity(intent);
             }
 
-            @Override
-            public void onAlbumImgAddToCartClick(BaseImage albumImg) {
 
-                if (albumImg.isCart) {
-                    Intent intent = new Intent(getBaseContext(), CartActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(intent);
-                } else {
-                    allAlbumImgPresenter.addAlbumImageToCart(albumImg);
-                }
-
-            public void onAlbumImgAddToCartClick(BaseImage albumImg, int position) {
-                if (albumImg == null || albumImg.isCart == null)
-                    return;
-                if (!albumImg.isCart) {
-                    albumImgProgress.setVisibility(View.VISIBLE);
-                    allAlbumImgPresenter.addImageToCart(albumImg)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .doFinally(() -> albumImgProgress.setVisibility(View.GONE))
-                            .subscribe(success -> {
-                                if (success) {
-                                    albumImg.isCart = true;
-                                    allAlbumImgAdapter.notifyItemChanged(position);
-                                }
-                            });
-                } else {
-                    Intent intent = new Intent(AllAlbumImgActivity.this, CartActivity.class);
-                    startActivity(intent);
-                }
-
-            }
 
             @Override
             public void onAlbumImgLightBoxClick(BaseImage albumImg) {
@@ -193,8 +190,9 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
                     }
 
                 };
-                addToLightBoxDialogFragment.show(getSupportFragmentManager(), AllAlbumImgActivity.class.getSimpleName());
 
+
+                addToLightBoxDialogFragment.show(getSupportFragmentManager(), AllAlbumImgActivity.class.getSimpleName());
 
             }
 

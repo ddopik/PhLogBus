@@ -88,11 +88,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         } else {
             albumImgViewHolder.followPhotoGrapherBtn.setText(context.getResources().getString(R.string.follow));
         }
-        if (albumImgList.get(i).isCart) {
-            albumImgViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.view_in_cart));
-        } else {
-            albumImgViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.add_to_cart));
-        }
+
 
 
         if (albumImgList.get(i).isCart != null) {
