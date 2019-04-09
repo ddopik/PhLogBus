@@ -316,5 +316,6 @@
     <string name="old_password_required">Old password is required</string>
     <string name="select_option">Select an option</string>
     <string name="cover">Cover</string>
+    <string name="no_light_box_added_yet">No studio added yet</string>
 
 </resources>

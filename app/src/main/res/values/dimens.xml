@@ -150,6 +150,8 @@
     <dimen name="dp120">120dp</dimen>
     <dimen name="add_light_box_btn_w">120dp</dimen>
     <dimen name="add_light_box_btn_h">35dp</dimen>
+    <dimen name="lightBox_recycle_place_holder_height">300dp</dimen>
+
 
 
     <!--//////////////////////BrandInner/////////////////////////////////-->

@@ -12,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Tag;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 
@@ -77,7 +78,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
             albumImgViewHolder.albumImgLikeVal.setText(new StringBuilder().append(albumImgList.get(i).likesCount).append(" Likes").toString());
         if (albumImgList.get(i).commentsCount != null)
             albumImgViewHolder.albumImgCommentVal.setText(new StringBuilder().append(albumImgList.get(i).commentsCount).append(" Comments").toString());
-        if (albumImgList.get(i).isLiked !=null && !albumImgList.get(i).isLiked) {
+        if (albumImgList.get(i).isLiked != null && !albumImgList.get(i).isLiked) {
             albumImgViewHolder.albumImgLike.setImageResource(R.drawable.ic_like_off_gray);
         } else {
             albumImgViewHolder.albumImgLike.setImageResource(R.drawable.ic_like_on);
@@ -87,14 +88,10 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         } else {
             albumImgViewHolder.followPhotoGrapherBtn.setText(context.getResources().getString(R.string.follow));
         }
-
-
-        if (onAlbumImgClicked != null) {
-            albumImgViewHolder.albumImgAddToCartBtn.setOnClickListener(v -> {
-                onAlbumImgClicked.onAlbumImgAddToCartClick(albumImgList.get(i));
-            });
-
-
+        if (albumImgList.get(i).isCart) {
+            albumImgViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.view_in_cart));
+        } else {
+            albumImgViewHolder.albumImgAddToCartVal.setText(context.getString(R.string.add_to_cart));
         }
 
 
@@ -110,7 +107,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
             albumImgViewHolder.followPhotoGrapherBtn.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgFollowClick(albumImgList.get(i)));
         }
 
-        albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.INVISIBLE);
+
         albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.INVISIBLE);
         albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.INVISIBLE);
         albumImgViewHolder.albumImgAddToLightBox.setVisibility(View.INVISIBLE);
@@ -137,12 +134,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
             case USER_PROFILE_PHOTOS_LIST: {
                 albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
                 albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.INVISIBLE);
-                 if (albumImgList.get(i).isSaved) {
-                    albumImgViewHolder.albumImgAddToLightBox.setVisibility(View.INVISIBLE);
-                } else {
-                    albumImgViewHolder.albumImgAddToLightBox.setVisibility(View.VISIBLE);
-                }
-
+                albumImgViewHolder.albumImgAddToLightBox.setVisibility(View.VISIBLE);
                 break;
             }
 //            currently not available
@@ -170,7 +162,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 
         LinearLayout albumImgHeader;
         ImageView albumIcon, albumImg;
-        TextView albumName, albumAuthor, imageCommentTagVal, albumImgLikeVal, albumImgCommentVal;
+        CustomTextView albumName, albumAuthor, imageCommentTagVal, albumImgLikeVal, albumImgCommentVal, albumImgAddToCartVal;
         ImageButton albumImgLike, albumImgComment, albumImgAddToLightBox;
         Button followPhotoGrapherBtn;
         FrameLayout albumImgAddToCartBtn;
@@ -190,6 +182,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
             albumImgAddToCartBtn = view.findViewById(R.id.album_img_add_to_cart);
             albumImgAddToLightBox = view.findViewById(R.id.add_album_img_to_light_box_btn);
             followPhotoGrapherBtn = view.findViewById(R.id.follow_photographer);
+            albumImgAddToCartVal = view.findViewById(R.id.album_img_add_to_cart_val);
         }
     }
 

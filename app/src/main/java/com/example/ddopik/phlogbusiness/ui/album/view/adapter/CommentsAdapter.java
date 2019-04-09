@@ -197,9 +197,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentAdapterAction.onAddToLightBox(previewImage);
             });
 
-            if (previewImage.isSaved)
-                commentViewHolder.addToLightBox.setVisibility(View.GONE);
-            else commentViewHolder.addToLightBox.setVisibility(View.VISIBLE);
+
 
             commentViewHolder.photoRating.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
                 commentAdapterAction.onImageRateClick(previewImage, rating);

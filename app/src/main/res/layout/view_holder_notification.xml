@@ -59,16 +59,16 @@
         style="@style/Divider"
         android:layout_gravity="bottom" />
 
-    <include
-        android:id="@+id/notification_separator_view"
-        layout="@layout/notification_separator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/widgets_padding"
-        android:visibility="gone"
+    <!--<include-->
+        <!--android:id="@+id/notification_separator_view"-->
+        <!--layout="@layout/notification_separator"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_margin="@dimen/widgets_padding"-->
+        <!--android:visibility="gone"-->
 
 
-        />
+        <!--/>-->
 
 </FrameLayout>

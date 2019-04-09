@@ -17,9 +17,11 @@ import com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.AddNewLightBoxDialogFragment;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.presenter.AddNewLightBoxDialogPresenter;
 import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.presenter.AddNewLightBoxDialogPresenterImpl;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AddToLightBoxDialogFragment extends DialogFragment implements AddToLightBoxDialogFragmentView {
 
@@ -79,7 +81,10 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
             dismiss();
         });
 
+        //onAddToLightBoxItemClicked
         addToLightBoxAdapter.onAddToLightBoxClicked = (adapterLightBox, position) -> {
+
+
 
             if (!lightBoxList.get(position).isChecked) {
                 lightBoxList.get(position).isChecked = true;
@@ -97,6 +102,7 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
 
 
         addToLightBoxBtn.setOnClickListener(v -> {
+
 
 
             /**
@@ -134,6 +140,9 @@ public class AddToLightBoxDialogFragment extends DialogFragment implements AddTo
         this.lightBoxList.clear();
         this.lightBoxList.addAll(lightBoxList);
         addToLightBoxAdapter.notifyDataSetChanged();
+
+
+
 
     }
 

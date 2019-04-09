@@ -187,15 +187,18 @@
 
 
             </LinearLayout>
+
             <ImageButton
-                    android:id="@+id/add_album_img_to_light_box_btn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="@dimen/dp16"
-                    android:background="@drawable/ic_add_img_lightbox_white"
-                    android:visibility="gone"
-                    tools:visibility="visible"/>
+                android:id="@+id/add_album_img_to_light_box_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/dp16"
+                android:layout_marginEnd="@dimen/dp16"
+                android:layout_marginBottom="@dimen/dp16"
+                android:background="@drawable/ic_add_img_lightbox_white"
+                android:visibility="gone"
+                tools:visibility="visible" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </RelativeLayout>

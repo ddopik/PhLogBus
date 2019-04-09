@@ -201,11 +201,8 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             @Override
             public void onImageRateClick(BaseImage baseImage, float rating) {
 
-                if (previewImage.isRated != null || !previewImage.isRated) {
-                    imageCommentActivityPresenter.rateImage(baseImage, rating);
-                } else {
-                    showToast(getResources().getString(R.string.image_already_rated));
-                }
+                imageCommentActivityPresenter.rateImage(baseImage, rating);
+
 
             }
 
@@ -349,12 +346,14 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     public void onImageCommented(SubmitImageCommentData commentData) {
         // (1) is A default value to view AddComment layout in case there is now Comments
         this.commentList.add(commentList.size() - 1, commentData.comment);
+        this.previewImage.commentsCount ++;
 
         reSortMentionList(commentData.mentions).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mentions -> {
                     this.mentions.business.addAll(mentions.business);
                     this.mentions.photographers.addAll(mentions.photographers);
+
                     commentsAdapter.notifyDataSetChanged();
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(this, TAG, throwable);

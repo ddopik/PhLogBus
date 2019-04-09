@@ -15,6 +15,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgPresenter;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AllAlbumImgAdapter;
+import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
@@ -142,7 +143,14 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
             @Override
             public void onAlbumImgAddToCartClick(BaseImage albumImg) {
 
-                allAlbumImgPresenter.addAlbumImageToCart(albumImg);
+                if (albumImg.isCart) {
+                    Intent intent = new Intent(getBaseContext(), CartActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                } else {
+                    allAlbumImgPresenter.addAlbumImageToCart(albumImg);
+                }
+
 
             }
 
@@ -150,22 +158,21 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
             public void onAlbumImgLightBoxClick(BaseImage albumImg) {
 
 
-                    AddToLightBoxDialogFragment addToLightBoxDialogFragment = AddToLightBoxDialogFragment.getInstance(albumImg);
-                    ///change "lightBox icon state" after image get Added
-                    addToLightBoxDialogFragment.onLighBoxImageComplete = state -> {
+                AddToLightBoxDialogFragment addToLightBoxDialogFragment = AddToLightBoxDialogFragment.getInstance(albumImg);
+                ///change "lightBox icon state" after image get Added
+                addToLightBoxDialogFragment.onLighBoxImageComplete = state -> {
 
-                        for (BaseImage mBaseImage : albumImgList) {
+                    for (BaseImage mBaseImage : albumImgList) {
 
-                            if (mBaseImage.id == albumImg.id) {
-                                mBaseImage.isSaved = state;
-                                allAlbumImgAdapter.notifyDataSetChanged();
-                                break;
-                            }
+                        if (mBaseImage.id == albumImg.id) {
+                            mBaseImage.isSaved = state;
+                            allAlbumImgAdapter.notifyDataSetChanged();
+                            break;
                         }
+                    }
 
-                    };
-                    addToLightBoxDialogFragment.show(getSupportFragmentManager(), AllAlbumImgActivity.class.getSimpleName());
-
+                };
+                addToLightBoxDialogFragment.show(getSupportFragmentManager(), AllAlbumImgActivity.class.getSimpleName());
 
 
             }

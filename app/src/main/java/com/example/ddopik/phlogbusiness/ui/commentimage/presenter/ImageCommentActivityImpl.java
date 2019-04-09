@@ -123,7 +123,6 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                             imageCommentActivityView.viewImageProgress(false);
                         }
                         , throwable -> {
-
                             imageCommentActivityView.viewImageProgress(false);
                             CustomErrorUtil.Companion.setError(context, TAG, throwable);
                         });

@@ -314,6 +314,8 @@ public class Utilities {
         }
     }
 
+
+
     private String getStringBetweenTwoChars(String input, String startChar, String endChar) {
         try {
             int start = input.indexOf(startChar);

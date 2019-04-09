@@ -57,6 +57,7 @@
                 android:background="@color/text_input_color"
                 android:fontFamily="@font/segoe_sb"
                 android:text="@string/add_new_light_box"
+                android:textAllCaps="false"
                 android:textColor="@color/white" />
 
             <Button
@@ -67,6 +68,7 @@
                 android:background="@color/white"
                 android:fontFamily="@font/segoe_sb"
                 android:text="@string/cancel"
+                android:textAllCaps="false"
                 android:textColor="@color/text_input_color" />
 
         </LinearLayout>

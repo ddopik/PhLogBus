@@ -28,7 +28,7 @@ public class NotificationFragment extends BaseFragment implements NotificationFr
     private CustomRecyclerView notificationRv;
     private NotificationPresenter notificationPresenter;
     private List<NotificationList> notificationItemList = new ArrayList<>();
-    private NotifiationAdapter notifiationAdapter;
+    private NotificationAdapter notificationAdapter;
     private PagingController pagingController;
     private String nextPageUrl = "1";
     private boolean isLoading;
@@ -67,10 +67,10 @@ public class NotificationFragment extends BaseFragment implements NotificationFr
         notificationProgress = mainView.findViewById(R.id.notification_progress);
         NotificationList notificationList = new NotificationList();
         notificationList.message = getContext().getResources().getString(R.string.earlier);
-        notificationList.entityId = NotifiationAdapter.itemType_NOTIFICATION_HEAD;
-        notificationItemList.add(notificationList);
-        notifiationAdapter = new NotifiationAdapter(notificationItemList);
-        notificationRv.setAdapter(notifiationAdapter);
+//        notificationList.entityId = NotificationAdapter.itemType_NOTIFICATION_HEAD;
+//        notificationItemList.add(notificationList);
+        notificationAdapter = new NotificationAdapter(notificationItemList);
+        notificationRv.setAdapter(notificationAdapter);
 
     }
 
@@ -109,7 +109,7 @@ public class NotificationFragment extends BaseFragment implements NotificationFr
     @Override
     public void viewNotificationList(NotificationData notificationData) {
         notificationItemList.addAll(notificationData.notificationList);
-        notifiationAdapter.notifyDataSetChanged();
+        notificationAdapter.notifyDataSetChanged();
     }
 
     @Override
