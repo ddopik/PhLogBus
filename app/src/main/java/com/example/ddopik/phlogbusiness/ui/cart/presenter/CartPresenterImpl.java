@@ -55,7 +55,7 @@ public class CartPresenterImpl implements CartPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if (response != null && response.getMsg().equals(SAVED))
+                    if (response != null)
                         booleanConsumer.accept(true);
                     else
                         booleanConsumer.accept(false);
