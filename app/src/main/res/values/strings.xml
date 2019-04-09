@@ -321,5 +321,9 @@
     <string name="draft">Draft</string>
     <string name="pending_approval">Pending approval</string>
     <string name="choose_reason_write_reason">Choose a reason or write your own reason</string>
+    <string name="campaign_not_available">Ops. This campaign is no longer available</string>
+    <string name="brand_not_available">Ops. This brand is no longer available</string>
+    <string name="photographer_not_available">Ops. This photographer is no longer available</string>
+    <string name="photo_not_available">Ops. This photo is no longer available</string>
 
 </resources>
