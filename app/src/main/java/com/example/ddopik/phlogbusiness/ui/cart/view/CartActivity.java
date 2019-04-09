@@ -32,15 +32,15 @@ public class CartActivity extends BaseActivity implements CartView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        initPresenter();
         initView();
-
         initListeners();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        initPresenter();
+        reloadCart();
     }
 
     @Override
@@ -71,7 +71,9 @@ public class CartActivity extends BaseActivity implements CartView {
     @Override
     public void initPresenter() {
         presenter = new CartPresenterImpl();
+    }
 
+    private void reloadCart() {
 
         presenter.loadCartItems(objects -> {
             if (objects == null || objects.isEmpty()) {

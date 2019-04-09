@@ -62,18 +62,25 @@ public class ReportImageFragment extends BaseDialogFragment {
     @Override
     protected void setListeners() {
         adapter.setOnReasonClickListener(reason -> {
-            for (ReportReason r : reasons)
-                r.selected = false;
-            reason.selected = true;
-            adapter.notifyDataSetChanged();
-            model.selectedReason = reason;
+            if (reason.selected) {
+                reason.selected = false;
+                adapter.notifyItemChanged(reasons.indexOf(reason));
+                model.selectedReason = null;
+            } else {
+                for (ReportReason r : reasons)
+                    r.selected = false;
+                reason.selected = true;
+                adapter.notifyDataSetChanged();
+                model.selectedReason = reason;
+            }
         });
         submit.setOnClickListener(v -> {
             if (onSubmitClickListener != null) {
-                loading.setVisibility(View.VISIBLE);
-                if (model.selectedReason == null) {
-                    Toast.makeText(getContext(), R.string.choose_reason, Toast.LENGTH_SHORT).show();
+                if (model.selectedReason == null && extra.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), R.string.choose_reason_write_reason, Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                loading.setVisibility(View.VISIBLE);
                 model.extra = extra.getText().toString();
                 onSubmitClickListener.onSubmitClick(this, model, success -> {
                     if (success) dismiss();

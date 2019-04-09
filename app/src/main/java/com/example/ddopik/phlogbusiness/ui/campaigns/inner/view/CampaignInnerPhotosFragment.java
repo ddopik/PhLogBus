@@ -75,7 +75,7 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
         groupAdapter.setType(GroupAdapter.Type.GRID);
         groupAdapter.setPhotoAction(action);
         campaignInnerRv.setAdapter(groupAdapter);
-        campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, null);
+        campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, "1");
     }
 
     @Override
@@ -114,15 +114,15 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
 
             @Override
             protected void loadMoreItems() {
-//                campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, nextPageUrl);
+                campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, nextPageUrl);
             }
 
             @Override
             public boolean isLastPage() {
 
-                if (nextPageUrl ==null){
-                    return  true;
-                }else {
+                if (nextPageUrl == null) {
+                    return true;
+                } else {
                     return false;
                 }
 
@@ -159,15 +159,33 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
 
     @Override
     public void addPhotos(List<DataItem> data) {
-        photoGrapherPhotoList.addAll(data);
-        groupAdapter.notifyDataSetChanged();
+        if (!data.isEmpty()) {
+            if (!photoGrapherPhotoList.isEmpty()) {
+                int insertPosition = photoGrapherPhotoList.size() - 1;
+                DataItem firstInNew = data.remove(0);
+                DataItem lastInOld = photoGrapherPhotoList.get(photoGrapherPhotoList.size() - 1);
+                if (lastInOld != null) {
+                    if (lastInOld.getHummanDate().equals(firstInNew.getHummanDate())) {
+                        lastInOld.getPhotos().addAll(firstInNew.getPhotos());
+                        photoGrapherPhotoList.addAll(data);
+                    } else {
+                        data.add(0, firstInNew);
+                        photoGrapherPhotoList.addAll(data);
+                    }
+                    groupAdapter.notifyItemInserted(insertPosition);
+                }
+            } else {
+                photoGrapherPhotoList.addAll(data);
+                groupAdapter.notifyDataSetChanged();
+            }
+        }
 
     }
 
 
     @Override
     public void viewCampaignInnerPhotosProgress(boolean state) {
-        isLoading=state;
+        isLoading = state;
 
         if (state) {
             campaignInnerProgressBar.setVisibility(View.VISIBLE);
@@ -187,8 +205,9 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     };
+
     @Override
     public void setNextPageUrl(String page) {
-        this.nextPageUrl=page;
+        this.nextPageUrl = page;
     }
 }

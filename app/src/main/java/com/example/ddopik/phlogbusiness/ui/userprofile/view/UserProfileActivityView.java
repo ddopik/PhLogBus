@@ -21,4 +21,5 @@ public interface UserProfileActivityView {
     void setIsFollowing(boolean follow);
     void setNextPageUrl(String page);
 
+    void setUserCoverImg(String imageCover);
 }

@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.userprofile.model;
 
  import com.example.ddopik.phlogbusiness.base.BaseApiResponse;
+ import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
  import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,5 +11,5 @@ import com.google.gson.annotations.SerializedName;
 public class UserProfileResponse extends BaseApiResponse {
     @SerializedName("data")
     @Expose
-    public UserProfileData data;
+    public Photographer data;
 }

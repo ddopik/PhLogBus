@@ -20,6 +20,8 @@ import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivit
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,6 +153,25 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
                     allAlbumImgPresenter.addAlbumImageToCart(albumImg);
                 }
 
+            public void onAlbumImgAddToCartClick(BaseImage albumImg, int position) {
+                if (albumImg == null || albumImg.isCart == null)
+                    return;
+                if (!albumImg.isCart) {
+                    albumImgProgress.setVisibility(View.VISIBLE);
+                    allAlbumImgPresenter.addImageToCart(albumImg)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doFinally(() -> albumImgProgress.setVisibility(View.GONE))
+                            .subscribe(success -> {
+                                if (success) {
+                                    albumImg.isCart = true;
+                                    allAlbumImgAdapter.notifyItemChanged(position);
+                                }
+                            });
+                } else {
+                    Intent intent = new Intent(AllAlbumImgActivity.this, CartActivity.class);
+                    startActivity(intent);
+                }
 
             }
 

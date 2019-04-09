@@ -56,9 +56,10 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case LIST:
                 ListViewHolder holder = (ListViewHolder) viewHolder;
                 holder.byWhow.setText(image.photographer.fullName);
-                holder.exclusiveIcon.setVisibility(Math.random() * 10 > 5 ? View.VISIBLE : View.GONE);
                 holder.likes.setText("" + image.likesCount);
-                holder.price.setText(context.getString(R.string.price_value, Math.random() * 100));
+                holder.exclusiveIcon.setVisibility(image.exclusive ? View.VISIBLE : View.GONE);
+                float price = image.exclusive ? image.priceExclusive : image.price;
+                holder.price.setText(context.getString(R.string.price_value, price));
                 Glide.with(context)
                         .load(image.url)
                         .into(holder.image);
@@ -73,7 +74,7 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case GRID:
                 GridViewHolder _holder = (GridViewHolder) viewHolder;
-                _holder.exclusiveIcon.setVisibility(Math.random() * 10 > 5 ? View.VISIBLE : View.GONE);
+                _holder.exclusiveIcon.setVisibility(image.exclusive ? View.VISIBLE : View.GONE);
                 Glide.with(context)
                         .load(image.url)
                         .into(_holder.image);

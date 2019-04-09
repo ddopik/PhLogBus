@@ -124,6 +124,10 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
 
     private void setListeners() {
         actionButton.setOnClickListener(v -> {
+            if (model.email == null && business.email != null)
+                model.email = business.email;
+            if (model.industryId == null && business.industry != null)
+                model.industryId = business.industry.id;
             SetupBrandPresenter.ValidationResult result = presenter.shouldProceed(currentStep, model);
             switch (currentStep) {
                 case 1:

@@ -49,7 +49,8 @@
                         android:layout_marginStart="@dimen/dp45"
                         android:max="100"
                         android:progress="45"
-                        android:progressDrawable="@drawable/progress_horizontal_custom" />
+                        android:progressDrawable="@drawable/progress_horizontal_custom"
+                        android:visibility="invisible" />
 
                 </LinearLayout>
 
@@ -98,7 +99,7 @@
                             android:singleLine="true"
                             android:textAlignment="textStart"
                             android:textColor="@color/black677078"
-                            android:textSize="@dimen/sign_up_text_size"
+                            android:textSize="@dimen/font_normal"
                             android:textStyle="bold"/>
                     </android.support.design.widget.TextInputLayout>
 
@@ -116,12 +117,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/verdana"
-                            android:hint="@string/last_name"
                             android:inputType="textPersonName"
                             android:singleLine="true"
                             android:textAlignment="textStart"
                             android:textColor="@color/black677078"
-                            android:textSize="@dimen/sign_up_text_size"
+                            android:textSize="@dimen/font_normal"
                             android:textStyle="bold" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -162,11 +162,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
-                        android:hint="@string/email"
                         android:fontFamily="@font/verdana"
                         android:textAlignment="textStart"
                         android:textColor="@color/black677078"
-                        android:textSize="@dimen/sign_up_text_size"
+                        android:textSize="@dimen/font_normal"
                         android:textStyle="bold" />
                 </android.support.design.widget.TextInputLayout>
                 <!--android.support.design:hintAnimationEnabled="true"-->
@@ -189,7 +188,7 @@
                         android:inputType="textPassword"
                         android:textAlignment="textStart"
                         android:textColor="@color/black677078"
-                        android:textSize="@dimen/sign_up_text_size"
+                        android:textSize="@dimen/font_normal"
                         android:hint="@string/password"
                         android:textStyle="bold" />
                 </android.support.design.widget.TextInputLayout>
@@ -209,10 +208,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/verdana"
                         android:inputType="phone"
-                        android:hint="@string/mobile"
                         android:textAlignment="textStart"
                         android:textColor="@color/black677078"
-                        android:textSize="@dimen/sign_up_text_size"
+                        android:textSize="@dimen/font_normal"
                         android:textStyle="bold" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -233,9 +231,8 @@
                         android:fontFamily="@font/verdana"
                         android:inputType="textAutoComplete"
                         android:textAlignment="textStart"
-                        android:hint="@string/industry"
                         android:textColor="@color/black677078"
-                        android:textSize="@dimen/sign_up_text_size"
+                        android:textSize="@dimen/font_normal"
                         android:textStyle="bold" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -257,6 +254,7 @@
                         android:fontFamily="@font/segoe_sb"
                         android:background="@drawable/rounded_cancel_btn"
                         android:text="@string/cancel"
+                        android:textAllCaps="false"
                         android:textColor="@color/gray96A0AA"
                         android:textSize="@dimen/sign_up_text_size_meduim" />
 
@@ -265,6 +263,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/sign_up_btn_size_h"
                         android:layout_margin="@dimen/dp8"
+                        android:textAllCaps="false"
                         android:fontFamily="@font/segoe_sb"
                         android:layout_weight="1"
                         android:background="@drawable/rounded_sign_up_btn"
@@ -284,7 +283,7 @@
                     android:paddingBottom="@dimen/dp12"
                     android:text="@string/sign_up_terms_notifier"
                     android:textAlignment="textStart"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/gray400" />
 
 
             </LinearLayout>
@@ -292,5 +291,12 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/sign_up_loading"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

@@ -139,20 +139,28 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
         if (campaignStartDate.getText().length() == 0) {
             campaignStartDateInput.setError(getResources().getString(R.string.please_select_start_date));
             inputState = false;
+        } else if (!isStartDateValid(campaignStartDate.getText().toString())) {
+            campaignStartDateInput.setError(getString(R.string.start_date_cant_be_past));
+            inputState = false;
         } else {
-            campaignStartDateInput.setErrorEnabled(false);
+//            campaignStartDateInput.setErrorEnabled(false);
+            campaignStartDateInput.setError(null);
         }
         if (campaignEndDate.getText().length() == 0) {
             campaignEndDateInput.setError(getResources().getString(R.string.please_select_end_date));
             inputState = false;
         } else {
-            campaignEndDateInput.setErrorEnabled(false);
+//            campaignEndDateInput.setErrorEnabled(false);
+            campaignEndDateInput.setError(null);
         }
         if (numberOfWinneres.getText().length() == 0) {
             numberOfWinneresInput.setError(getResources().getString(R.string.winners_number_required));
             inputState = false;
+        } else if (Integer.valueOf(numberOfWinneres.getText().toString()) == 0) {
+            numberOfWinneresInput.setError(getResources().getString(R.string.winners_cant_be_zero));
         } else {
-            numberOfWinneresInput.setErrorEnabled(false);
+//            numberOfWinneresInput.setErrorEnabled(false);
+            numberOfWinneresInput.setError(null);
         }
 
         if (!datesAreValid(campaignStartDate.getText().toString(), campaignEndDate.getText().toString())) {
@@ -161,6 +169,25 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
         }
 
         return inputState;
+    }
+
+    private boolean isStartDateValid(String dateString) {
+        try {
+            Calendar nowCalendar = Calendar.getInstance();
+            nowCalendar.set(Calendar.HOUR_OF_DAY, 0);
+            nowCalendar.set(Calendar.MINUTE, 0);
+            nowCalendar.set(Calendar.SECOND, 0);
+            nowCalendar.set(Calendar.MILLISECOND, 0);
+            Date startDate = getDate(dateString);
+            Calendar startDateCalendar = Calendar.getInstance();
+            startDateCalendar.setTime(startDate);
+            return startDateCalendar.compareTo(nowCalendar) >= 0;
+//            return now.get(Calendar.YEAR) <= startDateCalendar.get(Calendar.YEAR)
+//                    && (now.get(Calendar.YEAR) == startDateCalendar.get(Calendar.YEAR)? now.get(Calendar.DAY_OF_YEAR) <= startDateCalendar.get(Calendar.DAY_OF_YEAR) : true);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private boolean datesAreValid(String start, String end) {

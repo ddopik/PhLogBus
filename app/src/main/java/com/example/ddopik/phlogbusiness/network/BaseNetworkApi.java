@@ -154,6 +154,7 @@ public class BaseNetworkApi {
     public static final String BASE_IMAGE_DOWNLOAD_URL = BASE_SERVER_URL + "/photo";
     private static final String UPDATE_CAMPAIGN_URL = BASE_URL + "/campaign/update";
     private static final String IMAGE_DETAILS_URL = BASE_URL + "/photo/details";
+    private static final String DELETE_CAMPAIGN_URL = BASE_URL + "/campaign/cancel";
     private static final String PHOTO_GRAPHER_PHOTO_DETAILS = BASE_URL + "/photo/details";
 
     //Path Parameters
@@ -331,10 +332,18 @@ public class BaseNetworkApi {
                 .getObjectObservable(CampaignResponse.class);
     }
 
-    public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(String page) {
+    public static io.reactivex.Observable<CampaignResponse> getAllRunningCampaign(String page, String token) {
         return Rx2AndroidNetworking.post(ALL_RUNNING_CAMPAIGN_URL)
                 .addQueryParameter(PAGER_QUERY_PARAMETER, page)
                 .setPriority(Priority.HIGH)
+                .addHeaders("x-auth-token", token)
+                .addHeaders("x-user-type", DEFAULT_USER_TYPE)
+                .addHeaders("x-lang-code", "en-us")
+                .setOkHttpClient(new OkHttpClient.Builder()
+//                        .connectTimeout(5, TimeUnit.MINUTES)
+                        .readTimeout(1, TimeUnit.MINUTES)
+                        .writeTimeout(1, TimeUnit.MINUTES)
+                        .build())
                 .build()
                 .getObjectObservable(CampaignResponse.class);
     }
@@ -826,6 +835,13 @@ public class BaseNetworkApi {
 
 
 
+
+    public static Observable<String> deleteCampaign(int id) {
+        return Rx2AndroidNetworking.post(DELETE_CAMPAIGN_URL)
+                .addBodyParameter("campaign_id", String.valueOf(id))
+                .setPriority(Priority.HIGH)
+                .build().getStringObservable();
+    }
 
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){
 //        return Rx2AndroidNetworking.get()

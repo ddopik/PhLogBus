@@ -11,5 +11,5 @@ import java.util.List;
 public class CampaignInnerPhotosResponse {
     @SerializedName("data")
     @Expose
-    public List<DataItem> data;
+    public CampaignPhotosData data;
 }

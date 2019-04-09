@@ -88,6 +88,7 @@
         android:fontFamily="@font/segoe_sb"
         android:background="@color/text_input_color"
         android:text="@string/check_out_now"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

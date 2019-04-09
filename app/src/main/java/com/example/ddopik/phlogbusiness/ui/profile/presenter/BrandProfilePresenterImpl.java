@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class BrandProfilePresenterImpl implements BrandProfilePresenter {
 
-    private static String TAG=BrandProfilePresenterImpl.class.getSimpleName();
+    private static String TAG = BrandProfilePresenterImpl.class.getSimpleName();
     private Context context;
     private BrandProfileFragmentView brandProfileFragmentView;
 
@@ -39,7 +39,7 @@ public class BrandProfilePresenterImpl implements BrandProfilePresenter {
 //                    Log.e(TAG, brandProfileResponse);
                     brandProfileFragmentView.viewBrandProfileData(brandProfileResponse.brand);
                 }, throwable -> {
-                    CustomErrorUtil.Companion.setError(context,TAG,throwable);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     brandProfileFragmentView.viewBrandProfileProgress(false);
                 });
     }
@@ -48,6 +48,7 @@ public class BrandProfilePresenterImpl implements BrandProfilePresenter {
     public void clearLoginData(Context context) {
         PrefUtils.setLoginState(context, false);
         PrefUtils.setBrandToken(context, null);
+        PrefUtils.setFirebaseTokenSentToServer(context, false);
     }
 
     @SuppressLint("CheckResult")
@@ -57,10 +58,11 @@ public class BrandProfilePresenterImpl implements BrandProfilePresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if (response != null)
+                    if (response != null) {
                         brandProfileFragmentView.logoutSuccess();
-                    else
-                        brandProfileFragmentView.viewMessage(context.getString(R.string.error_logout));
+                        clearLoginData(context);
+                    }
+
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     brandProfileFragmentView.viewMessage(context.getString(R.string.error_logout));

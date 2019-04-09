@@ -71,6 +71,7 @@ public class StepOneFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews();
+        setListeners();
         setViews();
     }
 
@@ -99,6 +100,7 @@ public class StepOneFragment extends BaseFragment {
             arabicName.setText(model.arabicBrandName);
         if (model.englishBrandName != null)
             englishName.setText(model.englishBrandName);
+        setting = false;
     }
 
     private void setViews() {
@@ -108,7 +110,6 @@ public class StepOneFragment extends BaseFragment {
         model.thumbnail = business.brandThumbnail;
         model.arabicBrandName = business.nameAr;
         model.englishBrandName = business.nameEn;
-        setting = false;
     }
 
     @Override
@@ -125,7 +126,6 @@ public class StepOneFragment extends BaseFragment {
         arabicName = mainView.findViewById(R.id.arabic_name);
         englishName = mainView.findViewById(R.id.english_name);
 
-        setListeners();
     }
 
     private void setListeners() {

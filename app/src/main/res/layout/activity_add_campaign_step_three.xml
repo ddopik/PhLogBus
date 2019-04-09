@@ -37,8 +37,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/add_campaign"
                             android:fontFamily="@font/segoe_b"
+                            android:text="@string/add_campaign"
                             android:textColor="@color/text_input_color"
                             android:textSize="@dimen/sign_up_text_size"
                             android:textStyle="bold" />
@@ -75,6 +75,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp45"
+                            android:textColorHint="@color/gray400"
                             android:theme="@style/TextLabel"
                             app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
@@ -88,8 +89,7 @@
                                 android:singleLine="true"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/black677078"
-                                android:textSize="@dimen/sign_up_text_size"
-                                android:textStyle="bold" />
+                                android:textSize="@dimen/font_normal" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -97,6 +97,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp45"
+                            android:textColorHint="@color/gray400"
                             android:theme="@style/TextLabel"
                             app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
@@ -109,12 +110,7 @@
                                 android:hint="@string/campaign_end_date"
                                 android:singleLine="true"
                                 android:textAlignment="textStart"
-                                android:textColor="@color/black677078"
-                                android:textSize="@dimen/sign_up_text_size"
-                                android:textStyle="bold"
-
-
-                                />
+                                android:textSize="@dimen/font_normal" />
                         </android.support.design.widget.TextInputLayout>
 
 
@@ -123,6 +119,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp45"
+                            android:textColorHint="@color/gray400"
                             android:theme="@style/TextLabel"
                             app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
@@ -135,12 +132,7 @@
                                 android:inputType="number"
                                 android:singleLine="true"
                                 android:textAlignment="textStart"
-                                android:textColor="@color/black677078"
-                                android:textSize="@dimen/sign_up_text_size"
-                                android:textStyle="bold"
-
-
-                                />
+                                android:textSize="@dimen/font_normal" />
                         </android.support.design.widget.TextInputLayout>
 
                     </LinearLayout>

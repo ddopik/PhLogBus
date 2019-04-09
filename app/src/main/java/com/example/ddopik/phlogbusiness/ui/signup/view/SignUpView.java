@@ -10,4 +10,5 @@ public interface SignUpView {
     void showMessage(String msg);
     void signUpSuccess();
 
+    void setLoading(boolean b);
 }

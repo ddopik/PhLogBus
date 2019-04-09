@@ -1,42 +1,42 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.inner.model;
 
+import java.util.List;
+
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class DataItem {
 
-	@SerializedName("date")
-	private String date;
+    @SerializedName("date")
+    private String date;
 
-	@SerializedName("humman_date")
-	private String hummanDate;
+    @SerializedName("humman_date")
+    private String hummanDate;
 
-	@SerializedName("photos")
-	private List<BaseImage> photos;
+    @SerializedName("photos")
+    private List<BaseImage> photos;
 
-	public void setDate(String date){
-		this.date = date;
-	}
+    public String getDate() {
+        return date;
+    }
 
-	public String getDate(){
-		return date;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	public void setHummanDate(String hummanDate){
-		this.hummanDate = hummanDate;
-	}
+    public String getHummanDate() {
+        return hummanDate;
+    }
 
-	public String getHummanDate(){
-		return hummanDate;
-	}
+    public void setHummanDate(String hummanDate) {
+        this.hummanDate = hummanDate;
+    }
 
-	public void setPhotos(List<BaseImage> photos){
-		this.photos = photos;
-	}
+    public List<BaseImage> getPhotos() {
+        return photos;
+    }
 
-	public List<BaseImage> getPhotos(){
-		return photos;
-	}
+    public void setPhotos(List<BaseImage> photos) {
+        this.photos = photos;
+    }
 }

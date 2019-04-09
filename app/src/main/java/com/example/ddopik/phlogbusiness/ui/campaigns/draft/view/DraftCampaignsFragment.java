@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,10 @@ import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.AddCampai
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.draft.presenter.DraftCampaignsPresenter;
 import com.example.ddopik.phlogbusiness.ui.campaigns.presenter.CampaignsPresenterImpl;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +42,8 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
     private String nextPageUrl="1";
     private boolean isLoading;
 
+    public static final String TAG = DraftCampaignsFragment.class.getSimpleName();
+
     public static DraftCampaignsFragment getInstance() {
         DraftCampaignsFragment draftCampaignsFragment = new DraftCampaignsFragment();
         return draftCampaignsFragment;
@@ -50,6 +57,7 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
     }
 
     private boolean loadedFirstPage;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -103,13 +111,39 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
 
 
         };
+        draftCampaignsAdapter.campaignLister = new DraftCampaignsAdapter.CampaignLister() {
+            @Override
+            public void onCampaignClicked(Campaign campaign) {
+                if (campaign.status.equals(Constants.CampaignStatus.CAMPAIGN_STATUS_DRAFT)) {
+                    Intent intent = new Intent(getContext(), AddCampaignActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    AddCampaignRequestModel model = createModel(campaign);
+                    intent.putExtra(AddCampaignActivity.CAMPAIGN_DATA, model);
+                    startActivity(intent);
+                }
+            }
 
-        draftCampaignsAdapter.campaignLister = campaign -> {
-            Intent intent =new Intent(getContext(),AddCampaignActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            AddCampaignRequestModel model = createModel(campaign);
-            intent.putExtra(AddCampaignActivity.CAMPAIGN_DATA, model);
-            startActivity(intent);
+            @Override
+            public void onDeleteClicked(Campaign campaign, int position) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.delete_confirmation)
+                        .setPositiveButton(R.string.yes, (dialog, which) -> {
+                            dialog.dismiss();
+                            progressBar.setVisibility(View.VISIBLE);
+                            draftCampaignsPresenter.deleteCampaign(campaign)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .doFinally(() -> progressBar.setVisibility(View.INVISIBLE))
+                                    .subscribe(success -> {
+                                        if (success) {
+                                            draftCampaignList.remove(campaign);
+                                            draftCampaignsAdapter.notifyItemRemoved(position);
+                                        }
+                                    }, throwable -> {
+                                        CustomErrorUtil.Companion.setError(getContext(), TAG, throwable);
+                                    });
+                        }).setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss()).show();
+            }
         };
 
     }

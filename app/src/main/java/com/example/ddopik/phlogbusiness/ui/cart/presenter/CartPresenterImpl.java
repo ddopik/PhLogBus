@@ -61,7 +61,7 @@ public class CartPresenterImpl implements CartPresenter {
                         booleanConsumer.accept(false);
                 }, throwable -> {
                     booleanConsumer.accept(false);
-                    String m = throwable.getMessage();
+                    CustomErrorUtil.Companion.setError(baseContext, TAG, throwable);
                 });
         disposables.add(disposable);
     }
