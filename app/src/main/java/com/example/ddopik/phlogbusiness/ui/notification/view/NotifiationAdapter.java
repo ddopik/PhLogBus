@@ -91,7 +91,7 @@ public class NotifiationAdapter extends RecyclerView.Adapter<NotifiationAdapter.
             notificationViewHolder.notificationContainer.setBackgroundColor(context.getResources().getColor(R.color.transparent));
 
         } else {
-            notificationViewHolder.notificationContainer.setBackgroundColor(context.getResources().getColor(R.color.text_input_color));
+            notificationViewHolder.notificationContainer.setBackgroundColor(context.getResources().getColor(R.color.gray200));
         }
 
     }

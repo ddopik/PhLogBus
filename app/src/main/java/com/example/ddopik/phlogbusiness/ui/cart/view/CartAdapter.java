@@ -46,6 +46,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
         BaseImage item = items.get(i);
         Context context = holder.itemView.getContext();
+        if (item == null)
+            return;
         holder.exclusiveCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked)
                 holder.exclusiveIcon.setVisibility(View.VISIBLE);

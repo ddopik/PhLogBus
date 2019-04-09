@@ -6,6 +6,7 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.album.view.AllAlbumImgActivityView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -28,9 +29,9 @@ public class AllAlbumImgPresenterImpl implements AllAlbumImgPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void likePhoto(BaseImage baseImage) {
+        if (baseImage.isLiked == null)
+            return;
         allAlbumImgActivityView.viewAlbumImageListProgress(true);
-
-
         if (baseImage.isLiked) {
             BaseNetworkApi.unlikeImage(String.valueOf(baseImage.id))
                     .subscribeOn(Schedulers.io())
@@ -142,5 +143,11 @@ public class AllAlbumImgPresenterImpl implements AllAlbumImgPresenter {
                     allAlbumImgActivityView.viewAlbumImageListProgress(false);
                 });
 
+    }
+
+    @Override
+    public Observable<Boolean> addImageToCart(BaseImage albumImg) {
+        return BaseNetworkApi.addImageToCart(String.valueOf(albumImg.id))
+                .map(response -> response != null);
     }
 }

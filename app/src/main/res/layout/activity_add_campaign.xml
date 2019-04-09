@@ -93,8 +93,7 @@
                     android:singleLine="true"
                     android:textAlignment="textStart"
                     android:textColor="@color/black677078"
-                    android:textSize="@dimen/sign_up_text_size"
-                    android:textStyle="bold"
+                    android:textSize="@dimen/font_normal"
                     tools:text="@string/campaign_name" />
             </android.support.design.widget.TextInputLayout>
 

@@ -15,10 +15,13 @@ import com.example.ddopik.phlogbusiness.base.widgets.dialogs.addtoLightbox.view.
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgPresenter;
 import com.example.ddopik.phlogbusiness.ui.album.presenter.AllAlbumImgPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.album.view.adapter.AllAlbumImgAdapter;
+import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +85,8 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
             for (int i = 0; i < albumImgList.size(); i++) {
                 if (albumImgList.get(i).id == selectedPosition) {
-                    Objects.requireNonNull(allAlbumImgRv.getLayoutManager()).smoothScrollToPosition(allAlbumImgRv, null, i);
+//                    Objects.requireNonNull(allAlbumImgRv.getLayoutManager()).smoothScrollToPosition(allAlbumImgRv, null, i);
+                    allAlbumImgRv.scrollToPosition(i);
                     break;
                 }
 
@@ -140,9 +144,25 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
             }
 
             @Override
-            public void onAlbumImgAddToCartClick(BaseImage albumImg) {
-
-                allAlbumImgPresenter.addAlbumImageToCart(albumImg);
+            public void onAlbumImgAddToCartClick(BaseImage albumImg, int position) {
+                if (albumImg == null || albumImg.isCart == null)
+                    return;
+                if (!albumImg.isCart) {
+                    albumImgProgress.setVisibility(View.VISIBLE);
+                    allAlbumImgPresenter.addImageToCart(albumImg)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doFinally(() -> albumImgProgress.setVisibility(View.GONE))
+                            .subscribe(success -> {
+                                if (success) {
+                                    albumImg.isCart = true;
+                                    allAlbumImgAdapter.notifyItemChanged(position);
+                                }
+                            });
+                } else {
+                    Intent intent = new Intent(AllAlbumImgActivity.this, CartActivity.class);
+                    startActivity(intent);
+                }
 
             }
 

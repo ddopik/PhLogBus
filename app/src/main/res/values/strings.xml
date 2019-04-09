@@ -140,7 +140,7 @@
     <string name="end_date">End date</string>
     <string name="choose_cover_image">Choose Cover Image</string>
     <string name="campaign_name">Campaign Name</string>
-    <string name="add_campaign">Add campaign</string>
+    <string name="add_campaign">Add Campaign</string>
     <string name="campaign_name_required">Campaign name is required</string>
     <string name="campaign_description">Campaign description</string>
     <string name="campaign_prize">Campaign prize</string>
@@ -279,7 +279,7 @@
     <string name="for_business">For Business</string>
     <string name="close">Close</string>
     <string name="report">Report</string>
-    <string name="report_extra_hint">Comments...</string>
+    <string name="report_extra_hint">Explain more</string>
     <string name="choose_reason">Choose a reason</string>
     <string name="report_failed">Failed to submit report</string>
     <string name="report_success">Report submitted</string>
@@ -320,5 +320,6 @@
     <string name="winners_cant_be_zero">Number of winners can\'t be zero</string>
     <string name="draft">Draft</string>
     <string name="pending_approval">Pending approval</string>
+    <string name="choose_reason_write_reason">Choose a reason or write your own reason</string>
 
 </resources>

@@ -38,7 +38,7 @@ public class BrandInnerDataPresenterImpl implements BrandInnerPresenter {
                     brandInnerActivityView.viewInnerBrandProgressBar(false);
                 }, throwable -> {
                     brandInnerActivityView.viewInnerBrandProgressBar(false);
-                    CustomErrorUtil.Companion.setError(context,TAG,throwable.getMessage());
+                    CustomErrorUtil.Companion.setError(context,TAG,throwable);
                 });
 
     }

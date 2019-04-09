@@ -168,7 +168,6 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
                     if (s != null) {
-                        Log.e("report response", s);
                         success.accept(true);
                     } else success.accept(false);
                 }, throwable -> {

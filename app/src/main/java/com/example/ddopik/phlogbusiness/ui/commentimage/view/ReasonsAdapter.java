@@ -38,6 +38,9 @@ public class ReasonsAdapter extends RecyclerView.Adapter<ReasonsAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
         ReportReason reason = reasons.get(i);
         Context context = holder.itemView.getContext();
+        holder.check.setOnTouchListener((v, event) -> {
+            return false;
+        });
         if (reason.getSystemName() != null)
             holder.text.setText(reason.getSystemName());
         if (reason.selected) {

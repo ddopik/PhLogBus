@@ -77,7 +77,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
             albumImgViewHolder.albumImgLikeVal.setText(new StringBuilder().append(albumImgList.get(i).likesCount).append(" Likes").toString());
         if (albumImgList.get(i).commentsCount != null)
             albumImgViewHolder.albumImgCommentVal.setText(new StringBuilder().append(albumImgList.get(i).commentsCount).append(" Comments").toString());
-        if (!albumImgList.get(i).isLiked) {
+        if (albumImgList.get(i).isLiked != null && !albumImgList.get(i).isLiked) {
             albumImgViewHolder.albumImgLike.setImageResource(R.drawable.ic_like_off_gray);
         } else {
             albumImgViewHolder.albumImgLike.setImageResource(R.drawable.ic_like_on);
@@ -88,15 +88,12 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
             albumImgViewHolder.followPhotoGrapherBtn.setText(context.getResources().getString(R.string.follow));
         }
 
-
-        if (onAlbumImgClicked != null) {
-            albumImgViewHolder.albumImgAddToCartBtn.setOnClickListener(v -> {
-                onAlbumImgClicked.onAlbumImgAddToCartClick(albumImgList.get(i));
-            });
-
-
+        if (albumImgList.get(i).isCart != null) {
+            if (albumImgList.get(i).isCart) albumImgViewHolder.albumImageCartVal.setText(R.string.view_in_cart);
+            else albumImgViewHolder.albumImageCartVal.setText(R.string.add_to_cart);
+        } else {
+            albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.INVISIBLE);
         }
-
 
         if (onAlbumImgClicked != null) {
             albumImgViewHolder.albumImg.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgClick(albumImgList.get(i)));
@@ -105,7 +102,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
             albumImgViewHolder.albumImgLikeVal.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgLikeClick(albumImgList.get(i)));
             albumImgViewHolder.albumImgCommentVal.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgCommentClick(albumImgList.get(i)));
             albumImgViewHolder.albumImgHeader.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgHeaderClick(albumImgList.get(i)));
-            albumImgViewHolder.albumImgAddToCartBtn.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgAddToCartClick((albumImgList.get(i))));
+            albumImgViewHolder.albumImgAddToCartBtn.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgAddToCartClick(albumImgList.get(i), i));
             albumImgViewHolder.albumImgAddToLightBox.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgLightBoxClick(albumImgList.get(i)));
             albumImgViewHolder.followPhotoGrapherBtn.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgFollowClick(albumImgList.get(i)));
         }
@@ -170,7 +167,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 
         LinearLayout albumImgHeader;
         ImageView albumIcon, albumImg;
-        TextView albumName, albumAuthor, imageCommentTagVal, albumImgLikeVal, albumImgCommentVal;
+        TextView albumName, albumAuthor, imageCommentTagVal, albumImgLikeVal, albumImgCommentVal, albumImageCartVal;
         ImageButton albumImgLike, albumImgComment, albumImgAddToLightBox;
         Button followPhotoGrapherBtn;
         FrameLayout albumImgAddToCartBtn;
@@ -190,6 +187,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
             albumImgAddToCartBtn = view.findViewById(R.id.album_img_add_to_cart);
             albumImgAddToLightBox = view.findViewById(R.id.add_album_img_to_light_box_btn);
             followPhotoGrapherBtn = view.findViewById(R.id.follow_photographer);
+            albumImageCartVal = view.findViewById(R.id.album_img_add_to_cart_val);
         }
     }
 
@@ -201,7 +199,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 
         void onAlbumImgCommentClick(BaseImage albumImg);
 
-        void onAlbumImgAddToCartClick(BaseImage albumImg);
+        void onAlbumImgAddToCartClick(BaseImage albumImg, int position);
 
         void onAlbumImgLightBoxClick(BaseImage albumImg);
 

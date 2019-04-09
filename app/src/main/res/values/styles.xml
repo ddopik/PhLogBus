@@ -42,11 +42,12 @@
 
     <style name="TextLabel" parent="Widget.Design.TextInputLayout">
         <!-- Hint color and label color in FALSE state -->
-        <item name="android:textColorHint">@color/gray400</item>
+        <item name="android:textColorHint">@color/colorWhite</item>
+        <item name="android:textSize">@dimen/font_normal</item>
         <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
-        <item name="colorAccent">@color/cyan93E2</item>
-        <item name="colorControlNormal">@color/gray400</item>
-        <item name="colorControlActivated">@color/cyan93E2</item>
+        <item name="colorAccent">@color/text_input_color</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/text_input_color</item>
         <!--<item name="colorControlHighlight">@color/text_input_color</item>-->
     </style>
 
