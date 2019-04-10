@@ -22,6 +22,7 @@ import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.fgm.model.FirebaseNotificationData;
 import com.example.ddopik.phlogbusiness.fgm.parse.NotificationParser;
 import com.example.ddopik.phlogbusiness.ui.accountdetails.view.AccountDetailsFragment;
+import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageRateDialogFragment;
 import com.example.ddopik.phlogbusiness.ui.customersupport.view.CustomerSupportFragment;
 import com.example.ddopik.phlogbusiness.ui.downloads.model.DownloadRequestModel;
 import com.example.ddopik.phlogbusiness.ui.downloads.view.DownloadsFragment;
@@ -69,6 +70,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         navigationManger.navigate(HOME);
 
         handleIntent(getIntent());
+
+        new ImageRateDialogFragment ().show(getSupportFragmentManager(),ImageRateDialogFragment.class.getSimpleName());
 
 //        Log.e("token", PrefUtils.getFirebaseToken(this));
     }
