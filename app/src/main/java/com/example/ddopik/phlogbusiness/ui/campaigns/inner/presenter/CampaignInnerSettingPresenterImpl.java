@@ -10,6 +10,7 @@ import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class CampaignInnerSettingPresenterImpl implements CampaignInnerSettingPresenter {
@@ -27,18 +28,16 @@ public class CampaignInnerSettingPresenterImpl implements CampaignInnerSettingPr
     }
 
     @Override
-    public void setEndDate(Context context, Integer id, String dateString) {
+    public void setEndDate(Context context, Integer id, String dateString, Consumer<Boolean> success) {
         Disposable disposable = BaseNetworkApi.changeCampaignEndDate(id, dateString)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(changeCampaignDateResponse -> {
                     if (changeCampaignDateResponse.getMsg() != null && changeCampaignDateResponse.getMsg().equals(SAVED)) {
-                        view.showMessage(R.string.campaign_extended);
-                    } else {
-                        view.showMessage(R.string.campaign_extended_fail);
+                        success.accept(true);
                     }
                 }, throwable -> {
-                    view.showMessage(R.string.campaign_extended_fail);
+                    success.accept(false);
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
         disposables.add(disposable);

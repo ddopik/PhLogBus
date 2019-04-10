@@ -21,6 +21,7 @@ import com.example.ddopik.phlogbusiness.utiltes.Constants.CampaignStatus;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -112,12 +113,25 @@ public class CampaignInnerSettingFragment extends BaseFragment implements Campai
         extendCampaign.setOnClickListener(v -> {
             PickDateDialog pickDateDialog = new PickDateDialog();
             pickDateDialog.setOnDateSet((year, month, day) -> {
-                String dateString = year + "-" + (month + 1) + "-" + day;
-                campaignEndDate.setText(dateString);
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(year, month, day);
-                String s = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(calendar.getTime());
-                presenter.setEndDate(getContext(), campaign.id, s);
+                try {
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(year, month, day);
+                    Calendar originalDate = Calendar.getInstance();
+                    originalDate.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(campaign.endDate));
+                    if (newDate.after(originalDate)) {
+                        String s = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(newDate.getTime());
+                        campaignEndDate.setText(s);
+                        presenter.setEndDate(getContext(), campaign.id, s, success -> {
+                            if (success)
+                                showMessage(R.string.campaign_extended);
+                            else campaignEndDate.setText(campaign.endDate);
+                        });
+                    } else {
+                        showMessage(R.string.extend_date_invalid);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             });
             pickDateDialog.show(getChildFragmentManager(), PickDateDialog.class.getSimpleName());
         });
