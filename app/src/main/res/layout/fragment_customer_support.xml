@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="?actionBarSize"
     android:background="@color/black"
-    tools:context=".ui.customersupport.view.CustomerSupportFragment">
+    tools:context=".ui.customersupport.lightboxPhotosView.CustomerSupportFragment">
 
 
     <ImageView

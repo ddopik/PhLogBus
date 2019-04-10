@@ -10,15 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.ProgressBar;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseFragment;
+import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.LightBox;
-import com.example.ddopik.phlogbusiness.base.PagingController;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
+import com.example.ddopik.phlogbusiness.ui.lightboxphotos.presenter.LightBoxPhotosPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.lightboxphotos.presenter.LightboxPhotosPresenter;
-import com.example.ddopik.phlogbusiness.ui.lightboxphotos.presenter.LightboxPhotosPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
@@ -43,6 +43,7 @@ public class LightBoxPhotosFragment extends BaseFragment implements LightboxPhot
     private int lightBoxId;
 
     private View mainView;
+    private ProgressBar studioProgress;
     private RecyclerView recyclerView;
     private PagingController pagingController;
     private LightboxPhotosAdapter adapter;
@@ -76,21 +77,21 @@ public class LightBoxPhotosFragment extends BaseFragment implements LightboxPhot
 
     @Override
     protected void initPresenter() {
-        presenter = new LightboxPhotosPresenterImpl();
-        presenter.setView(this);
+        presenter = new LightBoxPhotosPresenterImpl(this, getContext());
         presenter.getLightboxPhotos(getContext(), lightBoxId, 0);
     }
 
     @Override
     protected void initViews() {
         recyclerView = mainView.findViewById(R.id.recycler_view);
+        studioProgress = mainView.findViewById(R.id.studio_progress);
 //        pagingController = new PagingController(recyclerView) {
 //            @Override
 //            public void getPagingControllerCallBack(int page) {
 //                presenter.getLightboxPhotos(getContext(), lightBoxId, page);
 //            }
 //        };
-        adapter = new LightboxPhotosAdapter(images == null? images = new ArrayList<>() : images);
+        adapter = new LightboxPhotosAdapter(images == null ? images = new ArrayList<>() : images);
         recyclerView.setAdapter(adapter);
     }
 
@@ -186,20 +187,12 @@ public class LightBoxPhotosFragment extends BaseFragment implements LightboxPhot
                 disposables.add(d5);
                 break;
             case ADD_TO_CART:
-                Disposable d6 = presenter.addToCart(image)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(success -> {
-                            if (success) {
-                                int pos = images.indexOf(image);
-                                image.isCart = true;
-                                adapter.notifyItemChanged(images.indexOf(image));
-                            }
-                        }, throwable -> {
-                            CustomErrorUtil.Companion.setError(getContext(), TAG, throwable);
-                        });
-                disposables.add(d6);
+
+
+                presenter.addAlbumImageToCart(image);
                 break;
+
+
             case PHOTOGRAPHER:
                 Intent i2 = new Intent(getContext(), UserProfileActivity.class);
                 i2.putExtra(UserProfileActivity.USER_ID, image.photographer.id.toString());
@@ -213,5 +206,31 @@ public class LightBoxPhotosFragment extends BaseFragment implements LightboxPhot
     public void addPhotos(List<BaseImage> data) {
         images.addAll(data);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPhotoAddedToCart(BaseImage baseImageCart, boolean state) {
+
+        for (BaseImage baseImage : images) {
+            if (baseImage.id == baseImageCart.id) {
+                baseImage.isCart = state;
+                break;
+            }
+
+
+
+        }
+        adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void viewLightBoxProgress(boolean state) {
+        if (state) {
+            studioProgress.setVisibility(View.VISIBLE);
+        } else {
+            studioProgress.setVisibility(View.GONE);
+        }
+
     }
 }

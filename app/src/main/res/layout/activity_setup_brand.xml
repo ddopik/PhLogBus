@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.setupbrand.view.SetupBrandActivity">
+    tools:context=".ui.setupbrand.lightboxPhotosView.SetupBrandActivity">
 
     <com.example.ddopik.phlogbusiness.base.widgets.CustomViewPager
         android:id="@+id/steps_view_pager"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray200"
-    tools:context=".ui.cart.view.CartActivity">
+    tools:context=".ui.cart.lightboxPhotosView.CartActivity">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"

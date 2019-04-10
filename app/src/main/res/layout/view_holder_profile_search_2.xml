@@ -80,7 +80,7 @@
                 app:autoSizeMinTextSize="1sp"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/view"
+                app:layout_constraintEnd_toStartOf="@+id/lightboxPhotosView"
                 app:layout_constraintHeight_percent=".15"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -90,7 +90,7 @@
                 tools:text="125 followers" />
 
             <View
-                android:id="@+id/view"
+                android:id="@+id/lightboxPhotosView"
                 android:layout_width="1dp"
                 android:layout_height="0dp"
                 android:background="@android:color/darker_gray"
@@ -110,11 +110,11 @@
                 app:autoSizeMaxTextSize="@dimen/font_small"
                 app:autoSizeMinTextSize="1sp"
                 app:autoSizeTextType="uniform"
-                app:layout_constraintBottom_toBottomOf="@+id/view"
+                app:layout_constraintBottom_toBottomOf="@+id/lightboxPhotosView"
                 app:layout_constraintEnd_toStartOf="@+id/view2"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/view"
-                app:layout_constraintTop_toTopOf="@+id/view"
+                app:layout_constraintStart_toEndOf="@+id/lightboxPhotosView"
+                app:layout_constraintTop_toTopOf="@+id/lightboxPhotosView"
                 app:layout_constraintWidth_percent=".18"
                 tools:text="176 k following" />
 

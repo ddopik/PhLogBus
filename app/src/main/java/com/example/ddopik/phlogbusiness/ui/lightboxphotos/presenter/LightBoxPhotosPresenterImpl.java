@@ -1,29 +1,29 @@
 package com.example.ddopik.phlogbusiness.ui.lightboxphotos.presenter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.lightboxphotos.view.LightboxPhotosView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
-
-import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class LightboxPhotosPresenterImpl implements LightboxPhotosPresenter {
+public class LightBoxPhotosPresenterImpl implements LightboxPhotosPresenter {
 
-    public static final String TAG = LightboxPhotosPresenterImpl.class.getSimpleName();
+    public static final String TAG = LightBoxPhotosPresenterImpl.class.getSimpleName();
 
     private static final String SAVED = "Saved";
 
-    private LightboxPhotosView view;
+    private Context context;
+    private LightboxPhotosView lightboxPhotosView;
 
-    @Override
-    public void setView(LightboxPhotosView view) {
-        this.view = view;
+
+    public LightBoxPhotosPresenterImpl(LightboxPhotosView lightboxPhotosView, Context context) {
+        this.context = context;
+        this.lightboxPhotosView = lightboxPhotosView;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class LightboxPhotosPresenterImpl implements LightboxPhotosPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    view.addPhotos(response.getData());
+                    lightboxPhotosView.addPhotos(response.getData());
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
@@ -40,7 +40,7 @@ public class LightboxPhotosPresenterImpl implements LightboxPhotosPresenter {
 
     @Override
     public Observable<Boolean> follow(Context context, BaseImage image) {
-        return BaseNetworkApi.followUser( image.photographer.id.toString())
+        return BaseNetworkApi.followUser(image.photographer.id.toString())
                 .map(response -> response != null && response.data != null && response.data.isFollow());
     }
 
@@ -70,11 +70,40 @@ public class LightboxPhotosPresenterImpl implements LightboxPhotosPresenter {
                 .map(response -> response != null && response.state.equals(BaseNetworkApi.STATUS_OK));
     }
 
+
+    @SuppressLint("CheckResult")
     @Override
-    public Observable<Boolean> addToCart(BaseImage image) {
-        return BaseNetworkApi.addImageToCart(String.valueOf(image.id))
-                .map(response -> {
-                    return response != null && response.msg.equals(SAVED);
-                });
+    public void addAlbumImageToCart(BaseImage baseImage) {
+        lightboxPhotosView.viewLightBoxProgress(true);
+
+        if (baseImage.isCart) {
+            BaseNetworkApi.removeCartItem(baseImage.id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(savePhotoResponse -> {
+                        lightboxPhotosView.onPhotoAddedToCart(baseImage, false);
+                        lightboxPhotosView.viewLightBoxProgress(false);
+                    }, throwable -> {
+                        lightboxPhotosView.viewLightBoxProgress(false);
+                        CustomErrorUtil.Companion.setError(context, TAG, throwable);
+
+                    });
+        } else {
+            BaseNetworkApi.addImageToCart(String.valueOf(baseImage.id))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(savePhotoResponse -> {
+                        lightboxPhotosView.onPhotoAddedToCart(baseImage, true);
+                        lightboxPhotosView.viewLightBoxProgress(false);
+                    }, throwable -> {
+                        lightboxPhotosView.viewLightBoxProgress(false);
+                        CustomErrorUtil.Companion.setError(context, TAG, throwable);
+
+                    });
+        }
+
+
     }
+
+
 }

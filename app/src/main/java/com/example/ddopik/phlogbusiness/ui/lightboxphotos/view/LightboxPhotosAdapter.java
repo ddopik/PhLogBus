@@ -83,11 +83,14 @@ public class LightboxPhotosAdapter extends RecyclerView.Adapter<LightboxPhotosAd
             holder.deleteButton.setOnClickListener(v -> photoActionListener.onAction(ActionType.DELETE, image));
             holder.addToCartButton.setOnClickListener(v -> photoActionListener.onAction(ActionType.ADD_TO_CART, image));
         }
-        if (image.isCart)
-            holder.addToCartButton.setVisibility(View.GONE);
-        else holder.addToCartButton.setVisibility(View.VISIBLE);
+        if (image.isCart) {
+            holder.albumImgAddToCartVal.setText(context.getResources().getString(R.string.view_in_cart));
+        } else {
+            holder.albumImgAddToCartVal.setText(context.getResources().getString(R.string.add_to_cart));
+        }
+
         View.OnClickListener onClickListener = v -> {
-           photoActionListener.onAction(ActionType.PHOTOGRAPHER, image);
+            photoActionListener.onAction(ActionType.PHOTOGRAPHER, image);
         };
         holder.photographerName.setOnClickListener(onClickListener);
         holder.photographerUsername.setOnClickListener(onClickListener);
@@ -102,7 +105,7 @@ public class LightboxPhotosAdapter extends RecyclerView.Adapter<LightboxPhotosAd
     public class AlbumImgViewHolder extends RecyclerView.ViewHolder {
 
         ImageView photographerAvatar, photo;
-        TextView photographerName, photographerUsername, imgLikeVal, imgCommentVal;
+        TextView photographerName, photographerUsername, imgLikeVal, imgCommentVal, albumImgAddToCartVal;
         ImageButton likeButton, commentButton, deleteButton;
         Button followButton;
         View addToCartButton;
@@ -118,8 +121,9 @@ public class LightboxPhotosAdapter extends RecyclerView.Adapter<LightboxPhotosAd
             likeButton = view.findViewById(R.id.img_like_btn);
             commentButton = view.findViewById(R.id.img_comment_btn);
             deleteButton = view.findViewById(R.id.delete_button);
-            followButton = view.findViewById(R.id.follow_button);
+            followButton = view.findViewById(R.id.studio_photographer_follow_button);
             addToCartButton = view.findViewById(R.id.img_add_to_cart);
+            albumImgAddToCartVal = view.findViewById(R.id.album_img_add_to_cart_val);
         }
     }
 

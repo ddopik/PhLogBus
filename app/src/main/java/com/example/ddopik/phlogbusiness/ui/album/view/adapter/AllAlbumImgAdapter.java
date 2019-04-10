@@ -164,11 +164,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 //                break;
 //            }
 
-            case STUDIO_IMAGE_LIST:
-                albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
-//                albumImgViewHolder.albumImgDeleteBtn.setVisibility(View.INVISIBLE);
-                albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.VISIBLE);
-                break;
+
         }
     }
 
