@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <Button
-            android:id="@+id/follow_photographer"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/dp16"
-            android:background="@drawable/rounded_blue_btn"
-            android:fontFamily="@string/filters"
-            android:text="@string/follow"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:visibility="gone"/>
-
+        android:id="@+id/follow_photographer"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/dp16"
+        android:background="@drawable/rounded_blue_btn"
+        android:fontFamily="@string/filters"
+        android:text="@string/follow"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 
     <LinearLayout
-            android:id="@+id/album_img_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/black"
-            android:orientation="horizontal">
+        android:id="@+id/album_img_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="horizontal">
 
         <ImageView
-                android:id="@+id/album_icon"
-                android:layout_width="@dimen/icon_view_holder_size_m"
-                android:layout_height="@dimen/icon_view_holder_size_m"
-                android:layout_margin="@dimen/widgets_padding"
-                android:src="@drawable/default_user_pic"/>
+            android:id="@+id/album_icon"
+            android:layout_width="@dimen/icon_view_holder_size_m"
+            android:layout_height="@dimen/icon_view_holder_size_m"
+            android:layout_margin="@dimen/widgets_padding"
+            android:src="@drawable/default_user_pic" />
 
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/dp8"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                android:id="@+id/album_name"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginTop="@dimen/dp8"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_medium_s"
+                tools:text="album name" />
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                    android:id="@+id/album_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_medium_s"
-                    tools:text="album name"/>
-
-            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                    android:id="@+id/album_author"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:textColor="@color/white"
-                    tools:text="author name"/>
+                android:id="@+id/album_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:textColor="@color/white"
+                tools:text="author name" />
 
         </LinearLayout>
 
@@ -65,123 +65,123 @@
     </LinearLayout>
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="300dp"
-                                        android:layout_below="@+id/album_img_header"
-                                        android:layout_margin="@dimen/widgets_padding"
-                                        android:background="@color/black"
-                                        app:cardCornerRadius="@dimen/item_card_corner_radius"
-                                        app:cardElevation="@dimen/item_card_elevation">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/album_img_header"
+        android:layout_margin="@dimen/widgets_padding"
+        android:background="@color/black"
+        app:cardCornerRadius="@dimen/item_card_corner_radius"
+        app:cardElevation="@dimen/item_card_elevation">
 
         <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/widgets_padding">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/widgets_padding">
 
 
                 <ImageView
-                        android:id="@+id/album_img"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/default_user_profile"/>
+                    android:id="@+id/album_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/default_user_profile" />
 
 
                 <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp10"
-                            android:orientation="horizontal">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp10"
+                        android:orientation="horizontal">
 
                         <ImageButton
-                                android:id="@+id/album_img_like_btn"
-                                android:layout_width="@dimen/ic_size"
-                                android:layout_height="@dimen/ic_size"
-                                android:layout_marginStart="@dimen/dp16"
-                                android:background="@color/transparent"
-                                android:scaleType="centerCrop"
-                                app:srcCompat="@drawable/ic_like"/>
+                            android:id="@+id/album_img_like_btn"
+                            android:layout_width="@dimen/ic_size"
+                            android:layout_height="@dimen/ic_size"
+                            android:layout_marginStart="@dimen/dp16"
+                            android:background="@color/transparent"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/ic_like" />
 
                         <ImageButton
-                                android:id="@+id/album_img_comment"
-                                android:layout_width="@dimen/ic_size"
-                                android:layout_height="@dimen/ic_size"
-                                android:layout_marginStart="@dimen/dp16"
-                                android:background="@color/transparent"
-                                android:scaleType="centerCrop"
-                                app:srcCompat="@drawable/ic_comment"/>
+                            android:id="@+id/album_img_comment"
+                            android:layout_width="@dimen/ic_size"
+                            android:layout_height="@dimen/ic_size"
+                            android:layout_marginStart="@dimen/dp16"
+                            android:background="@color/transparent"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/ic_comment" />
 
                     </LinearLayout>
 
                     <FrameLayout
-                            android:id="@+id/album_img_add_to_cart"
-                            android:layout_width="@dimen/add_light_box_btn_w"
-                            android:layout_height="35dp"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="@dimen/dp16"
-                            android:layout_marginEnd="@dimen/dp16"
-                            android:background="@drawable/rounded_blue_btn">
+                        android:id="@+id/album_img_add_to_cart"
+                        android:layout_width="@dimen/add_light_box_btn_w"
+                        android:layout_height="35dp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/dp16"
+                        android:layout_marginEnd="@dimen/dp16"
+                        android:background="@drawable/rounded_blue_btn">
 
                         <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                                android:id="@+id/album_img_add_to_cart_val"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="@dimen/widgets_padding"
-                                android:text="@string/add_to_cart"
-                                android:textColor="@color/white"
-                                android:textStyle="bold"/>
+                            android:id="@+id/album_img_add_to_cart_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/widgets_padding"
+                            android:text="@string/add_to_cart"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
 
                         <ImageView
-                                android:layout_width="@dimen/ic_size_m"
-                                android:layout_height="@dimen/ic_size_m"
-                                android:layout_gravity="start|center"
-                                android:layout_marginStart="10dp"
-                                android:scaleType="centerInside"
-                                app:srcCompat="@drawable/ic_light_box_white"/>
+                            android:layout_width="@dimen/ic_size_m"
+                            android:layout_height="@dimen/ic_size_m"
+                            android:layout_gravity="start|center"
+                            android:layout_marginStart="10dp"
+                            android:scaleType="centerInside"
+                            app:srcCompat="@drawable/ic_light_box_white" />
                     </FrameLayout>
                 </FrameLayout>
 
                 <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                        android:id="@+id/image_comment_tag_val"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/dp14"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/font_small"
-                        tools:text="comment comment  comment commentcomment/ncomment comment /n /n comment /n comment "/>
+                    android:id="@+id/image_comment_tag_val"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp14"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_small"
+                    tools:text="comment comment  comment commentcomment/ncomment comment /n /n comment /n comment " />
 
 
                 <LinearLayout
-                        android:layout_width="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
+                        android:id="@+id/album_img_like_count"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_marginStart="@dimen/dp8"
+                        android:layout_marginBottom="@dimen/dp8" />
 
                     <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                            android:id="@+id/album_img_like_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dp8"
-                            android:layout_marginBottom="@dimen/dp8"/>
-
-                    <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                            android:id="@+id/album_img_comment_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dp8"
-                            android:layout_marginBottom="@dimen/dp8"/>
+                        android:id="@+id/album_img_comment_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp8"
+                        android:layout_marginBottom="@dimen/dp8" />
 
                 </LinearLayout>
 

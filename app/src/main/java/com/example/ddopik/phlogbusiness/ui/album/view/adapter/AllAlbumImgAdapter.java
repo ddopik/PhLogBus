@@ -12,11 +12,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Tag;
-import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 
 import java.util.List;
+
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.PhotosListType.SOCIAL_LIST;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.PhotosListType.USER_PROFILE_PHOTOS_LIST;
 
 /**
  * Created by abdalla_maged on 11/5/2018.
@@ -46,12 +48,21 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
     @Override
     public void onBindViewHolder(@NonNull AlbumImgViewHolder albumImgViewHolder, int i) {
 
-        GlideApp.with(context)
-                .load(albumImgList.get(i).thumbnailUrl)
-                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                .placeholder(R.drawable.default_user_pic)
-                .error(R.drawable.phlog_logo)
-                .into(albumImgViewHolder.albumIcon);
+        if (photosListType == USER_PROFILE_PHOTOS_LIST || photosListType == SOCIAL_LIST) {
+            GlideApp.with(context)
+                    .load(albumImgList.get(i).photographer.imageProfile)
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                    .placeholder(R.drawable.default_user_pic)
+                    .error(R.drawable.phlog_logo)
+                    .into(albumImgViewHolder.albumIcon);
+        } else {
+            GlideApp.with(context)
+                    .load(albumImgList.get(i).thumbnailUrl)
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                    .placeholder(R.drawable.default_user_pic)
+                    .error(R.drawable.phlog_logo)
+                    .into(albumImgViewHolder.albumIcon);
+        }
 
 
         GlideApp.with(context)
@@ -88,7 +99,6 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         } else {
             albumImgViewHolder.followPhotoGrapherBtn.setText(context.getResources().getString(R.string.follow));
         }
-
 
 
         if (albumImgList.get(i).isCart != null) {
@@ -153,6 +163,12 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 //                albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.VISIBLE);
 //                break;
 //            }
+
+            case STUDIO_IMAGE_LIST:
+                albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
+//                albumImgViewHolder.albumImgDeleteBtn.setVisibility(View.INVISIBLE);
+                albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
