@@ -152,7 +152,7 @@ public class BrandLightBoxFragment extends BaseFragment implements BrandLightBox
 
                 brandLightBoxPresenter.addLightBox(lightBoxName, "desc");
                 addNewLightBoxDialogFragment.dismiss();
-                Utilities.hideKeyboard(Objects.requireNonNull(getActivity()));
+//                Utilities.hideKeyboard(Objects.requireNonNull(getActivity()));
             });
             addNewLightBoxDialogFragment.show(getChildFragmentManager(), AddNewLightBoxDialogFragment.class.getSimpleName());
         });

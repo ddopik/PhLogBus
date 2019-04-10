@@ -44,8 +44,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.userprofile.view.UserProfileActivity"
             android:screenOrientation="portrait"/>
+
         <activity android:name=".ui.commentimage.view.ImageCommentActivity"
             android:screenOrientation="portrait"/>
+
         <activity android:name=".ui.campaigns.inner.view.CampaignInnerActivity"
             android:screenOrientation="portrait"/>
         <activity

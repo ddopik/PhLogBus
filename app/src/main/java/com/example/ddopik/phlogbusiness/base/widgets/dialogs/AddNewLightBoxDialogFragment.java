@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
+
+import java.util.Objects;
 
 public class AddNewLightBoxDialogFragment extends DialogFragment {
 
