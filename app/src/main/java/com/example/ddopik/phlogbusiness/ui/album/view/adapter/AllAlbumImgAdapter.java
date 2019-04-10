@@ -91,7 +91,11 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 
 
 
-        if (albumImgList.get(i).isCart != null && !albumImgList.get(i).isPurchased) {
+        if (albumImgList.get(i).isCart != null) {
+            if (albumImgList.get(i).isPurchased)
+                albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.INVISIBLE);
+            else
+                albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
             albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
             if (albumImgList.get(i).isCart) albumImgViewHolder.albumImageCartVal.setText(R.string.view_in_cart);
             else albumImgViewHolder.albumImageCartVal.setText(R.string.add_to_cart);
