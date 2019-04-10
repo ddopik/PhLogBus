@@ -327,5 +327,8 @@
     <string name="photo_not_available">Ops. This photo is no longer available</string>
     <string name="no_light_box_added_yet">No studio added yet</string>
     <string name="extend_date_invalid">Choose a date after the original end date.</string>
+    <string name="error_invalid_phone">Invalid phone</string>
+    <string name="go_back">Go Back</string>
+    <string name="campaign_submitted_successfully">Campaign data submitted successfully</string>
 
 </resources>

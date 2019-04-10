@@ -76,7 +76,10 @@ public class BaseNetworkApi {
     public static final int STATUS_404 = 404;
     public static final int STATUS_500 = 500;
     public static String STATUS_ERROR = "405";
-    public static final String ERROR_STATE_1 = "1";
+    public static final String ERROR_VALIDATION = "1";
+    public static final String ERROR_EMAIL_NOT_FOUND = "2";
+    public static final String ERROR_VERIFICATION = "3";
+    public static final String ERROR_NOT_FOUND = "1404";
 
     //
     public static final String BASE_SERVER_URL = "http://178.128.162.10";

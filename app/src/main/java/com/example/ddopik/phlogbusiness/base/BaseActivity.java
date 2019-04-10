@@ -40,9 +40,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void addFragment(int containerID, Fragment fragment, String tag, boolean addBackStack) {
         if (addBackStack) {
-            getSupportFragmentManager().beginTransaction().replace(containerID, fragment, tag).addToBackStack(tag).commit();
+            try {
+                getSupportFragmentManager().beginTransaction().replace(containerID, fragment, tag).addToBackStack(tag).commit();
+            } catch (IllegalStateException e) {
+                getSupportFragmentManager().beginTransaction().replace(containerID, fragment, tag).addToBackStack(tag).commitAllowingStateLoss();
+            }
         } else {
-            getSupportFragmentManager().beginTransaction().replace(containerID, fragment, tag).commit();
+            try {
+                getSupportFragmentManager().beginTransaction().replace(containerID, fragment, tag).commit();
+            } catch (IllegalStateException e) {
+                getSupportFragmentManager().beginTransaction().replace(containerID, fragment, tag).commitAllowingStateLoss();
+            }
 
         }
     }

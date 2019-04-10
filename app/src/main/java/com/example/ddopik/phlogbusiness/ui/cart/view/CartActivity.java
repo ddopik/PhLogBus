@@ -3,6 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.cart.view;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,9 @@ import com.example.ddopik.phlogbusiness.ui.cart.presenter.CartPresenterImpl;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.ui.payment.PaymentWebViewActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CartActivity extends BaseActivity implements CartView {
 
     private CartPresenter presenter;
@@ -27,6 +31,10 @@ public class CartActivity extends BaseActivity implements CartView {
     private ImageView cartIsEmptyIV;
     private RecyclerView recyclerView;
     private ProgressBar loading;
+
+    public static final String REMOVED_LIST = "removedList";
+
+    private ArrayList<Integer> removedItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +68,10 @@ public class CartActivity extends BaseActivity implements CartView {
         loading = findViewById(R.id.loading);
     }
 
+    private boolean isCheckingOut = false;
     private void initListeners() {
         checkoutButton.setOnClickListener(v -> {
+            isCheckingOut = true;
             Intent intent=new Intent(this,PaymentWebViewActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
@@ -81,13 +91,17 @@ public class CartActivity extends BaseActivity implements CartView {
                 cartIsEmptyIV.setVisibility(View.VISIBLE);
                 cartIsEmptyTV.setVisibility(View.VISIBLE);
                 loading.setVisibility(View.GONE);
+                if (isCheckingOut) {
+                    removedItems.clear();
+                    removedItems.add(-1);
+                }
             } else {
                 loading.setVisibility(View.GONE);
                 CartAdapter adapter = (CartAdapter) recyclerView.getAdapter();
                 adapter.setList(objects);
                 itemsNumberTV.setText(getString(R.string.cart_item_count, objects.size()));
             }
-        }, getBaseContext());
+        }, this);
     }
 
     private CartAdapter.ActionListener actionListener = (type, o, booleanConsumer) -> {
@@ -96,13 +110,13 @@ public class CartActivity extends BaseActivity implements CartView {
                 CharSequence photoChooserOptions[] = new CharSequence[]{getString(R.string.yes), getString(R.string.no)};
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(getString(R.string.remove_cart_item_confirmation));
-                builder.setItems(photoChooserOptions, (dialog, option) -> {
-                    if (option == 0) {
-                        presenter.removeCartItem(this, o, booleanConsumer);
-                    } else if (option == 1) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+                    presenter.removeCartItem(this, o, aBoolean -> {
+                        if (aBoolean)
+                            removedItems.add(o.id);
+                        booleanConsumer.accept(aBoolean);
+                    });
+                }).setNegativeButton(R.string.no, null).show();
                 break;
             case VIEW:
                 Intent intent = new Intent(this, ImageCommentActivity.class);
@@ -119,4 +133,14 @@ public class CartActivity extends BaseActivity implements CartView {
                 break;
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        if (removedItems.size() > 0) {
+            Intent data = new Intent();
+            data.putIntegerArrayListExtra(REMOVED_LIST, removedItems);
+            setResult(RESULT_OK, data);
+        }
+        super.onBackPressed();
+    }
 }

@@ -113,6 +113,11 @@ public class BaseImage implements Parcelable {
     @SerializedName("can_win")
     public boolean canWin;
 
+    @SerializedName("can_exclusive")
+    public boolean canExclusive;
+    @SerializedName("is_purchased")
+    public boolean isPurchased;
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.caption);
@@ -143,6 +148,8 @@ public class BaseImage implements Parcelable {
         dest.writeString(this.canPurchaseReason);
         dest.writeValue(isWon);
         dest.writeValue(canWin);
+        dest.writeValue(canExclusive);
+        dest.writeValue(isPurchased);
     }
 
     protected BaseImage(Parcel in) {
@@ -174,6 +181,8 @@ public class BaseImage implements Parcelable {
         canPurchaseReason = in.readString();
         isWon = (boolean) in.readValue(Boolean.class.getClassLoader());
         canWin = (boolean) in.readValue(Boolean.class.getClassLoader());
+        canExclusive = (boolean) in.readValue(Boolean.class.getClassLoader());
+        isPurchased = (boolean) in.readValue(Boolean.class.getClassLoader());
     }
 
     public static final Creator<BaseImage> CREATOR = new Creator<BaseImage>() {

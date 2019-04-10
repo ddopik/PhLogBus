@@ -7,15 +7,11 @@ import android.util.Log
 import android.widget.Toast
 import com.androidnetworking.error.ANError
 import com.example.ddopik.phlogbusiness.R
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseErrorResponse
 import com.example.ddopik.phlogbusiness.base.commonmodel.ErrorMessageResponse
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi.*
-import com.example.ddopik.phlogbusiness.utiltes.rxeventbus.RxEvent
-import com.example.ddopik.phlogbusiness.utiltes.rxeventbus.RxEventBus
 
 import com.google.gson.Gson
 import java.lang.Exception
-import java.net.ConnectException
 
 /**
  * Created by abdalla_maged on 11/6/2018.
@@ -72,7 +68,7 @@ class CustomErrorUtil {
             for (i in errorMessageResponse.errors.indices) {
                 if (errorMessageResponse.errors[i].code != null)
                     when (errorMessageResponse.errors[i].code) {
-                        ERROR_STATE_1 -> {
+                        ERROR_VALIDATION, ERROR_EMAIL_NOT_FOUND -> {
                             viewErrorMessage(context,errorMessageResponse.errors[i].message)
                          }
                         else -> {
@@ -84,18 +80,16 @@ class CustomErrorUtil {
         }
        private fun viewErrorMessage(context:Context,message: String) {
             AlertDialog.Builder(context)
-
                 .setMessage(message)
-
                 // Specifying a listener allows you to take an action before dismissing the dialog.
                 // The dialog is automatically dismissed when a dialog button is clicked.
                 .setPositiveButton(context.resources.getString(R.string.ok),
                     DialogInterface.OnClickListener { dialog, which ->
                         // Continue with delete operation
+                        dialog.dismiss();
                     })
-
                 // A null listener allows the button to dismiss the dialog and take no further action.
-                .setNegativeButton(android.R.string.no, null)
+//                .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show()
         }

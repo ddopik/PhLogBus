@@ -99,7 +99,7 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
 
                     if (firstVisibleItemPosition == 0) {
                         if (nextPageUrl != null) {
-//                            campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, nextPageUrl);
+                            campaignInnerPhotosFragmentPresenter.getCampaignInnerPhotos(campaignID, nextPageUrl);
 
                         }
 
@@ -167,12 +167,13 @@ public class CampaignInnerPhotosFragment extends BaseFragment implements Campaig
                 if (lastInOld != null) {
                     if (lastInOld.getHummanDate().equals(firstInNew.getHummanDate())) {
                         lastInOld.getPhotos().addAll(firstInNew.getPhotos());
+                        groupAdapter.notifyItemChanged(insertPosition);
                         photoGrapherPhotoList.addAll(data);
                     } else {
                         data.add(0, firstInNew);
                         photoGrapherPhotoList.addAll(data);
                     }
-                    groupAdapter.notifyItemInserted(insertPosition);
+                    groupAdapter.notifyItemRangeInserted(insertPosition + 1, data.size());
                 }
             } else {
                 photoGrapherPhotoList.addAll(data);

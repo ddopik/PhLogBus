@@ -23,9 +23,9 @@ public interface SetupBrandPresenter {
 
     void setupBrand(SetupBrandModel model, Context context, Consumer<Boolean> consumer);
 
-    void loadDocs(Consumer<List<Doc>> object, Context baseContext);
+    void loadDocs(Consumer<List<Doc>> object, Context context);
 
-    void verify(Context context);
+    void verify(Context context, Consumer<Boolean> success);
 
     class ValidationResult {
         public final boolean shouldProceed;

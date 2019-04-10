@@ -65,7 +65,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     public void initPresenter() {
 
-        loginPresenter = new LoginPresenterImp(getBaseContext(), this);
+        loginPresenter = new LoginPresenterImp(this, this);
 
     }
 
@@ -90,9 +90,11 @@ public class LoginActivity extends BaseActivity implements LoginView {
                 mailInput.setError(getResources().getString(R.string.invalid_mail));
                 return;
             }
+            loginProgress.setVisibility(View.VISIBLE);
             Disposable disposable = loginPresenter.forgotPassword(getBaseContext(), mail.getText().toString())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doFinally(() -> loginProgress.setVisibility(View.INVISIBLE))
                     .subscribe(success -> {
                         if (success)
                             showToast(getString(R.string.check_your_mail));

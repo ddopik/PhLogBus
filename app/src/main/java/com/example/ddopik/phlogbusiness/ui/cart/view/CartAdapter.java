@@ -118,6 +118,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             holder.blocker.setVisibility(View.GONE);
             holder.canBuyReason.setVisibility(View.GONE);
         }
+        holder.exclusiveCheck.setEnabled(item.canExclusive);
     }
 
     public void setList(List<BaseImage> list) {

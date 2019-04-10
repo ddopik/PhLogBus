@@ -53,10 +53,8 @@ public class AccountDetailsPresenterImpl implements AccountDetailsPresenter {
                 .subscribe(response -> {
                     view.setLoading(false);
                     if (response != null) {
-                        view.updateSuccess(false);
-                        return;
+                        view.updateSuccess(true);
                     }
-                    view.updateSuccess(true);
                 }, throwable -> {
                     view.setLoading(false);
                     view.updateSuccess(false);

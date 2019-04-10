@@ -48,7 +48,6 @@ public class LoginPresenterImp implements LoginPresenter {
                     saveBrand(loginResponse.getData());
                     sendFirebaseToken();
                 }, throwable -> {
-                    loginView.showMessage(context.getString(R.string.wrong_credentials));
                     loginView.showLoginProgress(false);
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
@@ -188,10 +187,6 @@ public class LoginPresenterImp implements LoginPresenter {
     @Override
     public Observable<Boolean> forgotPassword(Context context, String email) {
         return BaseNetworkApi.forgotPassword(email)
-                .map(response -> {
-                    if (response != null)
-                        return true;
-                    return false;
-                });
+                .map(response -> response != null);
     }
 }

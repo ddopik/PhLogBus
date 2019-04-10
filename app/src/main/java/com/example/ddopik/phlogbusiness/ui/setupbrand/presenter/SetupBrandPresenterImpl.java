@@ -3,6 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.setupbrand.presenter;
 import android.content.Context;
 import android.util.Log;
 
+import android.util.Patterns;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
@@ -55,15 +56,17 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
                     return new ValidationResult(false, R.string.error_missing_industry);
                 else if (model.phone == null || model.phone.isEmpty())
                     return new ValidationResult(false, R.string.error_missing_phone);
+                else if (!Patterns.PHONE.matcher(model.phone).matches())
+                    return new ValidationResult(false, R.string.error_invalid_phone);
                 else if (model.address == null || model.address.isEmpty())
                     return new ValidationResult(false, R.string.error_missing_address);
                 else if (model.email == null || model.email.isEmpty())
                     return new ValidationResult(false, R.string.error_missing_email);
-                else if (!Utilities.isEmailValid(model.email))
+                else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(model.email).matches())
                     return new ValidationResult(false, R.string.error_invalid_email);
                 else if (model.webSite == null || model.webSite.isEmpty())
                     return new ValidationResult(false, R.string.error_missing_website);
-                else if (!Utilities.isWebsiteValid(model.webSite))
+                else if (!Patterns.WEB_URL.matcher(model.webSite).matches())
                     return new ValidationResult(false, R.string.error_invalid_website);
                 else if (model.desc == null || model.desc.isEmpty())
                     return new ValidationResult(false, R.string.error_missing_desc);
@@ -128,21 +131,20 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
     }
 
     @Override
-    public void verify(Context context) {
+    public void verify(Context context, Consumer<Boolean> success) {
         view.setLoading(true);
         Disposable disposable = BaseNetworkApi.requestVerificationBrand()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(() -> view.setLoading(false))
                 .subscribe(response -> {
-                    view.setLoading(false);
                     if (response.getMsg() != null && response.getMsg().equals(SAVED)) {
-                        view.setVerificationRequestSuccess(true);
+                        success.accept(true);
                     } else {
-                        view.setVerificationRequestSuccess(false);
+                        success.accept(false);
                     }
                 }, throwable -> {
-                    view.setLoading(false);
-                    view.setVerificationRequestSuccess(false);
+                    success.accept(false);
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
         disposables.add(disposable);

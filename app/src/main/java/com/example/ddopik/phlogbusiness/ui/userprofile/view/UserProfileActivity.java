@@ -44,6 +44,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
 
 
     private static final String TAG = UserProfileActivity.class.getSimpleName();
+    private static final int ALBUM_LIST_REQUEST_CODE = 874;
 
     public static String USER_ID = "user_id";
     public static String USER_TYPE = "user_type";
@@ -63,7 +64,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
     private LoadingButton followUser;
     private ImageButton backBtn;
     private PagingController pagingController;
-    private String nextPageUrl="1";
+    private String nextPageUrl = "1";
     private boolean isLoading;
 
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -120,7 +121,6 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
 
 
     private void initListener() {
-
 
 
         ////// initial block works by forcing then next Api for Each ScrollTop
@@ -190,7 +190,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
             intent.putExtra(LIST_TYPE, USER_PROFILE_PHOTOS_LIST);
             intent.putParcelableArrayListExtra(ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) userPhotoList);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
+            startActivityForResult(intent, ALBUM_LIST_REQUEST_CODE);
         };
 
 
@@ -286,7 +286,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
 
     @Override
     public void viewUserPhotosProgress(boolean state) {
-        isLoading=state;
+        isLoading = state;
 
         if (state) {
             userProfilePhotosProgressBar.setVisibility(View.VISIBLE);
@@ -355,11 +355,31 @@ public class UserProfileActivity extends BaseActivity implements UserProfileActi
 
     @Override
     public void setNextPageUrl(String page) {
-        this.nextPageUrl=page;
+        this.nextPageUrl = page;
     }
+
     @Override
     protected void onDestroy() {
         disposables.dispose();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case ALBUM_LIST_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    if (data == null)
+                        return;
+                    List<BaseImage> images = data.getParcelableArrayListExtra(AllAlbumImgActivity.ALL_ALBUM_IMAGES);
+                    if (images != null) {
+                        userPhotoList.clear();
+                        userPhotoList.addAll(images);
+                        userProfilePhotosAdapter.notifyDataSetChanged();
+                    }
+                }
+                break;
+        }
     }
 }
