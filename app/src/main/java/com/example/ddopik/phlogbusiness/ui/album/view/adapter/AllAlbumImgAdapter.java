@@ -102,6 +102,11 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 
 
         if (albumImgList.get(i).isCart != null) {
+            if (albumImgList.get(i).isPurchased)
+                albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.INVISIBLE);
+            else
+                albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
+            albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
             if (albumImgList.get(i).isCart) albumImgViewHolder.albumImageCartVal.setText(R.string.view_in_cart);
             else albumImgViewHolder.albumImageCartVal.setText(R.string.add_to_cart);
         } else {
@@ -126,6 +131,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         albumImgViewHolder.albumImgAddToLightBox.setVisibility(View.INVISIBLE);
         switch (photosListType) {
             case SOCIAL_LIST: {
+                if (!albumImgList.get(i).isPurchased)
                 albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.INVISIBLE);
                 albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.INVISIBLE);
                 albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.INVISIBLE);

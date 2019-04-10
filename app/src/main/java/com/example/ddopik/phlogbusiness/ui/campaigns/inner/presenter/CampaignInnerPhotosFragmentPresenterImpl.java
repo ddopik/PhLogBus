@@ -39,6 +39,8 @@ public class CampaignInnerPhotosFragmentPresenterImpl implements CampaignInnerPh
                         campaignInnerPhotosFragmentView.addPhotos(campaignInnerPhotosResponse.data.getData());
                         if (campaignInnerPhotosResponse.data.getNextPageUrl() != null) {
                             campaignInnerPhotosFragmentView.setNextPageUrl(Utilities.getNextPageNumber(context, campaignInnerPhotosResponse.data.getNextPageUrl()));
+                        } else {
+                            campaignInnerPhotosFragmentView.setNextPageUrl(null);
                         }
                     }
 

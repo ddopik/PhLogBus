@@ -156,7 +156,7 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
                 presenter.saveProfile(getContext(), model);
             } else {
                 if (result.errorMessage != 0) {
-                    new AlertDialog.Builder(getContext()).setTitle("error").setMessage(result.errorMessage).setCancelable(true).show();
+                    new AlertDialog.Builder(getContext()).setMessage(result.errorMessage).setPositiveButton(R.string.ok, null).setCancelable(true).show();
                     saveButton.setEnabled(true);
                 }
             }
@@ -326,10 +326,8 @@ public class AccountDetailsFragment extends BaseFragment implements AccountDetai
     @Override
     public void updateSuccess(boolean b) {
         saveButton.setEnabled(true);
-//        if (b)
-//            Toast.makeText(getContext(), R.string.profile_update_success, Toast.LENGTH_LONG).show();
-//        else
-//            Toast.makeText(getContext(), R.string.profile_update_error, Toast.LENGTH_LONG).show();
+        if (b)
+            Toast.makeText(getContext(), R.string.profile_update_success, Toast.LENGTH_LONG).show();
     }
 
     private WhichImage whichImage;

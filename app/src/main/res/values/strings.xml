@@ -290,7 +290,7 @@
     <string name="report_select_prompt">Select a reason for reporting this photo</string>
     <string name="wrong_credentials">Wrong credentials</string>
     <string name="replay">replay</string>
-    <string name="view_more">lightboxPhotosView more</string>
+    <string name="view_more">view more</string>
     <string name="brand_pending_approval">Brand Pending Approval</string>
     <string name="edit_brand">Edit Your Brand</string>
     <string name="no_downloads_prompt">You havn\'t made any purchases</string>
@@ -327,6 +327,9 @@
     <string name="photo_not_available">Ops. This photo is no longer available</string>
     <string name="no_light_box_added_yet">No studio added yet</string>
     <string name="extend_date_invalid">Choose a date after the original end date.</string>
+    <string name="error_invalid_phone">Invalid phone</string>
+    <string name="go_back">Go Back</string>
+    <string name="campaign_submitted_successfully">Campaign data submitted successfully</string>
     <string name="rate">Rate</string>
 
 </resources>

@@ -38,7 +38,7 @@ public class CartPresenterImpl implements CartPresenter {
                 .subscribe(response -> {
                     consumer.accept(response.data);
                 }, throwable -> {
-                    consumer.accept(null);
+//                    consumer.accept(null);
                     CustomErrorUtil.Companion.setError(baseContext, TAG, throwable);
                 });
         disposables.add(disposable);

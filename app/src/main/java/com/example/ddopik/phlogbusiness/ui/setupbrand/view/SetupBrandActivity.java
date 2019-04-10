@@ -14,10 +14,12 @@ import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomViewPager;
+import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.presenter.SetupBrandPresenter;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.presenter.SetupBrandPresenterImpl;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 import java.util.List;
@@ -142,8 +144,10 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                             loading.setVisibility(View.VISIBLE);
                             presenter.setupBrand(model, this, success -> {
                                 loading.setVisibility(View.GONE);
-                                if (success)
+                                if (success) {
                                     viewPager.setCurrentItem(2);
+
+                                }
                             });
                         } else
                             showErrorMessage(result);
@@ -162,7 +166,16 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                             }
                         }
                         if (allDocsUploaded)
-                            presenter.verify(getBaseContext());
+                            presenter.verify(this, success -> {
+                                new AlertDialog.Builder(this)
+                                        .setTitle(R.string.verfication_request_sent)
+                                        .setCancelable(false)
+                                        .setPositiveButton(R.string.go_back, (dialog, which) -> {
+
+                                            finish();
+                                            MainActivity.navigationManger.navigate(Constants.NavigationHelper.PROFILE);
+                                        }).show();
+                            });
                         else
                             showToast(getString(R.string.upload_all_docs));
                     }, getBaseContext());

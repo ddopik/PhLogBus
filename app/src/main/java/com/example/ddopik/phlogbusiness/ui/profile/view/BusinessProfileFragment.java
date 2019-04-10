@@ -1,6 +1,7 @@
 package com.example.ddopik.phlogbusiness.ui.profile.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.ACCOUNT_DETAILS;
 import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.LIGHT_BOX;
+import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelper.PROFILE;
 
 /**
  * Created by abdalla_maged On Dec,2018
@@ -35,6 +37,7 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.NavigationHelpe
  */
 public class BusinessProfileFragment extends BaseFragment implements BrandProfileFragmentView, PopupMenu.OnMenuItemClickListener {
 
+    private static final int SETUP_BRAND_REQUEST_CODE = 987;
     private View mainView;
     private TextView brandName, brandWebSite, brandIndustry, brandStatus;
     private CustomTextView brandUserMail;
@@ -97,6 +100,7 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
             Intent intent = new Intent(getContext(), SetupBrandActivity.class);
             intent.putExtra("business", business);
             startActivity(intent);
+//            MainActivity.navigationManger.navigate();
         });
         cartBtn.setOnClickListener(v -> {
             startActivity(new Intent(getContext(), CartActivity.class));

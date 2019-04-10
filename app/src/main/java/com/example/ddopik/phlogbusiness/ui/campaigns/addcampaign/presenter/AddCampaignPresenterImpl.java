@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.presenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.model.AddCampaignRequestModel;
 import com.example.ddopik.phlogbusiness.ui.campaigns.addcampaign.view.AddCampaignStepThreeActivityView;
@@ -57,7 +58,7 @@ public class AddCampaignPresenterImpl implements AddCampaignStepTwoPresenter, Ad
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(submitCampaignResponse -> {
                         addCampaignStepThreeActivityView.viewSubmitCampaignProgress(false);
-                        addCampaignStepThreeActivityView.viewMessage(submitCampaignResponse.msg);
+                        addCampaignStepThreeActivityView.viewMessage(context.getString(R.string.campaign_submitted_successfully));
                         addCampaignStepThreeActivityView.onCampaignCompleted();
                     }, throwable -> {
                         CustomErrorUtil.Companion.setError(context, TAG, throwable);
@@ -69,7 +70,7 @@ public class AddCampaignPresenterImpl implements AddCampaignStepTwoPresenter, Ad
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(submitCampaignResponse -> {
                         addCampaignStepThreeActivityView.viewSubmitCampaignProgress(false);
-                        addCampaignStepThreeActivityView.viewMessage(submitCampaignResponse.msg);
+                        addCampaignStepThreeActivityView.viewMessage(context.getString(R.string.campaign_submitted_successfully));
                         addCampaignStepThreeActivityView.onCampaignCompleted();
                     }, throwable -> {
                         CustomErrorUtil.Companion.setError(context, TAG, throwable);

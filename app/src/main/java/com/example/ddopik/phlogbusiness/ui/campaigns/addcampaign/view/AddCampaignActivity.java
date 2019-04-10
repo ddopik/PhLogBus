@@ -120,12 +120,10 @@ public class AddCampaignActivity extends BaseActivity {
         CharSequence photoChooserOptions[] = new CharSequence[]{getResources().getString(R.string.general_photo_chooser_camera), getResources().getString(R.string.general_photo_chooser_gallery)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(R.string.general_photo_chooser_title));
-        builder.setItems(photoChooserOptions, (dialog, option) -> {
-            if (option == 0) {
-                RequestCameraPermutations();
-            } else if (option == 1) {
-                requestGalleryPermutations();
-            }
+        builder.setPositiveButton(R.string.general_photo_chooser_camera, (dialog, which) -> {
+            RequestCameraPermutations();
+        }).setNegativeButton(R.string.general_photo_chooser_gallery, (dialog, which) -> {
+            requestGalleryPermutations();
         }).show();
     }
 

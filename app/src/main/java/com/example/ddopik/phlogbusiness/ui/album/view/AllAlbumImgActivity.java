@@ -3,6 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.album.view;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageButton;
@@ -20,6 +21,7 @@ import com.example.ddopik.phlogbusiness.ui.cart.view.CartActivity;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -35,6 +37,9 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.PhotosListType.
  */
 public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActivityView {
 
+
+    private static final String TAG = AllAlbumImgActivity.class.getSimpleName();
+    private static final int CART_REQUEST_CODE = 487;
 
     public static String ALBUM_ID = "album_id";
     public static String ALL_ALBUM_IMAGES = "album_list";
@@ -86,7 +91,8 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
 
             for (int i = 0; i < albumImgList.size(); i++) {
                 if (albumImgList.get(i).id == selectedPosition) {
-                    Objects.requireNonNull(allAlbumImgRv.getLayoutManager()).smoothScrollToPosition(allAlbumImgRv, null, i);
+//                    Objects.requireNonNull(allAlbumImgRv.getLayoutManager()).smoothScrollToPosition(allAlbumImgRv, null, i);
+                    allAlbumImgRv.scrollToPosition(i);
                     break;
                 }
 
@@ -129,10 +135,12 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
                                     albumImg.isCart = true;
                                     allAlbumImgAdapter.notifyItemChanged(position);
                                 }
+                            }, throwable -> {
+                                CustomErrorUtil.Companion.setError(AllAlbumImgActivity.this, TAG, throwable);
                             });
                 } else {
                     Intent intent = new Intent(AllAlbumImgActivity.this, CartActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, CART_REQUEST_CODE);
                 }
 
             }
@@ -169,7 +177,6 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
-
 
 
             @Override
@@ -301,5 +308,38 @@ public class AllAlbumImgActivity extends BaseActivity implements AllAlbumImgActi
     @Override
     public void showMessage(String msg) {
         showToast(msg);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CART_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    if (data.getIntegerArrayListExtra(CartActivity.REMOVED_LIST) != null) {
+                        if (allAlbumImgAdapter == null)
+                            return;
+                        List<Integer> removedItems = data.getIntegerArrayListExtra(CartActivity.REMOVED_LIST);
+                        if (!removedItems.isEmpty()) {
+                            if (removedItems.get(0).equals(-1)) {
+                                for (BaseImage i : albumImgList)
+                                    i.isCart = false;
+                                allAlbumImgAdapter.notifyDataSetChanged();
+                            } else {
+                                for (int i = 0; i < albumImgList.size(); i++) {
+                                    if (removedItems.contains(albumImgList.get(i).id)) {
+                                        albumImgList.get(i).isCart = false;
+                                        allAlbumImgAdapter.notifyItemChanged(i);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Intent data2 = new Intent();
+                    data2.putParcelableArrayListExtra(ALL_ALBUM_IMAGES, (ArrayList<? extends Parcelable>) albumImgList);
+                    setResult(RESULT_OK, data);
+                }
+                break;
+        }
     }
 }

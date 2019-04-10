@@ -42,7 +42,7 @@
                         android:fontFamily="@font/segoe_b"
                         android:text="@string/stories"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_head_xl" />
+                        android:textSize="@dimen/signing_head_text_size" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintDimensionRatio="1:1"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHeight_percent=".4"
+                                app:layout_constraintHeight_percent=".6"
                                 app:layout_constraintHorizontal_bias=".97"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
