@@ -20,6 +20,7 @@ import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.downloads.model.DownloadRequestModel;
+import com.example.ddopik.phlogbusiness.utiltes.BitmapUtils;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.example.ddopik.phlogbusiness.utiltes.notification.NotificationFactory;
@@ -84,6 +85,7 @@ public class DownloaderService extends Service {
                                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                     PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext()
                                             , (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                                    BitmapUtils.galleryAddPic(getApplicationContext(), path + "/" + fileName);
                                     if (downloading == 0)
                                         notificationFactory.changeNotificationPendingIntent(getApplicationContext()
                                                 , getString(R.string.permanent_notification_channel_id)
