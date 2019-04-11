@@ -76,7 +76,8 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             campaignId = getIntent().getIntExtra(CAMPAIGN_ID, -1);
             initPresenter();
             initView();
-            initListener();
+            imageCommentActivityPresenter.getImageDetails(previewImage.id);
+
         }
 
 
@@ -91,17 +92,26 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         addCommentProgress = findViewById(R.id.add_comment_progress);
 
         commentsRv = findViewById(R.id.comment_rv);
+
+
+    }
+
+    @Override
+    public void viewImageDetails(BaseImage baseImage) {
+        previewImage = baseImage;
         toolBarTitle.setText(previewImage.albumName);
         //force adapter to start to render Add commentView
         Comment userComment = new Comment();
         commentList.add(userComment); /// acts As default for image Header
         commentList.add(userComment);/// acts As default for image Add comment
-
         commentsAdapter = new CommentsAdapter(previewImage, commentList, mentions, MAIN_COMMENT);
         commentsAdapter.setShouldShowChooseWinnerButton(shouldShowChooseWinnerButton);
         commentsRv.setAdapter(commentsAdapter);
-        imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), null);
+        imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), nextPageUrl);
 
+
+
+        initListener();
     }
 
     @Override
@@ -215,38 +225,6 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             public void onImageCommentClicked() {
 
 
-//                if (commentList.size() <= 2) {
-//                    commentsRv.scrollToPosition(commentList.size() - 1);
-//                    CustomAutoCompleteTextView customAutoCompleteTextView = (CustomAutoCompleteTextView) commentsRv.getChildAt(commentList.size() - 1).findViewById(R.id.img_send_comment_val);
-//                    customAutoCompleteTextView.requestFocus();
-//                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                    imm.showSoftInput(customAutoCompleteTextView, InputMethodManager.SHOW_IMPLICIT);
-////
-//                }
-
-//                else {
-//                    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-//                        @Override
-//                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                            switch (newState) {
-//                                case SCROLL_STATE_IDLE:
-//                                    //we reached the target position
-//                                    CustomAutoCompleteTextView customAutoCompleteTextView = commentsRv.getChildAt(commentsRv.getChildCount()-1).findViewById(R.id.img_send_comment_val);
-//                                    customAutoCompleteTextView.requestFocus();
-////
-//                                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                                    imm.showSoftInput(customAutoCompleteTextView, InputMethodManager.SHOW_IMPLICIT);
-//                                    recyclerView.removeOnScrollListener(this);
-//                                    break;
-//                            }
-//                        }
-//                    };
-//
-//                    commentsRv.addOnScrollListener(onScrollListener);
-//                    commentsRv.getLayoutManager().smoothScrollToPosition(commentsRv, null, commentList.size() - 1);
-//
-
-//                }
             }
 
             @Override
@@ -443,14 +421,6 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
 
     }
 
-    @Override
-    public void viewImageDetails(BaseImage baseImage) {
-        previewImage = baseImage;
-        initView();
-        initListener();
-        imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), nextPageUrl);
-
-    }
 
     @Override
     public void setNextPageUrl(String page) {
