@@ -76,7 +76,7 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
         campaignViewHolder.campaignDayLeft.setText(String.valueOf(homeCampaign.daysLeft));
         campaignViewHolder.campaignDayLeft.append(" " + context.getResources().getString(R.string.days_left));
 
-        campaignViewHolder.campaignJoined.setText(String.valueOf(homeCampaign.daysLeft));
+        campaignViewHolder.campaignJoined.setText(String.valueOf(homeCampaign.joinedPhotographersCount));
         campaignViewHolder.campaignJoined.append(" " + context.getResources().getString(R.string.people_joined));
 
         Glide.with(context)

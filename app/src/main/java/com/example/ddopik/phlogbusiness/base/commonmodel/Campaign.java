@@ -67,4 +67,16 @@ public class Campaign {
     @SerializedName("winners_count")
     public int winnerCount;
 
+    @SerializedName("brand_image_cover")
+    public String brandImageCover;
+
+    @SerializedName("status_string")
+    public String statusString;
+
+    @SerializedName("joined_photographers_count")
+    public int joinedPhotographersCount;
+
+    @SerializedName("won_photos_count")
+    public int wonPhotosCount;
+
 }

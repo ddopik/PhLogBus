@@ -84,7 +84,7 @@ public class BaseImage implements Parcelable {
     @Expose
     public float rate;
 
-    @SerializedName("is_exclusive")
+    @SerializedName("business_buy_exclusive")
     public boolean exclusive;
 
     @SerializedName("extension")
