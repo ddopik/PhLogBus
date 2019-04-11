@@ -16,28 +16,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:gravity="center"
             android:layout_weight="4"
+            android:gravity="center"
             android:orientation="vertical"
             android:padding="@dimen/dp12">
 
-            <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp18"
-                android:fontFamily="@font/segoe_b"
-                android:text="@string/rate"
-                android:textSize="@dimen/text_title_head"
-                android:textStyle="bold" />
 
             <RatingBar
+                android:id="@+id/image_rate"
                 style="@style/CustomBigRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/widgets_padding"
+                android:layout_margin="@dimen/dp16"
                 android:isIndicator="false"
                 android:numStars="5"
-                android:rating="3"
                 android:stepSize="1" />
 
         </LinearLayout>
@@ -52,12 +44,22 @@
 
 
             <Button
+                android:id="@+id/rate_img_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/text_input_color"
+                android:fontFamily="@font/segoe_sb"
+                android:text="@string/rate"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <Button
                 android:id="@+id/cancel_add_to_light_box_dialog_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/gray200"
+                android:background="@color/white"
                 android:fontFamily="@font/segoe_sb"
-                android:text="@string/submit"
+                android:text="@string/cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/text_input_color" />
 
@@ -71,6 +73,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </android.support.v7.widget.CardView>

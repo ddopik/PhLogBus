@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.album.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -96,6 +98,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder commentViewHolder, int i) {
 //////////////////////////////////////HEAD/////////////////////////////////////////
@@ -183,7 +186,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 });
             } else commentViewHolder.chooseWinnerBtn.setVisibility(View.GONE);
 
-            if (previewImage.isCart !=null && previewImage.isCart ) {
+            if (previewImage.isCart != null && previewImage.isCart) {
                 commentViewHolder.cartText.setText(R.string.view_in_cart);
             } else {
                 commentViewHolder.cartText.setText(R.string.add_to_cart);
@@ -198,9 +201,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             });
 
 
-
-            commentViewHolder.photoRating.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
-                commentAdapterAction.onImageRateClick(previewImage, rating);
+            commentViewHolder.photoRating.setOnTouchListener((v, event) -> {
+                commentAdapterAction.onImageRateClick(previewImage);
+                return false;
             });
 //////////////////////////////////////COMMENT/////////////////////////////////////////
         } else if (getItemViewType(i) == COMMENT || getItemViewType(i) == REPLY_COMMENT) {
@@ -673,7 +676,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         void onImageCommentClicked();
 
-        void onImageRateClick(BaseImage baseImage, float rating);
+        void onImageRateClick(BaseImage baseImage);
 
         void onAddToLightBox(BaseImage baseImage);
 

@@ -255,7 +255,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp14"
-                    android:isIndicator="false"
+                    android:isIndicator="true"
                     android:stepSize="1"
                     tools:rating="3" />
 

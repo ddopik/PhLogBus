@@ -199,7 +199,7 @@ public class ReplayCommentActivity extends BaseActivity implements ReplayComment
             }
 
             @Override
-            public void onImageRateClick(BaseImage baseImage, float rating) {
+            public void onImageRateClick(BaseImage baseImage) {
 
 
             }

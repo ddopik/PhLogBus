@@ -71,7 +71,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         handleIntent(getIntent());
 
-//        new ImageRateDialogFragment ().show(getSupportFragmentManager(),ImageRateDialogFragment.class.getSimpleName());
 
 //        Log.e("token", PrefUtils.getFirebaseToken(this));
     }

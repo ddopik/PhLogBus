@@ -120,6 +120,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             protected void loadMoreItems() {
                 imageCommentActivityPresenter.getImageComments(String.valueOf(previewImage.id), nextPageUrl);
             }
+
             @Override
             public boolean isLastPage() {
 
@@ -199,9 +200,13 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
             }
 
             @Override
-            public void onImageRateClick(BaseImage baseImage, float rating) {
+            public void onImageRateClick(BaseImage baseImage) {
 
-                imageCommentActivityPresenter.rateImage(baseImage, rating);
+                ImageRateDialogFragment imageRateDialogFragment = ImageRateDialogFragment.getInstance(rate -> {
+                    imageCommentActivityPresenter.rateImage(baseImage, rate);
+
+                });
+                imageRateDialogFragment.show(getSupportFragmentManager(), ImageRateDialogFragment.class.getSimpleName());
 
 
             }
@@ -344,7 +349,7 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
     public void onImageCommented(SubmitImageCommentData commentData) {
         // (1) is A default value to view AddComment layout in case there is now Comments
         this.commentList.add(commentList.size() - 1, commentData.comment);
-        this.previewImage.commentsCount ++;
+        this.previewImage.commentsCount++;
 
         reSortMentionList(commentData.mentions).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
