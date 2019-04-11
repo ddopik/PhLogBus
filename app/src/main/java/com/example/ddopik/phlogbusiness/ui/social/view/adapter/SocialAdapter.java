@@ -166,8 +166,6 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
             socialBrandFollowing = view.findViewById(R.id.social_brand_following);
             followBrandBtn = view.findViewById(R.id.follow_brand);
             /////BrandAlbumView
-            socialAlbumName = view.findViewById(R.id.social_album_name);
-            socialAlbumPhotosNumber = view.findViewById(R.id.social_album_photos_number);
             socialAlbum1 = view.findViewById(R.id.social_album_img_1);
             socialAlbum2 = view.findViewById(R.id.social_album_img_2);
             socialAlbum3 = view.findViewById(R.id.social_album_img_3);

@@ -3,10 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.social.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
-import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
+import com.example.ddopik.phlogbusiness.base.commonmodel.*;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -41,7 +38,7 @@ public class SocialData  implements Parcelable{
     public List<Photographer> profiles = null;
     @SerializedName("albums")
     @Expose
-    public List<BaseImage> albums;
+    public List<Album> albums;
     @SerializedName("campaigns")
     @Expose
     public List<Campaign> campaigns;
@@ -69,7 +66,7 @@ public class SocialData  implements Parcelable{
         dest.writeInt(this.entityId);
         dest.writeString(this.displayType);
         dest.writeTypedList(this.profiles);
-        dest.writeTypedList(this.albums);
+        dest.writeList(this.albums);
         dest.writeList(this.campaigns);
         dest.writeTypedList(this.brands);
         dest.writeTypedList(this.photos);
@@ -82,7 +79,8 @@ public class SocialData  implements Parcelable{
         this.entityId = in.readInt();
         this.displayType = in.readString();
         this.profiles = in.createTypedArrayList(Photographer.CREATOR);
-        this.albums = in.createTypedArrayList(BaseImage.CREATOR);
+        this.albums = new ArrayList<Album>();
+        in.readList(this.albums, Album.class.getClassLoader());
         this.campaigns = new ArrayList<Campaign>();
         in.readList(this.campaigns, Campaign.class.getClassLoader());
         this.brands = in.createTypedArrayList(Business.CREATOR);

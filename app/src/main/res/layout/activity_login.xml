@@ -3,13 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/login_screen_background"/>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/splash_screen_background"
         android:orientation="vertical">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -181,6 +188,8 @@
 
 
     </LinearLayout>
+</FrameLayout>
+
 
     <ProgressBar
         android:id="@+id/login_progress"

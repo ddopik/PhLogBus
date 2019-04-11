@@ -109,6 +109,14 @@
                             android:textSize="@dimen/font_normal" />
                     </android.support.design.widget.TextInputLayout>
 
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/campaign_tag_auto_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp45"
+                        android:theme="@style/TextLabel"
+                        android:textColorHint="@color/gray400"
+                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                     <AutoCompleteTextView
                         android:id="@+id/campaign_tag_auto_complete"
@@ -124,11 +132,12 @@
                         android:textColor="@color/black677078"
                         android:textColorHint="@color/black677078"
                         android:textSize="@dimen/font_normal" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@color/gray400" />
+                    </android.support.design.widget.TextInputLayout>
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="2dp"-->
+                        <!--android:layout_marginTop="@dimen/dp6"-->
+                        <!--android:background="@color/gray400" />-->
 
                     <LinearLayout
                         android:layout_width="match_parent"

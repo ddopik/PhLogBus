@@ -5,6 +5,7 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/widgets_padding"
 
     >
 
@@ -42,7 +43,7 @@
                         android:fontFamily="@font/segoe_b"
                         android:text="@string/stories"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/signing_head_text_size" />
+                        android:textSize="@dimen/signing_head_text_size_m" />
 
                     <FrameLayout
                         android:layout_width="match_parent"

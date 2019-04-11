@@ -41,7 +41,7 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
     public static String CAMPAIGN_DATA = "campaign_data";
     private AddCampaignRequestModel addCampaignRequestModel;
 
-    private TextInputLayout campaignDescInput, campaignPrizeInput;
+    private TextInputLayout campaignDescInput, campaignPrizeInput,campaignTagAutoInput;
     private EditText campaignDescription, campaignPrize;
     private AutoCompleteTextView autoCompleteTextView;
     private List<Tag> tagList = new ArrayList<Tag>();
@@ -83,6 +83,7 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
 
         campaignDescInput = findViewById(R.id.campaign_description_input);
         campaignPrizeInput = findViewById(R.id.campaign_prize_input);
+        campaignTagAutoInput=findViewById(R.id.campaign_tag_auto_input);
         campaignDescription = findViewById(R.id.campaign_description);
         campaignPrize = findViewById(R.id.campaign_prize);
 
@@ -177,7 +178,7 @@ public class AddCampaignStepTwoActivity extends BaseActivity implements AddCampa
 
 
         if (tagList.size() == 0) {
-            autoCompleteTextView.setError(getResources().getString(R.string.please_add_more_tags));
+            campaignTagAutoInput.setError(getResources().getString(R.string.please_add_more_tags));
             inputStates = false;
 
         }
