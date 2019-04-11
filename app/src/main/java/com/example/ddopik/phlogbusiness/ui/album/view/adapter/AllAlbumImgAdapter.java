@@ -90,9 +90,9 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         if (albumImgList.get(i).commentsCount != null)
             albumImgViewHolder.albumImgCommentVal.setText(new StringBuilder().append(albumImgList.get(i).commentsCount).append(" Comments").toString());
         if (albumImgList.get(i).isLiked != null && !albumImgList.get(i).isLiked) {
-            albumImgViewHolder.albumImgLike.setImageResource(R.drawable.ic_like_off_gray);
+            albumImgViewHolder.albumImgLike.setImageResource(R.drawable.ic_favorite_off);
         } else {
-            albumImgViewHolder.albumImgLike.setImageResource(R.drawable.ic_like_on);
+            albumImgViewHolder.albumImgLike.setImageResource(R.drawable.ic_favorite_on);
         }
         if (albumImgList.get(i).photographer.isFollow) {
             albumImgViewHolder.followPhotoGrapherBtn.setText(context.getResources().getString(R.string.un_follow));
@@ -101,17 +101,6 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         }
 
 
-        if (albumImgList.get(i).isCart != null) {
-            if (albumImgList.get(i).isPurchased)
-                albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.INVISIBLE);
-            else
-                albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
-            albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
-            if (albumImgList.get(i).isCart) albumImgViewHolder.albumImageCartVal.setText(R.string.view_in_cart);
-            else albumImgViewHolder.albumImageCartVal.setText(R.string.add_to_cart);
-        } else {
-            albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.INVISIBLE);
-        }
 
         if (onAlbumImgClicked != null) {
             albumImgViewHolder.albumImg.setOnClickListener(v -> onAlbumImgClicked.onAlbumImgClick(albumImgList.get(i)));
@@ -131,7 +120,6 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
         albumImgViewHolder.albumImgAddToLightBox.setVisibility(View.INVISIBLE);
         switch (photosListType) {
             case SOCIAL_LIST: {
-                if (!albumImgList.get(i).isPurchased)
                 albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.INVISIBLE);
                 albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.INVISIBLE);
                 albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.INVISIBLE);
@@ -151,7 +139,17 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 //                break;
 //            }
             case USER_PROFILE_PHOTOS_LIST: {
-                albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
+                if (!albumImgList.get(i).isPurchased || albumImgList.get(i).canPurchase) {
+                    if (albumImgList.get(i).isCart != null) {
+                        albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
+                        if (albumImgList.get(i).isCart) albumImgViewHolder.albumImageCartVal.setText(R.string.view_in_cart);
+                        else albumImgViewHolder.albumImageCartVal.setText(R.string.add_to_cart);
+                    } else {
+                        albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.INVISIBLE);
+                    }
+                } else {
+                    albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.INVISIBLE);
+                }
                 albumImgViewHolder.followPhotoGrapherBtn.setVisibility(View.INVISIBLE);
                 albumImgViewHolder.albumImgAddToLightBox.setVisibility(View.VISIBLE);
                 break;

@@ -186,10 +186,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 });
             } else commentViewHolder.chooseWinnerBtn.setVisibility(View.GONE);
 
-            if (previewImage.isCart != null && previewImage.isCart) {
-                commentViewHolder.cartText.setText(R.string.view_in_cart);
+            if (!previewImage.isPurchased && previewImage.canPurchase) {
+                if (previewImage.isCart != null) {
+                    commentViewHolder.addToCartBtn.setVisibility(View.VISIBLE);
+                    if (previewImage.isCart) commentViewHolder.cartText.setText(R.string.view_in_cart);
+                    else commentViewHolder.cartText.setText(R.string.add_to_cart);
+                } else {
+                    commentViewHolder.addToCartBtn.setVisibility(View.INVISIBLE);
+                }
             } else {
-                commentViewHolder.cartText.setText(R.string.add_to_cart);
+                commentViewHolder.addToCartBtn.setVisibility(View.INVISIBLE);
             }
 
             commentViewHolder.addToCartBtn.setOnClickListener(v -> {
