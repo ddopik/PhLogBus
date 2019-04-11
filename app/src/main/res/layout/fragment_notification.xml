@@ -10,6 +10,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <include
+            layout="@layout/phlog_app_bar"/>
         <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
             android:id="@+id/notification_rv"
             android:layout_width="match_parent"

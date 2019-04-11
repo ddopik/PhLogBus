@@ -181,8 +181,8 @@
     <dimen name="social_img_slider_h">280dp</dimen>
     <dimen name="social_profile_img_w">300dp</dimen>
     <dimen name="social_album_icon_w">200dp</dimen>
-    <dimen name="social_album_icon_h">75dp</dimen>
-    <dimen name="social_album_icon_h_xl">154dp</dimen>
+    <dimen name="social_album_icon_h">135dp</dimen>
+    <dimen name="social_album_icon_h_xl">275dp</dimen>
     <dimen name="bottom_bar_item_padding">2dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 

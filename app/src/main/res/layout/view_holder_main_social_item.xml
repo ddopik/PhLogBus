@@ -60,7 +60,6 @@
             android:layout_height="match_parent"
             android:visibility="gone">
 
-            <include layout="@layout/view_holder_social_brand_type_1" />
         </FrameLayout>
 
 
@@ -68,10 +67,14 @@
             android:id="@+id/social_album_type_4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:visibility="gone"
             tools:visibility="visible">
-
-            <include layout="@layout/view_holder_social_album_type_4" />
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                layout="@layout/view_holder_social_album_type_4" />
         </FrameLayout>
 
 

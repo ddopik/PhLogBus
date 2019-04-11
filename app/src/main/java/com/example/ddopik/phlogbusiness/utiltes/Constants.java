@@ -45,7 +45,7 @@ public interface Constants {
     String ALBUM_DISPLAY_TYPE_1 = "301";
     String ALBUM_DISPLAY_TYPE_2 = "302";
     String ALBUM_DISPLAY_TYPE_3 = "303";
-    String ALBUM_DISPLAY_TYPE_4 = "405";
+    String ALBUM_DISPLAY_TYPE_4 = "304";
     String ALBUM_DISPLAY_TYPE_5 = "305";
 
     String IMGS_DISPLAY_TYPE_1 = "401";
