@@ -261,7 +261,7 @@
     <string name="campaign_status_approved">Approved</string>
     <string name="campaign_status_running">Running</string>
     <string name="campaign_status_finished">Finished</string>
-    <string name="campaign_status_processing">Processing</string>
+    <string name="campaign_status_processing">Waiting to choose winner(s)</string>
     <string name="campaign_status_completed">Completed</string>
     <string name="confirmation">Confirmation</string>
     <string name="logout_confirmation">Are you sure?</string>

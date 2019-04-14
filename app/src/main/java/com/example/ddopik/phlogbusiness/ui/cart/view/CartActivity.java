@@ -91,6 +91,7 @@ public class CartActivity extends BaseActivity implements CartView {
                 cartIsEmptyIV.setVisibility(View.VISIBLE);
                 cartIsEmptyTV.setVisibility(View.VISIBLE);
                 loading.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
                 if (isCheckingOut) {
                     removedItems.clear();
                     removedItems.add(-1);

@@ -89,9 +89,8 @@ public interface Constants {
         int CAMPAIGN_STATUS_PENDING = 2;
         int CAMPAIGN_STATUS_APPROVED = 3;
         int CAMPAIGN_STATUS_RUNNING = 4;
-        int CAMPAIGN_STATUS_FINISHED = 5;
-        int CAMPAIGN_STATUS_PRIZE_PROCESSING = 6;
-        int CAMPAIGN_STATUS_COMPLETED = 7;
+        int CAMPAIGN_STATUS_PRIZE_PROCESSING = 5;
+        int CAMPAIGN_STATUS_COMPLETED = 6;
     }
 
 

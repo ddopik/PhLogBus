@@ -98,7 +98,6 @@ public class CampaignInnerSettingFragment extends BaseFragment implements Campai
         campaignPrize.setText(campaign.prize);
         campaignPhotosNumber.setText(String.format("%1$d", campaign.photosCount));
         switch (campaign.status) {
-            case CampaignStatus.CAMPAIGN_STATUS_FINISHED:
             case CampaignStatus.CAMPAIGN_STATUS_PRIZE_PROCESSING:
             case CampaignStatus.CAMPAIGN_STATUS_COMPLETED:
                 extendCampaign.setVisibility(View.INVISIBLE);

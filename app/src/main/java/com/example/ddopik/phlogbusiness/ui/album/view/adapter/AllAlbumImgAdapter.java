@@ -139,7 +139,7 @@ public class AllAlbumImgAdapter extends RecyclerView.Adapter<AllAlbumImgAdapter.
 //                break;
 //            }
             case USER_PROFILE_PHOTOS_LIST: {
-                if (!albumImgList.get(i).isPurchased || albumImgList.get(i).canPurchase) {
+                if (!albumImgList.get(i).isPurchased && albumImgList.get(i).canPurchase) {
                     if (albumImgList.get(i).isCart != null) {
                         albumImgViewHolder.albumImgAddToCartBtn.setVisibility(View.VISIBLE);
                         if (albumImgList.get(i).isCart) albumImgViewHolder.albumImageCartVal.setText(R.string.view_in_cart);

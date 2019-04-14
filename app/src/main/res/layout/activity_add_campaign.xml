@@ -82,7 +82,7 @@
                 android:hint="@string/campaign_name"
                 android:textColorHint="@color/gray400"
                 android:theme="@style/TextLabel"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                app:errorTextAppearance="@style/error_appearance">
 
                 <EditText
                     android:id="@+id/campaign_name"

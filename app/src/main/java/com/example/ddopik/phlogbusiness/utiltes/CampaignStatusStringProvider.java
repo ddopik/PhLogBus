@@ -18,8 +18,6 @@ public interface CampaignStatusStringProvider {
                 return R.string.campaign_status_approved;
             case CAMPAIGN_STATUS_RUNNING:
                 return R.string.campaign_status_running;
-            case CAMPAIGN_STATUS_FINISHED:
-                return R.string.campaign_status_finished;
             case CAMPAIGN_STATUS_PRIZE_PROCESSING:
                 return R.string.campaign_status_processing;
             case CAMPAIGN_STATUS_COMPLETED:

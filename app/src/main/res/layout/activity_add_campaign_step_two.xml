@@ -74,7 +74,7 @@
                         android:layout_marginTop="@dimen/dp45"
                         android:theme="@style/TextLabel"
                         android:textColorHint="@color/gray400"
-                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                        app:errorTextAppearance="@style/error_appearance">
 
                         <EditText
                             android:id="@+id/campaign_description"
@@ -95,7 +95,7 @@
                         android:layout_marginTop="@dimen/dp45"
                         android:theme="@style/TextLabel"
                         android:textColorHint="@color/gray400"
-                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                        app:errorTextAppearance="@style/error_appearance">
 
                         <EditText
                             android:id="@+id/campaign_prize"
@@ -116,7 +116,7 @@
                         android:layout_marginTop="@dimen/dp45"
                         android:theme="@style/TextLabel"
                         android:textColorHint="@color/gray400"
-                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                        app:errorTextAppearance="@style/error_appearance">
 
                     <AutoCompleteTextView
                         android:id="@+id/campaign_tag_auto_complete"
@@ -130,7 +130,6 @@
                         android:padding="@dimen/widgets_padding"
                         android:singleLine="true"
                         android:textColor="@color/black677078"
-                        android:textColorHint="@color/black677078"
                         android:textSize="@dimen/font_normal" />
                     </android.support.design.widget.TextInputLayout>
                     <!--<TextView-->
