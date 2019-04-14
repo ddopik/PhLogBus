@@ -58,7 +58,7 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
             return;
         campaignViewHolder.campaignDayLeft.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(context, R.drawable.ic_time_white), null, null, null);
 //        campaignViewHolder.campaignJoined.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(context, R.drawable.ic_joined), null, null, null);
-        campaignViewHolder.campaignJoined.setVisibility(View.INVISIBLE);
+        campaignViewHolder.campaignPhotosCount.setVisibility(View.INVISIBLE);
         campaignViewHolder.campaignPrize.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(context, R.drawable.ic_prize_white), null, null, null);
         if (homeCampaign.prize != null)
             campaignViewHolder.campaignPrize.setText(homeCampaign.prize);
@@ -76,8 +76,11 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
         campaignViewHolder.campaignDayLeft.setText(String.valueOf(homeCampaign.daysLeft));
         campaignViewHolder.campaignDayLeft.append(" " + context.getResources().getString(R.string.days_left));
 
-        campaignViewHolder.campaignJoined.setText(String.valueOf(homeCampaign.joinedPhotographersCount));
-        campaignViewHolder.campaignJoined.append(" " + context.getResources().getString(R.string.people_joined));
+
+
+        campaignViewHolder.campaignPhotosCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_photo),null,null,null);
+        campaignViewHolder.campaignPhotosCount.setText(String.valueOf(homeCampaign.photosCount));
+        campaignViewHolder.campaignPhotosCount.append(" " + context.getResources().getString(R.string.photos_uploaded));
 
         Glide.with(context)
                 .load(homeCampaign.business.thumbnail)
@@ -115,7 +118,7 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
     public class DraftCampaignViewHolder extends RecyclerView.ViewHolder {
         private ImageView campaignImage;
         private ImageView campaignBusinessIcon;
-        private TextView campaignBusinessName, campaignTitle, campaignDayLeft, campaignJoined, campaignPrize;
+        private TextView campaignBusinessName, campaignTitle, campaignDayLeft, campaignPhotosCount, campaignPrize;
         private ImageButton deleteButton;
         private ConstraintLayout statusView;
         private ImageView statusIndicator;
@@ -129,7 +132,7 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
             campaignBusinessName = view.findViewById(R.id.campaign_name);
             campaignTitle = view.findViewById(R.id.campaign_title);
             campaignDayLeft = view.findViewById(R.id.campaign_day_left);
-            campaignJoined = view.findViewById(R.id.campaign_joined);
+            campaignPhotosCount = view.findViewById(R.id.campaign_joined);
             campaignPrize = view.findViewById(R.id.campaign_prize);
 
             deleteButton = view.findViewById(R.id.delete_button);

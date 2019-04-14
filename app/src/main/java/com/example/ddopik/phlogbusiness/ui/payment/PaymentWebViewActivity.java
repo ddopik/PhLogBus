@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 import com.example.ddopik.phlogbusiness.BuildConfig;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
@@ -22,14 +24,20 @@ import javax.crypto.spec.SecretKeySpec;
 public class PaymentWebViewActivity extends BaseActivity {
 
 
-    WebView webview;
+    private WebView webview;
+    private CustomTextView toolBarTitle;
+    private ImageButton backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_webview);
         webview = (WebView) findViewById(R.id.payment_webview);
+        toolBarTitle=findViewById(R.id.toolbar_title);
+        backBtn=findViewById(R.id.back_btn);
         webView();
+        initView();
+
     }
 
     //Metodo llamar el webview
@@ -103,10 +111,16 @@ public class PaymentWebViewActivity extends BaseActivity {
     @Override
     public void initView() {
 
+
+        toolBarTitle.setText(getResources().getString(R.string.my_cart));
+        backBtn.setOnClickListener(v->{
+            onBackPressed();
+        });
     }
 
     @Override
     public void initPresenter() {
+
 
     }
 }

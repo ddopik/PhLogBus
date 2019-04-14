@@ -331,5 +331,7 @@
     <string name="go_back">Go Back</string>
     <string name="campaign_submitted_successfully">Campaign data submitted successfully</string>
     <string name="rate">Rate</string>
+    <string name="my_cart">My cart</string>
+    <string name="photos_uploaded">Photos uploaded</string>
 
 </resources>

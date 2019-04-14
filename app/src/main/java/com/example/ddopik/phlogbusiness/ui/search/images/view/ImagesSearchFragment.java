@@ -515,8 +515,10 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             searchResultCount.setTextColor(getResources().getColor(R.color.white));
             clearFilterBtn.setVisibility(View.INVISIBLE);
             ////
+
             promptView.setVisibility(View.GONE);
             albumGroupList.clear();
+            nextPageUrl=null;
             imageSearchAdapter.notifyDataSetChanged();
             if (imagesSearchFragmentPresenter.getFilter(filterList).size() > 0) {
                 imagesSearchFragmentPresenter.getSearchImages(imageSearch.getText().toString(), filterList, nextPageUrl);

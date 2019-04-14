@@ -1,7 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.campaigns.completed.view;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 
@@ -69,8 +66,9 @@ public class CompletedCampaignsAdapter extends RecyclerView.Adapter<CompletedCam
         campaignViewHolder.campaignDayLeft.setText(String.valueOf(homeCampaign.daysLeft));
         campaignViewHolder.campaignDayLeft.append(" " + context.getResources().getString(R.string.days_left));
 
-        campaignViewHolder.campaignJoind.setText(String.valueOf(homeCampaign.joinedPhotographersCount));
-        campaignViewHolder.campaignJoind.append(" " + context.getResources().getString(R.string.people_joined));
+        campaignViewHolder.campaignPhotosCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_photo),null,null,null);
+        campaignViewHolder.campaignPhotosCount.setText(String.valueOf(homeCampaign.photosCount));
+        campaignViewHolder.campaignPhotosCount.append(" " + context.getResources().getString(R.string.photos_uploaded));
 
         Glide.with(context)
                 .load(homeCampaign.business.thumbnail)
@@ -87,7 +85,7 @@ public class CompletedCampaignsAdapter extends RecyclerView.Adapter<CompletedCam
     public class CompletedCampaignViewHolder extends RecyclerView.ViewHolder {
         private ImageView campaignImage;
         private ImageView campaignBusinessIcon;
-        private TextView campaignBusinessName, campaignTitle, campaignDayLeft, campaignJoind, campaignPrize;
+        private TextView campaignBusinessName, campaignTitle, campaignDayLeft, campaignPhotosCount, campaignPrize;
         private Button joinCampaignBtn;
 
         public CompletedCampaignViewHolder(View view) {
@@ -98,7 +96,7 @@ public class CompletedCampaignsAdapter extends RecyclerView.Adapter<CompletedCam
             campaignBusinessName = view.findViewById(R.id.campaign_name);
             campaignTitle = view.findViewById(R.id.campaign_title);
             campaignDayLeft = view.findViewById(R.id.campaign_day_left);
-            campaignJoind = view.findViewById(R.id.campaign_joined);
+            campaignPhotosCount = view.findViewById(R.id.campaign_joined);
 
             campaignPrize = view.findViewById(R.id.campaign_prize);
         }

@@ -100,11 +100,13 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
     @SuppressLint("CheckResult")
     @Override
     public void unLikePhoto(BaseImage baseImage) {
+        imageCommentActivityView.viewImageProgress(true);
         BaseNetworkApi.unlikeImage(String.valueOf(baseImage.id))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(likeImageResponse -> {
                     imageCommentActivityView.onImageLiked(likeImageResponse.data);
+                    imageCommentActivityView.viewImageProgress(false);
                 }, throwable -> {
                     imageCommentActivityView.viewImageProgress(false);
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
