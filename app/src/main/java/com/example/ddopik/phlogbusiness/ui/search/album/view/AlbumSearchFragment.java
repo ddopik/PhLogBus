@@ -444,6 +444,7 @@ public class AlbumSearchFragment extends BaseFragment implements AlbumSearchFrag
             ////
             promptView.setVisibility(View.GONE);
             albumSearchList.clear();
+            nextPageUrl=null;
             albumSearchAdapter.notifyDataSetChanged();
             if (albumSearchPresenter.getFilter(filterList).size() > 0) {
                 albumSearchPresenter.getAlbumSearch(albumSearch.getText().toString(), filterList, null);
