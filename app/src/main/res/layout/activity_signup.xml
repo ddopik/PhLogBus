@@ -87,7 +87,8 @@
                         android:layout_weight="1"
                         android:hint="@string/first_name"
                         android:theme="@style/TextLabel"
-                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                        app:errorTextAppearance="@style/error_appearance"
+                        android:textColorHint="@color/gray400">
 
                         <EditText
                             android:fontFamily="@font/verdana"
@@ -108,7 +109,8 @@
                         android:layout_weight="1"
                         android:hint="@string/last_name"
                         android:theme="@style/TextLabel"
-                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                        android:textColorHint="@color/gray400"
+                        app:errorTextAppearance="@style/error_appearance">
 
                         <EditText
                             android:id="@+id/last_name"
@@ -152,7 +154,8 @@
                     android:layout_marginTop="@dimen/sign_up_text_input_margin_top"
                     android:hint="@string/mail"
                     android:theme="@style/TextLabel"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                    android:textColorHint="@color/gray400"
+                    app:errorTextAppearance="@style/error_appearance">
 
                     <EditText
                         android:id="@+id/mail"
@@ -173,7 +176,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/sign_up_text_input_margin_top"
                     android:theme="@style/TextLabel"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+                    android:hint="@string/password"
+                    android:textColorHint="@color/gray400"
+                    app:errorTextAppearance="@style/error_appearance"
                     app:passwordToggleEnabled="true">
 
                     <EditText
@@ -184,8 +189,7 @@
                         android:inputType="textPassword"
                         android:textAlignment="textStart"
                         android:textColor="@color/black677078"
-                        android:textSize="@dimen/font_normal"
-                        android:hint="@string/password" />
+                        android:textSize="@dimen/font_normal" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -195,7 +199,8 @@
                     android:layout_marginTop="@dimen/sign_up_text_input_margin_top"
                     android:hint="@string/mobile"
                     android:theme="@style/TextLabel"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                    android:textColorHint="@color/gray400"
+                    app:errorTextAppearance="@style/error_appearance">
 
                     <EditText
                         android:id="@+id/mobile"
@@ -216,7 +221,8 @@
                     android:layout_marginTop="@dimen/sign_up_text_input_margin_top"
                     android:hint="@string/industry"
                     android:theme="@style/TextLabel"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                    android:textColorHint="@color/gray400"
+                    app:errorTextAppearance="@style/error_appearance">
 
                     <AutoCompleteTextView
                         android:id="@+id/industry"

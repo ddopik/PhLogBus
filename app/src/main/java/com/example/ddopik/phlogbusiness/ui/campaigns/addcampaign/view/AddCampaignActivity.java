@@ -106,7 +106,7 @@ public class AddCampaignActivity extends BaseActivity {
         if (addCampaignRequestModel.campaignCoverPhoto == null && (addCampaignRequestModel.coverUrl == null || addCampaignRequestModel.coverUrl.isEmpty())) {
 //            campaignNameInput.setEnabled(true);
             uploadCampaignImgLapel.setText(getResources().getString(R.string.campaign_image_cover_required));
-            uploadCampaignImgLapel.setTextColor(getResources().getColor(R.color.colorRed));
+            uploadCampaignImgLapel.setTextColor(getResources().getColor(R.color.text_input_color));
             inputStats = false;
         } else {
             uploadCampaignImgLapel.setText(getResources().getString(R.string.choose_cover_image));

@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.ui.campaigns.running.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 
 import java.util.List;
 
@@ -54,6 +56,7 @@ public class RunningCampaignsAdapter extends RecyclerView.Adapter<RunningCampaig
                 campaignLister.onCampaignClicked(homeCampaign.id.toString());
             }
         });
+        campaignViewHolder.campaignDayLeft.setCompoundDrawablesWithIntrinsicBounds(AppCompatResources.getDrawable(context, R.drawable.ic_time_white), null, null, null);
 
         Glide.with(context).load(homeCampaign.imageCover)
                 .apply(RequestOptions.errorOf(R.drawable.default_place_holder).placeholder(R.drawable.default_error_img))
@@ -77,6 +80,16 @@ public class RunningCampaignsAdapter extends RecyclerView.Adapter<RunningCampaig
                         .error(R.drawable.default_place_holder)
                         .placeholder(R.drawable.default_error_img))
                 .into(campaignViewHolder.campaignBusinessIcon);
+
+        if (homeCampaign.status.equals(Constants.CampaignStatus.CAMPAIGN_STATUS_PRIZE_PROCESSING)) {
+            campaignViewHolder.campaignDayLeft.setVisibility(View.GONE);
+            campaignViewHolder.statusView.setVisibility(View.VISIBLE);
+            campaignViewHolder.statusIndicator.setBackgroundResource(R.drawable.circle_green);
+            campaignViewHolder.statusVal.setText(R.string.campaign_status_processing);
+        } else {
+            campaignViewHolder.campaignDayLeft.setVisibility(View.VISIBLE);
+            campaignViewHolder.statusView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -87,6 +100,11 @@ public class RunningCampaignsAdapter extends RecyclerView.Adapter<RunningCampaig
     public class CampaignViewHolder extends RecyclerView.ViewHolder {
         private  ImageView campaignImage;
         private  ImageView campaignBusinessIcon;
+        private  TextView campaignBusinessName, campaignTitle, campaignDayLeft,campaignJoined, campaignPrize;
+        private ConstraintLayout statusView;
+        private ImageView statusIndicator;
+        private TextView statusVal;
+        private  TextView campaignBusinessName, campaignTitle, campaignDayLeft, campaignPhotosCount, campaignPrize;
         private  TextView campaignBusinessName, campaignTitle, campaignDayLeft, campaignPhotosCount, campaignPrize;
 
         public CampaignViewHolder(View view) {
@@ -100,6 +118,10 @@ public class RunningCampaignsAdapter extends RecyclerView.Adapter<RunningCampaig
             campaignPhotosCount = view.findViewById(R.id.campaign_joined);
 
             campaignPrize = view.findViewById(R.id.campaign_prize);
+
+            statusView = view.findViewById(R.id.status_view);
+            statusIndicator = view.findViewById(R.id.status_indicator);
+            statusVal = view.findViewById(R.id.status_val);
         }
     }
 

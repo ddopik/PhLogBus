@@ -52,7 +52,7 @@
         </RelativeLayout>
 
         <FrameLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/campaign_item_height">
 
             <ImageView
@@ -66,8 +66,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.4"
-                android:background="@drawable/graduant_layer" />
+                android:alpha="0.5"
+                android:background="@color/gray800" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -96,6 +96,7 @@
                         android:id="@+id/status_indicator"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
+                        app:layout_constraintHeight_percent=".8"
                         app:layout_constraintDimensionRatio="1:1"
                         android:background="@drawable/circle"
                         app:layout_constraintStart_toStartOf="parent"

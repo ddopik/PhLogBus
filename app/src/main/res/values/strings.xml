@@ -261,7 +261,7 @@
     <string name="campaign_status_approved">Approved</string>
     <string name="campaign_status_running">Running</string>
     <string name="campaign_status_finished">Finished</string>
-    <string name="campaign_status_processing">Processing</string>
+    <string name="campaign_status_processing">Waiting to choose winner(s)</string>
     <string name="campaign_status_completed">Completed</string>
     <string name="confirmation">Confirmation</string>
     <string name="logout_confirmation">Are you sure?</string>
@@ -331,6 +331,8 @@
     <string name="go_back">Go Back</string>
     <string name="campaign_submitted_successfully">Campaign data submitted successfully</string>
     <string name="rate">Rate</string>
+    <string name="no_completed_campaigns_prompt">You don\'t any completed campaigns.</string>
+    <string name="no_draft_campaigns_prompt">You don\'t any draft campaigns.</string>
     <string name="my_cart">My cart</string>
     <string name="photos_uploaded">Photos uploaded</string>
 

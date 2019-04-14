@@ -77,7 +77,7 @@
                             android:layout_marginTop="@dimen/dp45"
                             android:textColorHint="@color/gray400"
                             android:theme="@style/TextLabel"
-                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                            app:errorTextAppearance="@style/error_appearance">
 
                             <EditText
                                 android:id="@+id/campaign_start_date"
@@ -99,7 +99,7 @@
                             android:layout_marginTop="@dimen/dp45"
                             android:textColorHint="@color/gray400"
                             android:theme="@style/TextLabel"
-                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                            app:errorTextAppearance="@style/error_appearance">
 
                             <EditText
                                 android:id="@+id/campaign_end_date"
@@ -121,7 +121,7 @@
                             android:layout_marginTop="@dimen/dp45"
                             android:textColorHint="@color/gray400"
                             android:theme="@style/TextLabel"
-                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                            app:errorTextAppearance="@style/error_appearance">
 
                             <EditText
                                 android:id="@+id/number_of_winner"

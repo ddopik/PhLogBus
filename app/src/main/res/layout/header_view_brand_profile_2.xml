@@ -104,6 +104,7 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="@dimen/font_normal"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/brand_profile_industry"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
