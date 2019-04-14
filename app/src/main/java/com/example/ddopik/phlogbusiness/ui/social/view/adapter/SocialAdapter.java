@@ -133,7 +133,8 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
         CustomTextView socialBrandName, socialBrandFollowing;
         Button followBrandBtn;
         /////
-        ImageView socialAlbum1, socialAlbum2, socialAlbum3;
+        FrameLayout socialAlbumOverLayListener;
+        ImageView socialAlbumIconImg, socialAlbum1, socialAlbum2, socialAlbum3;
         CustomTextView socialAlbumName, socialAlbumPhotosNumber;
 
 
@@ -165,7 +166,11 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
             socialBrandName = view.findViewById(R.id.social_brand_name);
             socialBrandFollowing = view.findViewById(R.id.social_brand_following);
             followBrandBtn = view.findViewById(R.id.follow_brand);
-            /////BrandAlbumView
+            /////AlbumView
+            socialAlbumOverLayListener = view.findViewById(R.id.social_Album_overLay_listener);
+            socialAlbumName = view.findViewById(R.id.social_album_name);
+            socialAlbumIconImg = view.findViewById(R.id.social_album_icon_img);
+            socialAlbumPhotosNumber = view.findViewById(R.id.social_album_photos_number);
             socialAlbum1 = view.findViewById(R.id.social_album_img_1);
             socialAlbum2 = view.findViewById(R.id.social_album_img_2);
             socialAlbum3 = view.findViewById(R.id.social_album_img_3);
