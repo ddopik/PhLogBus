@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class CompleteCampaignsFragment extends BaseFragment implements CompleteC
     private PagingController pagingController;
     private String nextPageUrl="1";
     private boolean isLoading;
+    private ConstraintLayout noCampaignsPrompt;
 
 
     public static CompleteCampaignsFragment getInstance(){
@@ -66,6 +68,8 @@ public class CompleteCampaignsFragment extends BaseFragment implements CompleteC
         completedCampaignsAdapter = new CompletedCampaignsAdapter
                 (getContext(), completedCampaignList);
         allCampaignsRv.setAdapter(completedCampaignsAdapter);
+
+        noCampaignsPrompt = mainView.findViewById(R.id.no_added_campaign_prompt);
     }
     @Override
     protected void initPresenter() {
@@ -116,6 +120,9 @@ public class CompleteCampaignsFragment extends BaseFragment implements CompleteC
         allCampaignsRv.setVisibility(View.VISIBLE);
         this.completedCampaignList.addAll(campaignList);
         completedCampaignsAdapter.notifyDataSetChanged();
+        if (this.completedCampaignList.isEmpty()) {
+            noCampaignsPrompt.setVisibility(View.VISIBLE);
+        }
     }
     @Override
     public void setNextPageUrl(String page) {

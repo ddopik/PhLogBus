@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,7 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
     private PagingController pagingController;
     private String nextPageUrl="1";
     private boolean isLoading;
+    private ConstraintLayout noCampaignsPrompt;
 
     public static final String TAG = DraftCampaignsFragment.class.getSimpleName();
 
@@ -74,6 +76,8 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
         draftCampaignsRv = mainView.findViewById(R.id.draft_campaigns_rv);
         draftCampaignsAdapter = new DraftCampaignsAdapter(getContext(), draftCampaignList);
         draftCampaignsRv.setAdapter(draftCampaignsAdapter);
+
+        noCampaignsPrompt = mainView.findViewById(R.id.no_added_campaign_prompt);
     }
 
     @Override
@@ -169,6 +173,9 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
         draftCampaignsRv.setVisibility(View.VISIBLE);
         this.draftCampaignList.addAll(draftCampaignsList);
         draftCampaignsAdapter.notifyDataSetChanged();
+        if (this.draftCampaignList.isEmpty()) {
+            noCampaignsPrompt.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
