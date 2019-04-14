@@ -67,10 +67,10 @@ public class RunningCampaignsAdapter extends RecyclerView.Adapter<RunningCampaig
         if (homeCampaign.prize != null)
             campaignViewHolder.campaignPrize.setText(homeCampaign.prize);
         campaignViewHolder.campaignDayLeft.setText(String.valueOf(homeCampaign.daysLeft));
-        campaignViewHolder.campaignDayLeft.append(" "+context.getResources().getString(R.string.days_left));
+        campaignViewHolder.campaignDayLeft.append(" " + context.getResources().getString(R.string.days_left));
 
 
-        campaignViewHolder.campaignPhotosCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_photo),null,null,null);
+        campaignViewHolder.campaignPhotosCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_photo), null, null, null);
         campaignViewHolder.campaignPhotosCount.setText(String.valueOf(homeCampaign.photosCount));
         campaignViewHolder.campaignPhotosCount.append(" " + context.getResources().getString(R.string.photos_uploaded));
 
@@ -98,14 +98,12 @@ public class RunningCampaignsAdapter extends RecyclerView.Adapter<RunningCampaig
     }
 
     public class CampaignViewHolder extends RecyclerView.ViewHolder {
-        private  ImageView campaignImage;
-        private  ImageView campaignBusinessIcon;
-        private  TextView campaignBusinessName, campaignTitle, campaignDayLeft,campaignJoined, campaignPrize;
+        private ImageView campaignImage;
+        private ImageView campaignBusinessIcon;
+        private TextView campaignBusinessName, campaignTitle, campaignDayLeft, campaignPrize, campaignPhotosCount;
         private ConstraintLayout statusView;
         private ImageView statusIndicator;
         private TextView statusVal;
-        private  TextView campaignBusinessName, campaignTitle, campaignDayLeft, campaignPhotosCount, campaignPrize;
-        private  TextView campaignBusinessName, campaignTitle, campaignDayLeft, campaignPhotosCount, campaignPrize;
 
         public CampaignViewHolder(View view) {
             super(view);
