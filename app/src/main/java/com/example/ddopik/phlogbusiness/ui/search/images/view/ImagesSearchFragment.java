@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -163,7 +165,7 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
                 .subscribeWith(searchQuery()));
 
 
-        pagingController = new PagingController(searchImageRv) {
+        pagingController = new PagingController(searchImageRv, 10/4) {
 
 
             @Override
@@ -186,7 +188,6 @@ public class ImagesSearchFragment extends BaseFragment implements ImagesSearchFr
             public boolean isLoading() {
                 return isLoading;
             }
-
 
         };
         expandableListAdapter.onChildViewListener = filterOption -> {
