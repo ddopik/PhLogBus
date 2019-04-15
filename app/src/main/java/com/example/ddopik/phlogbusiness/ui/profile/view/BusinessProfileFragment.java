@@ -140,8 +140,6 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
     @Override
     public void viewBrandProfileData(Business business) {
         this.business = business;
-        if (business.firstName != null)
-            brandName.setText(String.format("%1$s %2$s", business.firstName, business.lastName));
         if (business.userName != null)
             brandUserMail.setText(business.email);
 //        if (business.website != null)
@@ -152,16 +150,20 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         switch (business.brandStatus) {
             case BrandStatus.BRAND_STATUS_NONE:
                 brandStatus.setText(R.string.setup_your_brand);
+                setNameForBusiness(false);
                 break;
             case BrandStatus.BRAND_STATUS_DRAFT:
                 brandStatus.setText(R.string.complete_brand_data);
+                setNameForBusiness(false);
                 break;
             case BrandStatus.BRAND_STATUS_REQUEST:
             case BrandStatus.BRAND_STATUS_PENDING:
                 brandStatus.setText(R.string.brand_pending_approval);
+                setNameForBusiness(false);
                 break;
             case BrandStatus.BRAND_STATUS_APPROVED:
                 brandStatus.setText(R.string.edit_brand);
+                setNameForBusiness(true);
                 break;
         }
 
@@ -181,6 +183,16 @@ public class BusinessProfileFragment extends BaseFragment implements BrandProfil
         // late initialize to make sure no null message
         initListeners();
 
+    }
+
+    private void setNameForBusiness(boolean isBrandVerified) {
+        if (isBrandVerified) {
+            if (business.nameEn != null)
+                brandName.setText(business.nameEn);
+        } else {
+            if (business.fullName != null)
+                brandName.setText(business.fullName);
+        }
     }
 
     @Override

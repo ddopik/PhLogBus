@@ -18,6 +18,7 @@ import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Photographer;
 import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
+import com.example.ddopik.phlogbusiness.ui.MainActivity;
 import com.example.ddopik.phlogbusiness.ui.brand.view.BrandInnerActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.view.CampaignInnerActivity;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivity;
@@ -25,6 +26,7 @@ import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationList;
 import com.example.ddopik.phlogbusiness.ui.userprofile.view.UserProfileActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
+import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 
 import java.util.List;
@@ -170,10 +172,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         notificationViewHolder.notificationContainer.setOnClickListener(v -> {
             if (business != null) {
-                Intent intent = new Intent(context, BrandInnerActivity.class);
-                intent.putExtra(BrandInnerActivity.BRAND_ID, business.id);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                context.startActivity(intent);
+
+                if (business.id != null && business.id.toString().equals(PrefUtils.getBrandId(context))) {
+                    MainActivity.navigationManger.navigate(Constants.NavigationHelper.PROFILE);
+                } else {
+                    Intent intent = new Intent(context, BrandInnerActivity.class);
+                    intent.putExtra(BrandInnerActivity.BRAND_ID, business.id);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    context.startActivity(intent);
+                }
             } else {
                 Toast.makeText(context, R.string.brand_not_available, Toast.LENGTH_LONG).show();
             }

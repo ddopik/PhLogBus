@@ -75,6 +75,8 @@ public class CompletedCampaignsAdapter extends RecyclerView.Adapter<CompletedCam
                 .apply(RequestOptions.circleCropTransform()
                         .error(R.drawable.default_place_holder))
                 .into(campaignViewHolder.campaignBusinessIcon);
+
+        campaignViewHolder.campaignDayLeft.setVisibility(View.GONE);
     }
 
     @Override

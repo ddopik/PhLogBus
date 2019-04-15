@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.ui.album.view.adapter;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.*;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
@@ -177,6 +182,21 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
             if (shouldShowChooseWinnerButton) {
                 commentViewHolder.chooseWinnerBtn.setVisibility(View.VISIBLE);
+//                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+//                rotate.setDuration(1000);
+//                rotate.setInterpolator(new LinearInterpolator());
+//                rotate.setRepeatCount(Animation.INFINITE);
+//                rotate.setRepeatMode(Animation.REVERSE);
+//                commentViewHolder.trophyIcon.animate()
+//                        .rotationY(180)
+//                        .setDuration(1000)
+//                        .setInterpolator(new AccelerateDecelerateInterpolator())
+//                        .start();
+                ObjectAnimator animation = ObjectAnimator.ofFloat(commentViewHolder.trophyIcon, "rotationY", 0.0f, 360f);
+                animation.setDuration(2000);
+                animation.setRepeatCount(ObjectAnimator.INFINITE);
+                animation.setInterpolator(new AccelerateDecelerateInterpolator());
+                animation.start();
                 commentViewHolder.chooseWinnerBtn.setOnClickListener(v -> {
                     commentViewHolder.chooseWinnerBtn.setEnabled(false);
                     commentAdapterAction.onChooseWinnerClick(previewImage, success -> {
@@ -629,6 +649,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         RatingBar photoRating;
         ImageButton menu;
         ConstraintLayout chooseWinnerBtn;
+        ImageView trophyIcon;
         ///Comment_value Cell
         CardView parentCommentView;
         CustomTextView commentVal, commentAuthorName, imageCommentReplayBtn;
@@ -660,6 +681,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 menu = view.findViewById(R.id.menu_button);
                 chooseWinnerBtn = view.findViewById(R.id.choose_winner_btn);
                 addToLightBox = view.findViewById(R.id.add_to_light_box_btn);
+                trophyIcon = view.findViewById(R.id.trophy_icon);
             } else if (type == COMMENT) {
                 parentCommentView = view.findViewById(R.id.comment_parent_view);
                 commentVal = view.findViewById(R.id.comment_val);

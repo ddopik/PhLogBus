@@ -19,10 +19,12 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/choose_winner_btn"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/text_input_color"
-            android:padding="@dimen/dp12">
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_green_btn"
+            android:padding="@dimen/dp12"
+            android:layout_margin="@dimen/widgets_padding">
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
                 android:id="@+id/customTextView2"
@@ -36,11 +38,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintStart_toEndOf="@+id/trophy_icon"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/trophy_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:adjustViewBounds="true"

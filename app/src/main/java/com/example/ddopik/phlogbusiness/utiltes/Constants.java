@@ -114,6 +114,7 @@ public interface Constants {
         int BRAND_STATUS_REQUEST = 2;
         int BRAND_STATUS_PENDING = 3;
         int BRAND_STATUS_APPROVED = 4;
+        int BRAND_STATUS_DECLINED = 5;
     }
 
     int STATUS_LOGGED_IN = 1;

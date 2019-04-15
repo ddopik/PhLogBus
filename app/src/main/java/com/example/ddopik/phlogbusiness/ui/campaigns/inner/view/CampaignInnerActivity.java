@@ -6,11 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Campaign;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.GlideApp;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.ui.campaigns.inner.presenter.CampaignInnerPresenter;
@@ -116,6 +118,8 @@ public class CampaignInnerActivity extends BaseActivity implements CampaignInner
 
     @Override
     public void setCampaign(Campaign campaign) {
+        if (campaign.status > Constants.CampaignStatus.CAMPAIGN_STATUS_RUNNING)
+            campaignDayLeft.setVisibility(View.GONE);
         InnerCampaignFragmentPagerAdapter adapter = new InnerCampaignFragmentPagerAdapter(getSupportFragmentManager()
                 , campaign
                 , getFragmentTitles(campaign.photosCount));
