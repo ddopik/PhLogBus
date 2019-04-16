@@ -75,6 +75,7 @@ public class AlbumPreviewActivity extends BaseActivity implements AlbumPreviewAc
         albumAdapter = new AlbumAdapter(getBaseContext(), albumGroupList);
         albumRv.setAdapter(albumAdapter);
         albumPreviewActivityPresenter.getPhotoDetails(albumID);
+        albumGroupList.clear();
         albumPreviewActivityPresenter.getAlbumPreviewImages(albumID, nextPageUrl);
 
 

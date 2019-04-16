@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseDialogFragment;
 import com.example.ddopik.phlogbusiness.fgm.model.FirebaseNotificationData;
+import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationList;
 
 public class PopupDialogFragment extends BaseDialogFragment {
 
@@ -19,10 +20,10 @@ public class PopupDialogFragment extends BaseDialogFragment {
     private TextView text;
     private Button close;
 
-    private FirebaseNotificationData data;
+    private NotificationList data;
     private Action navigation;
 
-    public static PopupDialogFragment newInstance(FirebaseNotificationData data, Action navigation) {
+    public static PopupDialogFragment newInstance(NotificationList data, Action navigation) {
         PopupDialogFragment fragment = new PopupDialogFragment();
         fragment.data = data;
         fragment.navigation = navigation;
@@ -43,10 +44,10 @@ public class PopupDialogFragment extends BaseDialogFragment {
         text = view.findViewById(R.id.text);
         close = view.findViewById(R.id.close);
         Glide.with(this)
-                .load(data.notification.popupImage)
+                .load(data.popupImage)
                 .into(image);
-        if (data.notification.message != null)
-            text.setText(data.notification.message);
+        if (data.message != null)
+            text.setText(data.message);
     }
 
     @Override

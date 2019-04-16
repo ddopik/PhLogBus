@@ -124,13 +124,27 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
                     AddCampaignRequestModel model = createModel(campaign);
                     intent.putExtra(AddCampaignActivity.CAMPAIGN_DATA, model);
                     startActivity(intent);
+                } else {
+                    showToast(getString(R.string.cant_edit_campaign_prompt));
                 }
             }
 
             @Override
             public void onDeleteClicked(Campaign campaign, int position) {
+                int message = 0;
+                switch (campaign.status) {
+                    case Constants.CampaignStatus.CAMPAIGN_STATUS_REQUEST:
+                    case Constants.CampaignStatus.CAMPAIGN_STATUS_PENDING:
+                        message = R.string.confirmation_cancel_campaign_request;
+                        break;
+                    case Constants.CampaignStatus.CAMPAIGN_STATUS_DRAFT:
+                        message = R.string.confirmation_delete_campaign;
+                        break;
+
+                }
                 new AlertDialog.Builder(getContext())
-                        .setTitle(R.string.delete_confirmation)
+                        .setTitle(R.string.confirmation)
+                        .setMessage(message)
                         .setPositiveButton(R.string.yes, (dialog, which) -> {
                             dialog.dismiss();
                             progressBar.setVisibility(View.VISIBLE);
@@ -140,8 +154,19 @@ public class DraftCampaignsFragment extends BaseFragment implements DraftCampaig
                                     .doFinally(() -> progressBar.setVisibility(View.INVISIBLE))
                                     .subscribe(success -> {
                                         if (success) {
-                                            draftCampaignList.remove(campaign);
-                                            draftCampaignsAdapter.notifyItemRemoved(position);
+                                            switch (campaign.status) {
+                                                case Constants.CampaignStatus
+                                                        .CAMPAIGN_STATUS_REQUEST:
+                                                case Constants.CampaignStatus.CAMPAIGN_STATUS_PENDING:
+                                                    campaign.status = Constants.CampaignStatus.CAMPAIGN_STATUS_DRAFT;
+                                                    draftCampaignsAdapter.notifyItemChanged(position);
+                                                    break;
+                                                case Constants.CampaignStatus.CAMPAIGN_STATUS_DRAFT:
+                                                    draftCampaignList.remove(campaign);
+                                                    draftCampaignsAdapter.notifyItemRemoved(position);
+                                                    break;
+
+                                            }
                                         }
                                     }, throwable -> {
                                         CustomErrorUtil.Companion.setError(getContext(), TAG, throwable);

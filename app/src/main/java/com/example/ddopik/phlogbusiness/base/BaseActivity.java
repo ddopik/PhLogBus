@@ -1,5 +1,6 @@
 package com.example.ddopik.phlogbusiness.base;
 
+import android.app.Notification;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
@@ -11,7 +12,9 @@ import android.widget.Toast;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.fgm.model.FirebaseNotificationData;
 import com.example.ddopik.phlogbusiness.ui.dialog.popup.view.PopupDialogFragment;
+import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationList;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
+import com.example.ddopik.phlogbusiness.utiltes.notification.NotificationFactory;
 import com.example.ddopik.phlogbusiness.utiltes.rxeventbus.RxEventBus;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -56,14 +59,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private boolean snackBarShowing;
+
     @Override
     protected void onResume() {
         super.onResume();
         Disposable disposable = RxEventBus.getInstance().getSubject().subscribe(event -> {
             switch (event.getType()) {
                 case POPUP:
-                    FirebaseNotificationData data = (FirebaseNotificationData) event.getObject();
-                    if (data.notification.popup != Constants.PopupType.NONE)
+                    NotificationList data = (NotificationList) event.getObject();
+                    if (data != null && data.popup != Constants.PopupType.NONE)
                         showPopup(data);
                     break;
                 case CONNECTIVITY:
@@ -104,19 +108,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    protected void showPopup(FirebaseNotificationData data) {
+    protected void showPopup(NotificationList data) {
         PopupDialogFragment.newInstance(data, () -> {
-//            switch (data.notification.popup) {
-//                case Constants.PopupType.LEVEL_UP:
+            switch (data.popup) {
+                case Constants.PopupType.CHOOSE_WINNER:
 //                    navigationManger.navigate(PROFILE);
-//                    break;
-//                case Constants.PopupType.WON_CAMPAIGN:
+                    break;
+                case Constants.PopupType.DOCUMENTS_APPROVED:
 //                    Intent i2 = new Intent(this, CampaignInnerActivity.class);
 //                    i2.putExtra(CampaignInnerActivity.CAMPAIGN_ID, String.valueOf(data.notification.campaign.id));
 //                    i2.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 //                    startActivity(i2);
-//                    break;
-//            }
+                    break;
+            }
         }).show(getSupportFragmentManager(), null);
     }
 }
