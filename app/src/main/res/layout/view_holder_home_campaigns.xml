@@ -156,7 +156,7 @@
                         android:fontFamily="@font/segoe_sb"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        tools:drawableStart="@drawable/ic_joined"
+                        tools:drawableStart="@drawable/ic_photo"
                         tools:text="10 people joined" />
 
                 </LinearLayout>

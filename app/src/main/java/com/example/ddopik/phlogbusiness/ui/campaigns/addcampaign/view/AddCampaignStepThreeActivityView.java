@@ -4,4 +4,5 @@ public interface AddCampaignStepThreeActivityView {
     void viewMessage(String msg);
     void viewSubmitCampaignProgress(Boolean state);
     void onCampaignCompleted();
+
 }

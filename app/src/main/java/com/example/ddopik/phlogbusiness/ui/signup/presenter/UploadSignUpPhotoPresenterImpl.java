@@ -3,6 +3,7 @@ package com.example.ddopik.phlogbusiness.ui.signup.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.signup.view.UploadSignUpPhotoView;
@@ -17,6 +18,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class UploadSignUpPhotoPresenterImpl implements UploadSignUpPhotoPresenter {
 
+    private String TAG=UploadSignUpPhotoPresenterImpl.class.getSimpleName();
     private Context context;
     private UploadSignUpPhotoView uploadSignUpPhotoView;
 
@@ -37,6 +39,8 @@ public class UploadSignUpPhotoPresenterImpl implements UploadSignUpPhotoPresente
                 },throwable -> {
                     uploadSignUpPhotoView.navigateToHome();
                     uploadSignUpPhotoView.viewUploadProfileImgProgress(false);
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+
                 });
 
     }

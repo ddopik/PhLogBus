@@ -335,5 +335,9 @@
     <string name="no_draft_campaigns_prompt">You don\'t any draft campaigns.</string>
     <string name="my_cart">My cart</string>
     <string name="photos_uploaded">Photos uploaded</string>
+    <string name="email_not_verified">Email not verified</string>
+    <string name="send_verfication_request">Do you want to request verification?</string>
+    <string name="veification_request_sent">Verication email is sent. Check your mail.</string>
+
 
 </resources>

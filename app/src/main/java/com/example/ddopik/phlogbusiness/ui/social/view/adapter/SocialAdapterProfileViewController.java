@@ -52,16 +52,6 @@ public class SocialAdapterProfileViewController {
         socialViewHolder.socialProfileType3.setVisibility(View.VISIBLE);
 
         Photographer photographer = socialData.profiles.get(0);
-        if (photographer == null) {
-            Log.e(TAG, "setProfileType3() -------photographer is null---------------------- ");
-
-            Log.e(TAG, "setProfileType3() -------entityId --> " + socialData.entityId);
-            Log.e(TAG, "setProfileType3() -------displayType --> " + socialData.displayType);
-            Log.e(TAG, "setProfileType3() -------title --> " + socialData.title);
-
-            Log.e(TAG, "setProfileType3() -------photographer is null---------------------- ");
-
-        }
         if (photographer.fullName != null) {
             socialViewHolder.socialProfileType3FullName.setText(photographer.fullName);
         }
@@ -77,7 +67,7 @@ public class SocialAdapterProfileViewController {
 
 
         if (photographer.photoGrapherPhotos.size() >= 4) {
-            socialViewHolder.socialProfileAlbumType3PhotosContainer.setBackgroundResource(0);
+            socialViewHolder.socialProfileAlbumType3PhotosContainer.setBackgroundColor(context.getResources().getColor(R.color.white));
             GlideApp.with(context)
                     .load(photographer.photoGrapherPhotos.get(0).url)
                     .centerCrop()
@@ -140,13 +130,9 @@ public class SocialAdapterProfileViewController {
 
 
         socialViewHolder.followSocialProfileType3Btn.setLoading(false);
-        if (photographer.isFollow)
-
-        {
+        if (photographer.isFollow) {
             socialViewHolder.followSocialProfileType3Btn.setText(context.getResources().getString(R.string.un_follow));
-        } else
-
-        {
+        } else {
             socialViewHolder.followSocialProfileType3Btn.setText(context.getResources().getString(R.string.follow));
         }
 

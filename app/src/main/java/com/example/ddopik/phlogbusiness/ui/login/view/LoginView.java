@@ -7,4 +7,7 @@ public interface LoginView {
     void navigateToPickProfilePhoto();
     void showMessage(String msg);
     void showLoginProgress(boolean state);
+
+    void showResendVerificationRequest();
+
 }

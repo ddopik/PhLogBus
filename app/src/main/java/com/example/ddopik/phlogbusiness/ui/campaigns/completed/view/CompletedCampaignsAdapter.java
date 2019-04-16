@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ddopik.phlogbusiness.R;
@@ -54,6 +53,10 @@ public class CompletedCampaignsAdapter extends RecyclerView.Adapter<CompletedCam
             }
         });
 
+
+         ;
+
+
         Glide.with(context).load(homeCampaign.imageCover)
                 .apply(RequestOptions.errorOf(R.drawable.default_place_holder))
                 .into(campaignViewHolder.campaignImage);
@@ -66,7 +69,7 @@ public class CompletedCampaignsAdapter extends RecyclerView.Adapter<CompletedCam
         campaignViewHolder.campaignDayLeft.setText(String.valueOf(homeCampaign.daysLeft));
         campaignViewHolder.campaignDayLeft.append(" " + context.getResources().getString(R.string.days_left));
 
-        campaignViewHolder.campaignPhotosCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_photo),null,null,null);
+        campaignViewHolder.campaignPhotosCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_photo), null, null, null);
         campaignViewHolder.campaignPhotosCount.setText(String.valueOf(homeCampaign.photosCount));
         campaignViewHolder.campaignPhotosCount.append(" " + context.getResources().getString(R.string.photos_uploaded));
 

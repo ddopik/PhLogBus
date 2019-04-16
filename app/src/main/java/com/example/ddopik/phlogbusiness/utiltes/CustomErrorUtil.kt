@@ -24,8 +24,7 @@ class CustomErrorUtil {
         //Bad RequestHandling
         fun setError(context: Context, contextTAG: String, error: String) {
             Log.e(TAG, "$contextTAG------>$error")
-            Toast.makeText(context, "Request error", Toast.LENGTH_SHORT).show()
-        }
+         }
 
         //Universal Error State From Server
         fun setError(context: Context, contextTAG: String, throwable: Throwable?) {
