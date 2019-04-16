@@ -58,10 +58,10 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
         socialViewHolder.socialAlbumType4.setVisibility(View.GONE);
         /// reInstall socialViewHolder  Header  and padding  as "ENTITY_IMAGE"  is clear it
         socialViewHolder.storyTitle.setText("");
-        if (i !=0){
+        if (i != 0) {
             socialViewHolder.storyTitle.setPadding(32, 100, 32, 50);
 
-        }else {
+        } else {
             socialViewHolder.storyTitle.setPadding(32, 16, 32, 32);
         }
         ////
@@ -70,13 +70,13 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
             switch (socialDataList.get(i).entityId) {
 
                 case ENTITY_PROFILE: {
-                    socialAdapterProfileViewController = new SocialAdapterProfileViewController(context, this,socialDataList);
+                    socialAdapterProfileViewController = new SocialAdapterProfileViewController(context, this, socialDataList);
 
                     bindProfileEntity(socialDataList.get(i), socialViewHolder);
                     break;
                 }
                 case ENTITY_CAMPAIGN: {
-                    socialAdapterCampaignViewController = new SocialAdapterCampaignViewController(context, this,socialDataList);
+                    socialAdapterCampaignViewController = new SocialAdapterCampaignViewController(context, this, socialDataList);
                     bindCampaignEntity(socialDataList.get(i), socialViewHolder);
                     break;
                 }
@@ -91,7 +91,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
                     break;
                 }
                 case ENTITY_BRAND: {
-                    socialAdapterBrandController = new SocialAdapterBrandController(context, this,socialDataList);
+                    socialAdapterBrandController = new SocialAdapterBrandController(context, this, socialDataList);
                     bindBrandEntity(socialDataList.get(i), socialViewHolder);
                     break;
                 }
@@ -117,7 +117,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
         TextView socialProfileType3FullName, socialProfileType3UserName;
         LoadingButton followSocialProfileType3Btn;
 
-        LinearLayout socialAlbumImgGroupContainer, socialProfileAlbumType3PhotosContainer,socialProfileType3ItemHeader;
+        LinearLayout socialAlbumImgGroupContainer, socialProfileAlbumType3PhotosContainer, socialProfileType3ItemHeader;
 
 
         /////
@@ -145,7 +145,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
             socialCampaignType1 = view.findViewById(R.id.social_campaign_type_1);
             socialBrandType1 = view.findViewById(R.id.social_brand_type_1);
             socialAlbumType4 = view.findViewById(R.id.social_album_type_4);
-            storyTitle=view.findViewById(R.id.story_title);
+            storyTitle = view.findViewById(R.id.story_title);
 
             setProfileReferences(view);
 
@@ -194,7 +194,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.SocialView
             socialProfileType3Img_2 = view.findViewById(R.id.social_profile_img_2);
             socialProfileType3Img_3 = view.findViewById(R.id.social_profile_img_3);
             socialProfileType3Img_4 = view.findViewById(R.id.social_profile_img_4);
-             socialProfileAlbumType3PhotosContainer = view.findViewById(R.id.social_profile_album_type_3_photos_container);
+            socialProfileAlbumType3PhotosContainer = view.findViewById(R.id.social_profile_album_type_3_photos_container);
 
 
         }

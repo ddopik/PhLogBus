@@ -210,12 +210,15 @@ public class AddCampaignStepThreeActivity extends BaseActivity implements AddCam
     @Override
     public void viewSubmitCampaignProgress(Boolean state) {
         if (state) {
+            submitCampaignBtn.setEnabled(false);
             submitCampaignProgress.setVisibility(View.VISIBLE);
         } else {
+            submitCampaignBtn.setEnabled(true);
             submitCampaignProgress.setVisibility(View.GONE);
         }
 
     }
+
 
     @Override
     public void onCampaignCompleted() {

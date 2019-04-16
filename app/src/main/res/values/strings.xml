@@ -335,6 +335,10 @@
     <string name="no_draft_campaigns_prompt">You don\'t any draft campaigns.</string>
     <string name="my_cart">My cart</string>
     <string name="photos_uploaded">Photos uploaded</string>
+    <string name="email_not_verified">Email not verified</string>
+    <string name="send_verfication_request">Do you want to request verification?</string>
+    <string name="veification_request_sent">Verication email is sent. Check your mail.</string>
+
     <string name="cant_edit_campaign_prompt">You can\'t edit requested or pending campaigns. Contact Phlog admin.</string>
     <string name="confirmation_cancel_campaign_request">Are you sure you want cancel your publish request?</string>
     <string name="confirmation_delete_campaign">Are you sure want to delete this draft campaign?</string>

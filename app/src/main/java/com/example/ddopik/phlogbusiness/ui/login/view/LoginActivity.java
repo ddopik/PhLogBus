@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -160,6 +161,18 @@ public class LoginActivity extends BaseActivity implements LoginView {
         } else {
             loginProgress.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void showResendVerificationRequest() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.email_not_verified)
+                .setMessage(R.string.send_verfication_request)
+                .setPositiveButton(R.string.yes, (dialog, which) -> {
+                    loginPresenter.sendVerificationRequest(mail.getText().toString());
+                    dialog.dismiss();
+                }).setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     @Override

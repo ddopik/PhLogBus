@@ -65,6 +65,11 @@ public abstract class PrefUtils {
         getSharedPref(context).edit().putBoolean(IS_FIRST_LAUNCH, isFirstLaunch).apply();
     }
 
+    public static boolean isFirstLaunch(Context context) {
+        return getSharedPref(context).getBoolean(IS_FIRST_LAUNCH, true);
+    }
+
+
     public static void setIsBrand(Context context, boolean state) {
         getSharedPref(context).edit().putBoolean(IS_BRAND, state).apply();
     }
@@ -132,10 +137,6 @@ public abstract class PrefUtils {
 
     public static String getNotificationToken(Context mContext) {
         return getSharedPref(mContext).getString(NOTIFICATION_TOKEN, "");
-    }
-
-    public static boolean isFirstLaunch(Context context) {
-        return getSharedPref(context).getBoolean(IS_FIRST_LAUNCH, true);
     }
 
     public static String getAppLang(Context context) {

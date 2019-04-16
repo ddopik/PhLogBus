@@ -159,6 +159,8 @@ public class BaseNetworkApi {
     private static final String IMAGE_DETAILS_URL = BASE_URL + "/photo/details";
     private static final String DELETE_CAMPAIGN_URL = BASE_URL + "/campaign/cancel";
     private static final String PHOTO_GRAPHER_PHOTO_DETAILS = BASE_URL + "/photo/details";
+    private static final String REQUEST_VERIFICATION_URL = BASE_URL + "/auth/resend_email_verification";
+
 
     //Path Parameters
     private static final String PAGER_QUERY_PARAMETER = "page";
@@ -848,7 +850,13 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build().getStringObservable();
     }
-
+    public static Observable<String> requestVerification(String email) {
+        return Rx2AndroidNetworking.post(REQUEST_VERIFICATION_URL)
+                .addBodyParameter("email", email)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getStringObservable();
+    }
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){
 //        return Rx2AndroidNetworking.get()
 //
