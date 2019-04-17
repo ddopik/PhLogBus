@@ -13,15 +13,18 @@ import android.widget.ImageView;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseActivity;
 import com.example.ddopik.phlogbusiness.ui.MainActivity;
+import com.example.ddopik.phlogbusiness.ui.dialog.appupdate.AppUpdateDialogFragment;
 import com.example.ddopik.phlogbusiness.ui.login.view.LoginActivity;
+import com.example.ddopik.phlogbusiness.ui.splash.model.CheckVersionData;
 import com.example.ddopik.phlogbusiness.ui.splash.presenter.SplashPresenter;
 import com.example.ddopik.phlogbusiness.ui.splash.presenter.SplashPresenterImpl;
-import com.example.ddopik.phlogbusiness.ui.welcome.view.WelcomeActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants.MainActivityRedirectionValue;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -31,32 +34,73 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
     private SplashPresenter presenter;
 
+    private CompositeDisposable disposables = new CompositeDisposable();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        initView();
         initPresenter();
+        initView();
 //        getSupportActionBar().hide();
         new Handler().postDelayed(() -> {
-            if (PrefUtils.isLoginProvided(this)) {
-                if (PrefUtils.isFirebaseTokenSentToServer(this))
-                    goToMain();
-                else {
-                    presenter.sendFirebaseToken(this)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(success -> {
-                                goToMain();
-                            }, throwable -> {
-                                CustomErrorUtil.Companion.setError(this, TAG, throwable);
-                                goToMain();
-                            });
-                }
-            } else {
-                goToWelcome();
-            }
+            Disposable d = presenter.checkAppVersion()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(checkVersionReponse -> {
+                        if (checkVersionReponse == null || checkVersionReponse.getData() == null)
+                            return;
+                        boolean showSkip = false;
+                        switch (checkVersionReponse.getData().getStatus()) {
+                            case CheckVersionData.STATUS_NO_UPDATES:
+                                checkLoginStatus();
+                                break;
+                            case CheckVersionData.STATUS_OPTIONAL_UPDATE:
+                                showSkip = true;
+                                showUpdateDialog(checkVersionReponse.getData(), showSkip);
+                                break;
+                            case CheckVersionData.STATUS_REQUIRED_UPDATES:
+                                showSkip = false;
+                                showUpdateDialog(checkVersionReponse.getData(), showSkip);
+                                break;
+                        }
+                    }, throwable -> {
+                        CustomErrorUtil.Companion.setError(this, TAG, throwable);
+                    });
+            disposables.add(d);
         }, 3000);
+    }
+
+    private void showUpdateDialog(CheckVersionData data, boolean showSkip) {
+        AppUpdateDialogFragment.newInstance(data, showSkip, () -> {
+            finish();
+            // TODO: redirect to app store
+        }, this::checkLoginStatus).show(getSupportFragmentManager(), null);
+    }
+
+    private void checkLoginStatus() {
+        if (PrefUtils.isLoginProvided(this)) {
+            if (PrefUtils.isFirebaseTokenSentToServer(this))
+                goToMain();
+            else {
+                sendFirebaseToken();
+            }
+        } else {
+            goToWelcome();
+        }
+    }
+
+    private void sendFirebaseToken() {
+        Disposable d = presenter.sendFirebaseToken(this)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(success -> {
+                    goToMain();
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(this, TAG, throwable);
+                    goToMain();
+                });
+        disposables.add(d);
     }
 
     private void goToMain() {
@@ -106,5 +150,11 @@ public class SplashActivity extends BaseActivity implements SplashView {
     public void initPresenter() {
         presenter = new SplashPresenterImpl();
         presenter.setView(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        disposables.clear();
+        super.onDestroy();
     }
 }

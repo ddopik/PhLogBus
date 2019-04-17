@@ -45,7 +45,7 @@
     <string name="camera_and_location_rationale">Need camera and storage permation</string>
     <string name="email_missing">Email is missing</string>
     <string name="saved">saved</string>
-    <string name="following"  >Following</string>
+    <string name="following">Following</string>
     <string name="campaigns">Campaigns</string>
     <string name="error_login">Error login</string>
     <string name="upload_your_profile_image">Upload profile picture</string>
@@ -228,7 +228,7 @@
     <string name="error_missing_desc">Provide a description</string>
     <string name="image_already_rated">Image already rated</string>
     <string name="please_add_more_tags">Please add at least one tag</string>
-     <string name="logout">Logout</string>
+    <string name="logout">Logout</string>
     <string name="downloads">Downloads</string>
     <string name="download">Download</string>
     <string name="purchase_count">%1$d purchased photos</string>
@@ -342,5 +342,8 @@
     <string name="cant_edit_campaign_prompt">You can\'t edit requested or pending campaigns. Contact Phlog admin.</string>
     <string name="confirmation_cancel_campaign_request">Are you sure you want cancel your publish request?</string>
     <string name="confirmation_delete_campaign">Are you sure want to delete this draft campaign?</string>
+    <string name="update">Update</string>
+    <string name="new_app_version">A new version is available. Please, update to ensure better performance.</string>
+    <string name="version_value">Latest version %1$s</string>
 
 </resources>
