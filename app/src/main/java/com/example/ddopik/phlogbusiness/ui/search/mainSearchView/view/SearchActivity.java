@@ -140,9 +140,9 @@ public class SearchActivity extends BaseActivity   {
                 imagesTab.setTextColor(getResources().getColor(R.color.white));
                 imagesTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange_fill));
                 clearFilterResultBtn.setVisibility(View.INVISIBLE);
-                filterTab.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-                filterTab.setText(getResources().getString(R.string.filters));
-                filterTab.setVisibility(View.VISIBLE);
+//                filterTab.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+//                filterTab.setText(getResources().getString(R.string.filters));
+//                filterTab.setVisibility(View.VISIBLE);
                 ImagesSearchFragment imagesSearchFragment = ImagesSearchFragment.getInstance();
                 onFilterClicked = imagesSearchFragment;
                 imagesSearchFragment.setImagesSearchView(onSearchTabSelected);
@@ -166,9 +166,9 @@ public class SearchActivity extends BaseActivity   {
                 albumTab.setTextColor(getResources().getColor(R.color.white));
                 albumTab.setBackground(getResources().getDrawable(R.drawable.rounded_frame_orange_fill));
                 clearFilterResultBtn.setVisibility(View.INVISIBLE);
-                filterTab.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-                filterTab.setText(getResources().getString(R.string.filters));
-                filterTab.setVisibility(View.VISIBLE);
+//                filterTab.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+//                filterTab.setText(getResources().getString(R.string.filters));
+//                filterTab.setVisibility(View.VISIBLE);
                 AlbumSearchFragment albumSearchFragment = AlbumSearchFragment.getInstance();
                 onFilterClicked = albumSearchFragment;
                 albumSearchFragment.setAlbumSearchView(onSearchTabSelected);
