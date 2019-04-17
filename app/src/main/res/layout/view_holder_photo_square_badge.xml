@@ -22,8 +22,10 @@
     <ImageView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent=".2"
+        app:layout_constraintHeight_percent=".25"
         app:layout_constraintDimensionRatio="1:1"
+        android:background="@drawable/winner_badge_background"
+        android:padding="@dimen/widgets_padding"
         app:srcCompat="@drawable/ic_won"
         android:id="@+id/is_won_badge"
         android:layout_margin="@dimen/widgets_padding"

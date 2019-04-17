@@ -99,7 +99,7 @@ public class DraftCampaignsAdapter extends RecyclerView.Adapter<DraftCampaignsAd
                 break;
             case Constants.CampaignStatus.CAMPAIGN_STATUS_REQUEST:
             case Constants.CampaignStatus.CAMPAIGN_STATUS_PENDING:
-                campaignViewHolder.deleteButton.setVisibility(View.INVISIBLE);
+                campaignViewHolder.deleteButton.setVisibility(View.VISIBLE);
                 campaignViewHolder.statusVal.setText(R.string.pending_approval);
                 campaignViewHolder.statusIndicator.setBackgroundResource(R.drawable.circle_orange);
                 break;

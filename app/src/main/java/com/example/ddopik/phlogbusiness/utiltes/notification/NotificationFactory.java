@@ -30,6 +30,25 @@ public class NotificationFactory {
         return builder.build();
     }
 
+    public Notification createNotification(Context context, String channelId, int icon, String title, String content
+            , boolean autoCancel, String groupKey, PendingIntent pendingIntent) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
+                .setContentTitle(title)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(autoCancel)
+                .setOnlyAlertOnce(true) // what are those for
+                .setSound(null);
+        if (icon != 0)
+            builder.setSmallIcon(icon);
+        if (content != null)
+            builder.setContentText(content);
+        if (groupKey != null)
+            builder.setGroup(groupKey);
+        if (pendingIntent != null)
+            builder.setContentIntent(pendingIntent);
+        return builder.build();
+    }
+
     public void createNotificationChannel(Context context, String id, String name, String desc) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -65,5 +84,10 @@ public class NotificationFactory {
         builder.setSmallIcon(icon);
         NotificationManagerCompat manager = NotificationManagerCompat.from(context);
         manager.notify(Integer.valueOf(notificationId), builder.build());
+    }
+
+    public void showNotification(Context context, int notificationId, Notification notification) {
+        NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+        manager.notify(notificationId, notification);
     }
 }

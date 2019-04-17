@@ -27,6 +27,7 @@ import com.example.ddopik.phlogbusiness.ui.customersupport.view.CustomerSupportF
 import com.example.ddopik.phlogbusiness.ui.downloads.model.DownloadRequestModel;
 import com.example.ddopik.phlogbusiness.ui.downloads.view.DownloadsFragment;
 import com.example.ddopik.phlogbusiness.ui.lightboxphotos.view.LightBoxPhotosFragment;
+import com.example.ddopik.phlogbusiness.ui.notification.model.NotificationList;
 import com.example.ddopik.phlogbusiness.ui.notification.view.NotificationFragment;
 import com.example.ddopik.phlogbusiness.ui.splash.view.SplashActivity;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
@@ -90,9 +91,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     break;
                 case MainActivityRedirectionValue.TO_POPUP:
                     String payload = intent.getStringExtra(MainActivityRedirectionValue.PAYLOAD);
-                    FirebaseNotificationData data = NotificationParser.parse(payload);
+                    NotificationList data = NotificationParser.parse(payload);
                     navigationManger.navigate(HOME);
-                    if (data != null && data.notification.popup != PopupType.NONE)
+                    if (data != null && data.popup != PopupType.NONE)
                         showPopup(data);
                     break;
                 case MainActivityRedirectionValue.TO_CAMPAIGNS:
