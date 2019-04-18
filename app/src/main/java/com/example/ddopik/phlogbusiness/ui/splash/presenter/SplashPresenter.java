@@ -2,6 +2,7 @@ package com.example.ddopik.phlogbusiness.ui.splash.presenter;
 
 import android.content.Context;
 
+import com.example.ddopik.phlogbusiness.ui.splash.model.CheckVersionData;
 import com.example.ddopik.phlogbusiness.ui.splash.model.CheckVersionReponse;
 import com.example.ddopik.phlogbusiness.ui.splash.view.SplashView;
 
@@ -12,5 +13,5 @@ public interface SplashPresenter {
 
     Observable<Boolean> sendFirebaseToken(Context context);
 
-    Observable<CheckVersionReponse> checkAppVersion();
+    Observable<CheckVersionData> checkAppVersion();
 }

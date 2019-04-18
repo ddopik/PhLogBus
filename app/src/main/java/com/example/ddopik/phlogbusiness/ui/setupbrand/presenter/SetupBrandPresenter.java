@@ -2,9 +2,11 @@ package com.example.ddopik.phlogbusiness.ui.setupbrand.presenter;
 
 import android.content.Context;
 
+import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandView;
 
 import java.util.List;
@@ -26,6 +28,8 @@ public interface SetupBrandPresenter {
     void loadDocs(Consumer<List<Doc>> object, Context context);
 
     void verify(Context context, Consumer<Boolean> success);
+
+    void getSetupBrandDetails(Context context, Consumer<Business> businessConsumer);
 
     class ValidationResult {
         public final boolean shouldProceed;

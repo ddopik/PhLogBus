@@ -167,8 +167,9 @@ public class StepOneFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!setting) {
-                model.englishBrandName = s.toString();
-                consumer.accept(new SubViewAction(ActionType.ENGLISH_NAME, model.englishBrandName));}
+                    model.englishBrandName = s.toString();
+                    consumer.accept(new SubViewAction(ActionType.ENGLISH_NAME, model.englishBrandName));
+                }
             }
         };
         englishName.addTextChangedListener(englishTextWatcher);
@@ -177,14 +178,20 @@ public class StepOneFragment extends BaseFragment {
     private void openPickerDialog() {
         CharSequence photoChooserOptions[] = new CharSequence[]{getResources().getString(R.string.general_photo_chooser_camera), getResources().getString(R.string.general_photo_chooser_gallery)};
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(getResources().getString(R.string.general_photo_chooser_title));
-        builder.setItems(photoChooserOptions, (dialog, option) -> {
-            if (option == 0) {
-                RequestCameraPermutations();
-            } else if (option == 1) {
-                requestGalleryPermutations();
-            }
+        builder.setTitle(getResources().getString(R.string.general_photo_chooser_title))
+                .setPositiveButton(R.string.general_photo_chooser_camera, (dialog, which) -> {
+                    RequestCameraPermutations();
+                    dialog.dismiss();
+                }).setNegativeButton(R.string.general_photo_chooser_gallery, (dialog, which) -> {
+            requestGalleryPermutations();
+            dialog.dismiss();
         }).show();
+//        builder.setItems(photoChooserOptions, (dialog, option) -> {
+//            if (option == 0) {
+//                RequestCameraPermutations();
+//            } else if (option == 1) {
+//            }
+//        }).show();
     }
 
     @AfterPermissionGranted(REQUEST_CODE_CAMERA)

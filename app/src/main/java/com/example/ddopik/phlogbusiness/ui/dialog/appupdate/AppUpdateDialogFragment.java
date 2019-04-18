@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.TextView;
+import com.example.ddopik.phlogbusiness.BuildConfig;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.base.BaseDialogFragment;
 import com.example.ddopik.phlogbusiness.ui.splash.model.CheckVersionData;
@@ -23,7 +24,7 @@ public class AppUpdateDialogFragment extends BaseDialogFragment {
     private boolean showSkip;
 
     private Button updateButton, skipButton;
-    private TextView versionTextView;
+    private TextView currentVersion, latestVersionPrompt;
 
     public AppUpdateDialogFragment() {
         // Required empty public constructor
@@ -40,16 +41,18 @@ public class AppUpdateDialogFragment extends BaseDialogFragment {
 
     @Override
     protected void setViews(View view) {
-        versionTextView = view.findViewById(R.id.version_text_view);
         updateButton = view.findViewById(R.id.update_button);
         skipButton = view.findViewById(R.id.skip_button);
+        currentVersion = view.findViewById(R.id.current_version_text_view);
+        latestVersionPrompt = view.findViewById(R.id.update_prompt_text_view);
         if (showSkip) {
             skipButton.setVisibility(View.VISIBLE);
         } else {
             skipButton.setVisibility(View.INVISIBLE);
             skipButton.setEnabled(false);
         }
-        versionTextView.setText(getString(R.string.version_value, data.getLatest()));
+        currentVersion.setText(getString(R.string.current_version_value, BuildConfig.VERSION_NAME));
+        latestVersionPrompt.setText(getString(R.string.latest_update_prompt, data.getLatest()));
     }
 
     @Override
@@ -67,6 +70,13 @@ public class AppUpdateDialogFragment extends BaseDialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_app_update_dialog, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getDialog() != null && getDialog().getWindow() != null)
+            getDialog().getWindow().setBackgroundDrawableResource(R.color.transparent);
     }
 
 }

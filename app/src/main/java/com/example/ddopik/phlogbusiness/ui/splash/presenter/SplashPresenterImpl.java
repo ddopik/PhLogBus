@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.ddopik.phlogbusiness.BuildConfig;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Device;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
+import com.example.ddopik.phlogbusiness.ui.splash.model.CheckVersionData;
 import com.example.ddopik.phlogbusiness.ui.splash.model.CheckVersionReponse;
 import com.example.ddopik.phlogbusiness.ui.splash.view.SplashView;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
@@ -36,7 +37,8 @@ public class SplashPresenterImpl implements SplashPresenter {
     }
 
     @Override
-    public Observable<CheckVersionReponse> checkAppVersion() {
-        return BaseNetworkApi.checkAppVersion(BuildConfig.VERSION_NAME);
+    public Observable<CheckVersionData> checkAppVersion() {
+        return BaseNetworkApi.checkAppVersion(BuildConfig.VERSION_NAME)
+                .map(CheckVersionReponse::getData);
     }
 }

@@ -5,14 +5,15 @@ import android.util.Log;
 
 import android.util.Patterns;
 import com.example.ddopik.phlogbusiness.R;
+import com.example.ddopik.phlogbusiness.base.commonmodel.Business;
 import com.example.ddopik.phlogbusiness.base.commonmodel.Industry;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.Doc;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandActivity;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.view.SetupBrandView;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
-import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 
 import java.util.List;
 
@@ -125,7 +126,7 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
                     view.setLoading(false);
                 }, throwable -> {
                     view.setLoading(false);
-                    Log.e(TAG, throwable.getMessage());
+                    CustomErrorUtil.Companion.setError(baseContext, TAG, throwable);
                 });
         disposables.add(disposable);
     }
@@ -148,5 +149,20 @@ public class SetupBrandPresenterImpl implements SetupBrandPresenter {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
         disposables.add(disposable);
+    }
+
+    @Override
+    public void getSetupBrandDetails(Context context, Consumer<Business> businessConsumer) {
+        Disposable d = BaseNetworkApi.getBrandSetupDetails()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(setupBrandDetailsResponse -> {
+                    if (setupBrandDetailsResponse == null || setupBrandDetailsResponse.getBusiness() == null)
+                        return;
+                    businessConsumer.accept(setupBrandDetailsResponse.getBusiness());
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
+                });
+        disposables.add(d);
     }
 }

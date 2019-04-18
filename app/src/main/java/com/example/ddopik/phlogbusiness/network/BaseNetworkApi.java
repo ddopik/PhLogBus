@@ -40,6 +40,7 @@ import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.SearchFil
 import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.DocumentsResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.RequestVerificationResponse;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandDetailsResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllTagsResponse;
@@ -163,6 +164,7 @@ public class BaseNetworkApi {
     private static final String PHOTO_GRAPHER_PHOTO_DETAILS = BASE_URL + "/photo/details";
     private static final String REQUEST_VERIFICATION_URL = BASE_URL + "/auth/resend_email_verification";
     private static final String CHECK_APP_VERSION_URL = BASE_URL_COMMON + "/version/check";
+    private static final String SETUP_BRAND_DETAILS_URL = BASE_URL + "/brand/setup_details";
 
 
     //Path Parameters
@@ -871,6 +873,13 @@ public class BaseNetworkApi {
                 .build()
                 .getObjectObservable(CheckVersionReponse.class);
 
+    }
+
+    public static Observable<SetupBrandDetailsResponse> getBrandSetupDetails() {
+        return Rx2AndroidNetworking.post(SETUP_BRAND_DETAILS_URL)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(SetupBrandDetailsResponse.class);
     }
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){
 //        return Rx2AndroidNetworking.get()

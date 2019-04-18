@@ -22,6 +22,7 @@ import com.example.ddopik.phlogbusiness.utiltes.Constants.MainActivityRedirectio
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
+import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -47,21 +48,21 @@ public class SplashActivity extends BaseActivity implements SplashView {
             Disposable d = presenter.checkAppVersion()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(checkVersionReponse -> {
-                        if (checkVersionReponse == null || checkVersionReponse.getData() == null)
+                    .subscribe(checkVersionData -> {
+                        if (checkVersionData == null)
                             return;
                         boolean showSkip = false;
-                        switch (checkVersionReponse.getData().getStatus()) {
+                        switch (checkVersionData.getStatus()) {
                             case CheckVersionData.STATUS_NO_UPDATES:
                                 checkLoginStatus();
                                 break;
                             case CheckVersionData.STATUS_OPTIONAL_UPDATE:
                                 showSkip = true;
-                                showUpdateDialog(checkVersionReponse.getData(), showSkip);
+                                showUpdateDialog(checkVersionData, showSkip);
                                 break;
                             case CheckVersionData.STATUS_REQUIRED_UPDATES:
                                 showSkip = false;
-                                showUpdateDialog(checkVersionReponse.getData(), showSkip);
+                                showUpdateDialog(checkVersionData, showSkip);
                                 break;
                         }
                     }, throwable -> {
@@ -73,8 +74,8 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
     private void showUpdateDialog(CheckVersionData data, boolean showSkip) {
         AppUpdateDialogFragment.newInstance(data, showSkip, () -> {
+            Utilities.openPlayStore(this);
             finish();
-            // TODO: redirect to app store
         }, this::checkLoginStatus).show(getSupportFragmentManager(), null);
     }
 
