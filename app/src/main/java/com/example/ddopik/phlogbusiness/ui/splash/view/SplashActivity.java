@@ -67,6 +67,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
                         }
                     }, throwable -> {
                         CustomErrorUtil.Companion.setError(this, TAG, throwable);
+                        checkLoginStatus();
                     });
             disposables.add(d);
         }, 3000);
