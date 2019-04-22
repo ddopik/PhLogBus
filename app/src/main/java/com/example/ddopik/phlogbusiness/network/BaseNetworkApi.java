@@ -40,12 +40,14 @@ import com.example.ddopik.phlogbusiness.ui.search.mainSearchView.model.SearchFil
 import com.example.ddopik.phlogbusiness.ui.search.profile.model.ProfileSearchResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.DocumentsResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.RequestVerificationResponse;
+import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandDetailsResponse;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllIndustriesResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.AllTagsResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.SignUpResponse;
 import com.example.ddopik.phlogbusiness.ui.signup.model.UploadProfileImgResponse;
 import com.example.ddopik.phlogbusiness.ui.social.model.SocialResponse;
+import com.example.ddopik.phlogbusiness.ui.splash.model.CheckVersionReponse;
 import com.example.ddopik.phlogbusiness.ui.userprofile.model.FollowUserResponse;
 import com.example.ddopik.phlogbusiness.ui.userprofile.model.UserPhotosResponse;
 import com.example.ddopik.phlogbusiness.ui.userprofile.model.UserProfileResponse;
@@ -71,6 +73,7 @@ public class BaseNetworkApi {
     //Network Status
     public static String STATUS_OK = "200";
     public static String DEFAULT_USER_TYPE = "1";
+    private static final int ANDROID_PLATFORM = 0;
     public static final int STATUS_BAD_REQUEST = 400;
     public static final int STATUS_401 = 401;
     public static final int STATUS_404 = 404;
@@ -160,6 +163,8 @@ public class BaseNetworkApi {
     private static final String DELETE_CAMPAIGN_URL = BASE_URL + "/campaign/cancel";
     private static final String PHOTO_GRAPHER_PHOTO_DETAILS = BASE_URL + "/photo/details";
     private static final String REQUEST_VERIFICATION_URL = BASE_URL + "/auth/resend_email_verification";
+    private static final String CHECK_APP_VERSION_URL = BASE_URL_COMMON + "/version/check";
+    private static final String SETUP_BRAND_DETAILS_URL = BASE_URL + "/brand/setup_details";
 
 
     //Path Parameters
@@ -856,6 +861,25 @@ public class BaseNetworkApi {
                 .setPriority(Priority.HIGH)
                 .build()
                 .getStringObservable();
+    }
+
+    public static Observable<CheckVersionReponse> checkAppVersion(String versionName) {
+        return Rx2AndroidNetworking.post(CHECK_APP_VERSION_URL)
+                .addBodyParameter("version", versionName)
+                .addBodyParameter("user_platform", String.valueOf(ANDROID_PLATFORM))
+                .addHeaders("x-user-type", DEFAULT_USER_TYPE)
+                .addHeaders("x-lang-code", "en-us")
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(CheckVersionReponse.class);
+
+    }
+
+    public static Observable<SetupBrandDetailsResponse> getBrandSetupDetails() {
+        return Rx2AndroidNetworking.post(SETUP_BRAND_DETAILS_URL)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getObjectObservable(SetupBrandDetailsResponse.class);
     }
 //    public static io.reactivex.Observable<GeoCodeAutoCompleteResponse> getGeoGodeAutoCompleteResponse(String key){
 //        return Rx2AndroidNetworking.get()

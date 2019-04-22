@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -20,7 +19,6 @@ import com.example.ddopik.phlogbusiness.ui.setupbrand.model.SetupBrandModel;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.presenter.SetupBrandPresenter;
 import com.example.ddopik.phlogbusiness.ui.setupbrand.presenter.SetupBrandPresenterImpl;
 import com.example.ddopik.phlogbusiness.utiltes.Constants;
-import com.example.ddopik.phlogbusiness.utiltes.PrefUtils;
 
 import java.util.List;
 
@@ -65,16 +63,19 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_brand);
-        handleIntent();
         initView();
         initPresenter();
+        getBrandData();
     }
 
     @Override
     public void onBackPressed() {
-        if (currentStep == 1)
+        if (currentStep == 1) {
+            if (changedAndSubmitted) {
+                MainActivity.navigationManger.navigate(Constants.NavigationHelper.PROFILE);
+            }
             super.onBackPressed();
-        else
+        } else
             viewPager.setCurrentItem(currentStep - 2);
     }
 
@@ -89,32 +90,33 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
 
     private Business business;
 
-    private void handleIntent() {
-        business = getIntent().getParcelableExtra("business");
-        if (business == null)
-            return;
-        model.cover = business.brandImageCover;
-        model.thumbnail = business.brandThumbnail;
-        model.arabicBrandName = business.nameAr;
-        model.englishBrandName = business.nameEn;
-        if (business.industry != null)
-            model.industryId = business.industry.id;
-        model.phone = business.brandPhone;
-        model.address = business.brandAddress;
+    private void getBrandData() {
+        loading.setVisibility(View.VISIBLE);
+        actionButton.setEnabled(false);
+        presenter.getSetupBrandDetails(this, business -> {
+            this.business = business;
+            model.cover = business.brandImageCover;
+            model.thumbnail = business.brandThumbnail;
+            model.arabicBrandName = business.nameAr;
+            model.englishBrandName = business.nameEn;
+            if (business.industry != null)
+                model.industryId = business.industry.id;
+            model.phone = business.brandPhone;
+            model.address = business.brandAddress;
 //        model.email = business.email;
-        model.webSite = business.website;
-        model.desc = business.description;
+            model.webSite = business.website;
+            model.desc = business.description;
+//            initView();
+            setupPager();
+            loading.setVisibility(View.INVISIBLE);
+            actionButton.setEnabled(true);
+        });
     }
 
     @Override
     public void initView() {
         viewPager = findViewById(R.id.steps_view_pager);
-        pagerAdapter = new SetupBrandPagerAdapter(getSupportFragmentManager(), subViewActionConsumer, business);
         viewPager.addOnPageChangeListener(pageChangeListener);
-        viewPager.setAllowedSwipeDirection(CustomViewPager.SwipeDirection.RIGHT);
-        viewPager.setOffscreenPageLimit(3);
-        viewPager.setOnSwipeLeftListener(onSwipeLeftListener);
-        viewPager.setAdapter(pagerAdapter);
         progressBar = findViewById(R.id.steps_progress_bar);
         setStepsProgress(100 / 3);
         actionButton = findViewById(R.id.action_button);
@@ -122,6 +124,14 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
         loading.setVisibility(View.INVISIBLE);
 
         setListeners();
+    }
+
+    private void setupPager() {
+        pagerAdapter = new SetupBrandPagerAdapter(getSupportFragmentManager(), subViewActionConsumer, business);
+        viewPager.setAllowedSwipeDirection(CustomViewPager.SwipeDirection.RIGHT);
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOnSwipeLeftListener(onSwipeLeftListener);
+        viewPager.setAdapter(pagerAdapter);
     }
 
     private void setListeners() {
@@ -146,7 +156,8 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                                 loading.setVisibility(View.GONE);
                                 if (success) {
                                     viewPager.setCurrentItem(2);
-
+                                    changed = false;
+                                    changedAndSubmitted = true;
                                 }
                             });
                         } else
@@ -178,7 +189,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                             });
                         else
                             showToast(getString(R.string.upload_all_docs));
-                    }, getBaseContext());
+                    }, this);
                     break;
             }
         });
@@ -235,6 +246,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
     }
 
     private boolean changed = false;
+    private boolean changedAndSubmitted = false;
 
     private List<Doc> docs;
     private SubViewActionConsumer subViewActionConsumer = action -> {
@@ -263,7 +275,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                 break;
             case LOAD_INDUSTRIES:
                 if (action.object instanceof Consumer) {
-                    presenter.loadIndustries((Consumer<List<Industry>>) action.object, getBaseContext());
+                    presenter.loadIndustries((Consumer<List<Industry>>) action.object, this);
                 }
                 break;
             case INDUSTRY:
@@ -299,7 +311,7 @@ public class SetupBrandActivity extends BaseActivity implements SetupBrandView {
                     presenter.loadDocs(docs -> {
                         this.docs = docs;
                         ((Consumer<List<Doc>>) action.object).accept(docs);
-                    }, getBaseContext());
+                    }, this);
                     break;
                 }
                 break;

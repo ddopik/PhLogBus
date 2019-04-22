@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import com.example.ddopik.phlogbusiness.R;
 import com.example.ddopik.phlogbusiness.fgm.model.FirebaseNotificationData;
 import com.example.ddopik.phlogbusiness.fgm.parse.NotificationParser;
@@ -18,6 +19,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class PhlogFirebaseMessagingService extends FirebaseMessagingService {
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -43,7 +45,8 @@ public class PhlogFirebaseMessagingService extends FirebaseMessagingService {
                     , true, null, pendingIntent);
 
             factory.showNotification(this, Integer.valueOf(getString(R.string.normal_notification_channel_id)), notification);
-        } else
+        } else {
             RxEventBus.getInstance().post(new RxEvent<>(RxEvent.Type.POPUP, data));
+        }
     }
 }
