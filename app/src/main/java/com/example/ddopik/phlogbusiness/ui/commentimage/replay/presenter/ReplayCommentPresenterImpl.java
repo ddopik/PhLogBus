@@ -30,7 +30,7 @@ public class ReplayCommentPresenterImpl implements ReplayCommentPresenter {
 
     @SuppressLint("CheckResult")
     @Override
-    public void getReplies(int parentCommentId, int imageID,String page) {
+    public void getReplies(int parentCommentId, int imageID,int page) {
         replayCommentActivityView.viewRepliesProgress(true);
         BaseNetworkApi.getCommentReplies(parentCommentId, imageID, String.valueOf(page))
                 .subscribeOn(Schedulers.io())

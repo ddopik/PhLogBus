@@ -55,6 +55,7 @@ import static com.example.ddopik.phlogbusiness.utiltes.Constants.CommentListType
 public class ImageCommentActivity extends BaseActivity implements ImageCommentActivityView {
 
     private String TAG = ImageCommentActivity.class.getSimpleName();
+    public final static int REPLY_REQUEST_CODE = 876;
     public static String IMAGE_DATA = "image_data";
     public static String SHOULD_SHOW_CHOOSE_WINNER = "choose_winner";
     public static String CAMPAIGN_ID = "campaign_id";
@@ -548,5 +549,38 @@ public class ImageCommentActivity extends BaseActivity implements ImageCommentAc
         mentionsAutoCompleteAdapter.notifyDataSetChanged();
     }
 
-
+    @SuppressLint("CheckResult")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REPLY_REQUEST_CODE)
+            if (resultCode == RESULT_OK) {
+                Comment comment = data.getParcelableExtra(ReplayCommentActivity.REPLY_HEADER_COMMENT);
+                BaseImage image = data.getParcelableExtra(ReplayCommentActivity.COMMENT_IMAGE);
+                if (comment != null && image != null) {
+                    previewImage.commentsCount = image.commentsCount;
+                    Intent intent = new Intent();
+                    intent.putExtra(IMAGE_DATA, previewImage);
+                    setResult(RESULT_OK, intent);
+                    commentsAdapter.notifyItemChanged(0);
+                    Observable.just(comment)
+                            .observeOn(Schedulers.computation())
+                            .map(c -> {
+                                for (Comment _c : commentList) {
+                                    if (c.id.equals(_c.id)) {
+                                        return commentList.indexOf(_c);
+                                    }
+                                }
+                                return -1;
+                            })
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe(position -> {
+                                if (position != -1) {
+                                    commentsAdapter.notifyItemChanged(position);
+                                }
+                            });
+                }
+            }
+    }
 }
