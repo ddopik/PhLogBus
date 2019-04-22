@@ -4,13 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import com.androidnetworking.error.ANError;
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseErrorResponse;
-import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
-import com.example.ddopik.phlogbusiness.base.commonmodel.ErrorMessageResponse;
+import com.example.ddopik.phlogbusiness.base.commonmodel.*;
+import com.example.ddopik.phlogbusiness.base.widgets.CustomTextView;
 import com.example.ddopik.phlogbusiness.network.BaseNetworkApi;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ReportModel;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ReportReason;
 import com.example.ddopik.phlogbusiness.ui.commentimage.view.ImageCommentActivityView;
+import com.example.ddopik.phlogbusiness.utiltes.Constants;
 import com.example.ddopik.phlogbusiness.utiltes.CustomErrorUtil;
 import com.example.ddopik.phlogbusiness.utiltes.Utilities;
 import com.google.gson.Gson;
@@ -18,6 +18,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -216,6 +217,45 @@ public class ImageCommentActivityImpl implements ImageCommentActivityPresenter {
                 }, throwable -> {
                     CustomErrorUtil.Companion.setError(context, TAG, throwable);
                     imageCommentActivityView.viewImageProgress(false);
+                });
+    }
+
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getMentionedUser(String key) {
+        BaseNetworkApi.getSocialAutoComplete(key)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(socialAutoCompleteResponse -> {
+
+                    List<MentionedUser> mentionedUserList = new ArrayList<>();
+                    if (socialAutoCompleteResponse.data.photographers != null) {
+
+
+                        for (Photographer photographer : socialAutoCompleteResponse.data.photographers) {
+                            MentionedUser mentionedUser = new MentionedUser();
+
+                            mentionedUser.mentionedUserId = photographer.id;
+                            mentionedUser.mentionedUserName = photographer.fullName;
+                            mentionedUser.mentionedImage = photographer.imageProfile;
+                            mentionedUser.mentionedType = Constants.UserType.USER_TYPE_PHOTOGRAPHER;
+                            mentionedUserList.add(mentionedUser);
+                        }
+                    }
+                    if (socialAutoCompleteResponse.data.businesses != null) {
+                        for (Business business : socialAutoCompleteResponse.data.businesses) {
+                            MentionedUser mentionedUser = new MentionedUser();
+                            mentionedUser.mentionedUserId = business.id;
+                            mentionedUser.mentionedUserName = business.firstName + " " + business.lastName;
+                            mentionedUser.mentionedImage = business.thumbnail;
+                            mentionedUser.mentionedType = Constants.UserType.USER_TYPE_BUSINESS;
+                            mentionedUserList.add(mentionedUser);
+                        }
+                    }
+                    imageCommentActivityView.viewMentionedUsers(mentionedUserList);
+                }, throwable -> {
+                    CustomErrorUtil.Companion.setError(context, TAG, throwable);
                 });
     }
 

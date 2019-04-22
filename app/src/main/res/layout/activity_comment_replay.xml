@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <include
-            android:id="@+id/activity_comment_app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            layout="@layout/phlog_app_bar"/>
+        android:id="@+id/activity_comment_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/phlog_app_bar"/>
     <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
-            android:id="@+id/comment_replay_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/activity_comment_app_bar"
-            app:orientation="vertical"
-    />
+        android:id="@+id/comment_replay_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/activity_comment_app_bar"
+        android:layout_marginBottom="@dimen/dp65"
+        app:orientation="vertical"
+        />
 
     <ProgressBar
-            android:id="@+id/comment_replay_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        android:id="@+id/comment_replay_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            tools:visibility="visible"/>
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
+    <include
+
+        android:id="@+id/send_comment_container"
+        layout="@layout/view_holder_image_send_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>
+

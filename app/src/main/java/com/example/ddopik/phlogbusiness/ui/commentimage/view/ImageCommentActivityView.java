@@ -2,8 +2,11 @@ package com.example.ddopik.phlogbusiness.ui.commentimage.view;
 
 
 import com.example.ddopik.phlogbusiness.base.commonmodel.BaseImage;
+import com.example.ddopik.phlogbusiness.base.commonmodel.MentionedUser;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.ImageCommentsData;
 import com.example.ddopik.phlogbusiness.ui.commentimage.model.SubmitImageCommentData;
+
+import java.util.List;
 
 /**
  * Created by abdalla_maged on 11/6/2018.
@@ -28,5 +31,5 @@ public interface ImageCommentActivityView {
 
     void viewImageDetails(BaseImage baseImage);
 
-
+    void viewMentionedUsers(List<MentionedUser> mentionedUserList);
 }

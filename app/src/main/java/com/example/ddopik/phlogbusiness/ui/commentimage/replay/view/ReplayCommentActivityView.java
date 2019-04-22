@@ -16,6 +16,7 @@ public interface ReplayCommentActivityView {
 
     void onCommentReplied(SubmitImageCommentData submitImageCommentData);
     void setNextPageUrl(String page);
+    void viewMentionedUsers(List<MentionedUser> mentionedUserList);
 
 
 }

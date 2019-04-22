@@ -70,11 +70,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public CommentAdapterAction commentAdapterAction;
     private int HEAD = 0;
     private int COMMENT = 1;
-    private int ADD_COMMENT = 2;
-    private int REPLY_COMMENT = 3;
+     private int REPLY_COMMENT = 2;
 
     private final String USER_MENTION_IDENTIFIER = "%";
-    private DisposableObserver<TextViewTextChangeEvent> searchQuery;
 
 
     public CommentsAdapter(BaseImage previewImage, List<Comment> commentList, Mentions mentions, Constants.CommentListType commentListType) {
@@ -95,9 +93,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         if (i == HEAD) {
             return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_comment_start_item, viewGroup, false), HEAD);
-        } else if (i == ADD_COMMENT) {
-            return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_send_comment, viewGroup, false), ADD_COMMENT);
-        } else {
+        }   else {
             return new CommentViewHolder(layoutInflater.inflate(R.layout.view_holder_image_comment, viewGroup, false), COMMENT);
 
         }
@@ -290,73 +286,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             }
 
 
-            ////////////////////////////////ADD_COMMENT///////////////////////////////////////////////
-        } else if (getItemViewType(i) == ADD_COMMENT) {
-
-            mentionsAutoCompleteAdapter = new MentionsAutoCompleteAdapter(context, R.layout.view_holder_mentioned_user, mentionedUserList);
-            mentionsAutoCompleteAdapter.setNotifyOnChange(true);
-            commentViewHolder.sendCommentImgVal.setAdapter(mentionsAutoCompleteAdapter);
-            commentViewHolder.sendCommentImgVal.setThreshold(0);
-
-
-            commentViewHolder.sendCommentImgVal.setOnItemClickListener((parent, view, position, id) -> {
-                commentViewHolder.sendCommentImgVal.handleMentionedCommentBody(position, mentionedUserList);
-
-            });
-
-
-            if (searchQuery == null) {
-                searchQuery = getSearchTagQuery(commentViewHolder.sendCommentImgVal);
-                commentViewHolder.sendCommentImgVal.addTextChangedListener(new TextWatcher() {
-                    int cursorPosition = commentViewHolder.sendCommentImgVal.getSelectionStart();
-
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                        int mentionIdentifierCharPosition = commentViewHolder.sendCommentImgVal.getText().toString().indexOf("@", cursorPosition - 2);
-                        if ((mentionIdentifierCharPosition + 1) >= commentViewHolder.sendCommentImgVal.getText().toString().length() || mentionIdentifierCharPosition == -1) {
-                            mentionedUserList.clear();
-                            mentionsAutoCompleteAdapter.notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                    }
-                });
-                disposable.add(
-
-                        RxTextView.textChangeEvents(commentViewHolder.sendCommentImgVal)
-                                .skipInitialValue()
-                                .debounce(900, TimeUnit.MILLISECONDS)
-                                .distinctUntilChanged()
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeWith(searchQuery)
-                );
-            }
-
-            if (commentAdapterAction != null) {
-                commentViewHolder.sendCommentBtn.setOnClickListener(v -> {
-                    String comment = commentViewHolder.sendCommentImgVal.prepareCommentToSend();
-
-                    commentAdapterAction.onSubmitComment(comment);
-                    commentViewHolder.sendCommentImgVal.getText().clear();
-
-                });
-            }
-
-
-            mentionsAutoCompleteAdapter.onUserClicked = socialUser -> {
-            };
-
-
-        }
+         }
     }
 
 
@@ -622,9 +552,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             return HEAD; //-->For Image Header Preview
         } else if (position == 0 && commentListType.equals(VIEW_REPLIES)) {
             return REPLY_COMMENT; //-->For Image Header Preview
-        } else if (position == (commentList.size() - 1)) {
-            return ADD_COMMENT;
-        } else {
+        }   else {
             return COMMENT; //--->  Comment Cell
         }
     }
@@ -649,16 +577,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         RatingBar photoRating;
         ImageButton menu;
         ConstraintLayout chooseWinnerBtn;
+        ImageButton addToLightBox;
+
         ImageView trophyIcon;
         ///Comment_value Cell
         CardView parentCommentView;
         CustomTextView commentVal, commentAuthorName, imageCommentReplayBtn;
         ImageView commentAuthorImg;
         LinearLayout commentValSubContainer;
-        //SendCommentCell
-        CustomAutoCompleteTextView sendCommentImgVal;
-        ImageButton sendCommentBtn;
-        ImageButton addToLightBox;
 
 
         CommentViewHolder(View view, int type) {
@@ -689,9 +615,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 commentAuthorName = view.findViewById(R.id.comment_author);
                 imageCommentReplayBtn = view.findViewById(R.id.image_comment_replay_btn);
                 commentValSubContainer = view.findViewById(R.id.comment_val_sub_container);
-            } else if (type == ADD_COMMENT) {
-                sendCommentImgVal = view.findViewById(R.id.img_send_comment_val);
-                sendCommentBtn = view.findViewById(R.id.send_comment_btn);
             }
 
         }
@@ -710,7 +633,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         void onAddToCartClick(BaseImage baseImage);
 
-        void onSubmitComment(String comment);
 
         void onCommentAuthorIconClicked(BaseImage baseImage);
 

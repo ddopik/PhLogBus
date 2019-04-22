@@ -26,4 +26,7 @@ public interface ImageCommentActivityPresenter {
     void chooseWinner(int campaignId, BaseImage image, Consumer<Boolean> success);
 
     void getImageDetails(int imageId);
+
+    void getMentionedUser(String key);
+
 }

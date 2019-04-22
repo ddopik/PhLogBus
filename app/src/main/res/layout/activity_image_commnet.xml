@@ -1,36 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/image_comment_app_bar"
+            layout="@layout/phlog_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
+            android:id="@+id/comment_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp65"
+            app:orientation="vertical" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/add_comment_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
 
     <include
-            android:id="@+id/image_comment_app_bar"
-        layout="@layout/phlog_app_bar"/>
-    
-    <com.example.ddopik.phlogbusiness.base.widgets.CustomRecyclerView
-        android:id="@+id/comment_rv"
+
+        android:id="@+id/send_comment_container"
+        layout="@layout/view_holder_image_send_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/image_comment_app_bar"
-        app:orientation="vertical"/>
- 
-
-    <FrameLayout
-            android:id="@+id/add_comment_progress"
-            android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:visibility="gone"
-                 tools:visibility="visible">
-        <ProgressBar
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                />
-
-    </FrameLayout>
+        android:layout_gravity="bottom" />
 
 
-</RelativeLayout>
+</FrameLayout>

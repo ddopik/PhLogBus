@@ -1,43 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/add_comment_cell_color"
+    >
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/send_comment_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentTop="true"
+        />
+
+
+    <com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView
+        android:id="@+id/img_send_comment_val"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-
-        android:orientation="horizontal"
-        android:padding="@dimen/dp24">
-
-        <com.example.ddopik.phlogbusiness.base.widgets.CustomAutoCompleteTextView
-            android:id="@+id/img_send_comment_val"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/send_comment_btn"
-            android:background="@color/black"
-            android:fontFamily="@font/verdana"
-            android:hint="@string/your_comment"
-            android:imeOptions="actionDone"
-            android:padding="@dimen/widgets_padding"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray400" />
-
-        <ImageButton
-            android:id="@+id/send_comment_btn"
-            android:layout_width="@dimen/dp45"
-            android:layout_height="@dimen/dp45"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/circle_blue"
-            android:padding="@dimen/widgets_padding"
-            android:scaleType="centerInside"
-            android:text="@string/send"
-            android:textColor="@color/white"
-            app:srcCompat="@drawable/ic_add_comment" />
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/send_comment_btn"
+        android:layout_below="@+id/send_comment_top_line"
+        android:fontFamily="@font/verdana"
+        android:hint="@string/write_your_comment"
+        android:imeOptions="actionDone"
+        android:background="@drawable/rounded_frame_no_border"
+        android:maxHeight="140dp"
+        android:padding="@dimen/dp16"
+        android:layout_margin="@dimen/dp6"
+        android:scrollbarStyle="insideInset"
 
 
-    </RelativeLayout>
+        android:maxLines="3"
+        android:scrollbars="vertical"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray400"
+        android:textSize="@dimen/font_normal" />
 
-</FrameLayout>
+
+    <ImageButton
+        android:id="@+id/send_comment_btn"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/send_comment_base_line"
+        android:layout_marginBottom="6dp"
+        android:layout_marginEnd="@dimen/dp6"
+        android:background="@drawable/circle_blue"
+        android:paddingStart="@dimen/dp4"
+        android:scaleType="centerInside"
+        android:text="@string/send"
+        android:textColor="@color/white"
+        app:srcCompat="@drawable/ic_add_comment" />
+    <TextView
+        android:id="@+id/send_comment_base_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@null"
+        android:layout_below="@+id/img_send_comment_val"/>
+
+</RelativeLayout>
+
