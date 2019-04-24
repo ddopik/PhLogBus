@@ -46,13 +46,15 @@
             />
 
             <com.example.ddopik.phlogbusiness.base.widgets.CustomTextView
-                    android:id="@+id/comment_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_normal"
-                    android:layout_marginStart="@dimen/dp8"
-                    tools:text="comment data here"/>
+                android:id="@+id/comment_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_normal"
+                android:layout_marginStart="@dimen/dp8"
+                android:padding="@dimen/widgets_padding"
+                android:background="@drawable/rounded_frame_primary_color"
+                tools:text="comment data here"/>
 
             <!--<TextView-->
             <!--android:id="@+id/notification_time"-->
